@@ -105,9 +105,10 @@ public class TimeObjectSwitchController : BaseBehavior, IPlayable
 		Time = _range.y;
 	}
 
-	public void Play()
+	public vrValue Play(vrValue iValue)
 	{
 		IsPlaying = true;
+		return null;
 	}
 
 	public void Stop()

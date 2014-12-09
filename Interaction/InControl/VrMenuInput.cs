@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace InControl
 {
-    public class VrMenu : MonoBehaviour
+    public class VrMenuInput : MonoBehaviour
 
     {
         private VRMenuManager menuManager;

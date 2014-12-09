@@ -64,9 +64,10 @@ namespace UFZ.Interaction
 			base.End();
 		}
 
-		public void Play()
+		public vrValue Play(vrValue iValue)
 		{
 			IsPlaying = true;
+			return null;
 		}
 	}
 }

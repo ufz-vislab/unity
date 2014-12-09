@@ -7,7 +7,7 @@ public interface IPlayable
 	void Back();
 	void Begin();
 	void End();
-	void Play();
+	vrValue Play(vrValue iValue);
 	void Stop();
 	void TogglePlay();
 }
