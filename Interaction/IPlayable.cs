@@ -8,6 +8,6 @@ public interface IPlayable
 	void Begin();
 	void End();
 	vrValue Play(vrValue iValue);
-	void Stop();
+	vrValue Stop(vrValue iValue = null);
 	void TogglePlay();
 }

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using System.Linq;
 
@@ -7,6 +8,15 @@ namespace UFZ.Interaction
 	{
 		public float Fps;
 		public bool IsPlaying = false;
+
+		public vrCommand PlayCommand;
+		public vrCommand StopCommand;
+
+		void Start()
+		{
+			PlayCommand = new vrCommand("Play Command - " + gameObject.name, this.Play);
+			StopCommand = new vrCommand("Stop Command - " + gameObject.name, this.Stop);
+		}
 
 		void Reset()
 		{
@@ -28,9 +38,10 @@ namespace UFZ.Interaction
 			IsPlaying = false;
 		}
 
-		public void Stop()
+		public vrValue Stop(vrValue iValue)
 		{
 			IsPlaying = false;
+			return null;
 		}
 
 		public void TogglePlay()
