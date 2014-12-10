@@ -33,33 +33,26 @@ public class VrMenuPlayable : MonoBehaviour
 			yield return null;
 			middleVrMenu = FindObjectOfType(typeof(VRMenu)) as VRMenu;
 		}
-		
+
+		var tmp = FindObjectsOfType(typeof(IPlayable)) as IPlayable[];
+		if (tmp == null || tmp.Length == 0)
+			yield break;
+
 		_menu = new vrWidgetMenu("Play Menu", middleVrMenu.menu, "Play Menu");
 		middleVrMenu.menu.SetChildIndex(_menu, 0);
-		AddMenu(_menu);
 
-		// End coroutine
-		yield break;
-	}
-
-	private void AddMenu(vrWidgetMenu vrmenu)
-	{
+		_playables = tmp.ToList();
+		_playables.RemoveAll(s => s.GetType() == typeof(TimeObjectSwitch));
 		var valueList = vrValue.CreateList();
-		var tmp = FindObjectsOfType(typeof(IPlayable)) as IPlayable[];
-		if (tmp != null)
-		{
-			_playables = tmp.ToList();
-			_playables.RemoveAll(s => s.GetType() == typeof (TimeObjectSwitch));
-			foreach (var player in _playables)
-				valueList.AddListItem(player.name);
-		}
+		foreach (var player in _playables)
+			valueList.AddListItem(player.name);
 
 		_playableObjectChangedCommand = new vrCommand("Playable object command", PlayableObjectChanged);
-		_list = new vrWidgetList("Playable objects:", vrmenu, "Playable objects:", _playableObjectChangedCommand);
+		_list = new vrWidgetList("Playable objects:", _menu, "Playable objects:", _playableObjectChangedCommand);
 		_list.SetList(valueList);
 		_list.SetSelectedIndex(0);
 
-		_group = new vrWidgetGroup("Play controls", vrmenu);
+		_group = new vrWidgetGroup("Play controls", _menu);
 		_beginButton = new vrWidgetButton("Begin", _group);
 		_backButton = new vrWidgetButton("Back", _group);
 		_playButton = new vrWidgetButton("Play", _group);
@@ -67,6 +60,9 @@ public class VrMenuPlayable : MonoBehaviour
 		_stopButton = new vrWidgetButton("Stop", _group);
 		_forwardButton = new vrWidgetButton("Forward", _group);
 		_endButton = new vrWidgetButton("End", _group);
+
+		// End coroutine
+		yield break;
 	}
 
 	vrValue PlayableObjectChanged(vrValue iValue)
