@@ -15,12 +15,25 @@ public class ViewpointEditor : Editor
 	private Vector3 _previewCamPos;
 	private Quaternion _previewCamRot;
 
+	private static bool previewSupported
+	{
+		get
+		{
+#if UNITY_EDITOR
+			if (!SystemInfo.supportsRenderTextures) return false;
+			if (SystemInfo.graphicsShaderLevel >= 50 && PlayerSettings.useDirect3D11) return false;
+			if (!Application.HasProLicense()) return false;
+#endif
+			return true;
+		}
+	}
+
 	private void OnEnable()
 	{
 		//Preview Camera
 		if (_editorPreview != null)
 			DestroyImmediate(_editorPreview);
-		if (CameraPathPreviewSupport.previewSupported)
+		if (previewSupported)
 		{
 			_editorPreview = new GameObject("Animtation Preview Cam");
 			_editorPreview.hideFlags = HideFlags.HideAndDontSave;
@@ -74,13 +87,13 @@ public class ViewpointEditor : Editor
 	{
 
 		//Axis Gizmo Marker
-		Handles.color = CameraPathColours.GREEN;
+		Handles.color = Color.green;
 		Handles.DrawLine(_previewCamPos, _previewCamPos + _previewCamRot * Vector3.up * 0.5f);
 		Handles.DrawLine(_previewCamPos, _previewCamPos + _previewCamRot * Vector3.down * 0.5f);
-		Handles.color = CameraPathColours.RED;
+		Handles.color = Color.red;
 		Handles.DrawLine(_previewCamPos, _previewCamPos + _previewCamRot * Vector3.left * 0.5f);
 		Handles.DrawLine(_previewCamPos, _previewCamPos + _previewCamRot * Vector3.right * 0.5f);
-		Handles.color = CameraPathColours.BLUE;
+		Handles.color = Color.blue;
 		Handles.DrawLine(_previewCamPos, _previewCamPos + _previewCamRot * Vector3.forward * 0.5f);
 		Handles.DrawLine(_previewCamPos, _previewCamPos + _previewCamRot * Vector3.back * 0.5f);
 
@@ -114,7 +127,7 @@ public class ViewpointEditor : Editor
 		EditorGUILayout.LabelField("Preview");
 		EditorGUILayout.EndHorizontal();
 
-		if (CameraPathPreviewSupport.previewSupported && !EditorApplication.isPlaying)
+		if (previewSupported && !EditorApplication.isPlaying)
 		{
 			RenderTexture rt = RenderTexture.GetTemporary(PreviewResolution, Mathf.RoundToInt(PreviewResolution / Aspect), 24, RenderTextureFormat.Default, RenderTextureReadWrite.Default, 1);
 
@@ -135,11 +148,6 @@ public class ViewpointEditor : Editor
 			Rect guiRect = GUILayoutUtility.GetLastRect();
 			GUI.DrawTexture(guiRect, rt, ScaleMode.ScaleToFit, false);
 			RenderTexture.ReleaseTemporary(rt);
-		}
-		else
-		{
-			string errorMsg = (!CameraPathPreviewSupport.previewSupported) ? CameraPathPreviewSupport.previewSupportedText : "No Preview When Playing.";
-			EditorGUILayout.LabelField(errorMsg, GUILayout.Height(225));
 		}
 	}
 
