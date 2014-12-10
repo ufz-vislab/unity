@@ -868,6 +868,45 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!1 &820696011
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 820696012}
+  - 114: {fileID: 820696013}
+  m_Layer: 0
+  m_Name: Back
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &820696012
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 820696011}
+  m_LocalRotation: {x: 0, y: .999976754, z: 0, w: -.00682699447}
+  m_LocalPosition: {x: .0696361735, y: 0, z: 5.09970474}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1865397045}
+  m_RootOrder: 1
+--- !u!114 &820696013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 820696011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b1c06844cbdff94eb595bc05f1f42a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &833821411
 GameObject:
   m_ObjectHideFlags: 0
@@ -879,6 +918,7 @@ GameObject:
   - 114: {fileID: 833821412}
   - 114: {fileID: 833821415}
   - 114: {fileID: 833821414}
+  - 114: {fileID: 833821416}
   m_Layer: 0
   m_Name: Scripts
   m_TagString: Untagged
@@ -936,6 +976,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 26b7b7160942ad44aa0b1421dd427ed3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &833821416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 833821411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cccaeb91217f754c9476e21bbc1eb17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1077165255
@@ -1162,6 +1213,45 @@ MonoBehaviour:
   KeepLocalPosition: 1
   KeepLocalRotation: 1
   KeepLocalScale: 1
+--- !u!1 &1179576267
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1179576268}
+  - 114: {fileID: 1179576269}
+  m_Layer: 0
+  m_Name: Front
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1179576268
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1179576267}
+  m_LocalRotation: {x: 0, y: .144420996, z: 0, w: .989516377}
+  m_LocalPosition: {x: -1.31872296, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1865397045}
+  m_RootOrder: 0
+--- !u!114 &1179576269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1179576267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b1c06844cbdff94eb595bc05f1f42a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1297230321
 GameObject:
   m_ObjectHideFlags: 0
@@ -1663,6 +1753,51 @@ MeshFilter:
   m_PrefabInternal: {fileID: 2067732671}
   m_GameObject: {fileID: 1722221350}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1865397043
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1865397045}
+  - 114: {fileID: 1865397044}
+  m_Layer: 0
+  m_Name: Viewpoints
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1865397044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1865397043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1029e5c8ed0d03d40bf7072ffbac58db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NodeToMove: VRSystemCenterNode
+  Viewpoints:
+  - {fileID: 1179576267}
+  - {fileID: 820696011}
+--- !u!4 &1865397045
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1865397043}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1179576268}
+  - {fileID: 820696012}
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
 --- !u!1 &2049279988
 GameObject:
   m_ObjectHideFlags: 0
