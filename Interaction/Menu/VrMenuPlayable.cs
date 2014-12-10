@@ -48,9 +48,7 @@ public class VrMenuPlayable : MonoBehaviour
 			valueList.AddListItem(player.name);
 
 		_playableObjectChangedCommand = new vrCommand("Playable object command", PlayableObjectChanged);
-		_list = new vrWidgetList("Playable objects:", _menu, "Playable objects:", _playableObjectChangedCommand);
-		_list.SetList(valueList);
-		_list.SetSelectedIndex(0);
+		_list = new vrWidgetList("Playable objects:", _menu, "Playable objects:");
 
 		_group = new vrWidgetGroup("Play controls", _menu);
 		_beginButton = new vrWidgetButton("Begin", _group);
@@ -60,6 +58,10 @@ public class VrMenuPlayable : MonoBehaviour
 		_stopButton = new vrWidgetButton("Stop", _group);
 		_forwardButton = new vrWidgetButton("Forward", _group);
 		_endButton = new vrWidgetButton("End", _group);
+
+		_list.AddCommand(_playableObjectChangedCommand);
+		_list.SetList(valueList);
+		_list.SetSelectedIndex(0);
 
 		// End coroutine
 		yield break;

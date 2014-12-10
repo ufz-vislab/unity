@@ -5,6 +5,7 @@ using System.Collections;
 public abstract class ObjectSwitchBase : IPlayable
 {
 	public int ActiveChild;
+	private int _activeChild;
 	protected float _elapsedTime = 0f;
 
 	public delegate void Callback(int index);
@@ -22,7 +23,7 @@ public abstract class ObjectSwitchBase : IPlayable
 
 	public void SetActiveChild(int index)
 	{
-		if(index == ActiveChild)
+		if(index == _activeChild)
 			return;
 
 		int numChilds = transform.childCount;
@@ -30,6 +31,7 @@ public abstract class ObjectSwitchBase : IPlayable
 			index = 0;
 		if (index < 0)
 			index = numChilds - 1;
+		_activeChild = index;
 		ActiveChild = index;
 
 		int i = 0;
