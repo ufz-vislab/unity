@@ -24,7 +24,7 @@ namespace UFZ.Interaction
 		{
 			if(pos == new Vector3(-99f, -99f, -99f))
 				return;
-			const float speed = 2f;
+			//const float speed = 2f;
 			GameObject nodeToMove = GameObject.Find(_nodeToMove);
 			if (nodeToMove == null)
 				return;

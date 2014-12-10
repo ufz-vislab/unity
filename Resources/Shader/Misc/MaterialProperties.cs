@@ -133,8 +133,8 @@ public class MaterialProperties : BaseBehavior
 		}
 	}
 
-	[Margin(5)]
-	[Comment("Set two sided mode with the 'UFZ / Two Sided Material' menu option!")]
+	[InspectorMargin(5)]
+	[InspectorComment("Set two sided mode with the 'UFZ / Two Sided Material' menu option!")]
 	public SideMode Side
 	{
 		get { return _side; }
