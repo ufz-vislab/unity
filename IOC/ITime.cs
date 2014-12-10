@@ -3,10 +3,12 @@ using System.Collections;
 
 namespace UFZ.IOC
 {
+	// all values in seconds
 	public interface ITime
 	{
 		float DeltaTime();
 		float Time();
+		float RealtimeSinceStartup();
 	}
 
 	public class UnityTime : ITime
@@ -20,6 +22,11 @@ namespace UFZ.IOC
 		{
 			return UnityEngine.Time.time;
 		}
+
+		public float RealtimeSinceStartup()
+		{
+			return UnityEngine.Time.realtimeSinceStartup;
+		}
 	}
 
 	public class MiddleVrTime : ITime
@@ -31,7 +38,12 @@ namespace UFZ.IOC
 
 		public float Time()
 		{
-			return (float)MiddleVR.VRKernel.GetTime();
+			return (float)(MiddleVR.VRKernel.GetTime() / 1000.0);
+		}
+
+		public float RealtimeSinceStartup()
+		{
+			return Time();
 		}
 	}
 }
