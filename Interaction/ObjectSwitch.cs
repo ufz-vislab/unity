@@ -4,19 +4,10 @@ using System.Linq;
 
 namespace UFZ.Interaction
 {
-	public class ObjectSwitch : ObjectSwitchBase, IPlayable
+	public class ObjectSwitch : ObjectSwitchBase
 	{
 		public float Fps;
 		public bool IsPlaying = false;
-
-		public vrCommand PlayCommand;
-		public vrCommand StopCommand;
-
-		void Start()
-		{
-			PlayCommand = new vrCommand("Play Command - " + gameObject.name, this.Play);
-			StopCommand = new vrCommand("Stop Command - " + gameObject.name, this.Stop);
-		}
 
 		void Reset()
 		{
@@ -38,47 +29,50 @@ namespace UFZ.Interaction
 			IsPlaying = false;
 		}
 
-		public vrValue Stop(vrValue iValue)
+		public override vrValue Play(vrValue iValue = null)
+		{
+			IsPlaying = true;
+			return iValue;
+		}
+
+		public override vrValue Stop(vrValue iValue = null)
 		{
 			IsPlaying = false;
-			return null;
+			return iValue;
 		}
 
-		public void TogglePlay()
+		public override vrValue TogglePlay(vrValue iValue = null)
 		{
 			IsPlaying = !IsPlaying;
+			return iValue;
 		}
 
-		public virtual void Forward()
+		public override vrValue Forward(vrValue iValue = null)
 		{
 			IsPlaying = false;
 			if(_elapsedTime > (1f / Fps))
 				SetActiveChild(ActiveChild + 1);
+			return iValue;
 		}
 
-		public virtual void Back()
+		public override vrValue Back(vrValue iValue = null)
 		{
 			IsPlaying = false;
 			if(_elapsedTime > (1f / Fps))
 				SetActiveChild(ActiveChild - 1);
+			return iValue;
 		}
 
-		public override void Begin()
+		public override vrValue Begin(vrValue iValue = null)
 		{
 			IsPlaying = false;
-			base.Begin();
+			return base.Begin(iValue);
 		}
 
-		public override void End()
+		public override vrValue End(vrValue iValue = null)
 		{
 			IsPlaying = false;
-			base.End();
-		}
-
-		public vrValue Play(vrValue iValue)
-		{
-			IsPlaying = true;
-			return null;
+			return base.End(iValue);
 		}
 	}
 }

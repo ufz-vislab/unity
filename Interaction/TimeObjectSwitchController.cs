@@ -5,7 +5,7 @@ using System.Linq;
 using FullInspector;
 using System.Collections;
 
-public class TimeObjectSwitchController : BaseBehavior, IPlayable
+public class TimeObjectSwitchController : IPlayable
 {
 	public string Date;
 	private float _time = 0f;
@@ -77,48 +77,53 @@ public class TimeObjectSwitchController : BaseBehavior, IPlayable
 			Time += UFZ.IOC.Core.Instance.Time.DeltaTime() * UnitsPerSecond;
 	}
 
-	public void Forward()
+	public override vrValue Forward(vrValue iValue = null)
 	{
 		Stop();
 		int nearestStep = Mathf.Abs(_timeSteps.BinarySearch(Time + 0.00001f)) - 1;
 		if(nearestStep < _timeSteps.Count)
 			Time = _timeSteps[nearestStep];
+		return iValue;
 	}
 
-	public void Back()
+	public override vrValue Back(vrValue iValue = null)
 	{
 		Stop();
 		int nearestStep = Mathf.Abs(_timeSteps.BinarySearch(Time - 0.00001f)) - 2;
 		if(nearestStep >= 0)
 			Time = _timeSteps[nearestStep];
+		return iValue;
 	}
 
-	public void Begin()
+	public override vrValue Begin(vrValue iValue = null)
 	{
 		Stop();
 		Time = _range.x;
+		return iValue;
 	}
 
-	public void End()
+	public override vrValue End(vrValue iValue = null)
 	{
 		Stop();
 		Time = _range.y;
+		return iValue;
 	}
 
-	public vrValue Play(vrValue iValue = null)
+	public override vrValue Play(vrValue iValue = null)
 	{
 		IsPlaying = true;
-		return null;
+		return iValue;
 	}
 
-	public vrValue Stop(vrValue iValue = null)
+	public override vrValue Stop(vrValue iValue = null)
 	{
 		IsPlaying = false;
-		return null;
+		return iValue;
 	}
 
-	public void TogglePlay()
+	public override vrValue TogglePlay(vrValue iValue = null)
 	{
 		IsPlaying = !IsPlaying;
+		return iValue;
 	}
 }

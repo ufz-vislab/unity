@@ -44,4 +44,29 @@ public class TimeObjectSwitch : ObjectSwitchBase
 
 		SetActiveChild((int)Math.Floor((time - StartTime) / StepSize));
 	}
+
+	public override vrValue Forward(vrValue iValue = null)
+	{
+		throw new NotImplementedException();
+	}
+
+	public override vrValue Back(vrValue iValue = null)
+	{
+		throw new NotImplementedException();
+	}
+
+	public override vrValue Play(vrValue iValue = null)
+	{
+		throw new NotImplementedException();
+	}
+
+	public override vrValue Stop(vrValue iValue = null)
+	{
+		throw new NotImplementedException();
+	}
+
+	public override vrValue TogglePlay(vrValue iValue = null)
+	{
+		throw new NotImplementedException();
+	}
 }

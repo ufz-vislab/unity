@@ -2,7 +2,7 @@ using System.Linq;
 using UnityEngine;
 using System.Collections;
 
-public class ObjectSwitchBase : MonoBehaviour
+public abstract class ObjectSwitchBase : IPlayable
 {
 	public int ActiveChild;
 	protected float _elapsedTime = 0f;
@@ -57,13 +57,15 @@ public class ObjectSwitchBase : MonoBehaviour
 		_elapsedTime = 0f;
 	}
 
-	public virtual void Begin()
+	public override vrValue Begin(vrValue iValue = null)
 	{
 		SetActiveChild(0);
+		return iValue;
 	}
 
-	public virtual void End()
+	public override vrValue End(vrValue iValue = null)
 	{
 		SetActiveChild(transform.childCount - 1);
+		return iValue;
 	}
 }
