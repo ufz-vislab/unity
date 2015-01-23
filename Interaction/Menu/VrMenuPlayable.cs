@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UFZ.Interaction;
@@ -59,8 +59,8 @@ public class VrMenuPlayable : MonoBehaviour
 		_forwardButton = new vrWidgetButton("Forward", _group);
 		_endButton = new vrWidgetButton("End", _group);
 
-		_list.AddCommand(_playableObjectChangedCommand);
 		_list.SetList(valueList);
+		_list.AddCommand(_playableObjectChangedCommand);
 		_list.SetSelectedIndex(0);
 
 		// End coroutine
@@ -70,12 +70,21 @@ public class VrMenuPlayable : MonoBehaviour
 	vrValue PlayableObjectChanged(vrValue iValue)
 	{
 		var index = iValue.GetInt();
-		if (index < _playables.Count - 1)
+		if (index < 0 && index > _playables.Count - 1)
 			return null;
 
 		var player = _playables[index];
 
-		// TODO Add remove command
+		if (_beginButton.GetCommandsNb() == 1)
+		{
+			_beginButton.RemoveCommand(_beginButton.GetCommand(0));
+			_backButton.RemoveCommand(_backButton.GetCommand(0));
+			_playButton.RemoveCommand(_playButton.GetCommand(0));
+			_stopButton.RemoveCommand(_stopButton.GetCommand(0));
+			_forwardButton.RemoveCommand(_forwardButton.GetCommand(0));
+			_endButton.RemoveCommand(_endButton.GetCommand(0));
+		}
+
 		_beginButton.AddCommand(player.BeginCommand);
 		_backButton.AddCommand(player.BackCommand);
 		_playButton.AddCommand(player.PlayCommand);
