@@ -5,6 +5,7 @@
 - In *Edit->Project Settings->Editor* set **Asset Serialization Mode** to ***Force Text***
 - In *Edit->Project Settings->Player* set **Use Direct3D 11** to ***Off***
 - Import the following packages (which can be found at `visdata/unity/packages`):
+    - Advanced Additive Scenes
     - FullInspector
     - InControl
     - MiddleVR
