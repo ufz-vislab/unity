@@ -1,20 +1,30 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEditor;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Linq;
 
-public class MeshImportSettings : AssetPostprocessor {
+public class MeshImportSettings : AssetPostprocessor
+{
+	private static readonly string[] Paths =
+	{
+		"Assets/_project",
+		"Assets/UFZ/Tests/Objects"
+	};
+
+	private static bool CheckPath(string assetPath)
+	{
+		return Paths.Any(path => assetPath.Contains(path));
+	}
 
 	void OnPreprocessModel ()
 	{
-		if(assetPath.Contains("Assets/Libs"))
+		if(!CheckPath(assetPath))
 			return;
 		//Debug.Log("OnPreprocessModel");
-		ModelImporter modelImporter = (ModelImporter)assetImporter;
+		var modelImporter = (ModelImporter)assetImporter;
 		modelImporter.animationType = ModelImporterAnimationType.None;
 		modelImporter.optimizeMesh = false;
 		modelImporter.globalScale = 1.0f;
@@ -22,16 +32,17 @@ public class MeshImportSettings : AssetPostprocessor {
 
 	void OnPostprocessModel (GameObject go)
 	{
-		if(assetPath.Contains("Assets/Libs"))
+		if (!CheckPath(assetPath))
 			return;
 
 		//Debug.Log ("OnPostprocessModel for " + go.name);
-		MeshInfo meshInfo = AssetDatabase.LoadAssetAtPath(assetPath + ".asset",
+		var meshInfo = AssetDatabase.LoadAssetAtPath(assetPath + ".asset",
 			typeof(MeshInfo)) as MeshInfo;
-		foreach(Renderer renderer in go.GetComponentsInChildren(typeof(Renderer), true))
+		foreach(var component in go.GetComponentsInChildren(typeof(Renderer), true))
 		{
-			int subMeshIndex = 0;
-			GameObject gameObject = renderer.gameObject;
+			var renderer = (Renderer) component;
+			var subMeshIndex = 0;
+			var gameObject = renderer.gameObject;
 			var match = Regex.Match(gameObject.name, @"(?<name>[\w]*)-(?<index>[0-9])*");
 			if(!match.Success)
 				Debug.Log("Could not match " + gameObject.name + " to [name]-[index]! Assuming single object.");
@@ -41,14 +52,14 @@ public class MeshImportSettings : AssetPostprocessor {
 			if(meshInfo == null)
 				continue;
 
-			float alpha = 1f;
-			Material material = renderer.sharedMaterial;
+			var alpha = 1f;
+			var material = renderer.sharedMaterial;
 			if (material.HasProperty("_Color") && material.color.a < 1.0f)
 				alpha = material.color.a;
-			bool useVertexColors = meshInfo.GetBool("UseVertexColors", subMeshIndex);
-			bool pointRendering = meshInfo.GetBool("PointRendering", subMeshIndex);
-			bool lineRendering = meshInfo.GetBool("LineRendering", subMeshIndex);
-			MaterialProperties matProps = renderer.gameObject.AddComponent<MaterialProperties>();
+			var useVertexColors = meshInfo.GetBool("UseVertexColors", subMeshIndex);
+			var pointRendering = meshInfo.GetBool("PointRendering", subMeshIndex);
+			var lineRendering = meshInfo.GetBool("LineRendering", subMeshIndex);
+			var matProps = renderer.gameObject.AddComponent<MaterialProperties>();
 			matProps.Opacity = alpha;
 			matProps.ColorBy = useVertexColors ? MaterialProperties.ColorMode.VertexColor
 				: MaterialProperties.ColorMode.SolidColor;
@@ -59,40 +70,40 @@ public class MeshImportSettings : AssetPostprocessor {
 			matProps.SaveState();
 
 			// Convert to points or lines
-			if(pointRendering) convertMeshToPoints(renderer);
-			else if (lineRendering) convertMeshToLines(renderer);
+			if(pointRendering) ConvertMeshToPoints(renderer);
+			else if (lineRendering) ConvertMeshToLines(renderer);
 
 			renderer.gameObject.AddComponent<MeshInfoVtkProperties>().ScriptableObject = meshInfo;
 		}
 
 		// Remove Properties-child
-		Transform tmp = go.transform.Find("Properties");
+		var tmp = go.transform.Find("Properties");
 		if(tmp)
 			UnityEngine.Object.DestroyImmediate(tmp.gameObject);
 	}
 
 	void OnPostprocessGameObjectWithUserProperties (GameObject go, string[] propNames, System.Object[] values)
 	{
-		if(assetPath.Contains("Assets/Libs"))
+		if (!CheckPath(assetPath))
 			return;
 
 		//Debug.Log("OnPostprocessGameObjectWithUserProperties for " + go.name);
 
-		MeshInfo meshInfo = ScriptableObject.CreateInstance<MeshInfo> ();
+		var meshInfo = ScriptableObject.CreateInstance<MeshInfo> ();
 
-		for (int i = 0; i < propNames.Length; i++)
+		for (var i = 0; i < propNames.Length; i++)
 		{
 			// Parse the properties in the format: [Index]-[Property Name]
 			var match = Regex.Match(propNames[i], @"(?<index>[0-9])*-(?<name>[\w]*)");
 			if(!match.Success)
 				continue;
 
-			int subMeshIndex = -1;
+			int subMeshIndex;
 			if(Int32.TryParse(match.Groups["index"].Value, out subMeshIndex))
 			{
 				if(subMeshIndex >= meshInfo.Properties.Count)
 				{
-					MeshInfo.PropertyDictionaries newProps = new MeshInfo.PropertyDictionaries();
+					var newProps = new MeshInfo.PropertyDictionaries();
 					newProps.SubMeshIndex = subMeshIndex;
 					newProps.Bools = new Dictionary<string, bool> ();
 					newProps.Floats = new Dictionary<string, float> ();
@@ -100,12 +111,12 @@ public class MeshImportSettings : AssetPostprocessor {
 					meshInfo.Properties.Add(newProps);
 				}
 
-				MeshInfo.PropertyDictionaries props = meshInfo.Properties[subMeshIndex];
-				if (values [i].GetType () == typeof(bool))
+				var props = meshInfo.Properties[subMeshIndex];
+				if (values [i] is bool)
 					props.Bools.Add(match.Groups["name"].Value, (bool)values [i]);
-				else if (values [i].GetType () == typeof(float))
+				else if (values [i] is float)
 					props.Floats.Add(match.Groups["name"].Value, (float)values [i]);
-				else if (values [i].GetType () == typeof(Color))
+				else if (values [i] is Color)
 					props.Colors.Add(match.Groups["name"].Value, (Color)values [i]);
 			}
 			else
@@ -120,33 +131,33 @@ public class MeshImportSettings : AssetPostprocessor {
 
 	void OnPreprocessTexture ()
 	{
-		if(assetPath.Contains("Assets/Libs"))
+		if (!CheckPath(assetPath))
 			return;
 
 		//Debug.Log ("OnPreprocessTexture");
-		if (assetPath.Contains ("vtk"))
-		{
-			TextureImporter textureImporter = (TextureImporter)assetImporter;
-			textureImporter.filterMode = FilterMode.Point;
-			textureImporter.wrapMode = TextureWrapMode.Clamp;
-		}
+		if (!assetPath.Contains("vtk"))
+			return;
+
+		var textureImporter = (TextureImporter)assetImporter;
+		textureImporter.filterMode = FilterMode.Point;
+		textureImporter.wrapMode = TextureWrapMode.Clamp;
 	}
 
 	void OnPostprocessTexture (Texture2D texture)
 	{
-		if(assetPath.Contains("Assets/Libs"))
+		if (!CheckPath(assetPath))
 			return;
 
 		//Debug.Log ("OnPostprocessTexture");
 
 		if (assetPath.Contains (".fbm"))
 		{
-			string modelName = Path.GetFileName (assetPath.Substring (0, assetPath.LastIndexOf (".fbm")));
-			string basePath = Path.GetDirectoryName (assetPath.Substring (0, assetPath.LastIndexOf (".fbm")));
-			string materialPath = basePath + "/Materials/" + modelName + "_material.mat";
-			Material material = (Material)(AssetDatabase.LoadAssetAtPath (materialPath, typeof(Material)));;
+			var modelName = Path.GetFileName (assetPath.Substring (0, assetPath.LastIndexOf(".fbm", StringComparison.Ordinal)));
+			var basePath = Path.GetDirectoryName (assetPath.Substring (0, assetPath.LastIndexOf(".fbm", StringComparison.Ordinal)));
+			var materialPath = basePath + "/Materials/" + modelName + "_material.mat";
+			var material = (Material)(AssetDatabase.LoadAssetAtPath (materialPath, typeof(Material)));
 			if (material) {
-				Texture2D tex = (Texture2D)(AssetDatabase.LoadAssetAtPath (assetPath, typeof(Texture2D)));
+				var tex = (Texture2D)(AssetDatabase.LoadAssetAtPath (assetPath, typeof(Texture2D)));
 				if (tex)
 				{
 					material.mainTexture = tex;
@@ -156,11 +167,11 @@ public class MeshImportSettings : AssetPostprocessor {
 				{
 					AssetDatabase.Refresh ();
 					tex = (Texture2D)(AssetDatabase.LoadAssetAtPath (assetPath, typeof(Texture2D)));
-					if (tex)
-					{
-						material.mainTexture = tex;
-						material.SetColor("_Color", new Color(1f, 1f, 1f, 1f));
-					}
+					if (!tex)
+						return;
+
+					material.mainTexture = tex;
+					material.SetColor("_Color", new Color(1f, 1f, 1f, 1f));
 				}
 			}
 			else
@@ -173,43 +184,43 @@ public class MeshImportSettings : AssetPostprocessor {
 		//Debug.Log ("OnPostprocessAllAssets");
 	}
 
-	void convertMeshToPoints(Renderer renderer)
+	static void ConvertMeshToPoints(Component renderer)
 	{
-		MeshFilter meshFilter = renderer.gameObject.GetComponent<MeshFilter>();
+		var meshFilter = renderer.gameObject.GetComponent<MeshFilter>();
 		if(!meshFilter)
 		{
 			Debug.LogWarning("Could not convert mesh to points: no MeshFilter found!");
 			return;
 		}
 
-		Mesh mesh = meshFilter.sharedMesh;
+		var mesh = meshFilter.sharedMesh;
 		// Is it already converted to points?
-		if(mesh.GetTopology(0) == UnityEngine.MeshTopology.Points)
+		if(mesh.GetTopology(0) == MeshTopology.Points)
 			return;
 
 		mesh.SetIndices(Enumerable.Range(0, mesh.vertices.Length).ToArray(),
-			UnityEngine.MeshTopology.Points, 0);
+			MeshTopology.Points, 0);
 		mesh.RecalculateBounds();
 	}
 
-	void convertMeshToLines(Renderer renderer)
+	static void ConvertMeshToLines(Renderer renderer)
 	{
-		MeshFilter meshFilter = renderer.gameObject.GetComponent<MeshFilter>();
+		var meshFilter = renderer.gameObject.GetComponent<MeshFilter>();
 		if(!meshFilter)
 		{
 			Debug.LogWarning("Could not convert mesh to points: no MeshFilter found!");
 			return;
 		}
 
-		Mesh mesh = meshFilter.sharedMesh;
+		var mesh = meshFilter.sharedMesh;
 		// Is it already converted to lines?
-		if(mesh.GetTopology(0) == UnityEngine.MeshTopology.Lines)
+		if(mesh.GetTopology(0) == MeshTopology.Lines)
 			return;
 
 		// Re-index
-		int[] triangles = mesh.triangles;
-		List<int> indicesForLines = new List<int>();
-		for(int line = 0; line < (triangles.Length-3) / 3; line++)
+		var triangles = mesh.triangles;
+		var indicesForLines = new List<int>();
+		for(var line = 0; line < (triangles.Length-3) / 3; line++)
 		{
 			indicesForLines.Add(triangles[(line*3 + 0)]);
 			indicesForLines.Add(triangles[(line*3 + 2)]);
@@ -218,7 +229,7 @@ public class MeshImportSettings : AssetPostprocessor {
 		indicesForLines.Add(triangles[triangles.Length-3]);
 		indicesForLines.Add(triangles[triangles.Length-1]);
 
-		mesh.SetIndices(indicesForLines.ToArray(), UnityEngine.MeshTopology.Lines, 0);
+		mesh.SetIndices(indicesForLines.ToArray(), MeshTopology.Lines, 0);
 		mesh.RecalculateBounds();
 	}
 }
