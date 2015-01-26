@@ -15,8 +15,8 @@ public class Viewpoint : MonoBehaviour
 
 	void Start ()
 	{
-		MoveToViewpointCommand = new vrCommand("Move To Viewpoint Command", MoveToViewpoint);
-		JumpToViewpointCommand = new vrCommand("Jump To Viewpoint Command", JumpToViewpoint);
+		MoveToViewpointCommand = new vrCommand("Move To Viewpoint Command " + GetInstanceID(), MoveToViewpoint);
+		JumpToViewpointCommand = new vrCommand("Jump To Viewpoint Command " + GetInstanceID(), JumpToViewpoint);
 	}
 	
 	void Update ()
