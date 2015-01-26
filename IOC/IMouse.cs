@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
-using System.Collections;
+#endif
 
 namespace UFZ.IOC
 {
