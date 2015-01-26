@@ -385,10 +385,10 @@ MonoBehaviour:
   WandButton4: 0
   WandButton5: 0
   DeltaTime: 0
-  ConfigFile: X:/unity/configs/Default.vrx
+  ConfigFile: C:/Program Files (x86)/MiddleVR/data/Config/Misc/Default.vrx
   VRSystemCenterNode: {fileID: 0}
   TemplateCamera: {fileID: 33}
-  ShowWand: 0
+  ShowWand: 1
   m_UseVRMenu: 1
   Navigation: 1
   Manipulation: 1
@@ -1306,7 +1306,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 654eb2207d0de00459c54995ec518376, type: 2}
       propertyPath: ShowWand
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 654eb2207d0de00459c54995ec518376, type: 2}
       propertyPath: TemplateCamera
@@ -1314,7 +1314,7 @@ Prefab:
       objectReference: {fileID: 33}
     - target: {fileID: 11400000, guid: 654eb2207d0de00459c54995ec518376, type: 2}
       propertyPath: ConfigFile
-      value: X:/unity/configs/Default.vrx
+      value: C:/Program Files (x86)/MiddleVR/data/Config/Misc/Default.vrx
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 654eb2207d0de00459c54995ec518376, type: 2}
       propertyPath: Navigation
@@ -1375,3 +1375,31 @@ LightmapSettings:
     m_Padding: 0
     m_TextureCompression: 0
     m_LockAtlas: 0
+--- !u!29 &85
+SceneSettings:
+  m_ObjectHideFlags: 0
+  m_PVSData: 
+  m_PVSObjectsArray: []
+  m_PVSPortalsArray: []
+  m_OcclusionBakeSettings:
+    smallestOccluder: 5
+    smallestHole: .25
+    backfaceThreshold: 100
+--- !u!127 &86
+LevelGameManager:
+  m_ObjectHideFlags: 0
+--- !u!196 &87
+NavMeshSettings:
+  m_ObjectHideFlags: 0
+  m_BuildSettings:
+    agentRadius: .5
+    agentHeight: 2
+    agentSlope: 45
+    agentClimb: .400000006
+    ledgeDropHeight: 0
+    maxJumpAcrossDistance: 0
+    accuratePlacement: 0
+    minRegionArea: 2
+    widthInaccuracy: 16.666666
+    heightInaccuracy: 10
+  m_NavMesh: {fileID: 0}
