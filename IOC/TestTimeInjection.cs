@@ -1,4 +1,4 @@
-using ModestTree.Zenject;
+using Zenject;
 using UnityEngine;
 using UFZ.IOC;
 

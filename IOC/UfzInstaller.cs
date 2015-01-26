@@ -1,6 +1,4 @@
-using ModestTree.Zenject;
-using UnityEngine;
-using MiddleVR_Unity3D;
+using Zenject;
 using UFZ.IOC;
 
 public class UfzInstaller : MonoInstaller
