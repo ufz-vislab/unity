@@ -103,11 +103,13 @@ public class MeshImportSettings : AssetPostprocessor
 			{
 				if(subMeshIndex >= meshInfo.Properties.Count)
 				{
-					var newProps = new MeshInfo.PropertyDictionaries();
-					newProps.SubMeshIndex = subMeshIndex;
-					newProps.Bools = new Dictionary<string, bool> ();
-					newProps.Floats = new Dictionary<string, float> ();
-					newProps.Colors = new Dictionary<string, Color> ();
+					var newProps = new MeshInfo.PropertyDictionaries
+					{
+						SubMeshIndex = subMeshIndex,
+						Bools = new Dictionary<string, bool>(),
+						Floats = new Dictionary<string, float>(),
+						Colors = new Dictionary<string, Color>()
+					};
 					meshInfo.Properties.Add(newProps);
 				}
 
