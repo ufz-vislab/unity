@@ -6,6 +6,7 @@
 - In *Edit->Project Settings->Player* set **Use Direct3D 11** to ***Off***
 - Import the following packages (which can be found at `visdata/unity/packages`):
     - Advanced Additive Scenes 1.6e
+    - DOTween 1.0.030,[Docs](http://dotween.demigiant.com/documentation.php)
     - FullInspector 2.5, [Docs](http://jacobdufault.github.io/fullinspector/guide/)
     - InControl 
     - MiddleVR 1.6

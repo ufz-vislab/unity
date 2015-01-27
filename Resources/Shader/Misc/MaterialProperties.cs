@@ -69,7 +69,7 @@ public class MaterialProperties : BaseBehavior<FullSerializerSerializer>
 		RestoreState();
 		Renderer[] renderers = gameObject.GetComponentsInChildren<Renderer>();
 		if(renderers != null && renderers[0] != null)
-			getSettingsFromMaterial(renderers[0].sharedMaterials);
+			GetSettingsFromMaterial(renderers[0].sharedMaterials);
 		SaveState();
 	}
 
@@ -102,16 +102,14 @@ public class MaterialProperties : BaseBehavior<FullSerializerSerializer>
 		{
 			if(Mathf.Approximately(_opacity, 1f))
 				return VisibilityMode.Opaque;
-			else if(_opacity < disableThreshold)
-				return VisibilityMode.Disabled;
-			return VisibilityMode.Transparent;
+			return _opacity < disableThreshold ? VisibilityMode.Disabled : VisibilityMode.Transparent;
 		}
 	}
 
 	[ShowInInspector]
 	public ColorMode ColorBy
 	{
-		get { return this._colorBy; }
+		get { return _colorBy; }
 		set
 		{
 			if(_colorBy == value)
@@ -153,23 +151,20 @@ public class MaterialProperties : BaseBehavior<FullSerializerSerializer>
 	}
 
 	/// <summary>Initializes class to an existing material</summary>
-	protected void getSettingsFromMaterial(Material[] mat)
+	protected void GetSettingsFromMaterial(Material[] mat)
 	{
 		if(mat == null || mat.Length < 1)
 			return;
-		Match match = Regex.Match(mat[0].shader.name, @"UFZ/(.*)-(.*)-(.*)-(.*)");
+		var match = Regex.Match(mat[0].shader.name, @"UFZ/(.*)-(.*)-(.*)-(.*)");
 		if(!match.Success)
 		{
 			// Shader will be set for the first time
 			UpdateShader();
-			getSettingsFromMaterial(mat);
+			GetSettingsFromMaterial(mat);
 			return;
 		}
 
-		if(match.Groups[1].Value == "Opaque")
-			_opacity = 1f;
-		else
-			_opacity = mat[0].color.a;
+		_opacity = match.Groups[1].Value == "Opaque" ? 1f : mat[0].color.a;
 
 		_colorBy = (ColorMode) Enum.Parse(typeof(ColorMode), match.Groups[2].Value);
 		_lit = (LightingMode) Enum.Parse(typeof(LightingMode), match.Groups[3].Value);
@@ -185,55 +180,52 @@ public class MaterialProperties : BaseBehavior<FullSerializerSerializer>
 	{
 		if(gameObject == null)
 			return;
-		foreach(Renderer renderer in gameObject.GetComponentsInChildren<Renderer>())
+		foreach(var localRenderer in gameObject.GetComponentsInChildren<Renderer>())
 		{
 			string transparent = Visibility.ToString("f");
-			string color_by = _colorBy.ToString("f");
+			string colorBy = _colorBy.ToString("f");
 			string lit = _lit.ToString("f");
 			string side = _side.ToString("f");
 
-			Material[] mats;
-			if(Application.isPlaying)
-				mats = renderer.materials;
+			Material[] mats = Application.isPlaying ? localRenderer.materials : localRenderer.sharedMaterials;
+
+			if (Visibility == VisibilityMode.Disabled)
+			{
+				localRenderer.enabled = false;
+			}
 			else
-				mats = renderer.sharedMaterials;
-
-			if(Visibility != VisibilityMode.Disabled)
 			{
-				if(mats.Length == 1)
-					mats[0].shader = Shader.Find("UFZ/" + transparent + "-" + color_by + "-" + lit + "-" + side);
-				else if(mats.Length == 2)
+				localRenderer.enabled = true;
+				switch (mats.Length)
 				{
-					mats[0].shader = Shader.Find("UFZ/" + transparent + "-" + color_by + "-" + lit + "-" + SideMode.Front.ToString("f"));
-					mats[1].shader = Shader.Find("UFZ/" + transparent + "-" + color_by + "-" + lit + "-" + SideMode.Back.ToString("f"));
-
-					if(Side != SideMode.TwoSided)
-					{
-						Material[] newMats = new Material[1];
-						if(Side == SideMode.Front)
-							newMats[0] = mats[0];
-						else
-							newMats[0] = mats[1];
-						if(Application.isPlaying)
-							renderer.materials = newMats;
-						else
-							renderer.sharedMaterials = newMats;
-					}
+					case 1:
+						mats[0].shader = Shader.Find("UFZ/" + transparent + "-" + colorBy + "-" + lit + "-" + side);
+						break;
+					case 2:
+						mats[0].shader = Shader.Find("UFZ/" + transparent + "-" + colorBy + "-" + lit + "-" + SideMode.Front.ToString("f"));
+						mats[1].shader = Shader.Find("UFZ/" + transparent + "-" + colorBy + "-" + lit + "-" + SideMode.Back.ToString("f"));
+						if(Side != SideMode.TwoSided)
+						{
+							var newMats = new Material[1];
+							if(Side == SideMode.Front)
+								newMats[0] = mats[0];
+							else
+								newMats[0] = mats[1];
+							if(Application.isPlaying)
+								localRenderer.materials = newMats;
+							else
+								localRenderer.sharedMaterials = newMats;
+						}
+						break;
 				}
 			}
-			if(Visibility == VisibilityMode.Transparent)
+			if (Visibility != VisibilityMode.Transparent) continue;
+			foreach(var mat in mats)
 			{
-				foreach(Material mat in mats)
-				{
-					Color color = mat.color;
-					color.a = _opacity;
-					mat.color = color;
-				}
+				var color = mat.color;
+				color.a = _opacity;
+				mat.color = color;
 			}
-//			if(_opacity < disableThreshold)
-//				renderer.enabled = false;
-//			else
-//				renderer.enabled = true;
 		}
 	}
 }
