@@ -5,13 +5,14 @@
 - In *Edit->Project Settings->Editor* set **Asset Serialization Mode** to ***Force Text***
 - In *Edit->Project Settings->Player* set **Use Direct3D 11** to ***Off***
 - Import the following packages (which can be found at `visdata/unity/packages`):
-    - Advanced Additive Scenes
-    - FullInspector
-    - InControl
-    - MiddleVR
+    - Advanced Additive Scenes 1.6e
+    - FullInspector 2.5, [Docs](http://jacobdufault.github.io/fullinspector/guide/)
+    - InControl 
+    - MiddleVR 1.6
     - HighlightingSystem
     - UnityVS
-    - Zenjects
+    - uIntellisSense (*optional*, make sure to also have the Visual Studio extension installed => double-click `uIntelliSense/VisualStudioExtension/uIntellisSense.VisualStudio`)
+    - Zenject
 - `cd` into the project directory
     - `git init`
     - Create a `.gitignore`-file with the following contents:

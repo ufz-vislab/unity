@@ -1,4 +1,3 @@
-using Newtonsoft.Json;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -12,7 +11,7 @@ using System.Text.RegularExpressions;
 /// Can be added to any GameObject. Sets the properties on all materials in this
 /// object and child objects.
 /// </remarks>
-public class MaterialProperties : BaseBehavior
+public class MaterialProperties : BaseBehavior<FullSerializerSerializer>
 {
 	public enum VisibilityMode
 	{
@@ -76,6 +75,7 @@ public class MaterialProperties : BaseBehavior
 
 	/// <summary>The opacity of the object.</summary>
 	/// <value>Can be between 0 (fully transparent) and 1 (opaque)</value>
+	[ShowInInspector]
 	public float Opacity
 	{
 		get { return this._opacity; }
@@ -95,6 +95,7 @@ public class MaterialProperties : BaseBehavior
 	/// Returns if an object is fully opaque, transparent or completely disabled
 	/// based on the <see cref="Opacity" />-value.
 	/// </summary>
+	[ShowInInspector]
 	public VisibilityMode Visibility
 	{
 		get
@@ -107,6 +108,7 @@ public class MaterialProperties : BaseBehavior
 		}
 	}
 
+	[ShowInInspector]
 	public ColorMode ColorBy
 	{
 		get { return this._colorBy; }
@@ -120,6 +122,7 @@ public class MaterialProperties : BaseBehavior
 		}
 	}
 
+	[ShowInInspector]
 	public LightingMode Lighting
 	{
 		get { return _lit; }
@@ -135,6 +138,7 @@ public class MaterialProperties : BaseBehavior
 
 	[InspectorMargin(5)]
 	[InspectorComment("Set two sided mode with the 'UFZ / Two Sided Material' menu option!")]
+	[ShowInInspector]
 	public SideMode Side
 	{
 		get { return _side; }

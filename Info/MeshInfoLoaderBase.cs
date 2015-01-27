@@ -1,10 +1,6 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
-using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-using System.IO;
 using FullInspector;
 
 // This should be subclassed

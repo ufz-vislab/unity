@@ -66,7 +66,7 @@ public class MeshImportSettings : AssetPostprocessor
 			if(pointRendering || lineRendering)
 				matProps.Lighting = MaterialProperties.LightingMode.Unlit;
 			matProps.UpdateShader();
-			FullInspector.FullInspectorSaveManager.SaveAll();
+			//FullInspector.FullInspectorSaveManager.SaveAll();
 			matProps.SaveState();
 
 			// Convert to points or lines
