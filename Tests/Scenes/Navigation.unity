@@ -189,6 +189,7 @@ GameObject:
   - 65: {fileID: 880115853}
   - 23: {fileID: 880115852}
   - 114: {fileID: 880115856}
+  - 114: {fileID: 880115857}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -259,8 +260,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _objectReferences: []
-  _serializedStateKeys: []
-  _serializedStateValues: []
+  _serializedStateKeys:
+  - Opacity
+  - ColorBy
+  - Lighting
+  - Side
+  _serializedStateValues:
+  - 1.0
+  - '"SolidColor"'
+  - '"Lit"'
+  - '"Front"'
+--- !u!114 &880115857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 880115851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e712dc0ac4ce3b649a0571c0e08d9318, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _objectReferences: []
+  _serializedStateKeys:
+  - SimpleInt
+  - SimpleFloat
+  _serializedStateValues:
+  - '{"Value":13}'
+  - '{"Value":0.0}'
 --- !u!1 &1093012464
 GameObject:
   m_ObjectHideFlags: 0

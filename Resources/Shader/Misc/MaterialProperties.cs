@@ -1,3 +1,5 @@
+using System.Diagnostics;
+using System.Linq;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -75,7 +77,7 @@ public class MaterialProperties : BaseBehavior<FullSerializerSerializer>
 
 	/// <summary>The opacity of the object.</summary>
 	/// <value>Can be between 0 (fully transparent) and 1 (opaque)</value>
-	[ShowInInspector]
+	[SerializeField]
 	public float Opacity
 	{
 		get { return this._opacity; }
@@ -95,7 +97,7 @@ public class MaterialProperties : BaseBehavior<FullSerializerSerializer>
 	/// Returns if an object is fully opaque, transparent or completely disabled
 	/// based on the <see cref="Opacity" />-value.
 	/// </summary>
-	[ShowInInspector]
+	[SerializeField]
 	public VisibilityMode Visibility
 	{
 		get
@@ -106,7 +108,7 @@ public class MaterialProperties : BaseBehavior<FullSerializerSerializer>
 		}
 	}
 
-	[ShowInInspector]
+	[SerializeField]
 	public ColorMode ColorBy
 	{
 		get { return _colorBy; }
@@ -120,7 +122,7 @@ public class MaterialProperties : BaseBehavior<FullSerializerSerializer>
 		}
 	}
 
-	[ShowInInspector]
+	[SerializeField]
 	public LightingMode Lighting
 	{
 		get { return _lit; }
@@ -136,7 +138,7 @@ public class MaterialProperties : BaseBehavior<FullSerializerSerializer>
 
 	[InspectorMargin(5)]
 	[InspectorComment("Set two sided mode with the 'UFZ / Two Sided Material' menu option!")]
-	[ShowInInspector]
+	[SerializeField]
 	public SideMode Side
 	{
 		get { return _side; }
@@ -169,15 +171,19 @@ public class MaterialProperties : BaseBehavior<FullSerializerSerializer>
 		_colorBy = (ColorMode) Enum.Parse(typeof(ColorMode), match.Groups[2].Value);
 		_lit = (LightingMode) Enum.Parse(typeof(LightingMode), match.Groups[3].Value);
 		if(mat.Length == 1)
-			_side = (SideMode) Enum.Parse(typeof(SideMode), match.Groups[4].Value);
+			Side = (SideMode) Enum.Parse(typeof(SideMode), match.Groups[4].Value);
 		else
-			_side = SideMode.TwoSided;
+			Side = SideMode.TwoSided;
 		UpdateShader();
 	}
 
 	/// <summary>Sets the appropriate shader via string-kungfu.</summary>
 	public void UpdateShader()
 	{
+		var stackTrace = new StackTrace();
+		if (stackTrace.GetFrames().Any(stackFrame => stackFrame.GetMethod().Name.Contains("RestoreState")))
+			return;
+
 		if(gameObject == null)
 			return;
 		foreach(var localRenderer in gameObject.GetComponentsInChildren<Renderer>())
