@@ -9,7 +9,9 @@ namespace UFZ.Menu
 	{
 		private vrWidgetMenu _menu;
 
+#pragma warning disable 414
 		private vrWidgetList _list;
+#pragma warning restore 414
 		private vrWidgetGroup _group;
 		private vrWidgetButton _beginButton;
 		private vrWidgetButton _backButton;
