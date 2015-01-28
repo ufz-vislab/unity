@@ -10,7 +10,6 @@ namespace UFZ
 		public struct ObjectVisibility
 		{
 			public GameObject GameObject;
-			public bool Visible;
 			public float Opacity;
 		}
 
@@ -22,7 +21,7 @@ namespace UFZ
 			var viewpoint = GetComponent<Viewpoint>();
 			if (viewpoint == null)
 			{
-				UFZ.IOC.Core.Instance.Log.Warning("ViewpointObjectVisibility needs a Viewpoint script on the same GameObject!");
+				IOC.Core.Instance.Log.Warning("ViewpointObjectVisibility needs a Viewpoint script on the same GameObject!");
 				return;
 			}
 
@@ -37,15 +36,7 @@ namespace UFZ
 			foreach (var entry in Entries)
 			{
 				var matProps = entry.GameObject.GetComponent<MaterialProperties>();
-				if (entry.Visible)
-				{
-					if (Mathf.Approximately(entry.Opacity, 0))
-						DOTween.To(() => matProps.Opacity, x => matProps.Opacity = x, 1f, duration);
-					else
-						DOTween.To(() => matProps.Opacity, x => matProps.Opacity = x, entry.Opacity, duration);
-				}
-				else
-					DOTween.To(() => matProps.Opacity, x => matProps.Opacity = x, 0f, duration);
+				DOTween.To(() => matProps.Opacity, x => matProps.Opacity = x, entry.Opacity, duration);
 			}
 		}
 	}

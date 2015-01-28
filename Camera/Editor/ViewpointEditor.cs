@@ -1,6 +1,7 @@
-﻿// Inspired from Camera Path 3
+// Inspired from Camera Path 3
 // http://support.jasperstocker.com/camera-path/
 
+using UFZ;
 using UnityEngine;
 using UnityEditor;
 
@@ -15,16 +16,15 @@ public class ViewpointEditor : Editor
 	private Vector3 _previewCamPos;
 	private Quaternion _previewCamRot;
 
-	private static bool previewSupported
+	private static bool PreviewSupported
 	{
 		get
 		{
 #if UNITY_EDITOR
 			if (!SystemInfo.supportsRenderTextures) return false;
 			if (SystemInfo.graphicsShaderLevel >= 50 && PlayerSettings.useDirect3D11) return false;
-			if (!Application.HasProLicense()) return false;
+			return Application.HasProLicense();
 #endif
-			return true;
 		}
 	}
 
@@ -33,7 +33,7 @@ public class ViewpointEditor : Editor
 		//Preview Camera
 		if (_editorPreview != null)
 			DestroyImmediate(_editorPreview);
-		if (previewSupported)
+		if (PreviewSupported)
 		{
 			_editorPreview = new GameObject("Animtation Preview Cam");
 			_editorPreview.hideFlags = HideFlags.HideAndDontSave;
@@ -41,18 +41,14 @@ public class ViewpointEditor : Editor
 			_editorPreview.camera.fieldOfView = 60;
 			_editorPreview.camera.depth = -1;
 			//Retreive camera settings from the main camera
-			Camera[] cams = Camera.allCameras;
-			bool sceneHasCamera = cams.Length > 0;
+			var cams = Camera.allCameras;
+			var sceneHasCamera = cams.Length > 0;
 			Camera sceneCamera = null;
 			Skybox sceneCameraSkybox = null;
 			if (Camera.main)
-			{
 				sceneCamera = Camera.main;
-			}
 			else if (sceneHasCamera)
-			{
 				sceneCamera = cams[0];
-			}
 
 			if (sceneCamera != null)
 				sceneCameraSkybox = sceneCamera.GetComponent<Skybox>();
@@ -98,7 +94,7 @@ public class ViewpointEditor : Editor
 		Handles.DrawLine(_previewCamPos, _previewCamPos + _previewCamRot * Vector3.back * 0.5f);
 
 		//Preview Direction Arrow
-		float handleSize = HandleUtility.GetHandleSize(_previewCamPos);
+		var handleSize = HandleUtility.GetHandleSize(_previewCamPos);
 		Handles.ArrowCap(0, _previewCamPos, _previewCamRot, handleSize);
 		Handles.Label(_previewCamPos, "Viewpoint\nPosition");
 
@@ -127,28 +123,28 @@ public class ViewpointEditor : Editor
 		EditorGUILayout.LabelField("Preview");
 		EditorGUILayout.EndHorizontal();
 
-		if (previewSupported && !EditorApplication.isPlaying)
-		{
-			RenderTexture rt = RenderTexture.GetTemporary(PreviewResolution, Mathf.RoundToInt(PreviewResolution / Aspect), 24, RenderTextureFormat.Default, RenderTextureReadWrite.Default, 1);
+		if (!PreviewSupported || EditorApplication.isPlaying)
+			return;
 
-			_editorPreview.SetActive(true);
-			_editorPreview.transform.position = _previewCamPos;
-			_editorPreview.transform.rotation = _previewCamRot;
+		var rt = RenderTexture.GetTemporary(PreviewResolution, Mathf.RoundToInt(PreviewResolution / Aspect), 24, RenderTextureFormat.Default, RenderTextureReadWrite.Default, 1);
 
-			Camera previewCam = _editorPreview.camera;
+		_editorPreview.SetActive(true);
+		_editorPreview.transform.position = _previewCamPos;
+		_editorPreview.transform.rotation = _previewCamRot;
 
-			previewCam.enabled = true;
-			previewCam.targetTexture = rt;
-			previewCam.Render();
-			previewCam.targetTexture = null;
-			previewCam.enabled = false;
-			_editorPreview.SetActive(false);
+		var previewCam = _editorPreview.camera;
 
-			GUILayout.Label("", GUILayout.Width(400), GUILayout.Height(225));
-			Rect guiRect = GUILayoutUtility.GetLastRect();
-			GUI.DrawTexture(guiRect, rt, ScaleMode.ScaleToFit, false);
-			RenderTexture.ReleaseTemporary(rt);
-		}
+		previewCam.enabled = true;
+		previewCam.targetTexture = rt;
+		previewCam.Render();
+		previewCam.targetTexture = null;
+		previewCam.enabled = false;
+		_editorPreview.SetActive(false);
+
+		GUILayout.Label("", GUILayout.Width(400), GUILayout.Height(225));
+		var guiRect = GUILayoutUtility.GetLastRect();
+		GUI.DrawTexture(guiRect, rt, ScaleMode.ScaleToFit, false);
+		RenderTexture.ReleaseTemporary(rt);
 	}
 
 
