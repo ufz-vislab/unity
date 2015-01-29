@@ -23,10 +23,7 @@ public abstract class ObjectSwitchBase : IPlayable
 
 	public void SetActiveChild(int index)
 	{
-		if(index == _activeChild)
-			return;
-
-		int numChilds = transform.childCount;
+		var numChilds = transform.childCount;
 		if (index >= numChilds)
 			index = 0;
 		if (index < 0)
