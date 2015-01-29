@@ -105,6 +105,7 @@ public class ViewpointEditor : Editor
 	public override void OnInspectorGUI()
 	{
 		EditorGUILayout.BeginVertical(GUILayout.Width(400));
+		((Viewpoint)target).StartHere = EditorGUILayout.Toggle("Start Application Here", ((Viewpoint)target).StartHere);
 		RenderPreview();
 
 		//Get animation values and apply them to the preview camera

@@ -34,6 +34,7 @@ namespace UFZ
 
 			viewpoint.OnStart += OnStart;
 			viewpoint.OnFinish += OnComplete;
+			viewpoint.OnSet += OnSet;
 		}
 
 		private void OnStart(float duration)
@@ -46,7 +47,7 @@ namespace UFZ
 				var matProps = entry.GameObject.GetComponentsInChildren<MaterialProperties>();
 				foreach (var matProp in matProps)
 				{
-					if (entry.TransitionType == VisibilityTransition.Smooth)
+					if (entry.TransitionType == VisibilityTransition.Smooth && duration > 0f)
 						DOTween.To(() => matProp.Opacity, x => matProp.Opacity = x, entry.Opacity, duration);
 					else
 						matProp.Opacity = entry.Opacity;
@@ -58,11 +59,22 @@ namespace UFZ
 		{
 			foreach (var entry in Entries)
 			{
-				if(entry.TransitionType != VisibilityTransition.StepOnComplete)
+				if (entry.TransitionType != VisibilityTransition.StepOnComplete)
 					continue;
 
-				var matProps = entry.GameObject.GetComponent<MaterialProperties>();
-				matProps.Opacity = entry.Opacity;
+				var matProps = entry.GameObject.GetComponentsInChildren<MaterialProperties>();
+				foreach (var matProp in matProps)
+					matProp.Opacity = entry.Opacity;
+			}
+		}
+
+		private void OnSet()
+		{
+			foreach (var entry in Entries)
+			{
+				var matProps = entry.GameObject.GetComponentsInChildren<MaterialProperties>();
+				foreach (var matProp in matProps)
+					matProp.Opacity = entry.Opacity;
 			}
 		}
 	}

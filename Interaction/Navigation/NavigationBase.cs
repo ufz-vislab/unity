@@ -4,7 +4,7 @@ namespace UFZ.Interaction
 {
 	public abstract class NavigationBase : MonoBehaviour
 	{
-		public string NodeToMove = "VRSystemCenterNode";
+		public string NodeToMove = "Player";
 		public string DirectionReferenceNode = "HandNode";
 		public string TurnAroundNode = "HeadNode";
 

@@ -34,6 +34,15 @@ namespace UFZ.Menu
 				var btn = new vrWidgetButton(viewpoint.name, _menu);
 				btn.AddCommand(viewpoint.MoveToViewpointCommand);
 			}
+
+			new vrWidgetSeparator("Navigation Separator", _menu);
+			var resetButton = new vrWidgetButton("Reset Rotation", _menu);
+			var player = GameObject.Find("Player");
+			if (player)
+			{
+				var playerComp = player.GetComponent<Player>();
+				resetButton.AddCommand(playerComp.ResetRotationCommand);
+			}
 		}
 	}
 }

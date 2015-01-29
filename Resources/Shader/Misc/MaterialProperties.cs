@@ -202,7 +202,10 @@ public class MaterialProperties : BaseBehavior<FullSerializerSerializer>
 			else
 			{
 				// Object switches have precedence in enabling / disabling the renderer
-				if(!GetComponentInParent<ObjectSwitchBase>())
+				var switchBase = GetComponentInParent<ObjectSwitchBase>();
+				if(switchBase)
+					switchBase.SetActiveChild(switchBase.ActiveChild);
+				else
 					localRenderer.enabled = true;
 
 				switch (materials.Length)
