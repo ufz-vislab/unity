@@ -1,5 +1,26 @@
 using UnityEngine;
-using System.Collections;
+
+public class VtkSphereSourceWrapper : MonoBehaviour
+{
+	public vrCommand SetRadiusCommand;
+	public Kitware.VTK.vtkSphereSource Source;
+
+	public VtkSphereSourceWrapper()
+	{
+		SetRadiusCommand = new vrCommand("Set Radius Command - ", SetRadius);
+	}
+
+	public double GetRadius()
+	{
+		return Source.GetRadius();
+	}
+
+	private vrValue SetRadius(vrValue iValue)
+	{
+		Source.SetRadius(iValue.GetDouble());
+		return null;
+	}
+}
 
 /*
  * Creates a vtkSphereSource and converts it to a Unity GameObject.
@@ -8,36 +29,21 @@ using System.Collections;
  **/
 public class TestVtkSphereSource : MonoBehaviour
 {
-	public int resolution = 8;
-	int oldResolution;
-
-	Kitware.VTK.vtkSphereSource SphereSource;
-	VtkToUnity vtkToUnity;
+	Kitware.VTK.vtkSphereSource _sphereSource;
+	UFZ.VTK.VtkToUnity _vtkToUnity;
 
 	void Start()
 	{
-		SphereSource = Kitware.VTK.vtkSphereSource.New();
-		SphereSource.SetRadius(1);
-		SphereSource.Update();
+		_sphereSource = Kitware.VTK.vtkSphereSource.New();
+		_sphereSource.SetRadius(1);
+		_sphereSource.Update();
+		var wrapper = gameObject.AddComponent<VtkSphereSourceWrapper>();
+		wrapper.Source = _sphereSource;
 
-		vtkToUnity = new VtkToUnity(SphereSource.GetOutputPort(), "VTK Sphere Source");
-		vtkToUnity.ColorBy(Color.grey);
-		vtkToUnity.Update();
-	}
-
-	void Update()
-	{
-		if (Input.GetKeyDown(KeyCode.UpArrow))
-			resolution++;
-		if (Input.GetKeyDown(KeyCode.DownArrow) && resolution > 3)
-			resolution--;
-
-		if (resolution != oldResolution)
-		{
-			SphereSource.SetPhiResolution(resolution);
-			SphereSource.SetThetaResolution(resolution);
-			vtkToUnity.Update();
-			oldResolution = resolution;
-		}
+		_vtkToUnity = new UFZ.VTK.VtkToUnity(_sphereSource, "VTK Sphere Source");
+		_vtkToUnity.ColorBy(Color.grey);
+		_vtkToUnity.Update();
+		_vtkToUnity.gameObject.transform.parent = transform;
+		_vtkToUnity.gameObject.transform.localPosition = new Vector3();
 	}
 }

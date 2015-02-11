@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 
 public class TestVtkRunInEditor : MonoBehaviour
 {
@@ -7,7 +6,7 @@ public class TestVtkRunInEditor : MonoBehaviour
 	int oldResolution;
 
 	Kitware.VTK.vtkSphereSource SphereSource;
-	VtkToUnity vtkToUnity = null;
+	UFZ.VTK.VtkToUnity vtkToUnity = null;
 
 	void Start()
 	{
@@ -17,7 +16,7 @@ public class TestVtkRunInEditor : MonoBehaviour
 	[ContextMenu("Reset Vtk")]
 	void Reset()
 	{
-		DestroyImmediate(vtkToUnity.go);
+		DestroyImmediate(vtkToUnity.gameObject);
 		vtkToUnity = null;
 	}
 
@@ -28,7 +27,7 @@ public class TestVtkRunInEditor : MonoBehaviour
 			SphereSource = Kitware.VTK.vtkSphereSource.New();
 		if (vtkToUnity == null)
 		{
-			vtkToUnity = new VtkToUnity(SphereSource.GetOutputPort(), "VTK Run In Editor");
+			vtkToUnity = new UFZ.VTK.VtkToUnity(SphereSource, "VTK Run In Editor");
 			vtkToUnity.ColorBy(Color.green);
 		}
 		SphereSource.SetPhiResolution(resolution);
