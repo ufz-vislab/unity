@@ -38,8 +38,8 @@ public class ViewpointEditor : Editor
 			_editorPreview = new GameObject("Animtation Preview Cam");
 			_editorPreview.hideFlags = HideFlags.HideAndDontSave;
 			_editorPreview.AddComponent<Camera>();
-			_editorPreview.camera.fieldOfView = 60;
-			_editorPreview.camera.depth = -1;
+			_editorPreview.GetComponent<Camera>().fieldOfView = 60;
+			_editorPreview.GetComponent<Camera>().depth = -1;
 			//Retreive camera settings from the main camera
 			var cams = Camera.allCameras;
 			var sceneHasCamera = cams.Length > 0;
@@ -54,15 +54,15 @@ public class ViewpointEditor : Editor
 				sceneCameraSkybox = sceneCamera.GetComponent<Skybox>();
 			if (sceneCamera != null)
 			{
-				_editorPreview.camera.backgroundColor = sceneCamera.backgroundColor;
+				_editorPreview.GetComponent<Camera>().backgroundColor = sceneCamera.backgroundColor;
 				if (sceneCameraSkybox != null)
 					_editorPreview.AddComponent<Skybox>().material = sceneCameraSkybox.material;
 				else if (RenderSettings.skybox != null)
 					_editorPreview.AddComponent<Skybox>().material = RenderSettings.skybox;
 
-				_editorPreview.camera.orthographic = sceneCamera.isOrthoGraphic;
+				_editorPreview.GetComponent<Camera>().orthographic = sceneCamera.orthographic;
 			}
-			_editorPreview.camera.enabled = false;
+			_editorPreview.GetComponent<Camera>().enabled = false;
 		}
 
 		if (EditorApplication.isPlaying && _editorPreview != null)
@@ -133,7 +133,7 @@ public class ViewpointEditor : Editor
 		_editorPreview.transform.position = _previewCamPos;
 		_editorPreview.transform.rotation = _previewCamRot;
 
-		var previewCam = _editorPreview.camera;
+		var previewCam = _editorPreview.GetComponent<Camera>();
 
 		previewCam.enabled = true;
 		previewCam.targetTexture = rt;

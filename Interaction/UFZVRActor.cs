@@ -17,7 +17,7 @@ namespace UFZ.Interaction
 		// Use this for initialization
 		void Start()
 		{
-			if (gameObject.rigidbody == null)
+			if (gameObject.GetComponent<Rigidbody>() == null)
 			{
 				Rigidbody body = gameObject.AddComponent<Rigidbody>();
 				body.isKinematic = true;
@@ -43,7 +43,7 @@ namespace UFZ.Interaction
 
 		static void AddCollider(GameObject go)
 		{
-			if (go.collider == null)
+			if (go.GetComponent<Collider>() == null)
 			{
 				if (go.GetComponent<MeshFilter>())
 					go.AddComponent<MeshCollider>().sharedMesh =
@@ -52,7 +52,7 @@ namespace UFZ.Interaction
 					go.AddComponent<BoxCollider>();
 			}
 
-			if (go.collider == null)
+			if (go.GetComponent<Collider>() == null)
 			{
 				MiddleVRTools.Log("[X] Actor object " + go.name + " has no collider !! Put one or it won't act. " + go.name);
 			}
