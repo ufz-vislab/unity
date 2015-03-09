@@ -77,8 +77,8 @@ namespace UFZ.Interaction
 		{
 			GameObject hobj = _mRay;
 
-			if (hobj == null || hobj.renderer == null || !Highlight) return;
-			hobj.renderer.material.color = state ? hCol : Color.white;
+			if (hobj == null || hobj.GetComponent<Renderer>() == null || !Highlight) return;
+			hobj.GetComponent<Renderer>().material.color = state ? hCol : Color.white;
 		}
 
 		private void Grab( GameObject iObject )
@@ -88,10 +88,10 @@ namespace UFZ.Interaction
 			_mObjectInHand = iObject;
 			_mObjectInHand.transform.parent = transform.parent;
 
-			if (_mObjectInHand.rigidbody != null)
+			if (_mObjectInHand.GetComponent<Rigidbody>() != null)
 			{
-				_mObjectWasKinematic = _mObjectInHand.rigidbody.isKinematic;
-				_mObjectInHand.rigidbody.isKinematic = true;
+				_mObjectWasKinematic = _mObjectInHand.GetComponent<Rigidbody>().isKinematic;
+				_mObjectInHand.GetComponent<Rigidbody>().isKinematic = true;
 			}
 
 			HighlightObject(_mObjectInHand, true, GrabColor);
@@ -103,10 +103,10 @@ namespace UFZ.Interaction
 
 			_mObjectInHand.transform.parent = null;
 
-			if (_mObjectInHand.rigidbody != null)
+			if (_mObjectInHand.GetComponent<Rigidbody>() != null)
 			{
 				if (!_mObjectWasKinematic)
-					_mObjectInHand.rigidbody.isKinematic = false;
+					_mObjectInHand.GetComponent<Rigidbody>().isKinematic = false;
 			}
 
 			_mObjectInHand = null;

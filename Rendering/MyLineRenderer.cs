@@ -8,7 +8,7 @@ public class MyLineRenderer : MonoBehaviour {
 
 	void Start ()
 	{
-		LineRenderer lineRenderer = gameObject.AddComponent("LineRenderer") as LineRenderer;
+		LineRenderer lineRenderer = gameObject.AddComponent<LineRenderer>() as LineRenderer;
 		Vector3[] vertices = GetComponent<MeshFilter> ().sharedMesh.vertices;
 		lineRenderer.SetVertexCount (vertices.Length);
 		int i = 0;

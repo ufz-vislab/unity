@@ -11,14 +11,14 @@ namespace UFZ.Interaction
 
 		void OnEnable ()
 		{
-			_oldShader = gameObject.renderer.material.shader;
-			gameObject.renderer.material.shader = Shader.Find ("UFZ/Bounding Box Clip");
+			_oldShader = gameObject.GetComponent<Renderer>().material.shader;
+			gameObject.GetComponent<Renderer>().material.shader = Shader.Find ("UFZ/Bounding Box Clip");
 
 			if (Boxes == null)
 			{
 
 				// Calculate gizmo sizes
-				Bounds bounds = gameObject.renderer.bounds;
+				Bounds bounds = gameObject.GetComponent<Renderer>().bounds;
 				float boxSizeMin = Mathf.Max(bounds.size[0], bounds.size[2]) / 20f;
 
 				// Check and fix for zeros in bounds sizes
@@ -50,10 +50,10 @@ namespace UFZ.Interaction
 					Boxes [i] = GameObject.CreatePrimitive (PrimitiveType.Cube);
 					Boxes [i].transform.parent = gameObject.transform;
 					Boxes [i].transform.localScale = new Vector3 (boxSize, boxSize, boxSize);
-					Boxes[i].renderer.material.shader = Shader.Find("Diffuse");
+					Boxes[i].GetComponent<Renderer>().material.shader = Shader.Find("Diffuse");
 					UFZVRActor vrActor = Boxes[i].AddComponent<UFZVRActor>();
 					vrActor.Clipable = false;
-					Boxes [i].AddComponent ("UIButtonScale");
+					// TODO: add scaling (was UIButtonScale)
 					BoundingBoxClipCorner cornerScript = Boxes [i].AddComponent<BoundingBoxClipCorner>();
 					cornerScript.Index = i;
 				}
@@ -63,8 +63,8 @@ namespace UFZ.Interaction
 				Sphere.transform.localScale = new Vector3 (boxSize, boxSize, boxSize);
 				UFZVRActor vrActorSphere = Sphere.AddComponent<UFZVRActor>();
 				vrActorSphere.Clipable = false;
-				Sphere.AddComponent ("UIButtonScale");
-				Sphere.AddComponent ("BoundingBoxClipSphere");
+				// TODO: add scaling (was UIButtonScale)
+				Sphere.AddComponent <BoundingBoxClipSphere>();
 
 				ResetClipping (bounds);
 
@@ -82,7 +82,7 @@ namespace UFZ.Interaction
 		{
 			ShowGizmos (false);
 
-			gameObject.renderer.material.shader = _oldShader;
+			gameObject.GetComponent<Renderer>().material.shader = _oldShader;
 		}
 
 		public void ResetClipping (Bounds bounds)
@@ -96,12 +96,12 @@ namespace UFZ.Interaction
 		public void ShowGizmos (bool showGizmos)
 		{
 			foreach (GameObject box in Boxes)
-				box.renderer.enabled = showGizmos;
+				box.GetComponent<Renderer>().enabled = showGizmos;
 
-			Sphere.renderer.enabled = showGizmos;
+			Sphere.GetComponent<Renderer>().enabled = showGizmos;
 
 			// Disable collider
-			gameObject.collider.enabled = !showGizmos;
+			gameObject.GetComponent<Collider>().enabled = !showGizmos;
 		}
 
 		public void SetCornerPosition (int index)
@@ -139,7 +139,7 @@ namespace UFZ.Interaction
 
 		public void SetCutoutPosition (Vector3 pos)
 		{
-			gameObject.renderer.material.SetVector ("cutout_pos", (pos - gameObject.transform.position) * (1f/gameObject.transform.lossyScale.x));
+			gameObject.GetComponent<Renderer>().material.SetVector ("cutout_pos", (pos - gameObject.transform.position) * (1f/gameObject.transform.lossyScale.x));
 		}
 
 		public void SetCutoutOctant(int index)
@@ -154,7 +154,7 @@ namespace UFZ.Interaction
 			   (index % 4) == 3)
 				cutoutVector.x = 0;
 
-			gameObject.renderer.material.SetVector("cutout_octant", cutoutVector);
+			gameObject.GetComponent<Renderer>().material.SetVector("cutout_octant", cutoutVector);
 		}
 
 		void SetCurrentBounds (Bounds bounds)
@@ -172,8 +172,8 @@ namespace UFZ.Interaction
 			Bounds shaderBounds = new Bounds (bounds.center - gameObject.transform.position, bounds.size);
 			Vector3 minVector = shaderBounds.min * (1f/gameObject.transform.lossyScale.x);
 			Vector3 maxVector = shaderBounds.max * (1f/gameObject.transform.lossyScale.x);
-			gameObject.renderer.material.SetVector ("minima", minVector);
-			gameObject.renderer.material.SetVector ("maxima", maxVector);
+			gameObject.GetComponent<Renderer>().material.SetVector ("minima", minVector);
+			gameObject.GetComponent<Renderer>().material.SetVector ("maxima", maxVector);
 		}
 
 		void SetLinePositions()

@@ -183,7 +183,7 @@ public class wireframe : MonoBehaviour {
 	}
 
 	void OnRenderObject () {
-		gameObject.renderer.enabled=render_mesh;
+		gameObject.GetComponent<Renderer>().enabled=render_mesh;
 		if (size >  3){
 			lineMaterial.SetPass(0);
 			GL.Color(lineColor);
