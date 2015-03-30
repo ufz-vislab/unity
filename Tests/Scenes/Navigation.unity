@@ -28,7 +28,7 @@ NavMeshSettings:
     widthInaccuracy: 16.666666
     heightInaccuracy: 10
   m_NavMesh: {fileID: 0}
---- !u!104 &84
+--- !u!104 &7
 RenderSettings:
   m_Fog: 0
   m_FogColor: {r: .5, g: .5, b: .5, a: 1}
@@ -44,7 +44,7 @@ RenderSettings:
   m_HaloTexture: {fileID: 0}
   m_SpotCookie: {fileID: 0}
   m_ObjectHideFlags: 0
---- !u!157 &85
+--- !u!157 &8
 LightmapSettings:
   m_ObjectHideFlags: 0
   m_LightProbes: {fileID: 0}
@@ -132,6 +132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NodeToMove: VRSystemCenterNode
+  StartHere: 0
 --- !u!1 &532854864
 GameObject:
   m_ObjectHideFlags: 0
@@ -164,6 +165,7 @@ MonoBehaviour:
   _editorColor: {r: 1, g: 1, b: 0, a: .100000001}
   _runtimeLoadSettings: 0
   _loadLevelAdditiveSceneName: simplelighting
+  _loadLevelAsChild: 0
 --- !u!4 &532854866
 Transform:
   m_ObjectHideFlags: 0
@@ -174,6 +176,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 0}
   - {fileID: 0}
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -329,6 +332,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NodeToMove: VRSystemCenterNode
+  StartHere: 0
 --- !u!114 &1093012467
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -415,6 +419,8 @@ Transform:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   m_Father: {fileID: 0}
   m_RootOrder: 3
 --- !u!114 &1594477746
@@ -433,6 +439,7 @@ MonoBehaviour:
   _editorColor: {r: 1, g: 0, b: 1, a: .100000001}
   _runtimeLoadSettings: 0
   _loadLevelAdditiveSceneName: vrbase
+  _loadLevelAsChild: 0
 --- !u!1 &1945209586
 GameObject:
   m_ObjectHideFlags: 0
@@ -462,6 +469,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NodeToMove: VRSystemCenterNode
+  StartHere: 0
 --- !u!4 &1945209588
 Transform:
   m_ObjectHideFlags: 0
