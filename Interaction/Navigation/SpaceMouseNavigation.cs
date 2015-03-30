@@ -1,0 +1,33 @@
+using UnityEngine;
+
+namespace UFZ.Interaction
+{
+
+	public class SpaceMouseNavigation : NavigationBase
+	{
+		public string DeviceName = "SpaceMouse";
+
+		void Start()
+		{
+			DeadZone = 0.05f;
+		}
+
+		protected override void GetInputs()
+		{
+			var axis = MiddleVR.VRDeviceMgr.GetAxis(DeviceName + ".Axis");
+			var buttons = MiddleVR.VRDeviceMgr.GetButtons(DeviceName + ".Buttons");
+
+			if(axis == null)
+				return;
+			Forward = -axis.GetValue(1);
+			Sideward = axis.GetValue(0);
+			Upward = -axis.GetValue(2);
+			//HorizontalRotation = axis.GetValue(3);
+
+			if(buttons == null)
+				return;
+
+			Running = buttons.IsPressed(0) ? 1.0f : 0.0f;
+		}
+	}
+}
