@@ -9,6 +9,7 @@ namespace UFZ.Interaction
 
 		void Start()
 		{
+			DirectionReferenceNode = "HeadNode";
 			DeadZone = 0.05f;
 		}
 

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NodeToMove: Player
-  DirectionReferenceNode: HandNode
+  DirectionReferenceNode: HeadNode
   TurnAroundNode: HeadNode
   NavigationSpeed: 2
   RotationSpeed: 45
