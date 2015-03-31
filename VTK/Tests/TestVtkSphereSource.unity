@@ -104,6 +104,7 @@ Transform:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!114 &566263617
@@ -122,6 +123,7 @@ MonoBehaviour:
   _editorColor: {r: 0, g: .503448486, b: 1, a: .101960786}
   _runtimeLoadSettings: 0
   _loadLevelAdditiveSceneName: vrbase
+  _loadLevelAsChild: 0
 --- !u!1 &1046289770
 GameObject:
   m_ObjectHideFlags: 0
@@ -154,6 +156,7 @@ MonoBehaviour:
   _editorColor: {r: .99513191, g: 1, b: .647058845, a: .101960786}
   _runtimeLoadSettings: 0
   _loadLevelAdditiveSceneName: simplelighting
+  _loadLevelAsChild: 0
 --- !u!4 &1046289772
 Transform:
   m_ObjectHideFlags: 0
@@ -164,6 +167,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 0}
   - {fileID: 0}
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -176,6 +180,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1902181211}
   - 114: {fileID: 1902181210}
+  - 114: {fileID: 1902181212}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -206,3 +211,14 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
+--- !u!114 &1902181212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1902181209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d7e18ff22a72ae42ba316a69d710af3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

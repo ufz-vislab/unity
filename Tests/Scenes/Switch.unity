@@ -110,7 +110,7 @@ Renderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 299766308}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_LightmapIndex: 255
@@ -167,7 +167,7 @@ Renderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 303139993}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_LightmapIndex: 255
@@ -328,7 +328,7 @@ Renderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 551836339}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_LightmapIndex: 255
@@ -402,6 +402,8 @@ Transform:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!114 &566263617
@@ -420,6 +422,7 @@ MonoBehaviour:
   _editorColor: {r: 0, g: .503448486, b: 1, a: .101960786}
   _runtimeLoadSettings: 0
   _loadLevelAdditiveSceneName: vrbase
+  _loadLevelAsChild: 0
 --- !u!1 &1046289770
 GameObject:
   m_ObjectHideFlags: 0
@@ -452,6 +455,7 @@ MonoBehaviour:
   _editorColor: {r: .99513191, g: 1, b: .647058845, a: .101960786}
   _runtimeLoadSettings: 0
   _loadLevelAdditiveSceneName: simplelighting
+  _loadLevelAsChild: 0
 --- !u!4 &1046289772
 Transform:
   m_ObjectHideFlags: 0
@@ -462,6 +466,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 0}
   - {fileID: 0}
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -639,7 +644,7 @@ Renderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1452606975}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_LightmapIndex: 255
@@ -708,7 +713,7 @@ Renderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1716069910}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_LightmapIndex: 255
@@ -777,7 +782,7 @@ Renderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2073569563}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_LightmapIndex: 255
