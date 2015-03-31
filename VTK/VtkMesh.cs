@@ -3,7 +3,7 @@ using Kitware.VTK;
 using UnityEngine;
 using System.Collections;
 
-public class VtkMesh : BaseScriptableObject
+public class VtkMesh
 {
 	public Mesh Mesh;
 

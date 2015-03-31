@@ -1,7 +1,5 @@
-using FullInspector;
 using Kitware.VTK;
 using UnityEngine;
-using System.Collections;
 
 namespace UFZ.VTK
 {
@@ -30,7 +28,7 @@ namespace UFZ.VTK
 		private GameObject _go;
 		private vtkTriangleFilter _triangleFilter;
 
-		private VtkMesh _vtkMesh = ScriptableObject.CreateInstance<VtkMesh>();
+		private VtkMesh _vtkMesh = new VtkMesh();
 
 		public enum VtkColorType
 		{
