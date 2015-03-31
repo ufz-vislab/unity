@@ -67,12 +67,15 @@ public class VtkAlgorithm : BaseBehavior
 
 		if(_triangleFilter == null)
 			_triangleFilter = vtkTriangleFilter.New();
+
+		if (_triangleFilter != null && _algorithm != null)
+			_triangleFilter.SetInputConnection(_algorithm.GetOutputPort());
 	}
 
 	void Awake()
 	{
 		base.Awake();
-		Debug.Log("Awake!");
+		//Debug.Log("Awake!");
 		//RestoreState();
 	}
 
