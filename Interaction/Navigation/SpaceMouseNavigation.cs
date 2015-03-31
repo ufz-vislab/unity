@@ -1,3 +1,4 @@
+using MiddleVR_Unity3D;
 using UnityEngine;
 
 namespace UFZ.Interaction
@@ -11,6 +12,11 @@ namespace UFZ.Interaction
 		{
 			DirectionReferenceNode = "HeadNode";
 			DeadZone = 0.05f;
+
+			CreateInteraction("SpaceMouseNavigation");
+			GetInteraction().AddTag("ContinuousNavigation");
+			Activate();
+			MVRTools.Log("[ ] Navigation SpaceMouse activated.");
 		}
 
 		protected override void GetInputs()

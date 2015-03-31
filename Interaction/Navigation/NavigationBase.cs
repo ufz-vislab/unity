@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace UFZ.Interaction
 {
-	public abstract class NavigationBase : MonoBehaviour
+	public abstract class NavigationBase : VRInteraction
 	{
 		public string NodeToMove = "Player";
 		public string DirectionReferenceNode = "HandNode";
@@ -19,9 +19,9 @@ namespace UFZ.Interaction
 		private GameObject _nodeToMove;
 		private GameObject _turnNode;
 
-		private bool _searchedRefNode = false;
-		private bool _searchedNodeToMove = false;
-		private bool _searchedRotationNode = false;
+		private bool _searchedRefNode;
+		private bool _searchedNodeToMove;
+		private bool _searchedRotationNode;
 
 		protected float Forward = 0.0f;
 		protected float Upward = 0.0f;
@@ -30,9 +30,17 @@ namespace UFZ.Interaction
 		protected float VerticalRotation = 0.0f;
 		protected float Running = 0.0f;
 
+		void Start()
+		{
+			InitializeBaseInteraction();
+		}
+
 		void Update()
 		{
-			UFZ.IOC.ILogger _logger = UFZ.IOC.Core.Instance.Log;
+			if(!IsActive())
+				return;
+
+			var logger = IOC.Core.Instance.Log;
 			if (_directionRefNode == null)
 				_directionRefNode = GameObject.Find(DirectionReferenceNode);
 			if (_nodeToMove == null)
@@ -42,19 +50,19 @@ namespace UFZ.Interaction
 
 			if (_searchedRefNode == false && _directionRefNode == null)
 			{
-				_logger.Error("BaseNavigation: Couldn't find '" + DirectionReferenceNode + "'");
+				logger.Error("BaseNavigation: Couldn't find '" + DirectionReferenceNode + "'");
 				_searchedRefNode = true;
 			}
 
 			if (_searchedNodeToMove == false && _nodeToMove == null)
 			{
-				_logger.Error("BaseNavigation: Couldn't find '" + NodeToMove + "'");
+				logger.Error("BaseNavigation: Couldn't find '" + NodeToMove + "'");
 				_searchedNodeToMove = true;
 			}
 
 			if (_searchedRotationNode == false && TurnAroundNode.Length > 0 && _turnNode == null)
 			{
-				_logger.Error("BaseNavigation: Couldn't find '" + TurnAroundNode + "'");
+				logger.Error("BaseNavigation: Couldn't find '" + TurnAroundNode + "'");
 				_searchedRotationNode = true;
 			}
 
@@ -78,16 +86,16 @@ namespace UFZ.Interaction
 			if (Mathf.Abs(Running) < DeadZone)
 				Running = 0.0f;
 
-			UFZ.IOC.ITime _time = UFZ.IOC.Core.Instance.Time;
+			var time = IOC.Core.Instance.Time;
 			var translationVector = new Vector3(1, 1, 1);
 			var tVec = translationVector * (NavigationSpeed + Running * (RunningSpeed - NavigationSpeed)) *
-			           _time.DeltaTime();
+			           time.DeltaTime();
 			var nVec = new Vector3(tVec.x * Sideward, tVec.y * Upward, tVec.z * Forward);
 			var mVec = _directionRefNode.transform.TransformDirection(nVec);
 			_nodeToMove.transform.Translate(mVec, Space.World);
 
-			var horizontalRotation = HorizontalRotation * RotationSpeed * _time.DeltaTime();
-			var verticalRotation = VerticalRotation * RotationSpeed * _time.DeltaTime();
+			var horizontalRotation = HorizontalRotation * RotationSpeed * time.DeltaTime();
+			var verticalRotation = VerticalRotation * RotationSpeed * time.DeltaTime();
 
 			if (_turnNode != null)
 			{

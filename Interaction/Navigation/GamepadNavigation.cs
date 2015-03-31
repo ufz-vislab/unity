@@ -1,3 +1,4 @@
+using MiddleVR_Unity3D;
 using UnityEngine;
 
 namespace UFZ.Interaction
@@ -7,6 +8,11 @@ namespace UFZ.Interaction
 		void Start ()
 		{
 			DeadZone = 0.15f;
+
+			CreateInteraction("GamepadNavigation");
+			GetInteraction().AddTag("ContinuousNavigation");
+			Activate();
+			MVRTools.Log("[ ] Navigation Gamepad activated.");
 		}
 
 		protected override void GetInputs()
