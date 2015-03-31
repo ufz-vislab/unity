@@ -15,13 +15,19 @@ public class VtkMesh
 			return;
 		}
 
+		var numVertices = pd.GetNumberOfPoints();
+		if (numVertices == 0)
+		{
+			Debug.LogWarning("No vertices to convert!");
+			return;
+		}
+
 		if(Mesh == null)
 			Mesh = new Mesh();
 		else
 			Mesh.Clear();
 
 		// Points / Vertices
-		var numVertices = pd.GetNumberOfPoints();
 		var vertices = new Vector3[numVertices];
 		for (var i = 0; i < numVertices; ++i)
 		{

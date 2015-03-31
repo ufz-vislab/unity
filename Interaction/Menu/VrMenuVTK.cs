@@ -17,7 +17,7 @@ namespace UFZ.Menu
 				middleVrMenu = FindObjectOfType(typeof (VRMenu)) as VRMenu;
 			}
 
-			var sphereSources = FindObjectsOfType(typeof(VtkSphereSourceWrapper)) as VtkSphereSourceWrapper[];
+			var sphereSources = FindObjectsOfType(typeof(VTK.SphereSource)) as VTK.SphereSource[];
 			if (sphereSources == null || sphereSources.Length == 0)
 				yield break;
 
@@ -26,7 +26,7 @@ namespace UFZ.Menu
 
 			foreach (var sphereSource in sphereSources)
 			{
-				var radius = (float) sphereSource.GetRadius();
+				var radius = (float) sphereSource.Radius;
 				var radiusSlider = new vrWidgetSlider("SphereSource Radius Slider - " +
 					sphereSource.GetInstanceID(), _menu, "Radius",
 					sphereSource.SetRadiusCommand, radius, radius, radius*2, radius / 20f);
