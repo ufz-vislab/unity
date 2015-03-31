@@ -191,7 +191,7 @@ public class MeshImportSettings : AssetPostprocessor
 		var meshFilter = renderer.gameObject.GetComponent<MeshFilter>();
 		if(!meshFilter)
 		{
-			Debug.LogWarning("Could not convert mesh to points: no MeshFilter found!");
+			Debug.LogWarning("Could not convert Mesh to points: no MeshFilter found!");
 			return;
 		}
 
@@ -210,7 +210,7 @@ public class MeshImportSettings : AssetPostprocessor
 		var meshFilter = renderer.gameObject.GetComponent<MeshFilter>();
 		if(!meshFilter)
 		{
-			Debug.LogWarning("Could not convert mesh to points: no MeshFilter found!");
+			Debug.LogWarning("Could not convert Mesh to points: no MeshFilter found!");
 			return;
 		}
 
