@@ -6,6 +6,7 @@ namespace UFZ.VTK
 {
 	public class SphereSource : VtkAlgorithm
 	{
+		[InspectorHeader("Algorithm Properties")]
 		[SerializeField]
 		public double Radius
 		{
