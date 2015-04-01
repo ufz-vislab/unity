@@ -57,6 +57,7 @@ public class MaterialProperties : BaseBehavior<FullSerializerSerializer>
 	protected LightingMode _lit = LightingMode.Lit;
 	protected SideMode _side = SideMode.Front;
 	protected const float disableThreshold = 0.01f;
+	protected Material[] _materials;
 
 	#if UNITY_EDITOR
 	void Reset()
@@ -121,6 +122,23 @@ public class MaterialProperties : BaseBehavior<FullSerializerSerializer>
 			UpdateShader();
 		}
 	}
+
+	[SerializeField]
+	public Color SolidColor
+	{
+		get { return _solidColor; }
+		set
+		{
+			_solidColor = value;
+			foreach (var material in _materials)
+			{
+				if (!material.HasProperty("_Color"))
+					continue;
+				material.color = value;
+			}
+		}
+	}
+	private Color _solidColor = Color.gray;
 
 	[SerializeField]
 	public LightingMode Lighting
@@ -242,6 +260,7 @@ public class MaterialProperties : BaseBehavior<FullSerializerSerializer>
 				color.a = _opacity;
 				mat.color = color;
 			}
+			_materials = materials;
 		}
 	}
 }
