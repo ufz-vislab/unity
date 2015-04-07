@@ -2,16 +2,42 @@ using UnityEngine;
 
 namespace UFZ.Interaction
 {
+	/// <summary>
+	/// Base class for fly-like navigation.
+	/// </summary>
+	/// 
+	/// Subclasses have to implement GetInputs().
 	public abstract class NavigationBase : VRInteraction
 	{
+		/// <summary>
+		/// The name of the GameObject which will be moved.
+		/// </summary>
 		public string NodeToMove = "Player";
+		/// <summary>
+		/// The name of the GameObject which rotation determines the fly direction.
+		/// </summary>
 		public string DirectionReferenceNode = "HandNode";
+		/// <summary>
+		/// The name of the GameObject which will be the center of the rotation.
+		/// </summary>
 		public string TurnAroundNode = "HeadNode";
 
-		public float NavigationSpeed = 2.0f; // m/s
-		public float RotationSpeed = 45.0f;  // degrees/s
+		/// <summary>
+		/// The navigation speed in m/s.
+		/// </summary>
+		public float NavigationSpeed = 2.0f;
+		/// <summary>
+		/// The rotation speed in degress/s
+		/// </summary>
+		public float RotationSpeed = 45.0f;
+		/// <summary>
+		/// The dead zone in which inputs are ignored.
+		/// </summary>
 		public float DeadZone = 0.1f;
 
+		/// <summary>
+		/// The running speed in m/s
+		/// </summary>
 		public float RunningSpeed = 5.0f;
 
 		protected GameObject VrMgr = null;
@@ -23,11 +49,23 @@ namespace UFZ.Interaction
 		private bool _searchedNodeToMove;
 		private bool _searchedRotationNode;
 
+		/// <summary>
+		/// The strength of forward translation, range [-1,1].
+		/// </summary>
 		protected float Forward = 0.0f;
+		/// <summary>
+		/// The strength of upward (vertical) translation, range [-1,1].
+		/// </summary>
 		protected float Upward = 0.0f;
+		/// <summary>
+		/// The strength of sideward (horizontal) translation, range [-1,1].
+		/// </summary>
 		protected float Sideward = 0.0f;
 		protected float HorizontalRotation = 0.0f;
 		protected float VerticalRotation = 0.0f;
+		/// <summary>
+		/// The running factor, range [0,1].
+		/// </summary>
 		protected float Running = 0.0f;
 
 		void Start()
@@ -110,6 +148,10 @@ namespace UFZ.Interaction
 
 		}
 
+		/// <summary>
+		/// Inputs should be handled here. The following member should be set:
+		/// Forward, Upward, Sideward, HorizontalRotation and VerticalRotation.
+		/// </summary>
 		protected abstract void GetInputs();
 	}
 }

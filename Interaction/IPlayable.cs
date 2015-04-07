@@ -1,6 +1,8 @@
 using UnityEngine;
-using System.Collections;
 
+/// <summary>
+/// An interface for something which has playing controls.
+/// </summary>
 public abstract class IPlayable : MonoBehaviour
 {
 	// Commands

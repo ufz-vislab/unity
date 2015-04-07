@@ -1,7 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-namespace UFZ
+namespace UFZ.Interaction
 {
 	/// <summary>
 	/// Creates a menu navigatable camera viewpoint. It is important that the GameObject where
@@ -31,6 +31,11 @@ namespace UFZ
 			OnFinish += delegate { return; };
 		}
 
+		/// <summary>
+		/// Moves a GameObject smoothly to this viewpoint.
+		/// </summary>
+		/// <param name="ivalue">Not used.</param>
+		/// <returns></returns>
 		public vrValue MoveToViewpoint(vrValue ivalue)
 		{
 			// TODO calculate speed
@@ -42,6 +47,11 @@ namespace UFZ
 			return true;
 		}
 
+		/// <summary>
+		/// Translates a GameObject to a viewpoint instantly.
+		/// </summary>
+		/// <param name="ivalue">Not used.</param>
+		/// <returns></returns>
 		public vrValue JumpToViewpoint(vrValue ivalue)
 		{
 			_nodeToMove.transform.position = transform.position;

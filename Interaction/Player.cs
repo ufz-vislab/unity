@@ -1,18 +1,27 @@
 using UnityEngine;
 
-public class Player : MonoBehaviour
+namespace UFZ.Interaction
 {
-	public vrCommand ResetRotationCommand;
-	
-	void Awake ()
+	/// <summary>
+	/// The Player represents the user / viewer of the application.
+	/// </summary>
+	public class Player : MonoBehaviour
 	{
-		ResetRotationCommand = new vrCommand("Reset Rotation Command", ResetRotation);
-	}
+		/// <summary>
+		/// vrCommands which resets the players orientation.
+		/// </summary>
+		public vrCommand ResetRotationCommand;
 
-	private vrValue ResetRotation(vrValue iValue)
-	{
-		var node = MiddleVR.VRDisplayMgr.GetNode("VRSystemCenterNode");
-		node.SetOrientationLocal(new vrQuat(node.GetYawLocal(), 0, 0));
-		return 0;
+		private void Awake()
+		{
+			ResetRotationCommand = new vrCommand("Reset Rotation Command", ResetRotation);
+		}
+
+		private vrValue ResetRotation(vrValue iValue)
+		{
+			var node = MiddleVR.VRDisplayMgr.GetNode("VRSystemCenterNode");
+			node.SetOrientationLocal(new vrQuat(node.GetYawLocal(), 0, 0));
+			return 0;
+		}
 	}
 }

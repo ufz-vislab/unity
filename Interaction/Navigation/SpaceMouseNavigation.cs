@@ -3,9 +3,14 @@ using UnityEngine;
 
 namespace UFZ.Interaction
 {
-
+	/// <summary>
+	/// Space Mouse navigation by using vrpn device with 6 axes and 2 buttons.
+	/// </summary>
 	public class SpaceMouseNavigation : NavigationBase
 	{
+		/// <summary>
+		/// The VRPN device name.
+		/// </summary>
 		public string DeviceName = "SpaceMouse";
 
 		void Start()
