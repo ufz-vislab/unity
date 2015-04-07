@@ -1,88 +1,96 @@
 using UnityEngine;
 using UnityEditor;
-using System.Collections;
 
-public class WizardGlobalTransform : ScriptableWizard
+namespace UFZ.Initialization
 {
-	public float scale = 0.01f;
-	float oldScale = 0.01f;
-	public string transformName = "Global Transform";
-
-	GameObject[] gos = null;
-	Bounds bounds;
-	bool transformSelected = false;
-
-	[MenuItem ("UFZ/Global Transformation")]
-	static void CreateWizard()
+	/// <summary>
+	/// A wizard dialog for creating an appropriate global transformation.
+	/// </summary>
+	/// The selected GameObjects bounding box is calculated and its center is
+	/// moved to world coordinates root. An additional scaling factor is applied.
+	/// Once the global transform is created it is required to drag and drop
+	/// additional GameObjects under it to preserve the right transformation.
+	public class WizardGlobalTransform : ScriptableWizard
 	{
-		ScriptableWizard.DisplayWizard<WizardGlobalTransform>
-			("Apply global transformation", "Apply Transform!").Calculate();
-	}
+		public float Scale = 0.01f;
+		private float _oldScale = 0.01f;
+		public string TransformName = "Global Transform";
 
-	void Calculate()
-	{
-		gos = Selection.gameObjects;
-		if(gos.Length == 0)
+		private GameObject[] _gos;
+		private Bounds _bounds;
+		private bool _transformSelected;
+
+		[MenuItem("UFZ/Global Transformation")]
+		private static void CreateWizard()
 		{
-			isValid = false;
-			errorString = "No GameObjects selected in the Hierarchy Window!";
-		}
-		else if(gos.Length == 1 && gos[0].name == transformName)
-		{
-			transformSelected = true;
-			scale = gos[0].transform.localScale.x;
-			oldScale = scale;
-			OnWizardUpdate();
-			return;
+			DisplayWizard<WizardGlobalTransform>
+				("Apply global transformation", "Apply Transform!").Calculate();
 		}
 
-		bool boundsInited = false;
-		foreach(GameObject go in gos)
+		private void Calculate()
 		{
-			Renderer[] goRenderers = go.GetComponentsInChildren<Renderer>();
-			foreach(Renderer renderer in goRenderers)
+			_gos = Selection.gameObjects;
+			if (_gos.Length == 0)
 			{
-				if(!boundsInited)
+				isValid = false;
+				errorString = "No GameObjects selected in the Hierarchy Window!";
+			}
+			else if (_gos.Length == 1 && _gos[0].name == TransformName)
+			{
+				_transformSelected = true;
+				Scale = _gos[0].transform.localScale.x;
+				_oldScale = Scale;
+				OnWizardUpdate();
+				return;
+			}
+
+			var boundsInited = false;
+			foreach (GameObject go in _gos)
+			{
+				var goRenderers = go.GetComponentsInChildren<Renderer>();
+				foreach (var renderer in goRenderers)
 				{
-					bounds = new Bounds(renderer.bounds.center, renderer.bounds.size);
-					boundsInited = true;
+					if (!boundsInited)
+					{
+						_bounds = new Bounds(renderer.bounds.center, renderer.bounds.size);
+						boundsInited = true;
+					}
+					_bounds.Encapsulate(renderer.bounds.min);
+					_bounds.Encapsulate(renderer.bounds.max);
 				}
-				bounds.Encapsulate(renderer.bounds.min);
-				bounds.Encapsulate(renderer.bounds.max);
 			}
 		}
-	}
 
-	void OnWizardCreate()
-	{
-		if(transformSelected)
+		private void OnWizardCreate()
 		{
-			if(scale != oldScale)
+			if (_transformSelected)
 			{
+				if (Mathf.Approximately(Scale, _oldScale))
+					return;
 				Debug.Log("Rescaled global transform.");
-				float factor = oldScale / scale;
-				gos[0].transform.position = gos[0].transform.position / factor;
-				gos[0].transform.localScale = new Vector3(scale, scale, scale);
+				var factor = _oldScale/Scale;
+				_gos[0].transform.position = _gos[0].transform.position/factor;
+				_gos[0].transform.localScale = new Vector3(Scale, Scale, Scale);
+			}
+			else
+			{
+				Debug.Log("Bounds center: " + _bounds.center);
+				var transformGo = new GameObject(TransformName);
+				foreach (var go in _gos)
+					go.transform.parent = transformGo.transform;
+
+				transformGo.transform.position = -_bounds.center*Scale;
+				transformGo.transform.localScale = new Vector3(Scale, Scale, Scale);
 			}
 		}
-		else
+
+		private void OnWizardUpdate()
 		{
-			Debug.Log("Bounds center: " + bounds.center);
-			GameObject transformGo = new GameObject(transformName);
-			foreach(GameObject go in gos)
-				go.transform.parent = transformGo.transform;
-
-			transformGo.transform.position = -bounds.center * scale;
-			transformGo.transform.localScale = new Vector3(scale, scale, scale);
+			if (_transformSelected)
+				helpString = "Global Transform will be rescaled.";
+			else
+				helpString = "All selected objects will be appended to a transformation\n GameObject named "
+				             + TransformName + " with a scaling of " + Scale + ".";
 		}
-	}
-
-	void OnWizardUpdate()
-	{
-		if(transformSelected)
-			helpString = "Global Transform will be rescaled.";
-		else
-			helpString = "All selected objects will be appended to a transformation\n GameObject named "
-				+ transformName + " with a scaling of " + scale + ".";
 	}
 }

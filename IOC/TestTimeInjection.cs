@@ -2,20 +2,22 @@ using Zenject;
 using UnityEngine;
 using UFZ.IOC;
 
-public class TestTimeInjection : MonoBehaviour
+namespace UFZ.Tests
 {
-	[Inject]
-	private ITime _time;
-
-	[Inject]
-	private IKeyboard keyboard;
-
-	[Inject]
-	private ILogger logger;
-	
-	void Update ()
+	public class TestTimeInjection : MonoBehaviour
 	{
-		if(keyboard.IsKeyPressed(KeyCode.A))
-			logger.Info(_time.DeltaTime().ToString());
+#pragma warning disable 649
+		[Inject] private ITime _time;
+
+		[Inject] private IKeyboard _keyboard;
+
+		[Inject] private ILogger _logger;
+#pragma warning restore 649
+
+		private void Update()
+		{
+			if (_keyboard.IsKeyPressed(KeyCode.A))
+				_logger.Info(_time.DeltaTime().ToString());
+		}
 	}
 }

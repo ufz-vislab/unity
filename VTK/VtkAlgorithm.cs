@@ -1,10 +1,11 @@
 using FullInspector;
 using Kitware.VTK;
 using UnityEngine;
+using tk = FullInspector.tk<UFZ.VTK.VtkAlgorithm>;
 
 namespace UFZ.VTK
 {
-	public class VtkAlgorithm : BaseBehavior
+	public class VtkAlgorithm : BaseBehavior, tkCustomEditor
 	{
 		[SerializeField]
 		public string Name
@@ -136,6 +137,36 @@ namespace UFZ.VTK
 		protected void OnModifiedEvt(vtkObject sender, vtkObjectEventArgs objectEventArgs)
 		{
 			UpdateVtk();
+		}
+
+		protected VtkAlgorithm OnSelectedArrayChange(VtkAlgorithm algorithm, tkEmptyContext context, int index)
+		{
+			Debug.Log("Selected array: " + uarrays[index].text);
+			//selectedArrayIndex = index;
+			return algorithm;
+		}
+
+		protected fiGUIContent[] arrays = {"A", "B"};
+		protected GUIContent[] uarrays = {new GUIContent("a"), new GUIContent("b"), };
+
+		//protected int selectedArrayIndex = 0;
+
+		tkControlEditor tkCustomEditor.GetEditor()
+		{
+			return new tkControlEditor(
+				new tk.VerticalGroup
+				{
+					//new tk.DefaultInspector(),
+					new tk.PropertyEditor("Name"),
+					new tk.PropertyEditor("Algorithm"),
+					new tk.PropertyEditor("Visible"),
+					new tk.PropertyEditor("Coloring"),
+					new tk.PropertyEditor("SolidColor"),
+					new tk.Popup(new fiGUIContent("Selected Array"),
+						uarrays, 0, OnSelectedArrayChange),
+					//new tk.PropertyEditor("selectedArrayIndex"),
+				}
+			);
 		}
 	}
 }

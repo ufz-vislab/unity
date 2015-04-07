@@ -27,7 +27,7 @@ namespace UFZ.Menu
 			foreach (var sphereSource in sphereSources)
 			{
 				var radius = (float) sphereSource.Radius;
-				var radiusSlider = new vrWidgetSlider("SphereSource Radius Slider - " +
+				new vrWidgetSlider("SphereSource Radius Slider - " +
 					sphereSource.GetInstanceID(), _menu, "Radius",
 					sphereSource.SetRadiusCommand, radius, radius, radius*2, radius / 20f);
 			}

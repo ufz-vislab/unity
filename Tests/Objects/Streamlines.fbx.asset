@@ -12,7 +12,5 @@ MonoBehaviour:
   m_Name: Streamlines.fbx
   m_EditorClassIdentifier: 
   _objectReferences: []
-  _serializedStateKeys:
-  - Properties
-  _serializedStateValues:
-  - '[{"SubMeshIndex":0,"Bools":[{"Key":{"$content":"LineRendering","$type":"System.String"},"Value":{"$content":true,"$type":"System.Boolean"}},{"Key":{"$content":"UseVertexColors","$type":"System.String"},"Value":{"$content":true,"$type":"System.Boolean"}}],"Floats":[{"Key":{"$content":"ScalarRangeMin","$type":"System.String"},"Value":{"$content":357.034881591797,"$type":"System.Single"}},{"Key":{"$content":"ScalarRangeMax","$type":"System.String"},"Value":{"$content":461.59228515625,"$type":"System.Single"}}],"Colors":[{"Key":{"$content":"ScalarRangeMinColor","$type":"System.String"},"Value":{"r":0.0,"g":0.0,"b":1.0,"a":1.0,"$type":"UnityEngine.Color"}},{"Key":{"$content":"ScalarRangeMaxColor","$type":"System.String"},"Value":{"r":1.0,"g":0.0,"b":0.0,"a":1.0,"$type":"UnityEngine.Color"}}]},{"SubMeshIndex":1,"Bools":[],"Floats":[{"Key":{"$content":"ScalarRangeMin","$type":"System.String"},"Value":{"$content":0.0,"$type":"System.Single"}},{"Key":{"$content":"ScalarRangeMax","$type":"System.String"},"Value":{"$content":1.0,"$type":"System.Single"}}],"Colors":[{"Key":{"$content":"ScalarRangeMinColor","$type":"System.String"},"Value":{"r":0.0,"g":0.0,"b":0.0,"a":1.0,"$type":"UnityEngine.Color"}},{"Key":{"$content":"ScalarRangeMaxColor","$type":"System.String"},"Value":{"r":0.0,"g":0.0,"b":0.00784313771873713,"a":1.0,"$type":"UnityEngine.Color"}}]}]'
+  _serializedStateKeys: []
+  _serializedStateValues: []

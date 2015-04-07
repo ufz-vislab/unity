@@ -1,12 +1,14 @@
 using System.Linq;
+using UFZ.Interaction;
 using UnityEngine;
-using System.Collections;
 
+/// <summary>
+/// Basic flip-book like object switch.
+/// </summary>
 public abstract class ObjectSwitchBase : IPlayable
 {
 	public int ActiveChild;
-	private int _activeChild;
-	protected float _elapsedTime = 0f;
+	protected float ElapsedTime = 0f;
 
 	public delegate void Callback(int index);
 	public Callback ActiveChildCallback;
@@ -18,7 +20,7 @@ public abstract class ObjectSwitchBase : IPlayable
 
 	protected virtual void Update ()
 	{
-		_elapsedTime += UFZ.IOC.Core.Instance.Time.DeltaTime();
+		ElapsedTime += UFZ.IOC.Core.Instance.Time.DeltaTime();
 	}
 
 	public void SetActiveChild(int index)
@@ -28,10 +30,9 @@ public abstract class ObjectSwitchBase : IPlayable
 			index = 0;
 		if (index < 0)
 			index = numChilds - 1;
-		_activeChild = index;
 		ActiveChild = index;
 
-		int i = 0;
+		var i = 0;
 		foreach (var child in transform.Cast<Transform>().OrderBy(t => t.name))
 		{
 			foreach (var childRenderer in child.gameObject.GetComponentsInChildren<Renderer>())
@@ -43,7 +44,7 @@ public abstract class ObjectSwitchBase : IPlayable
 			}
 			++i;
 		}
-		_elapsedTime = 0f;
+		ElapsedTime = 0f;
 
 		if (ActiveChildCallback != null)
 			ActiveChildCallback(ActiveChild);
@@ -53,7 +54,7 @@ public abstract class ObjectSwitchBase : IPlayable
 	{
 		foreach (var ren in transform.GetComponentsInChildren<Renderer>())
 				ren.enabled = false;
-		_elapsedTime = 0f;
+		ElapsedTime = 0f;
 	}
 
 	public override vrValue Begin(vrValue iValue = null)

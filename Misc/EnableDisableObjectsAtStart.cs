@@ -1,12 +1,19 @@
 using UnityEngine;
 
-public class EnableDisableObjectsAtStart : MonoBehaviour
+namespace UFZ.Initialization
 {
-	public GameObject[] Objects;
-	public bool Enabled = true;
-	void Start ()
+	/// <summary>
+	/// Enables or disables an array of objects at start.
+	/// </summary>
+	public class EnableDisableObjectsAtStart : MonoBehaviour
 	{
-		foreach (var go in Objects)
-			go.SetActive(Enabled);
+		public GameObject[] Objects;
+		public bool Enabled = true;
+
+		private void Start()
+		{
+			foreach (var go in Objects)
+				go.SetActive(Enabled);
+		}
 	}
 }

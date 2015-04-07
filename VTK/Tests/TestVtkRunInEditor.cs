@@ -1,51 +1,54 @@
 using UnityEngine;
 
-public class TestVtkRunInEditor : MonoBehaviour
+namespace UFZ.Tests
 {
-	public int resolution = 8;
-	int oldResolution;
-
-	Kitware.VTK.vtkSphereSource SphereSource;
-	UFZ.VTK.VtkToUnity vtkToUnity = null;
-
-	void Start()
+	public class TestVtkRunInEditor : MonoBehaviour
 	{
-		Generate();
-	}
+		public int resolution = 8;
+		private int oldResolution;
 
-	[ContextMenu("Reset Vtk")]
-	void Reset()
-	{
-		DestroyImmediate(vtkToUnity.gameObject);
-		vtkToUnity = null;
-	}
+		private Kitware.VTK.vtkSphereSource SphereSource;
+		private UFZ.VTK.VtkToUnity vtkToUnity = null;
 
-	[ContextMenu("Generate Vtk")]
-	void Generate()
-	{
-		if (SphereSource == null)
-			SphereSource = Kitware.VTK.vtkSphereSource.New();
-		if (vtkToUnity == null)
+		private void Start()
 		{
-			vtkToUnity = new UFZ.VTK.VtkToUnity(SphereSource, "VTK Run In Editor");
-			vtkToUnity.ColorBy(Color.green);
+			Generate();
 		}
-		SphereSource.SetPhiResolution(resolution);
-		SphereSource.SetThetaResolution(resolution);
-		SphereSource.SetRadius(1);
-		SphereSource.Update();
 
-		vtkToUnity.Update();
-	}
-
-	void Update()
-	{
-		if (resolution != oldResolution)
+		[ContextMenu("Reset Vtk")]
+		private void Reset()
 		{
+			DestroyImmediate(vtkToUnity.gameObject);
+			vtkToUnity = null;
+		}
+
+		[ContextMenu("Generate Vtk")]
+		private void Generate()
+		{
+			if (SphereSource == null)
+				SphereSource = Kitware.VTK.vtkSphereSource.New();
+			if (vtkToUnity == null)
+			{
+				vtkToUnity = new UFZ.VTK.VtkToUnity(SphereSource, "VTK Run In Editor");
+				vtkToUnity.ColorBy(Color.green);
+			}
 			SphereSource.SetPhiResolution(resolution);
 			SphereSource.SetThetaResolution(resolution);
+			SphereSource.SetRadius(1);
+			SphereSource.Update();
+
 			vtkToUnity.Update();
-			oldResolution = resolution;
+		}
+
+		private void Update()
+		{
+			if (resolution != oldResolution)
+			{
+				SphereSource.SetPhiResolution(resolution);
+				SphereSource.SetThetaResolution(resolution);
+				vtkToUnity.Update();
+				oldResolution = resolution;
+			}
 		}
 	}
 }

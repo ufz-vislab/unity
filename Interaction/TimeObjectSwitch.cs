@@ -2,71 +2,75 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TimeObjectSwitch : ObjectSwitchBase
+namespace UFZ.Interaction
 {
-	public float StartTime = 0f;
-	public float StepSize = 1f;
-	public bool ShowOutOfRange = true;
-
-	[HideInInspector]
-	public Vector2 Range;
-
-	[HideInInspector]
-	public List<float> Times;
-
-	void OnValidate()
+	/// <summary>
+	/// Similar to an ObjectSwitch but with additional info on time step sizes.
+	/// </summary>
+	public class TimeObjectSwitch : ObjectSwitchBase
 	{
-		Times.Clear();
-		Range = new Vector2(StartTime, StartTime + (transform.childCount) * StepSize);
-		for (int i = 0; i < transform.childCount; i++)
-			Times.Add(StartTime + i*StepSize);
-	}
+		public float StartTime = 0f;
+		public float StepSize = 1f;
+		public bool ShowOutOfRange = true;
 
-	public void SetTime(float time)
-	{
-		if ((time < Range.x || time > Range.y) && !ShowOutOfRange)
+		[HideInInspector] public Vector2 Range;
+
+		[HideInInspector] public List<float> Times;
+
+		private void OnValidate()
 		{
-			NoActiveChild();
-			return;
+			Times.Clear();
+			Range = new Vector2(StartTime, StartTime + (transform.childCount)*StepSize);
+			for (var i = 0; i < transform.childCount; i++)
+				Times.Add(StartTime + i*StepSize);
 		}
 
-		if (time < StartTime)
+		public void SetTime(float time)
 		{
-			Begin();
-			return;
+			if ((time < Range.x || time > Range.y) && !ShowOutOfRange)
+			{
+				NoActiveChild();
+				return;
+			}
+
+			if (time < StartTime)
+			{
+				Begin();
+				return;
+			}
+
+			if (time > (StartTime + transform.childCount*StepSize))
+			{
+				End();
+				return;
+			}
+
+			SetActiveChild((int) Math.Floor((time - StartTime)/StepSize));
 		}
 
-		if (time > (StartTime + transform.childCount * StepSize))
+		public override vrValue Forward(vrValue iValue = null)
 		{
-			End();
-			return;
+			throw new NotImplementedException();
 		}
 
-		SetActiveChild((int)Math.Floor((time - StartTime) / StepSize));
-	}
+		public override vrValue Back(vrValue iValue = null)
+		{
+			throw new NotImplementedException();
+		}
 
-	public override vrValue Forward(vrValue iValue = null)
-	{
-		throw new NotImplementedException();
-	}
+		public override vrValue Play(vrValue iValue = null)
+		{
+			throw new NotImplementedException();
+		}
 
-	public override vrValue Back(vrValue iValue = null)
-	{
-		throw new NotImplementedException();
-	}
+		public override vrValue Stop(vrValue iValue = null)
+		{
+			throw new NotImplementedException();
+		}
 
-	public override vrValue Play(vrValue iValue = null)
-	{
-		throw new NotImplementedException();
-	}
-
-	public override vrValue Stop(vrValue iValue = null)
-	{
-		throw new NotImplementedException();
-	}
-
-	public override vrValue TogglePlay(vrValue iValue = null)
-	{
-		throw new NotImplementedException();
+		public override vrValue TogglePlay(vrValue iValue = null)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

@@ -78,7 +78,7 @@ namespace UFZ.VTK
 
 			algorithm.ModifiedEvt += OnModifiedEvt;
 
-			var meshFilter = go.AddComponent<MeshFilter>();
+			go.AddComponent<MeshFilter>();
 			go.AddComponent<MeshRenderer>();
 		}
 

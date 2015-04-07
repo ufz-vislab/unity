@@ -51,7 +51,7 @@ namespace UFZ.Interaction
 					Boxes [i].transform.parent = gameObject.transform;
 					Boxes [i].transform.localScale = new Vector3 (boxSize, boxSize, boxSize);
 					Boxes[i].GetComponent<Renderer>().material.shader = Shader.Find("Diffuse");
-					UFZVRActor vrActor = Boxes[i].AddComponent<UFZVRActor>();
+					VRActor vrActor = Boxes[i].AddComponent<VRActor>();
 					vrActor.Clipable = false;
 					// TODO: add scaling (was UIButtonScale)
 					BoundingBoxClipCorner cornerScript = Boxes [i].AddComponent<BoundingBoxClipCorner>();
@@ -61,7 +61,7 @@ namespace UFZ.Interaction
 				Sphere.transform.parent = gameObject.transform;
 				Sphere.transform.localPosition = new Vector3 (0f, 0f, 0f);
 				Sphere.transform.localScale = new Vector3 (boxSize, boxSize, boxSize);
-				UFZVRActor vrActorSphere = Sphere.AddComponent<UFZVRActor>();
+				VRActor vrActorSphere = Sphere.AddComponent<VRActor>();
 				vrActorSphere.Clipable = false;
 				// TODO: add scaling (was UIButtonScale)
 				Sphere.AddComponent <BoundingBoxClipSphere>();

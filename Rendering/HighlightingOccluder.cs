@@ -1,11 +1,17 @@
 using UnityEngine;
 using HighlightingSystem;
 
-[RequireComponent(typeof(Highlighter))]
-public class HighlightingOccluder : MonoBehaviour
+namespace UFZ.Rendering
 {
-	void Start ()
+	/// <summary>
+	/// Activates Occluder on an Highlighter-script.
+	/// </summary>
+	[RequireComponent(typeof (Highlighter))]
+	public class HighlightingOccluder : MonoBehaviour
 	{
-		GetComponent<Highlighter>().OccluderOn();
+		private void Start()
+		{
+			GetComponent<Highlighter>().OccluderOn();
+		}
 	}
 }

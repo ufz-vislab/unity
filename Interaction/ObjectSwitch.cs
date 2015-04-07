@@ -19,7 +19,7 @@ namespace UFZ.Interaction
 		{
 			base.Update();
 			if (!IsPlaying) return;
-			if (_elapsedTime > (1f / Fps))
+			if (ElapsedTime > (1f / Fps))
 				SetActiveChild(ActiveChild + 1);
 		}
 
@@ -50,7 +50,7 @@ namespace UFZ.Interaction
 		public override vrValue Forward(vrValue iValue = null)
 		{
 			IsPlaying = false;
-			if(_elapsedTime > (1f / Fps))
+			if(ElapsedTime > (1f / Fps))
 				SetActiveChild(ActiveChild + 1);
 			return iValue;
 		}
@@ -58,7 +58,7 @@ namespace UFZ.Interaction
 		public override vrValue Back(vrValue iValue = null)
 		{
 			IsPlaying = false;
-			if(_elapsedTime > (1f / Fps))
+			if(ElapsedTime > (1f / Fps))
 				SetActiveChild(ActiveChild - 1);
 			return iValue;
 		}

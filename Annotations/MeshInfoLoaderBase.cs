@@ -1,8 +1,11 @@
+using UFZ.Annotations;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 using FullInspector;
 
+namespace UFZ.Annotations
+{
 // This should be subclassed
 //
 // Add this script to your object in the scene
@@ -13,17 +16,18 @@ using FullInspector;
 //   {
 //     Debug.Log (info.Properties[0].Bools["UseVertexColors"].ToString ());
 //   }
-public class MeshInfoLoaderBase : BaseBehavior
-{
-	public MeshInfo ScriptableObject;
+	public class MeshInfoLoaderBase : BaseBehavior
+	{
+		public MeshInfo ScriptableObject;
 
 #if UNITY_EDITOR
-	void Reset()
-	{
-		ScriptableObject = AssetDatabase.LoadAssetAtPath(
-			AssetDatabase.GetAssetPath(PrefabUtility.GetPrefabParent(gameObject))
-			+ ".asset", typeof(MeshInfo)) as MeshInfo;
-	}
+		private void Reset()
+		{
+			ScriptableObject = AssetDatabase.LoadAssetAtPath(
+				AssetDatabase.GetAssetPath(PrefabUtility.GetPrefabParent(gameObject))
+				+ ".asset", typeof (MeshInfo)) as MeshInfo;
+		}
 #endif
 
+	}
 }

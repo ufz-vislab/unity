@@ -56,7 +56,7 @@ namespace UFZ.Interaction
 
 				//print("HIT : " + i + " : " + hit.collider.name);
 
-				if( hit.distance < distance && hit.collider.name != "VRWand" && hit.collider.GetComponent<UFZVRActor>() != null )
+				if( hit.distance < distance && hit.collider.name != "VRWand" && hit.collider.GetComponent<VRActor>() != null )
 				{
 					distance = hit.distance;
 					closest = hit.collider;
@@ -166,7 +166,7 @@ namespace UFZ.Interaction
 				uint mainButton = MiddleVR.VRDeviceMgr.GetWandButton0();
 				uint oneButton = MiddleVR.VRDeviceMgr.GetWandButton2();
 
-				UFZVRActor script = _mCurrentObject.GetComponent<UFZVRActor>();
+				VRActor script = _mCurrentObject.GetComponent<VRActor>();
 
 				//MiddleVRTools.Log("Trying to take :" + m_CurrentObject.name);
 				if (script == null) return;

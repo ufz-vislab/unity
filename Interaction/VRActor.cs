@@ -1,14 +1,11 @@
-/* UFZVRActor
- * MiddleVR
- * (c) i'm in VR
- */
+using UFZ.Helper;
 using UnityEngine;
 using MiddleVR_Unity3D;
 
 namespace UFZ.Interaction
 {
 	[AddComponentMenu("UFZ/VR Actor")]
-	public class UFZVRActor : MonoBehaviour
+	public class VRActor : MonoBehaviour
 	{
 		public bool Grabable = true;
 		public bool Clipable = true;
@@ -19,24 +16,23 @@ namespace UFZ.Interaction
 		{
 			if (gameObject.GetComponent<Rigidbody>() == null)
 			{
-				Rigidbody body = gameObject.AddComponent<Rigidbody>();
+				var body = gameObject.AddComponent<Rigidbody>();
 				body.isKinematic = true;
 			}
 
 			AddCollider(gameObject);
 			if (CollidersOnChilds)
-				IterateChildren.Iterate(gameObject, delegate(GameObject go)
-				{ AddCollider(go); }, true);
+				IterateChildren.Iterate(gameObject, AddCollider, true);
 
 			if (Clipable)
 			{
-				BoundingBoxClip clip = gameObject.AddComponent<BoundingBoxClip>();
+				var clip = gameObject.AddComponent<BoundingBoxClip>();
 				clip.enabled = false;
 			}
 
 			if (Grabable)
 			{
-				VRWandGrab grab = gameObject.AddComponent<VRWandGrab>();
+				var grab = gameObject.AddComponent<VRWandGrab>();
 				grab.enabled = false;
 			}
 		}
