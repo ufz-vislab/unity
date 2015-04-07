@@ -1,7 +1,7 @@
 // Inspired from Camera Path 3
 // http://support.jasperstocker.com/camera-path/
 
-using UFZ;
+using UFZ.Interaction;
 using UnityEngine;
 using UnityEditor;
 
