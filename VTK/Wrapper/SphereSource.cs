@@ -1,3 +1,4 @@
+using System;
 using FullInspector;
 using Kitware.VTK;
 using UnityEngine;
@@ -41,6 +42,9 @@ namespace UFZ.VTK
 
 			Radius = 1.0;
 			Name = "SphereSource";
+			InputDataType = DataType.None;
+			OutputDataDataType = (DataType) Enum.Parse(typeof (DataType),
+				Algorithm.GetOutputPortInformation(0).Get(vtkDataObject.DATA_TYPE_NAME()));
 
 			SaveState();
 		}

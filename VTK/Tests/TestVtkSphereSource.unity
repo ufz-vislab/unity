@@ -105,10 +105,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _keys:
   - {fileID: 1902181210}
+  - {fileID: 1564674601}
   _values:
   - _keys: []
     _values: []
     _target: {fileID: 1902181210}
+  - _keys: []
+    _values: []
+    _target: {fileID: 1564674601}
 --- !u!114 &197572242
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -122,10 +126,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _keys:
   - {fileID: 1902181210}
+  - {fileID: 1564674601}
   _values:
   - _keys: []
     _values: []
     _target: {fileID: 1902181210}
+  - _keys: []
+    _values: []
+    _target: {fileID: 1564674601}
 --- !u!4 &197572243
 Transform:
   m_ObjectHideFlags: 1
@@ -188,161 +196,7 @@ MonoBehaviour:
   _runtimeLoadSettings: 0
   _loadLevelAdditiveSceneName: vrbase
   _loadLevelAsChild: 0
---- !u!1 &791539155
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 791539159}
-  - 33: {fileID: 791539158}
-  - 23: {fileID: 791539157}
-  - 114: {fileID: 791539156}
-  m_Layer: 0
-  m_Name: SphereSource
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &791539156
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 791539155}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b7d7b08a1f52460cba95f3b49f7385b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _objectReferences: []
-  _serializedStateKeys:
-  - Opacity
-  - ColorBy
-  - SolidColor
-  - Lighting
-  - Side
-  _serializedStateValues:
-  - 1.0
-  - '"VertexColor"'
-  - '{"r":0.5,"g":0.5,"b":0.5,"a":1.0}'
-  - '"Lit"'
-  - '"Front"'
---- !u!23 &791539157
-Renderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 791539155}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_LightmapIndex: 255
-  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
-  m_Materials:
-  - {fileID: 1403181239}
-  m_SubsetIndices: 
-  m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 0
-  m_LightProbeAnchor: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
---- !u!33 &791539158
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 791539155}
-  m_Mesh: {fileID: 1781885389}
---- !u!4 &791539159
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 791539155}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1902181211}
-  m_RootOrder: 0
---- !u!1 &1046289770
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 1046289772}
-  - 114: {fileID: 1046289771}
-  m_Layer: 0
-  m_Name: Lighting
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1046289771
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1046289770}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1485709454, guid: 926951d45b63c0448bc127a39128034b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _sceneAssetGuid: ee3105e0ccc750d42aff62af5c7e2ff8
-  _editorLoadSettings: 1
-  _editorColor: {r: .99513191, g: 1, b: .647058845, a: .101960786}
-  _runtimeLoadSettings: 0
-  _loadLevelAdditiveSceneName: simplelighting
-  _loadLevelAsChild: 0
---- !u!4 &1046289772
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1046289770}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 0}
-  - {fileID: 0}
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
---- !u!21 &1403181239
-Material:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: Diffuse
-  m_Shader: {fileID: 4800000, guid: a4b98f185113243a9a5586f0afc46fea, type: 3}
-  m_ShaderKeywords: []
-  m_CustomRenderQueue: -1
-  m_SavedProperties:
-    serializedVersion: 2
-    m_TexEnvs:
-      data:
-        first:
-          name: _MainTex
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-    m_Floats: {}
-    m_Colors:
-      data:
-        first:
-          name: _Color
-        second: {r: .5, g: .5, b: .5, a: 1}
---- !u!43 &1781885389
+--- !u!43 &616077201
 Mesh:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -485,6 +339,139 @@ Mesh:
     m_Extent: {x: .974927902, y: 1, z: .974927902}
   m_MeshUsageFlags: 0
   m_MeshOptimized: 0
+--- !u!1 &1046289770
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1046289772}
+  - 114: {fileID: 1046289771}
+  m_Layer: 0
+  m_Name: Lighting
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1046289771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1046289770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1485709454, guid: 926951d45b63c0448bc127a39128034b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sceneAssetGuid: ee3105e0ccc750d42aff62af5c7e2ff8
+  _editorLoadSettings: 1
+  _editorColor: {r: .99513191, g: 1, b: .647058845, a: .101960786}
+  _runtimeLoadSettings: 0
+  _loadLevelAdditiveSceneName: simplelighting
+  _loadLevelAsChild: 0
+--- !u!4 &1046289772
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1046289770}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 0}
+  - {fileID: 0}
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
+--- !u!1 &1564674600
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1564674602}
+  - 33: {fileID: 1564674604}
+  - 23: {fileID: 1564674603}
+  - 114: {fileID: 1564674601}
+  m_Layer: 0
+  m_Name: SphereSource
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1564674601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1564674600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b7d7b08a1f52460cba95f3b49f7385b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _objectReferences:
+  - {fileID: 1997058519}
+  _serializedStateKeys:
+  - Opacity
+  - ColorBy
+  - SolidColor
+  - Lighting
+  - Side
+  - _materials
+  _serializedStateValues:
+  - 1.0
+  - '"VertexColor"'
+  - '{"r":0.566176474094391,"g":0.137381047010422,"b":0.137381047010422,"a":1.0}'
+  - '"Lit"'
+  - '"Front"'
+  - '[0]'
+  _materials:
+  - {fileID: 1997058519}
+--- !u!4 &1564674602
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1564674600}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1902181211}
+  m_RootOrder: 0
+--- !u!23 &1564674603
+Renderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1564674600}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_LightmapIndex: 255
+  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
+  m_Materials:
+  - {fileID: 1997058519}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 0
+  m_LightProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+--- !u!33 &1564674604
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1564674600}
+  m_Mesh: {fileID: 616077201}
 --- !u!1 &1902181209
 GameObject:
   m_ObjectHideFlags: 0
@@ -514,14 +501,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _objectReferences:
-  - {fileID: 1781885389}
+  - {fileID: 616077201}
   - {fileID: 0}
   _serializedStateKeys:
   - Name
   - Algorithm
   - Visible
+  - Coloring
   - SolidColor
   - _triangleFilter
+  - InputDataType
+  - OutputDataDataType
   - _vtkMesh
   - _arraylabels
   - Radius
@@ -529,13 +519,18 @@ MonoBehaviour:
   - '"SphereSource"'
   - '{"$type":"Kitware.VTK.vtkSphereSource"}'
   - true
-  - '{"r":0.5,"g":0.5,"b":0.5,"a":1.0}'
+  - '"Array"'
+  - '{"r":0.566176474094391,"g":0.137381047010422,"b":0.137381047010422,"a":1.0}'
   - '{}'
+  - '"None"'
+  - '"vtkPolyData"'
   - '{"Mesh":0}'
   - '[{"m_Text":"P-Normals","m_Image":1,"m_Tooltip":""}]'
   - 1.0
-  MaterialProperties: {fileID: 791539156}
-  _gameObject: {fileID: 791539155}
+  MaterialProperties: {fileID: 1564674601}
+  InputDataType: 0
+  OutputDataDataType: 3
+  _gameObject: {fileID: 1564674600}
   _arrayNames:
   - P-Normals
   _arraylabels:
@@ -553,7 +548,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 791539159}
+  - {fileID: 1564674602}
   m_Father: {fileID: 0}
   m_RootOrder: 2
 --- !u!114 &1902181212
@@ -567,6 +562,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d7e18ff22a72ae42ba316a69d710af3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!21 &1997058519
+Material:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Diffuse
+  m_Shader: {fileID: 4800000, guid: a4b98f185113243a9a5586f0afc46fea, type: 3}
+  m_ShaderKeywords: []
+  m_CustomRenderQueue: -1
+  m_SavedProperties:
+    serializedVersion: 2
+    m_TexEnvs:
+      data:
+        first:
+          name: _MainTex
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+    m_Floats: {}
+    m_Colors:
+      data:
+        first:
+          name: _Color
+        second: {r: .566176474, g: .137381047, b: .137381047, a: 1}
 --- !u!1 &2041558474
 GameObject:
   m_ObjectHideFlags: 1

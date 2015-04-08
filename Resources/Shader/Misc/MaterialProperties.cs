@@ -57,6 +57,8 @@ public class MaterialProperties : BaseBehavior<FullSerializerSerializer>
 	protected LightingMode _lit = LightingMode.Lit;
 	protected SideMode _side = SideMode.Front;
 	protected const float disableThreshold = 0.01f;
+	
+	[SerializeField]
 	protected Material[] _materials;
 
 	#if UNITY_EDITOR

@@ -7,6 +7,15 @@ using tk = FullInspector.tk<UFZ.VTK.VtkAlgorithm>;
 
 namespace UFZ.VTK
 {
+	public enum DataType
+	{
+		None,
+		vtkUnstructuredGrid,
+		vtkStructuredGrid,
+		vtkPolyData,
+		vtkImageData
+	}
+
 	public class VtkAlgorithm : BaseBehavior, tkCustomEditor
 	{
 		[SerializeField]
@@ -56,6 +65,7 @@ namespace UFZ.VTK
 		};
 
 		[InspectorHeader("Coloring")]
+		[SerializeField]
 		public ColorBy Coloring
 		{
 			get { return _coloring; }
@@ -93,6 +103,25 @@ namespace UFZ.VTK
 		[InspectorDisabled]
 		public MaterialProperties MaterialProperties;
 
+		public VtkAlgorithm Input
+		{
+			get { return _input; }
+			set
+			{
+				if(value.OutputDataDataType != InputDataType ||
+					InputDataType == DataType.None)
+					return;
+				_input = value;
+				UpdateVtk();
+			}
+		}
+		private VtkAlgorithm _input;
+
+		[SerializeField]
+		protected DataType InputDataType;
+		[SerializeField]
+		protected DataType OutputDataDataType;
+
 		[SerializeField]
 		private VtkMesh _vtkMesh;
 		[SerializeField]
@@ -120,7 +149,10 @@ namespace UFZ.VTK
 				_gameObject.transform.localPosition = new Vector3();
 				_gameObject.AddComponent<MeshFilter>();
 				var meshRenderer = _gameObject.AddComponent<MeshRenderer>();
-				meshRenderer.material = new Material(Shader.Find("Diffuse")) { color = _solidColor };
+				meshRenderer.material = new Material(Shader.Find("Diffuse"))
+				{
+					color = _solidColor
+				};
 				MaterialProperties = _gameObject.AddComponent<MaterialProperties>();
 				if(_coloring == ColorBy.SolidColor)
 					MaterialProperties.ColorBy = MaterialProperties.ColorMode.SolidColor;
@@ -134,8 +166,11 @@ namespace UFZ.VTK
 		[InspectorButton]
 		private void UpdateVtk()
 		{
-			if (_triangleFilter == null || _algorithm == null || _vtkMesh == null || _gameObject == null)
+			if (_triangleFilter == null || _algorithm == null || _vtkMesh == null ||
+				_gameObject == null)
 				return;
+			if(_input)
+				_algorithm.SetInputConnection(_input.Algorithm.GetOutputPort());
 			_algorithm.Update();
 			// Input connection has to be set here because _algorithm address changes somehow
 			// because of FullInspector serialization
@@ -162,7 +197,8 @@ namespace UFZ.VTK
 			UpdateVtk();
 		}
 
-		protected VtkAlgorithm OnSelectedArrayChange(VtkAlgorithm algorithm, tkEmptyContext context, int index)
+		protected VtkAlgorithm OnSelectedArrayChange(VtkAlgorithm algorithm,
+			tkEmptyContext context, int index)
 		{
 			Debug.Log("Selected array: " + _arrayNames[index]);
 			_selectedArrayIndex = index;
@@ -189,17 +225,25 @@ namespace UFZ.VTK
 			return new tkControlEditor(
 				new tk.VerticalGroup
 				{
-					//new tk.DefaultInspector(), // does not work yet
+					//new tk.DefaultInspector(), // TODO: does not work yet
 					new tk.PropertyEditor("Name"),
 					new tk.PropertyEditor("Algorithm"),
+					new tk.ShowIf(o => InputDataType != DataType.None,
+						new tk.PropertyEditor("Input")),
 					new tk.PropertyEditor("Visible"),
 					new tk.PropertyEditor(new fiGUIContent("Color by"), "Coloring"),
-					new tk.ShowIf(o => _coloring == ColorBy.SolidColor,
-						new tk.PropertyEditor("SolidColor")),
-					new tk.ShowIf(o => _coloring == ColorBy.Array,
-						new tk.Popup(new fiGUIContent("Array"),
-							tk.Val(o => o._arraylabels), tk.Val(o => o._selectedArrayIndex),
-							OnSelectedArrayChange)),
+					new tk.PropertyEditor("SolidColor"),
+					new tk.Popup(new fiGUIContent("Array"),
+						tk.Val(o => o._arraylabels), tk.Val(o => o._selectedArrayIndex),
+							OnSelectedArrayChange)
+					// TODO: ShowIf does not work after play mode
+//					new tk.ShowIf(o => _coloring == ColorBy.SolidColor,
+//						new tk.PropertyEditor("SolidColor")),
+//					new tk.ShowIf(o => _coloring == ColorBy.Array,
+//						new tk.Popup(new fiGUIContent("Array"),
+//							tk.Val(o => o._arraylabels), tk.Val(o => o._selectedArrayIndex),
+//							OnSelectedArrayChange)),
+//					new tk.PropertyEditor("Radius")
 				}
 			);
 		}
