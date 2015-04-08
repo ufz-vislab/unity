@@ -78,17 +78,6 @@ namespace UFZ.VTK
 				Mesh.uv = uvs;
 			}
 
-			// Vertex colors
-//		if (numVertices > 0 && colorArray != null)
-//		{
-//			var colors = new Color32[numVertices];
-//
-//			for (var i = 0; i < numVertices; ++i)
-//				colors[i] = GetColor32AtIndex(i);
-//
-//			Mesh.colors32 = colors;
-//		}
-
 			// Triangles / Cells
 			var numTriangles = pd.GetNumberOfPolys();
 			var polys = pd.GetPolys();
@@ -153,25 +142,22 @@ namespace UFZ.VTK
 			}
 		}
 
-//	private byte[] GetByteColorAtIndex(int i)
-//	{
-//		var scalar = colorArray.GetTuple1(i);
-//		var dcolor = lut.GetColor(scalar);
-//		var color = new byte[3];
-//		for (uint j = 0; j < 3; j++)
-//			color[j] = (byte)(255 * dcolor[j]);
-//		return color;
-//	}
-//
-//	private Color32 GetColor32AtIndex(int i)
-//	{
-//		var color = GetByteColorAtIndex(i);
-//		return new Color32(color[0], color[1], color[2], 255);
-//	}
-//
-//	private Color GetColorAtIndex(int i)
-//	{
-//		return GetColor32AtIndex(i);
-//	}
+		public void SetColors(vtkDataArray colorArray, vtkLookupTable lut)
+		{
+			var numVertices = Mesh.vertexCount;
+			if (numVertices <= 0 || colorArray == null)
+				return;
+			var colors = new Color32[numVertices];
+			for (var i = 0; i < numVertices; ++i)
+			{
+				var scalar = colorArray.GetTuple1(i);
+				var dcolor = lut.GetColor(scalar);
+				var color = new byte[3];
+				for (uint j = 0; j < 3; j++)
+					color[j] = (byte)(255 * dcolor[j]);
+				colors[i] = new Color32(color[0], color[1], color[2], 255);
+			}
+			Mesh.colors32 = colors;
+		}
 	}
 }

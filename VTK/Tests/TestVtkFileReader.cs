@@ -13,6 +13,7 @@ namespace UFZ.Tests
 	{
 		private void Start()
 		{
+			/*
 			var filepath = System.IO.Path.Combine(Application.streamingAssetsPath, "VTK/Box.vtp");
 				//Application.dataPath + "/" + "Vtk-Data/Box.vtp";
 			//filepath = filepath.Replace("/", "\\");
@@ -90,6 +91,7 @@ namespace UFZ.Tests
 		return;
 		*/
 
+			/*
 			var contours2 = vtkContourFilter.New();
 			contours2.SetInputConnection(gridReader.GetOutputPort());
 			contours2.SetInputArrayToProcess(0, 0, 0, (int) Kitware.VTK.vtkDataObject.FieldAssociations.FIELD_ASSOCIATION_POINTS,
@@ -102,6 +104,7 @@ namespace UFZ.Tests
 			vtkToUnityContours2.ColorBy("U", VtkToUnity.VtkColorType.PointData);
 			vtkToUnityContours2.SetLut(VtkToUnity.LutPreset.BlueRed);
 			vtkToUnityContours2.Update();
+			* */
 		}
 	}
 }
