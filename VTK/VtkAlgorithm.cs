@@ -57,48 +57,19 @@ namespace UFZ.VTK
 
 		[SerializeField, HideInInspector]
 		private vtkTriangleFilter _triangleFilter;
-		
-		public enum ColorBy
-		{
-			SolidColor,
-			Array
-		};
 
 		[InspectorHeader("Coloring")]
-		[SerializeField]
-		public ColorBy Coloring
+		public MaterialProperties.ColorMode ColorBy
 		{
-			get { return _coloring; }
-			set
-			{
-				_coloring = value;
-				if(MaterialProperties == null)
-					return;
-				switch (value)
-				{
-					case ColorBy.SolidColor:
-						MaterialProperties.ColorBy = MaterialProperties.ColorMode.SolidColor;
-						break;
-					case ColorBy.Array:
-						MaterialProperties.ColorBy = MaterialProperties.ColorMode.VertexColor;
-						break;
-				}
-			}
+			get { return MaterialProperties.ColorBy; }
+			set { MaterialProperties.ColorBy = value; }
 		}
-		private ColorBy _coloring;
 
-		[SerializeField]
 		public Color SolidColor
 		{
-			get { return _solidColor; }
-			set
-			{
-				_solidColor = value;
-				if (MaterialProperties != null)
-					MaterialProperties.SolidColor = value;
-			}
+			get { return MaterialProperties.SolidColor; }
+			set { MaterialProperties.SolidColor = value; }
 		}
-		private Color _solidColor = Color.gray;
 		
 		[InspectorDisabled]
 		public MaterialProperties MaterialProperties;
@@ -149,14 +120,9 @@ namespace UFZ.VTK
 				_gameObject.transform.localPosition = new Vector3();
 				_gameObject.AddComponent<MeshFilter>();
 				var meshRenderer = _gameObject.AddComponent<MeshRenderer>();
-				meshRenderer.material = new Material(Shader.Find("Diffuse"))
-				{
-					color = _solidColor
-				};
+				meshRenderer.material =
+					new Material(Shader.Find("Diffuse")) { color = Color.gray };
 				MaterialProperties = _gameObject.AddComponent<MaterialProperties>();
-				if(_coloring == ColorBy.SolidColor)
-					MaterialProperties.ColorBy = MaterialProperties.ColorMode.SolidColor;
-				MaterialProperties.SaveState();
 			}
 
 			if (_triangleFilter == null)
@@ -231,7 +197,7 @@ namespace UFZ.VTK
 					new tk.ShowIf(o => InputDataType != DataType.None,
 						new tk.PropertyEditor("Input")),
 					new tk.PropertyEditor("Visible"),
-					new tk.PropertyEditor(new fiGUIContent("Color by"), "Coloring"),
+					new tk.PropertyEditor("ColorBy"),
 					new tk.PropertyEditor("SolidColor"),
 					new tk.Popup(new fiGUIContent("Array"),
 						tk.Val(o => o._arraylabels), tk.Val(o => o._selectedArrayIndex),
