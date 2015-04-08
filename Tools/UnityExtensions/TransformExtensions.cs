@@ -12,8 +12,11 @@ namespace UFZ.Tools.Extensions
 		/// <summary>
 		/// Gets the components in children.
 		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="go">The GameObject the transform belongs to.</param>
 		/// <param name="includeInactive">Iterate over inactive components?</param>
 		/// <param name="skipSelf">Does not return the components in the object itself</param>
+		/// <returns></returns>
 		public static T[] GetComponentsInChildren<T>
 			(this GameObject go, bool includeInactive, bool skipSelf = false)
 			where T : Component
