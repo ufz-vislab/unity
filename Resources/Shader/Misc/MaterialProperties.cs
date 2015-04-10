@@ -52,10 +52,6 @@ public class MaterialProperties : BaseBehavior<FullSerializerSerializer>
 		TwoSided
 	}
 
-	protected float _opacity = 1f;
-	protected ColorMode _colorBy = ColorMode.VertexColor;
-	protected LightingMode _lit = LightingMode.Lit;
-	protected SideMode _side = SideMode.Front;
 	protected const float disableThreshold = 0.01f;
 	
 	[SerializeField]
@@ -80,10 +76,9 @@ public class MaterialProperties : BaseBehavior<FullSerializerSerializer>
 
 	/// <summary>The opacity of the object.</summary>
 	/// <value>Can be between 0 (fully transparent) and 1 (opaque)</value>
-	[SerializeField]
 	public float Opacity
 	{
-		get { return this._opacity; }
+		get { return _opacity; }
 		set
 		{
 			if(Mathf.Approximately(_opacity, value))
@@ -95,6 +90,8 @@ public class MaterialProperties : BaseBehavior<FullSerializerSerializer>
 			UpdateShader();
 		}
 	}
+	[SerializeField]
+	private float _opacity = 1f;
 
 	/// <summary>
 	/// Returns if an object is fully opaque, transparent or completely disabled
@@ -111,7 +108,6 @@ public class MaterialProperties : BaseBehavior<FullSerializerSerializer>
 		}
 	}
 
-	[SerializeField]
 	public ColorMode ColorBy
 	{
 		get { return _colorBy; }
@@ -124,8 +120,9 @@ public class MaterialProperties : BaseBehavior<FullSerializerSerializer>
 			UpdateShader();
 		}
 	}
-
 	[SerializeField]
+	private ColorMode _colorBy = ColorMode.VertexColor;
+
 	public Color SolidColor
 	{
 		get { return _solidColor; }
@@ -140,9 +137,9 @@ public class MaterialProperties : BaseBehavior<FullSerializerSerializer>
 			}
 		}
 	}
+	[SerializeField]
 	private Color _solidColor = Color.gray;
 
-	[SerializeField]
 	public LightingMode Lighting
 	{
 		get { return _lit; }
@@ -155,10 +152,11 @@ public class MaterialProperties : BaseBehavior<FullSerializerSerializer>
 			UpdateShader();
 		}
 	}
+	[SerializeField]
+	private LightingMode _lit = LightingMode.Lit;
 
 	[InspectorMargin(5)]
 	[InspectorComment("Set two sided mode with the 'UFZ / Two Sided Material' menu option!")]
-	[SerializeField]
 	public SideMode Side
 	{
 		get { return _side; }
@@ -171,6 +169,8 @@ public class MaterialProperties : BaseBehavior<FullSerializerSerializer>
 			UpdateShader();
 		}
 	}
+	[SerializeField]
+	private SideMode _side = SideMode.Front;
 
 	/// <summary>Initializes class to an existing material</summary>
 	protected void GetSettingsFromMaterial(Material[] mat)

@@ -18,7 +18,6 @@ namespace UFZ.VTK
 
 	public class VtkAlgorithm : BaseBehavior, tkCustomEditor
 	{
-		[SerializeField]
 		public string Name
 		{
 			get { return _name; }
@@ -29,9 +28,9 @@ namespace UFZ.VTK
 					_gameObject.name = value;
 			}
 		}
+		[SerializeField]
 		private string _name;
 
-		[SerializeField, InspectorDisabled]
 		protected vtkAlgorithm Algorithm
 		{
 			get { return _algorithm; }
@@ -41,9 +40,10 @@ namespace UFZ.VTK
 				_algorithm.ModifiedEvt += OnModifiedEvt;
 			}
 		}
+		[SerializeField]
 		private vtkAlgorithm _algorithm;
 
-		[SerializeField]
+		// TODO: Modify opacity on MaterialProperties
 		public bool Visible
 		{
 			get { return _visible; }
@@ -53,6 +53,7 @@ namespace UFZ.VTK
 				_gameObject.SetActive(value);
 			}
 		}
+		[SerializeField]
 		private bool _visible = true;
 
 		[SerializeField, HideInInspector]
@@ -186,7 +187,7 @@ namespace UFZ.VTK
 			_vtkMesh.SetColors(dataArray, lut);
 		}
 
-		tkControlEditor tkCustomEditor.GetEditor()
+		public virtual tkControlEditor GetEditor()
 		{
 			return new tkControlEditor(
 				new tk.VerticalGroup

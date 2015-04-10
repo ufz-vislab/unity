@@ -73,6 +73,7 @@ NavMeshSettings:
     minRegionArea: 2
     widthInaccuracy: 16.666666
     heightInaccuracy: 10
+    tileSizeHint: 0
   m_NavMesh: {fileID: 0}
 --- !u!1 &76541191
 GameObject:
@@ -7653,8 +7654,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _objectReferences: []
-  _serializedStateKeys: []
-  _serializedStateValues: []
+  _serializedStateKeys:
+  - _materials
+  - _colorBy
+  - _solidColor
+  - _lit
+  - _side
+  _serializedStateValues:
+  - '[]'
+  - '"VertexColor"'
+  - '{"r":0.5,"g":0.5,"b":0.5,"a":1.0}'
+  - '"Lit"'
+  - '"Front"'
+  _materials: []
+  _opacity: 1
+  _colorBy: 1
+  _solidColor: {r: .5, g: .5, b: .5, a: 1}
+  _lit: 0
+  _side: 0
 --- !u!1 &369927605
 GameObject:
   m_ObjectHideFlags: 0
@@ -7987,8 +8004,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _objectReferences: []
-  _serializedStateKeys: []
-  _serializedStateValues: []
+  _serializedStateKeys:
+  - _materials
+  - _colorBy
+  - _solidColor
+  - _lit
+  - _side
+  _serializedStateValues:
+  - '[]'
+  - '"VertexColor"'
+  - '{"r":0.5,"g":0.5,"b":0.5,"a":1.0}'
+  - '"Lit"'
+  - '"Front"'
+  _materials: []
+  _opacity: 1
+  _colorBy: 1
+  _solidColor: {r: .5, g: .5, b: .5, a: 1}
+  _lit: 0
+  _side: 0
 --- !u!1 &875449750
 GameObject:
   m_ObjectHideFlags: 0
@@ -8279,8 +8312,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _objectReferences: []
-  _serializedStateKeys: []
-  _serializedStateValues: []
+  _serializedStateKeys:
+  - _materials
+  - _colorBy
+  - _solidColor
+  - _lit
+  - _side
+  _serializedStateValues:
+  - '[]'
+  - '"VertexColor"'
+  - '{"r":0.5,"g":0.5,"b":0.5,"a":1.0}'
+  - '"Unlit"'
+  - '"Front"'
+  _materials: []
+  _opacity: 1
+  _colorBy: 1
+  _solidColor: {r: .5, g: .5, b: .5, a: 1}
+  _lit: 1
+  _side: 0
 --- !u!1 &1351098636
 GameObject:
   m_ObjectHideFlags: 0
@@ -8530,8 +8579,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _objectReferences: []
-  _serializedStateKeys: []
-  _serializedStateValues: []
+  _serializedStateKeys:
+  - _materials
+  - _colorBy
+  - _solidColor
+  - _lit
+  - _side
+  _serializedStateValues:
+  - '[]'
+  - '"VertexColor"'
+  - '{"r":0.5,"g":0.5,"b":0.5,"a":1.0}'
+  - '"Lit"'
+  - '"Front"'
+  _materials: []
+  _opacity: 1
+  _colorBy: 1
+  _solidColor: {r: .5, g: .5, b: .5, a: 1}
+  _lit: 0
+  _side: 0
 --- !u!1001 &1738400119
 Prefab:
   m_ObjectHideFlags: 0
