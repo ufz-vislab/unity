@@ -10,13 +10,13 @@
 ## Required packages
 
 - Import the following packages (which can be found at `visdata/unity/packages`):
-    - [Advanced Additive Scenes](http://forum.unity3d.com/threads/advanced-additive-scenes.247092/), 1.6e
-    - [FullInspector](http://jacobdufault.github.io/fullinspector/guide/), 2.5
-    - [InControl](http://www.gallantgames.com/pages/incontrol-introduction), 2.4.8
+    - [Advanced Additive Scenes](http://forum.unity3d.com/threads/advanced-additive-scenes.247092/), 1.7h
+    - [DOTween](), 1.0.420
+    - [FullInspector](http://jacobdufault.github.io/fullinspector/guide/), 2.6
     - [MiddleVR](http://www.middlevr.com/doc/1.6/) 1.6
-    - [HighlightingSystem](http://deepdreamgames.com/highlighting-system/), 2.0
+    - [HighlightingSystem](http://deepdreamgames.com/highlighting-system/), 3.0.1
     - [Visual Studio Tools for Unity](http://unityvs.com/documentation/) (former UnityVS),
-    - [Zenject](https://github.com/modesttree/Zenject)
+    - [Zenject](https://github.com/modesttree/Zenject), 1.17
 
 ## Git setup
 
@@ -24,14 +24,14 @@
     - `git init`
     - Create a `.gitignore`-file with the following contents:
 ~~~{.sh}
-Assets/CodingJar/
-Assets/Demigiant/
-Assets/FullInspector/
-Assets/InControl/
-Assets/MiddleVR/
-Assets/UnityVS/
-Assets/Zenject/
-Assets/Plugins/
+Assets/CodingJar*
+Assets/Demigiant*
+Assets/InControl*
+Assets/MiddleVR*
+Assets/UnityVS*
+Assets/Zenject*
+Assets/Plugins*
+Assets/Editor*
 [Ll]ibrary/
 [Tt]emp/
 [Oo]bj/
@@ -68,4 +68,19 @@ git remote add origin /Volumes/visdata/unity/repos/my-project-name.git
 git push -u origin master
 ~~~
 
+# How to setup a scene with basic VR functionality
+
+Under *Assets/UFZ/Scenes* you can find scenes containing basic functionality:
+
+- **VRBase**: Contains everything to build a VR-enabled application such as the VRManager from MiddleVR, Navigation scripts, VR menu scripts
+- **SimpleLighting**: Contains a directional light source
+
+These scenes can be loaded into your actual application scene with the *Advanced Additive Scenes*-plugin. To add a scene:
+
+- *Menu / GameObject / Create Other / Coding Jar / Sub-Scene / Import From Existing Scene*
+- Choose the scene in the file browser
+
+The loaded sub-scene is now part of your actual scene and you cannot change it. To make modifications click *Unlock* in the inspector of the *Sub Scene*-script.
+
+----
 Previous page: @ref dev-env
