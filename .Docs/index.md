@@ -4,3 +4,7 @@
 
 1. @ref dev-env
 2. @ref setup-project
+
+## Interactions
+
+- @ref navigation
