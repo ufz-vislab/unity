@@ -3,6 +3,7 @@ using System.Linq;
 using FullInspector;
 using Kitware.VTK;
 using UnityEngine;
+using UFZ.Rendering;
 using tk = FullInspector.tk<UFZ.VTK.VtkAlgorithm>;
 
 namespace UFZ.VTK

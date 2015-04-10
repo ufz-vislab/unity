@@ -1,8 +1,9 @@
 using UnityEngine;
-using System.Collections;
+using UFZ.Rendering;
 
 namespace UFZ.Interaction
 {
+	// TODO: merge with ViewpointObjectVisibility?
 	public class ObjectFader : MonoBehaviour
 	{
 		//CameraPathBezierAnimator path = null;
