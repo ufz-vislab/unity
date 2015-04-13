@@ -78,7 +78,7 @@ namespace UFZ.VTK
 					InputDataType == DataType.None)
 					return;
 				_input = value;
-				UpdateVtk();
+				UpdateVtk(this, null);
 			}
 		}
 		private VtkAlgorithm _input;
@@ -96,6 +96,18 @@ namespace UFZ.VTK
 		private List<string> _arrayNames;
 		[SerializeField]
 		private GUIContent[] _arraylabels;
+
+		private vtkPolyData _polyDataOutput;
+
+		public int SelectedArrayIndex
+		{
+			get { return _selectedArrayIndex; }
+			set
+			{
+				_selectedArrayIndex = value;
+				UpdateMeshColors(value);
+			}
+		}
 		[SerializeField]
 		private int _selectedArrayIndex;
 
@@ -107,7 +119,7 @@ namespace UFZ.VTK
 		protected override void OnValidate()
 		{
 			base.OnValidate();
-			InitAlgorithmModifiedEvent();
+			Initialize();
 		}
 
 		private void InitAlgorithmModifiedEvent()
@@ -119,6 +131,8 @@ namespace UFZ.VTK
 
 		protected virtual void Initialize()
 		{
+			InitAlgorithmModifiedEvent();
+
 			if (_vtkMesh == null)
 				_vtkMesh = new VtkMesh();
 			if (_gameObject == null)
@@ -135,10 +149,12 @@ namespace UFZ.VTK
 
 			if (_triangleFilter == null)
 				_triangleFilter = vtkTriangleFilter.New();
+
+			if (_polyDataOutput == null)
+				_polyDataOutput = _triangleFilter.GetOutput();
 		}
 
-		[InspectorButton]
-		private void UpdateVtk()
+		private void UpdateVtk(VtkAlgorithm algorithm, tkEmptyContext context)
 		{
 			if (_triangleFilter == null || _algorithm == null || _vtkMesh == null ||
 				_gameObject == null)
@@ -149,34 +165,34 @@ namespace UFZ.VTK
 			// Input connection has to be set here because _algorithm address changes somehow
 			// because of FullInspector serialization
 			_triangleFilter.SetInputConnection(_algorithm.GetOutputPort());
+			_triangleFilter.PassVertsOn();
+			_triangleFilter.PassLinesOn();
 			_triangleFilter.Update();
-			var polyData = _triangleFilter.GetOutput();
+			_polyDataOutput = _triangleFilter.GetOutput();
 
 			_arrayNames = new List<string>();
-			var pointData = polyData.GetPointData();
-			var cellData = polyData.GetCellData();
+			var pointData = _polyDataOutput.GetPointData();
+			var cellData = _polyDataOutput.GetCellData();
 			for (var i = 0; i < pointData.GetNumberOfArrays(); i++)
 				_arrayNames.Add("P-" + pointData.GetArrayName(i));
 			for (var i = 0; i < cellData.GetNumberOfArrays(); i++)
 				_arrayNames.Add("C-" + cellData.GetArrayName(i));
 			_arraylabels = _arrayNames.Select(t => new GUIContent(t)).ToArray();
-			
-			_vtkMesh.PolyDataToMesh(polyData);
+
+			_vtkMesh.PolyDataToMesh(_polyDataOutput);
 			UpdateMeshColors(_selectedArrayIndex);
 			_gameObject.GetComponent<MeshFilter>().sharedMesh = _vtkMesh.Mesh;
 		}
 
 		protected void OnModifiedEvt(vtkObject sender, vtkObjectEventArgs objectEventArgs)
 		{
-			UpdateVtk();
+			UpdateVtk(this, null);
 		}
 
-		protected VtkAlgorithm OnSelectedArrayChange(VtkAlgorithm algorithm,
+		protected static VtkAlgorithm OnSelectedArrayChange(VtkAlgorithm algorithm,
 			tkEmptyContext context, int index)
 		{
-			Debug.Log("Selected array: " + _arrayNames[index]);
-			_selectedArrayIndex = index;
-			UpdateMeshColors(index);
+			algorithm.SelectedArrayIndex = index;
 			return algorithm;
 		}
 
@@ -186,9 +202,9 @@ namespace UFZ.VTK
 			var arrayName = _arrayNames[index].Substring(2);
 			vtkDataArray dataArray;
 			if (isPointArray)
-				dataArray = _triangleFilter.GetOutput().GetPointData().GetArray(arrayName);
+				dataArray = _polyDataOutput.GetPointData().GetArray(arrayName);
 			else
-				dataArray = _triangleFilter.GetOutput().GetCellData().GetArray(arrayName);
+				dataArray = _polyDataOutput.GetCellData().GetArray(arrayName);
 			var range = dataArray.GetRange(0);
 			var lut = VtkLookupTableHelper.Create(LutPreset.Rainbow, range[0], range[1]);
 			_vtkMesh.SetColors(dataArray, lut);
@@ -202,6 +218,7 @@ namespace UFZ.VTK
 					//new tk.DefaultInspector(), // TODO: does not work yet
 					new tk.PropertyEditor("Name"),
 					new tk.PropertyEditor("Algorithm"),
+					new tk.Button(new fiGUIContent("Update VTK"), UpdateVtk),
 					new tk.ShowIf(o => InputDataType != DataType.None,
 						new tk.PropertyEditor("Input")),
 					new tk.Slider(
@@ -209,9 +226,11 @@ namespace UFZ.VTK
 						0, 1, (o,c) => o.Opacity, (o,c,v) => o.Opacity = v),
 					new tk.PropertyEditor("ColorBy"),
 					new tk.PropertyEditor("SolidColor"),
-					new tk.Popup(new fiGUIContent("Array"),
+					new tk.ShowIf(o => _arraylabels != null,
+						new tk.Popup(new fiGUIContent("Array"),
 						tk.Val(o => o._arraylabels), tk.Val(o => o._selectedArrayIndex),
-							OnSelectedArrayChange)
+								OnSelectedArrayChange)
+						)
 					// TODO: ShowIf does not work after play mode
 //					new tk.ShowIf(o => ColorBy == MaterialProperties.ColorMode.SolidColor,
 //						new tk.PropertyEditor("SolidColor")),

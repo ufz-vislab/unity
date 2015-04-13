@@ -8,7 +8,6 @@ namespace UFZ.VTK
 {
 	public class SphereSource : VtkAlgorithm
 	{
-		[InspectorHeader("Algorithm Properties")]
 		public double Radius
 		{
 			get { return _radius; }
@@ -57,6 +56,7 @@ namespace UFZ.VTK
 				new tk.VerticalGroup {
 					new tkTypeProxy<VtkAlgorithm, tkEmptyContext, SphereSource, tkEmptyContext>(
 						(tkControl<VtkAlgorithm, tkEmptyContext>)parentEditor.Control),
+					new tk.Label(new fiGUIContent("Algorithm Properties")),
 					new tk.PropertyEditor("Radius")
 				});
 		}
