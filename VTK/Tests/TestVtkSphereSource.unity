@@ -204,7 +204,7 @@ MonoBehaviour:
   _runtimeLoadSettings: 0
   _loadLevelAdditiveSceneName: vrbase
   _loadLevelAsChild: 0
---- !u!43 &836035278
+--- !u!43 &856791899
 Mesh:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -347,6 +347,95 @@ Mesh:
     m_Extent: {x: .974927902, y: 1, z: .974927902}
   m_MeshUsageFlags: 0
   m_MeshOptimized: 0
+--- !u!1 &865058985
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 865058989}
+  - 33: {fileID: 865058988}
+  - 23: {fileID: 865058987}
+  - 114: {fileID: 865058986}
+  m_Layer: 0
+  m_Name: SphereSource
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &865058986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 865058985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b7d7b08a1f52460cba95f3b49f7385b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _objectReferences:
+  - {fileID: 1753181174}
+  _serializedStateKeys:
+  - _materials
+  - _colorBy
+  - _solidColor
+  - _lit
+  - _side
+  _serializedStateValues:
+  - '[0]'
+  - '"VertexColor"'
+  - '{"r":0.5,"g":0.5,"b":0.5,"a":1.0}'
+  - '"Lit"'
+  - '"Front"'
+  _materials:
+  - {fileID: 1753181174}
+  _opacity: 1
+  _colorBy: 1
+  _solidColor: {r: .5, g: .5, b: .5, a: 1}
+  _lit: 0
+  _side: 0
+--- !u!23 &865058987
+Renderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 865058985}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_LightmapIndex: 255
+  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
+  m_Materials:
+  - {fileID: 1753181174}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 0
+  m_LightProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+--- !u!33 &865058988
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 865058985}
+  m_Mesh: {fileID: 856791899}
+--- !u!4 &865058989
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 865058985}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1902181211}
+  m_RootOrder: 0
 --- !u!1 &1046289770
 GameObject:
   m_ObjectHideFlags: 0
@@ -394,95 +483,32 @@ Transform:
   - {fileID: 0}
   m_Father: {fileID: 0}
   m_RootOrder: 1
---- !u!1 &1274551897
-GameObject:
+--- !u!21 &1753181174
+Material:
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 1274551899}
-  - 33: {fileID: 1274551901}
-  - 23: {fileID: 1274551900}
-  - 114: {fileID: 1274551898}
-  m_Layer: 0
-  m_Name: SphereSource
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1274551898
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1274551897}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b7d7b08a1f52460cba95f3b49f7385b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _objectReferences:
-  - {fileID: 2031188710}
-  _serializedStateKeys:
-  - _materials
-  - _colorBy
-  - _solidColor
-  - _lit
-  - _side
-  _serializedStateValues:
-  - '[0]'
-  - '"VertexColor"'
-  - '{"r":0.5,"g":0.5,"b":0.5,"a":1.0}'
-  - '"Lit"'
-  - '"Front"'
-  _materials:
-  - {fileID: 2031188710}
-  _opacity: 1
-  _colorBy: 1
-  _solidColor: {r: .5, g: .5, b: .5, a: 1}
-  _lit: 0
-  _side: 0
---- !u!4 &1274551899
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1274551897}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1902181211}
-  m_RootOrder: 0
---- !u!23 &1274551900
-Renderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1274551897}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_LightmapIndex: 255
-  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
-  m_Materials:
-  - {fileID: 2031188710}
-  m_SubsetIndices: 
-  m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 0
-  m_LightProbeAnchor: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
---- !u!33 &1274551901
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1274551897}
-  m_Mesh: {fileID: 836035278}
+  m_Name: Diffuse
+  m_Shader: {fileID: 4800000, guid: a4b98f185113243a9a5586f0afc46fea, type: 3}
+  m_ShaderKeywords: []
+  m_CustomRenderQueue: -1
+  m_SavedProperties:
+    serializedVersion: 2
+    m_TexEnvs:
+      data:
+        first:
+          name: _MainTex
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+    m_Floats: {}
+    m_Colors:
+      data:
+        first:
+          name: _Color
+        second: {r: .5, g: .5, b: .5, a: 1}
 --- !u!1 &1902181209
 GameObject:
   m_ObjectHideFlags: 0
@@ -512,7 +538,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _objectReferences:
-  - {fileID: 836035278}
+  - {fileID: 856791899}
   _serializedStateKeys:
   - _algorithm
   - _triangleFilter
@@ -520,7 +546,6 @@ MonoBehaviour:
   - OutputDataDataType
   - _vtkMesh
   - _arraylabels
-  - Radius
   _serializedStateValues:
   - '{"$type":"Kitware.VTK.vtkSphereSource"}'
   - '{}'
@@ -528,13 +553,12 @@ MonoBehaviour:
   - '"vtkPolyData"'
   - '{"Mesh":0}'
   - '[{"m_Text":"P-Normals","m_Image":null,"m_Tooltip":""}]'
-  - 1.0
   _name: SphereSource
   _visible: 1
-  MaterialProperties: {fileID: 1274551898}
+  MaterialProperties: {fileID: 865058986}
   InputDataType: 0
   OutputDataDataType: 3
-  _gameObject: {fileID: 1274551897}
+  _gameObject: {fileID: 865058985}
   _arrayNames:
   - P-Normals
   _arraylabels:
@@ -542,6 +566,7 @@ MonoBehaviour:
     m_Image: {fileID: 0}
     m_Tooltip: 
   _selectedArrayIndex: 0
+  _radius: 1
 --- !u!4 &1902181211
 Transform:
   m_ObjectHideFlags: 0
@@ -552,7 +577,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1274551899}
+  - {fileID: 865058989}
   m_Father: {fileID: 0}
   m_RootOrder: 2
 --- !u!114 &1902181212
@@ -566,32 +591,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d7e18ff22a72ae42ba316a69d710af3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!21 &2031188710
-Material:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: Diffuse
-  m_Shader: {fileID: 4800000, guid: a4b98f185113243a9a5586f0afc46fea, type: 3}
-  m_ShaderKeywords: []
-  m_CustomRenderQueue: -1
-  m_SavedProperties:
-    serializedVersion: 2
-    m_TexEnvs:
-      data:
-        first:
-          name: _MainTex
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-    m_Floats: {}
-    m_Colors:
-      data:
-        first:
-          name: _Color
-        second: {r: .5, g: .5, b: .5, a: 1}
 --- !u!1 &2041558474
 GameObject:
   m_ObjectHideFlags: 1

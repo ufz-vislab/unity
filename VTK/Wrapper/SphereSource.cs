@@ -2,18 +2,19 @@ using System;
 using FullInspector;
 using Kitware.VTK;
 using UnityEngine;
+using tk = FullInspector.tk<UFZ.VTK.SphereSource>;
 
 namespace UFZ.VTK
 {
 	public class SphereSource : VtkAlgorithm
 	{
 		[InspectorHeader("Algorithm Properties")]
-		[SerializeField]
 		public double Radius
 		{
 			get { return _radius; }
 			set { SetRadius(value); }
 		}
+		[SerializeField]
 		private double _radius;
 
 		[HideInInspector, NotSerialized]
@@ -47,6 +48,17 @@ namespace UFZ.VTK
 				Algorithm.GetOutputPortInformation(0).Get(vtkDataObject.DATA_TYPE_NAME()));
 
 			SaveState();
+		}
+
+		public override tkControlEditor GetEditor()
+		{
+			var parentEditor = base.GetEditor();
+			return new tkControlEditor(
+				new tk.VerticalGroup {
+					new tkTypeProxy<VtkAlgorithm, tkEmptyContext, SphereSource, tkEmptyContext>(
+						(tkControl<VtkAlgorithm, tkEmptyContext>)parentEditor.Control),
+					new tk.PropertyEditor("Radius")
+				});
 		}
 	}
 }

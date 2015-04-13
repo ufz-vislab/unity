@@ -38,7 +38,7 @@ namespace UFZ.VTK
 			set
 			{
 				_algorithm = value;
-				_algorithm.ModifiedEvt += OnModifiedEvt;
+				InitAlgorithmModifiedEvent();
 			}
 		}
 		[SerializeField]
@@ -109,6 +109,19 @@ namespace UFZ.VTK
 		private void Reset()
 		{
 			Initialize();
+		}
+
+		protected override void OnValidate()
+		{
+			base.OnValidate();
+			InitAlgorithmModifiedEvent();
+		}
+
+		private void InitAlgorithmModifiedEvent()
+		{
+			if (_algorithm == null) return;
+			_algorithm.RemoveAllHandlersForAllEvents();
+			_algorithm.ModifiedEvt += OnModifiedEvt;
 		}
 
 		protected virtual void Initialize()
@@ -205,13 +218,12 @@ namespace UFZ.VTK
 						tk.Val(o => o._arraylabels), tk.Val(o => o._selectedArrayIndex),
 							OnSelectedArrayChange)
 					// TODO: ShowIf does not work after play mode
-//					new tk.ShowIf(o => _coloring == ColorBy.SolidColor,
+//					new tk.ShowIf(o => ColorBy == MaterialProperties.ColorMode.SolidColor,
 //						new tk.PropertyEditor("SolidColor")),
-//					new tk.ShowIf(o => _coloring == ColorBy.Array,
+//					new tk.ShowIf(o => ColorBy == MaterialProperties.ColorMode.VertexColor,
 //						new tk.Popup(new fiGUIContent("Array"),
 //							tk.Val(o => o._arraylabels), tk.Val(o => o._selectedArrayIndex),
-//							OnSelectedArrayChange)),
-//					new tk.PropertyEditor("Radius")
+//							OnSelectedArrayChange))
 				}
 			);
 		}
