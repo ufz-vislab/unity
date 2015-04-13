@@ -36,7 +36,7 @@ namespace UFZ.VTK
 			}
 		}
 		[SerializeField]
-		private string _filename;
+		private string _filename = "";
 
 		public void PickFile(FileReader reader, tkEmptyContext context)
 		{

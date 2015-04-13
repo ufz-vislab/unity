@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using FullInspector;
@@ -51,6 +52,9 @@ namespace UFZ.VTK
 		}
 
 		[SerializeField, HideInInspector]
+		private vtkGeometryFilter _geometryFilter;
+
+		[SerializeField, HideInInspector]
 		private vtkTriangleFilter _triangleFilter;
 
 		[InspectorHeader("Coloring")]
@@ -81,6 +85,7 @@ namespace UFZ.VTK
 				UpdateVtk(this, null);
 			}
 		}
+		[SerializeField]
 		private VtkAlgorithm _input;
 
 		[SerializeField]
@@ -95,9 +100,24 @@ namespace UFZ.VTK
 		[SerializeField]
 		private List<string> _arrayNames;
 		[SerializeField]
-		private GUIContent[] _arraylabels;
+		private GUIContent[] _arrayLabels;
+		[SerializeField]
+		private List<string> _inputArrayNames;
+		[SerializeField]
+		private GUIContent[] _inputArrayLabels;
 
 		private vtkPolyData _polyDataOutput;
+
+		public vtkDataSet Output
+		{
+			get
+			{
+				_algorithm.Update();
+				return _output;
+			}
+		}
+
+		private vtkDataSet _output;
 
 		public int SelectedArrayIndex
 		{
@@ -110,6 +130,22 @@ namespace UFZ.VTK
 		}
 		[SerializeField]
 		private int _selectedArrayIndex;
+
+		public int ArrayToProcessIndex
+		{
+			get { return _arrayToProcessIndex; }
+			set
+			{
+				_arrayToProcessIndex = value;
+				_algorithm.SetInputArrayToProcess(0, 0, 0,
+					(int)vtkDataObject.FieldAssociations.FIELD_ASSOCIATION_POINTS,
+					_inputArrayNames[value].Substring(2));
+			}
+		}
+		[SerializeField]
+		private int _arrayToProcessIndex;
+
+		public bool GenerateMesh = true;
 
 		private void Reset()
 		{
@@ -156,32 +192,62 @@ namespace UFZ.VTK
 
 		private void UpdateVtk(VtkAlgorithm algorithm, tkEmptyContext context)
 		{
+			if (_input)
+			{
+				_algorithm.SetInputConnection(_input.Algorithm.GetOutputPort());
+				_inputArrayNames = GetArrayNames(_input.Output);
+				_inputArrayLabels = _inputArrayNames.Select(t => new GUIContent(t)).ToArray();
+			}
+
 			if (_triangleFilter == null || _algorithm == null || _vtkMesh == null ||
 				_gameObject == null)
 				return;
-			if(_input)
-				_algorithm.SetInputConnection(_input.Algorithm.GetOutputPort());
 			_algorithm.Update();
+			_output = (vtkDataSet)_algorithm.GetOutputDataObject(0);
 			// Input connection has to be set here because _algorithm address changes somehow
 			// because of FullInspector serialization
-			_triangleFilter.SetInputConnection(_algorithm.GetOutputPort());
+			if (OutputDataDataType != DataType.vtkPolyData)
+			{
+				if (_geometryFilter == null)
+					_geometryFilter = vtkGeometryFilter.New();
+				//_geometryFilter.MergingOff();
+				_geometryFilter.SetInputConnection(_algorithm.GetOutputPort());
+				_triangleFilter.SetInputConnection(_geometryFilter.GetOutputPort());
+			}
+			else
+				_triangleFilter.SetInputConnection(_algorithm.GetOutputPort());
 			_triangleFilter.PassVertsOn();
 			_triangleFilter.PassLinesOn();
 			_triangleFilter.Update();
 			_polyDataOutput = _triangleFilter.GetOutput();
+			if (_polyDataOutput == null ||
+				_polyDataOutput.GetNumberOfPoints() == 0 ||
+				_polyDataOutput.GetNumberOfCells() == 0)
+			{
+				Debug.Log("Polydata output empty!");
+				return;
+			}
 
-			_arrayNames = new List<string>();
-			var pointData = _polyDataOutput.GetPointData();
-			var cellData = _polyDataOutput.GetCellData();
-			for (var i = 0; i < pointData.GetNumberOfArrays(); i++)
-				_arrayNames.Add("P-" + pointData.GetArrayName(i));
-			for (var i = 0; i < cellData.GetNumberOfArrays(); i++)
-				_arrayNames.Add("C-" + cellData.GetArrayName(i));
-			_arraylabels = _arrayNames.Select(t => new GUIContent(t)).ToArray();
+			_arrayNames = GetArrayNames(_polyDataOutput);
+			_arrayLabels = _arrayNames.Select(t => new GUIContent(t)).ToArray();
 
+			if(!GenerateMesh)
+				return;
 			_vtkMesh.PolyDataToMesh(_polyDataOutput);
 			UpdateMeshColors(_selectedArrayIndex);
 			_gameObject.GetComponent<MeshFilter>().sharedMesh = _vtkMesh.Mesh;
+		}
+
+		private static List<string> GetArrayNames(vtkDataSet dataSet)
+		{
+			var arrayNames = new List<string>();
+			var pointData = dataSet.GetPointData();
+			var cellData = dataSet.GetCellData();
+			for (var i = 0; i < pointData.GetNumberOfArrays(); i++)
+				arrayNames.Add("P-" + pointData.GetArrayName(i));
+			for (var i = 0; i < cellData.GetNumberOfArrays(); i++)
+				arrayNames.Add("C-" + cellData.GetArrayName(i));
+			return arrayNames;
 		}
 
 		protected void OnModifiedEvt(vtkObject sender, vtkObjectEventArgs objectEventArgs)
@@ -193,6 +259,13 @@ namespace UFZ.VTK
 			tkEmptyContext context, int index)
 		{
 			algorithm.SelectedArrayIndex = index;
+			return algorithm;
+		}
+
+		protected static VtkAlgorithm OnArrayToProcessChange(VtkAlgorithm algorithm,
+			tkEmptyContext context, int index)
+		{
+			algorithm.ArrayToProcessIndex = index;
 			return algorithm;
 		}
 
@@ -217,6 +290,7 @@ namespace UFZ.VTK
 				{
 					//new tk.DefaultInspector(), // TODO: does not work yet
 					new tk.PropertyEditor("Name"),
+					new tk.PropertyEditor("GenerateMesh"),
 					new tk.PropertyEditor("Algorithm"),
 					new tk.Button(new fiGUIContent("Update VTK"), UpdateVtk),
 					new tk.ShowIf(o => InputDataType != DataType.None,
@@ -226,10 +300,27 @@ namespace UFZ.VTK
 						0, 1, (o,c) => o.Opacity, (o,c,v) => o.Opacity = v),
 					new tk.PropertyEditor("ColorBy"),
 					new tk.PropertyEditor("SolidColor"),
-					new tk.ShowIf(o => _arraylabels != null,
+					new tk.ShowIf(o => _arrayLabels != null,
 						new tk.Popup(new fiGUIContent("Array"),
-						tk.Val(o => o._arraylabels), tk.Val(o => o._selectedArrayIndex),
+						tk.Val(o => o._arrayLabels), tk.Val(o => o._selectedArrayIndex),
 								OnSelectedArrayChange)
+						),
+					new tk.ShowIf(o => _inputArrayLabels != null,
+						new tk.Popup(new fiGUIContent("Active array"),
+						tk.Val(o => o._inputArrayLabels), tk.Val(o => o._arrayToProcessIndex),
+								OnArrayToProcessChange)
+						),
+					new tk.ShowIf(o => _algorithm != null && _algorithm.GetOutputDataObject(0) != null,
+						new tk.Foldout(new fiGUIContent("VTK information"),
+							new tk.VerticalGroup{
+								new tk.Label(tk.Val(o =>
+									new fiGUIContent("Points: " + o.Algorithm.GetOutputDataObject(0).GetNumberOfElements(0).ToString())
+								)),
+								new tk.Label(tk.Val(o =>
+									new fiGUIContent("Cells: " + o.Algorithm.GetOutputDataObject(0).GetNumberOfElements(1).ToString())
+								))
+								}
+							)
 						)
 					// TODO: ShowIf does not work after play mode
 //					new tk.ShowIf(o => ColorBy == MaterialProperties.ColorMode.SolidColor,
