@@ -104,16 +104,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _keys:
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 1902181210}
   _values:
-  - _keys: []
-    _values: []
-    _target: {fileID: 0}
-  - _keys: []
-    _values: []
-    _target: {fileID: 0}
   - _keys: []
     _values: []
     _target: {fileID: 1902181210}
@@ -129,16 +121,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _keys:
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 1902181210}
   _values:
-  - _keys: []
-    _values: []
-    _target: {fileID: 0}
-  - _keys: []
-    _values: []
-    _target: {fileID: 0}
   - _keys: []
     _values: []
     _target: {fileID: 1902181210}
@@ -554,7 +538,6 @@ MonoBehaviour:
   - '{"Mesh":0}'
   - '[{"m_Text":"P-Normals","m_Image":null,"m_Tooltip":""}]'
   _name: SphereSource
-  _visible: 1
   MaterialProperties: {fileID: 865058986}
   InputDataType: 0
   OutputDataDataType: 3

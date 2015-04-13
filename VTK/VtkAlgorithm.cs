@@ -44,18 +44,11 @@ namespace UFZ.VTK
 		[SerializeField]
 		private vtkAlgorithm _algorithm;
 
-		// TODO: Modify opacity on MaterialProperties
-		public bool Visible
+		public float Opacity
 		{
-			get { return _visible; }
-			set
-			{
-				_visible = value;
-				_gameObject.SetActive(value);
-			}
+			get { return MaterialProperties.Opacity; }
+			set { MaterialProperties.Opacity = value; }
 		}
-		[SerializeField]
-		private bool _visible = true;
 
 		[SerializeField, HideInInspector]
 		private vtkTriangleFilter _triangleFilter;
@@ -211,7 +204,9 @@ namespace UFZ.VTK
 					new tk.PropertyEditor("Algorithm"),
 					new tk.ShowIf(o => InputDataType != DataType.None,
 						new tk.PropertyEditor("Input")),
-					new tk.PropertyEditor("Visible"),
+					new tk.Slider(
+						new fiGUIContent("Opacity"),
+						0, 1, (o,c) => o.Opacity, (o,c,v) => o.Opacity = v),
 					new tk.PropertyEditor("ColorBy"),
 					new tk.PropertyEditor("SolidColor"),
 					new tk.Popup(new fiGUIContent("Array"),
