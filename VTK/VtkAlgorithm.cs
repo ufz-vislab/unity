@@ -54,6 +54,8 @@ namespace UFZ.VTK
 
 		private vtkTriangleFilter _triangleFilter;
 
+		private vtkPolyDataNormals _normalsFilter;
+
 		public MaterialProperties.ColorMode ColorBy
 		{
 			get { return MaterialProperties.ColorBy; }
@@ -142,6 +144,7 @@ namespace UFZ.VTK
 		private int _arrayToProcessIndex;
 
 		public bool GenerateMesh = true;
+		public bool GenerateNormals = true;
 
 		private void Reset()
 		{
@@ -228,12 +231,24 @@ namespace UFZ.VTK
 			_triangleFilter.PassLinesOn();
 			_triangleFilter.Update();
 			_polyDataOutput = _triangleFilter.GetOutput();
+
 			if (_polyDataOutput == null ||
 				_polyDataOutput.GetNumberOfPoints() == 0 ||
 				_polyDataOutput.GetNumberOfCells() == 0)
 			{
 				// Debug.Log("Polydata output empty!");
 				return;
+			}
+
+			if (GenerateNormals && !VtkNormalsHelper.GetPointNormals(_polyDataOutput))
+			{
+				if (_normalsFilter == null)
+					_normalsFilter = vtkPolyDataNormals.New();
+				_normalsFilter.SetInputConnection(_triangleFilter.GetOutputPort());
+				_normalsFilter.ComputePointNormalsOn();
+				_normalsFilter.ComputeCellNormalsOff();
+				_normalsFilter.Update();
+				_polyDataOutput = _normalsFilter.GetOutput();
 			}
 
 			_arrayNames = GetArrayNames(_polyDataOutput);
@@ -309,6 +324,7 @@ namespace UFZ.VTK
 						Style = new tk.ReadOnly()
 					},
 					new tk.PropertyEditor("GenerateMesh"),
+					new tk.PropertyEditor("GenerateNormals"),
 					new tk.Button(new fiGUIContent("Update VTK"), UpdateVtk),
 					new tk.Label("Rendering")
 					{
