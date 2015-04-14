@@ -42,7 +42,7 @@ namespace UFZ.VTK
 
 			Range = _range;
 
-			SaveState();
+			InitializeFinish();
 		}
 
 		public override tkControlEditor GetEditor()

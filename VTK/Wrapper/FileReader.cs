@@ -51,9 +51,8 @@ namespace UFZ.VTK
 		{
 			base.Initialize();
 
-			var reader = vtkXMLGenericDataObjectReader.New();
 			if (Algorithm == null)
-				Algorithm = reader;
+				Algorithm = vtkXMLGenericDataObjectReader.New();
 			if(_filename.Length > 0)
 				Filename = _filename;
 			else
@@ -61,7 +60,7 @@ namespace UFZ.VTK
 
 			InputDataType = DataType.None;
 
-			SaveState();
+			InitializeFinish();
 		}
 
 		public override tkControlEditor GetEditor()

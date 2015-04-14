@@ -42,7 +42,6 @@ namespace UFZ.VTK
 				InitAlgorithmModifiedEvent();
 			}
 		}
-		[SerializeField]
 		private vtkAlgorithm _algorithm;
 
 		public float Opacity
@@ -190,13 +189,25 @@ namespace UFZ.VTK
 				_polyDataOutput = _triangleFilter.GetOutput();
 		}
 
+		protected void InitializeFinish()
+		{
+			if (_input != null)
+			{
+				_inputArrayNames = GetArrayNames(_input.Output);
+				_inputArrayLabels = _inputArrayNames.Select(t => new GUIContent(t)).ToArray();
+			}
+			if (_inputArrayNames.Count > 0)
+				ArrayToProcessIndex = _arrayToProcessIndex;
+
+			SaveState();
+		}
+
 		private void UpdateVtk(VtkAlgorithm algorithm, tkEmptyContext context)
 		{
 			if (_input)
 			{
 				_algorithm.SetInputConnection(_input.Algorithm.GetOutputPort());
-				_inputArrayNames = GetArrayNames(_input.Output);
-				_inputArrayLabels = _inputArrayNames.Select(t => new GUIContent(t)).ToArray();
+				_input.UpdateVtk(_input, null);
 			}
 
 			if (_triangleFilter == null || _algorithm == null || _vtkMesh == null ||
@@ -224,7 +235,7 @@ namespace UFZ.VTK
 				_polyDataOutput.GetNumberOfPoints() == 0 ||
 				_polyDataOutput.GetNumberOfCells() == 0)
 			{
-				Debug.Log("Polydata output empty!");
+				// Debug.Log("Polydata output empty!");
 				return;
 			}
 
