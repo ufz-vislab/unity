@@ -50,13 +50,10 @@ namespace UFZ.VTK
 			set { MaterialProperties.Opacity = value; }
 		}
 
-		[SerializeField, HideInInspector]
 		private vtkGeometryFilter _geometryFilter;
 
-		[SerializeField, HideInInspector]
 		private vtkTriangleFilter _triangleFilter;
 
-		[InspectorHeader("Coloring")]
 		public MaterialProperties.ColorMode ColorBy
 		{
 			get { return MaterialProperties.ColorBy; }
@@ -301,26 +298,36 @@ namespace UFZ.VTK
 				{
 					//new tk.DefaultInspector(), // TODO: does not work yet
 					new tk.PropertyEditor("Name"),
-					new tk.PropertyEditor("GenerateMesh"),
-					new tk.PropertyEditor("Algorithm"),
-					new tk.Button(new fiGUIContent("Update VTK"), UpdateVtk),
 					new tk.ShowIf(o => InputDataType != DataType.None,
 						new tk.PropertyEditor("Input")),
+					new tk.PropertyEditor("Algorithm")
+					{
+						Style = new tk.ReadOnly()
+					},
+					new tk.PropertyEditor("OutputDataDataType")
+					{
+						Style = new tk.ReadOnly()
+					},
+					new tk.PropertyEditor("GenerateMesh"),
+					new tk.Button(new fiGUIContent("Update VTK"), UpdateVtk),
+					new tk.Label("Rendering")
+					{
+						Style = new tk.Color(Color.magenta)
+					},
 					new tk.Slider(
 						new fiGUIContent("Opacity"),
 						0, 1, (o,c) => o.Opacity, (o,c,v) => o.Opacity = v),
 					new tk.PropertyEditor("ColorBy"),
 					new tk.PropertyEditor("SolidColor"),
 					new tk.ShowIf(o => _arrayLabels != null,
-						new tk.Popup(new fiGUIContent("Array"),
+						new tk.Popup(new fiGUIContent("Color Array"),
 						tk.Val(o => o._arrayLabels), tk.Val(o => o._selectedArrayIndex),
 								OnSelectedArrayChange)
 						),
-					new tk.ShowIf(o => _inputArrayLabels != null,
-						new tk.Popup(new fiGUIContent("Active array"),
-						tk.Val(o => o._inputArrayLabels), tk.Val(o => o._arrayToProcessIndex),
-								OnArrayToProcessChange)
-						),
+					new tk.Label("Algorithm Properties")
+					{
+						Style = new tk.Color(Color.green)
+					},
 					new tk.ShowIf(o => _algorithm != null && _algorithm.GetOutputDataObject(0) != null,
 						new tk.Foldout(new fiGUIContent("VTK information"),
 							new tk.VerticalGroup{
@@ -332,14 +339,12 @@ namespace UFZ.VTK
 								))
 								}
 							)
+						),
+					new tk.ShowIf(o => _inputArrayLabels != null,
+						new tk.Popup(new fiGUIContent("Active array"),
+						tk.Val(o => o._inputArrayLabels), tk.Val(o => o._arrayToProcessIndex),
+								OnArrayToProcessChange)
 						)
-					// TODO: ShowIf does not work after play mode
-//					new tk.ShowIf(o => ColorBy == MaterialProperties.ColorMode.SolidColor,
-//						new tk.PropertyEditor("SolidColor")),
-//					new tk.ShowIf(o => ColorBy == MaterialProperties.ColorMode.VertexColor,
-//						new tk.Popup(new fiGUIContent("Array"),
-//							tk.Val(o => o._arraylabels), tk.Val(o => o._selectedArrayIndex),
-//							OnSelectedArrayChange))
 				}
 			);
 		}

@@ -56,7 +56,6 @@ namespace UFZ.VTK
 				new tk.VerticalGroup {
 					new tkTypeProxy<VtkAlgorithm, tkEmptyContext, SphereSource, tkEmptyContext>(
 						(tkControl<VtkAlgorithm, tkEmptyContext>)parentEditor.Control),
-					new tk.Label(new fiGUIContent("Algorithm Properties")),
 					new tk.PropertyEditor("Radius")
 				});
 		}

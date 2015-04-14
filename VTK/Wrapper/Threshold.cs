@@ -53,7 +53,6 @@ namespace UFZ.VTK
 				{
 					new tkTypeProxy<VtkAlgorithm, tkEmptyContext, Threshold, tkEmptyContext>(
 						(tkControl<VtkAlgorithm, tkEmptyContext>) parentEditor.Control),
-					new tk.Label(new fiGUIContent("Algorithm Properties")),
 					new tk.PropertyEditor("Range")
 				});
 		}

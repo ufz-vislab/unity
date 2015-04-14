@@ -70,10 +70,8 @@ namespace UFZ.VTK
 				new tk.VerticalGroup {
 					new tkTypeProxy<VtkAlgorithm, tkEmptyContext, FileReader, tkEmptyContext>(
 						(tkControl<VtkAlgorithm, tkEmptyContext>)parentEditor.Control),
-					new tk.Label(new fiGUIContent("Algorithm Properties")),
 					new tk.Button(new fiGUIContent("Choose file"), PickFile),
-					new tk.PropertyEditor("Filename"),
-					new tk.PropertyEditor("OutputDataDataType")
+					new tk.PropertyEditor("Filename")
 				});
 		}
 	}
