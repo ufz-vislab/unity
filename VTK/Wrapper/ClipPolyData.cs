@@ -2,18 +2,11 @@ using System;
 using FullInspector;
 using Kitware.VTK;
 using UnityEngine;
-using tk = FullInspector.tk<UFZ.VTK.ClipDataSet>;
+using tk = FullInspector.tk<UFZ.VTK.ClipPolyData>;
 
 namespace UFZ.VTK
 {
-	public enum Axis
-	{
-		X,
-		Y,
-		Z
-	}
-
-	public class ClipDataSet : VtkAlgorithm
+	public class ClipPolyData : VtkAlgorithm
 	{
 		public Vector3 PlanePosition
 		{
@@ -45,15 +38,18 @@ namespace UFZ.VTK
 			set
 			{
 				_flip = value;
-				((vtkClipDataSet) Algorithm).SetInsideOut(value ? 1 : 0);
+				((vtkClipDataSet)Algorithm).SetInsideOut(value ? 1 : 0);
 			}
 		}
 
 		//public Transform PlaneTransform;
 
-		[SerializeField] private Vector3 _planePosition;
-		[SerializeField] private Axis _planeAxis = Axis.X;
-		[SerializeField] private bool _flip;
+		[SerializeField]
+		private Vector3 _planePosition;
+		[SerializeField]
+		private Axis _planeAxis = Axis.X;
+		[SerializeField]
+		private bool _flip;
 
 		private vtkPlane _plane;
 
@@ -75,12 +71,12 @@ namespace UFZ.VTK
 			PlanePosition = _planePosition;
 			PlaneAxis = _planeAxis;
 
-			var clip = (vtkClipDataSet) Algorithm;
+			var clip = (vtkClipDataSet)Algorithm;
 			clip.GenerateClipScalarsOn();
 			clip.SetClipFunction(_plane);
 
-			Name = "ClipDataSet";
-			InputDataType = DataType.vtkUnstructuredGrid;
+			Name = "ClipPolyData";
+			InputDataType = DataType.vtkPolyData;
 			OutputDataDataType = (DataType)Enum.Parse(typeof(DataType),
 				Algorithm.GetOutputPortInformation(0).Get(vtkDataObject.DATA_TYPE_NAME()));
 
@@ -92,7 +88,7 @@ namespace UFZ.VTK
 			var parentEditor = base.GetEditor();
 			return new tkControlEditor(
 				new tk.VerticalGroup {
-					new tkTypeProxy<VtkAlgorithm, tkDefaultContext, ClipDataSet, tkDefaultContext>(
+					new tkTypeProxy<VtkAlgorithm, tkDefaultContext, ClipPolyData, tkDefaultContext>(
 						(tkControl<VtkAlgorithm, tkDefaultContext>)parentEditor.Control),
 					new tk.PropertyEditor("PlanePosition"),
 					new tk.PropertyEditor("PlaneAxis"),
