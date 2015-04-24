@@ -3,20 +3,10 @@
 ## Project settings
 
 - Create a new project in Unity
+- Import the *Visual Studio Tools for Unity* package
 - In *Edit->Project Settings->Editor* set **Version Control** to **Visible Meta Files**
 - In *Edit->Project Settings->Editor* set **Asset Serialization Mode** to **Force Text**
 - In *Edit->Project Settings->Player* set **Use Direct3D 11** to **Off**
-
-## Required packages
-
-- Import the following packages (which can be found at `visdata/unity/packages`):
-    - [Advanced Additive Scenes](http://forum.unity3d.com/threads/advanced-additive-scenes.247092/), 1.7h
-    - [DOTween](), 1.0.420
-    - [FullInspector](http://jacobdufault.github.io/fullinspector/guide/), 2.6
-    - [MiddleVR](http://www.middlevr.com/doc/1.6/) 1.6
-    - [HighlightingSystem](http://deepdreamgames.com/highlighting-system/), 3.0.1
-    - [Visual Studio Tools for Unity](http://unityvs.com/documentation/) (former UnityVS),
-    - [Zenject](https://github.com/modesttree/Zenject), 1.17
 
 ## Git setup
 
@@ -53,6 +43,26 @@ Assets/Editor*
     - `git submodule add https://github.com/ufz-vislab/unity Assets/UFZ`
     - `git commit -m "Added submodule."`
 
+
+## Required packages
+
+Some (commercial) packages are required which can be obtained with a git submodule inside the UFZ-folder. To enable the submodule:
+
+- `cd UFZ`
+- `git submodule init`
+- `git submodule update`
+
+The packages can be found under *UFZ/Packages*. Import them by simply double-clicking.
+
+You can find additional documentation on these pages:
+
+- [Advanced Additive Scenes](http://forum.unity3d.com/threads/advanced-additive-scenes.247092/), 1.7h
+- [DOTween]()
+- [FullInspector](http://jacobdufault.github.io/fullinspector/guide/)
+- [MiddleVR](http://www.middlevr.com/doc/1.6/)
+- [HighlightingSystem](http://deepdreamgames.com/highlighting-system/)
+- [Visual Studio Tools for Unity](http://unityvs.com/documentation/)
+- [Zenject](https://github.com/modesttree/Zenject)
 
 --------
 
