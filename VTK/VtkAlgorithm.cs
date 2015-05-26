@@ -18,7 +18,7 @@ namespace UFZ.VTK
 		vtkImageData
 	}
 
-	public class VtkAlgorithm : BaseBehavior, tkCustomEditor
+	public abstract class VtkAlgorithm : BaseBehavior, tkCustomEditor
 	{
 		public string Name
 		{
@@ -46,8 +46,15 @@ namespace UFZ.VTK
 
 		public float Opacity
 		{
-			get { return MaterialProperties.Opacity; }
-			set { MaterialProperties.Opacity = value; }
+			get {
+				return MaterialProperties == null ?
+					-1.0f : MaterialProperties.Opacity;
+			}
+			set
+			{
+				if(MaterialProperties != null)
+					MaterialProperties.Opacity = value;
+			}
 		}
 
 		private vtkGeometryFilter _geometryFilter;
@@ -58,14 +65,29 @@ namespace UFZ.VTK
 
 		public MaterialProperties.ColorMode ColorBy
 		{
-			get { return MaterialProperties.ColorBy; }
-			set { MaterialProperties.ColorBy = value; }
+			get {
+				return MaterialProperties == null ?
+					MaterialProperties.ColorMode.Invalid : MaterialProperties.ColorBy;
+			}
+			set
+			{
+				if(MaterialProperties != null)
+					MaterialProperties.ColorBy = value;
+			}
 		}
 
 		public Color SolidColor
 		{
-			get { return MaterialProperties.SolidColor; }
-			set { MaterialProperties.SolidColor = value; }
+			get
+			{
+				return MaterialProperties == null ?
+					Color.magenta : MaterialProperties.SolidColor;
+			}
+			set
+			{
+				if(MaterialProperties != null)
+					MaterialProperties.SolidColor = value;
+			}
 		}
 		
 		[InspectorDisabled]
@@ -110,7 +132,8 @@ namespace UFZ.VTK
 		{
 			get
 			{
-				_algorithm.Update();
+				if(IsInitialized())
+					_algorithm.Update();
 				return _output;
 			}
 		}
@@ -146,6 +169,8 @@ namespace UFZ.VTK
 		public bool GenerateMesh = true;
 		public bool GenerateNormals = true;
 
+		abstract protected bool IsInitialized();
+
 		private void Reset()
 		{
 			Initialize();
@@ -166,7 +191,7 @@ namespace UFZ.VTK
 
 		protected virtual void Initialize()
 		{
-			InitAlgorithmModifiedEvent();
+			//InitAlgorithmModifiedEvent();
 
 			if (_vtkMesh == null)
 				_vtkMesh = new VtkMesh();
@@ -175,11 +200,8 @@ namespace UFZ.VTK
 				_gameObject = new GameObject(Name);
 				_gameObject.transform.parent = transform;
 				_gameObject.transform.localPosition = new Vector3();
-				_gameObject.AddComponent<MeshFilter>();
-				var meshRenderer = _gameObject.AddComponent<MeshRenderer>();
-				meshRenderer.material =
-					new Material(Shader.Find("Diffuse")) { color = Color.gray };
-				MaterialProperties = _gameObject.AddComponent<MaterialProperties>();
+//				_gameObject.AddComponent<MeshFilter>();
+//				var meshRenderer = _gameObject.AddComponent<MeshRenderer>();
 			}
 
 			if (_triangleFilter == null)
@@ -196,14 +218,16 @@ namespace UFZ.VTK
 				_inputArrayNames = GetArrayNames(_input.Output);
 				_inputArrayLabels = _inputArrayNames.Select(t => new GUIContent(t)).ToArray();
 			}
-			if (_inputArrayNames.Count > 0)
+			if (_inputArrayNames != null && _inputArrayNames.Count > 0)
 				ArrayToProcessIndex = _arrayToProcessIndex;
 
 			SaveState();
 		}
 
-		private void UpdateVtk(VtkAlgorithm algorithm, tkEmptyContext context)
+		private void UpdateVtk(VtkAlgorithm algorithm, tkDefaultContext context)
 		{
+			if (!IsInitialized())
+				return;
 			if (_input)
 			{
 				_algorithm.SetInputConnection(_input.Algorithm.GetOutputPort());
@@ -256,9 +280,47 @@ namespace UFZ.VTK
 
 			if(!GenerateMesh)
 				return;
-			_vtkMesh.PolyDataToMesh(_polyDataOutput);
+
+			_vtkMesh.Update(_polyDataOutput);
 			UpdateMeshColors(_selectedArrayIndex);
-			_gameObject.GetComponent<MeshFilter>().sharedMesh = _vtkMesh.Mesh;
+			DestroyImmediate(_gameObject.GetComponent<MeshRenderer>());
+			DestroyImmediate(_gameObject.GetComponent<MeshFilter>());
+			if (_vtkMesh.Meshes.Count == 1)
+			{
+				_gameObject.AddComponent<MeshFilter>().sharedMesh = _vtkMesh.Meshes[0];
+				var meshRenderer = _gameObject.AddComponent<MeshRenderer>();
+				meshRenderer.material =
+					new Material(Shader.Find("Diffuse")) { color = Color.gray };
+				for(var i = 0; i < _gameObject.transform.childCount; i++)
+					DestroyImmediate(_gameObject.transform.GetChild(i));
+			}
+			else
+			{
+				for (var i = 0; i < _vtkMesh.Meshes.Count; i++)
+				{
+					var currentName = Name + "-" + i;
+					GameObject child;
+					var childTransform = _gameObject.transform.FindChild(currentName);
+					if (childTransform == null)
+					{
+						child = new GameObject(currentName);
+						child.transform.parent = _gameObject.transform;
+						child.transform.localPosition = new Vector3();
+						child.AddComponent<MeshFilter>();
+						var meshRenderer = child.AddComponent<MeshRenderer>();
+						meshRenderer.material =
+							new Material(Shader.Find("Diffuse")) {color = Color.gray};
+					}
+					else
+						child = childTransform.gameObject;
+					child.GetComponent<MeshFilter>().sharedMesh = _vtkMesh.Meshes[i];
+				}
+				while (_vtkMesh.Meshes.Count < _gameObject.transform.childCount)
+					DestroyImmediate(_gameObject.transform.GetChild(
+						_gameObject.transform.childCount - 1));
+			}
+			if(MaterialProperties == null)
+				MaterialProperties = _gameObject.AddComponent<MaterialProperties>();
 		}
 
 		private static List<string> GetArrayNames(vtkDataSet dataSet)
@@ -279,14 +341,14 @@ namespace UFZ.VTK
 		}
 
 		protected static VtkAlgorithm OnSelectedArrayChange(VtkAlgorithm algorithm,
-			tkEmptyContext context, int index)
+			tkDefaultContext context, int index)
 		{
 			algorithm.SelectedArrayIndex = index;
 			return algorithm;
 		}
 
 		protected static VtkAlgorithm OnArrayToProcessChange(VtkAlgorithm algorithm,
-			tkEmptyContext context, int index)
+			tkDefaultContext context, int index)
 		{
 			algorithm.ArrayToProcessIndex = index;
 			return algorithm;
@@ -303,7 +365,7 @@ namespace UFZ.VTK
 				dataArray = _polyDataOutput.GetCellData().GetArray(arrayName);
 			var range = dataArray.GetRange(0);
 			var lut = VtkLookupTableHelper.Create(LutPreset.Rainbow, range[0], range[1]);
-			_vtkMesh.SetColors(dataArray, lut);
+			_vtkMesh.SetColorArray(arrayName, isPointArray, lut);
 		}
 
 		public virtual tkControlEditor GetEditor()

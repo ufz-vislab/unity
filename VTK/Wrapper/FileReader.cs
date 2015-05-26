@@ -38,13 +38,18 @@ namespace UFZ.VTK
 		[SerializeField]
 		private string _filename = "";
 
-		public void PickFile(FileReader reader, tkEmptyContext context)
+		public void PickFile(FileReader reader, tkDefaultContext context)
 		{
 			var path = EditorUtility.OpenFilePanel("Load a VTK file",
 				Application.dataPath + "/StreamingAssets", "vt*");
 			if(path.Length == 0)
 				return;
 			Filename = path;
+		}
+
+		protected override bool IsInitialized()
+		{
+			return Filename.Length > 0;
 		}
 
 		protected override void Initialize()
@@ -68,8 +73,8 @@ namespace UFZ.VTK
 			var parentEditor = base.GetEditor();
 			return new tkControlEditor(
 				new tk.VerticalGroup {
-					new tkTypeProxy<VtkAlgorithm, tkEmptyContext, FileReader, tkEmptyContext>(
-						(tkControl<VtkAlgorithm, tkEmptyContext>)parentEditor.Control),
+					new tkTypeProxy<VtkAlgorithm, tkDefaultContext, FileReader, tkDefaultContext>(
+						(tkControl<VtkAlgorithm, tkDefaultContext>)parentEditor.Control),
 					new tk.Button(new fiGUIContent("Choose file"), PickFile),
 					new tk.PropertyEditor("Filename")
 				});

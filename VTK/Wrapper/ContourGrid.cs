@@ -17,14 +17,18 @@ namespace UFZ.VTK
 				_values = value;
 				var contour = (vtkContourGrid) Algorithm;
 				contour.SetNumberOfContours(value.Count);
-				Debug.Log("Set contours: " + value.Count);
 				for (var index = 0; index < value.Count; index++)
 					contour.SetValue(index, value[index]);
 				SaveState();
 			}
 		}
 		[SerializeField]
-		private List<double> _values; 
+		private List<double> _values;
+
+		protected override bool IsInitialized()
+		{
+			return _values.Count > 0;
+		}
 
 		protected override void Initialize()
 		{
@@ -49,8 +53,8 @@ namespace UFZ.VTK
 			var parentEditor = base.GetEditor();
 			return new tkControlEditor(
 				new tk.VerticalGroup {
-					new tkTypeProxy<VtkAlgorithm, tkEmptyContext, ContourGrid, tkEmptyContext>(
-						(tkControl<VtkAlgorithm, tkEmptyContext>)parentEditor.Control),
+					new tkTypeProxy<VtkAlgorithm, tkDefaultContext, ContourGrid, tkDefaultContext>(
+						(tkControl<VtkAlgorithm, tkDefaultContext>)parentEditor.Control),
 					new tk.PropertyEditor("Values")
 				});
 		}

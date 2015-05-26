@@ -38,7 +38,9 @@ namespace UFZ.Rendering
 			VertexColor,
 
 			/// <summary>Texture mapping</summary>
-			Texture
+			Texture,
+
+			Invalid
 		}
 
 		public enum LightingMode
@@ -76,7 +78,7 @@ namespace UFZ.Rendering
 		{
 			RestoreState();
 			Renderer[] renderers = gameObject.GetComponentsInChildren<Renderer>();
-			if (renderers != null && renderers[0] != null)
+			if (renderers != null && renderers.Length > 0)
 				GetSettingsFromMaterial(renderers[0].sharedMaterials);
 			SaveState();
 		}

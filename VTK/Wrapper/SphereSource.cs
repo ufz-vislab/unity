@@ -33,6 +33,11 @@ namespace UFZ.VTK
 			return null;
 		}
 
+		protected override bool IsInitialized()
+		{
+			return true;
+		}
+
 		protected override void Initialize()
 		{
 			base.Initialize();
@@ -54,8 +59,8 @@ namespace UFZ.VTK
 			var parentEditor = base.GetEditor();
 			return new tkControlEditor(
 				new tk.VerticalGroup {
-					new tkTypeProxy<VtkAlgorithm, tkEmptyContext, SphereSource, tkEmptyContext>(
-						(tkControl<VtkAlgorithm, tkEmptyContext>)parentEditor.Control),
+					new tkTypeProxy<VtkAlgorithm, tkDefaultContext, SphereSource, tkDefaultContext>(
+						(tkControl<VtkAlgorithm, tkDefaultContext>)parentEditor.Control),
 					new tk.PropertyEditor("Radius")
 				});
 		}

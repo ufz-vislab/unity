@@ -27,13 +27,18 @@ namespace UFZ.VTK
 
 		[SerializeField] private Vector2 _range;
 
+		protected override bool IsInitialized()
+		{
+			return true;
+		}
+
 		protected override void Initialize()
 		{
 			base.Initialize();
 
 			if (Algorithm == null)
 				Algorithm = vtkThreshold.New();
-			var threshold = (vtkThreshold) Algorithm;
+//			var threshold = (vtkThreshold) Algorithm;
 
 			Name = "Threshold";
 			InputDataType = DataType.vtkUnstructuredGrid;
@@ -51,8 +56,8 @@ namespace UFZ.VTK
 			return new tkControlEditor(
 				new tk.VerticalGroup
 				{
-					new tkTypeProxy<VtkAlgorithm, tkEmptyContext, Threshold, tkEmptyContext>(
-						(tkControl<VtkAlgorithm, tkEmptyContext>) parentEditor.Control),
+					new tkTypeProxy<VtkAlgorithm, tkDefaultContext, Threshold, tkDefaultContext>(
+						(tkControl<VtkAlgorithm, tkDefaultContext>) parentEditor.Control),
 					new tk.PropertyEditor("Range")
 				});
 		}

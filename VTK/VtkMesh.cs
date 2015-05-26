@@ -1,6 +1,7 @@
 using Kitware.VTK;
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace UFZ.VTK
 {
@@ -9,31 +10,62 @@ namespace UFZ.VTK
 	/// </summary>
 	public class VtkMesh
 	{
-		public Mesh Mesh;
+		public List<Mesh> Meshes;
+
+		private const int MaxVertices = 65500;
+		private List<vtkPolyData> _pds; 
+
+		public void Update(vtkPolyData pd)
+		{
+			_pds = Subdivide(pd);
+			Meshes = new List<Mesh>(_pds.Count);
+			foreach (var subPd in _pds)
+			{
+				var subMesh = PolyDataToMesh(subPd);
+				if (subMesh == null)
+				{
+					Debug.LogWarning("Submesh null!");
+					continue;
+				}
+				Meshes.Add(subMesh);
+			}
+		}
+
+		public void SetColorArray(string name, bool pointData, vtkLookupTable lut)
+		{
+			for(var i = 0; i < Meshes.Count; i++)
+			{
+				vtkDataArray dataArray;
+				if (pointData)
+					dataArray = _pds[i].GetPointData().GetArray(name);
+				else
+					dataArray = _pds[i].GetCellData().GetArray(name);
+				SetColors(Meshes[i], dataArray, lut);
+			}
+		}
 
 		/// <summary>
-		/// Generates the Unity Mesh.
+		/// Generates a Unity Mesh from a vtkPolyData.
 		/// </summary>
 		/// <param name="pd">The vtk poly data.</param>
-		public void PolyDataToMesh(vtkPolyData pd)
+		/// <returns>The Unity Mesh (without colors).</returns>
+		private static Mesh PolyDataToMesh(vtkPolyData pd)
 		{
 			if (pd == null)
 			{
 				Debug.LogWarning("No PolyData passed!");
-				return;
+				return null;
 			}
 
 			var numVertices = pd.GetNumberOfPoints();
 			if (numVertices == 0)
 			{
 				Debug.LogWarning("No vertices to convert!");
-				return;
+				return null;
 			}
 
-			if (Mesh == null)
-				Mesh = new Mesh();
-			else
-				Mesh.Clear();
+			var mesh = new Mesh();
+			
 
 			// Points / Vertices
 			var vertices = new Vector3[numVertices];
@@ -43,7 +75,7 @@ namespace UFZ.VTK
 				// Flip z-up to y-up
 				vertices[i] = new Vector3(-(float) pnt[0], (float) pnt[2], (float) pnt[1]);
 			}
-			Mesh.vertices = vertices;
+			mesh.vertices = vertices;
 
 			// Normals
 			var vtkNormals = pd.GetPointData().GetNormals();
@@ -57,7 +89,7 @@ namespace UFZ.VTK
 					// flip normals ?
 					normals[i] = new Vector3(-(float) normal[0], -(float) normal[1], -(float) normal[2]);
 				}
-				Mesh.normals = normals;
+				mesh.normals = normals;
 			}
 			else
 			{
@@ -75,7 +107,7 @@ namespace UFZ.VTK
 					var texCoords = vtkTexCoords.GetTuple2(i);
 					uvs[i] = new Vector2((float) texCoords[0], (float) texCoords[1]);
 				}
-				Mesh.uv = uvs;
+				mesh.uv = uvs;
 			}
 
 			// Triangles / Cells
@@ -94,10 +126,10 @@ namespace UFZ.VTK
 
 					++prim;
 				}
-				Mesh.SetTriangles(triangles, 0);
+				mesh.SetTriangles(triangles, 0);
 				//Mesh.RecalculateNormals();
-				Mesh.RecalculateBounds();
-				return;
+				mesh.RecalculateBounds();
+				return mesh;
 			}
 
 			// Lines
@@ -116,9 +148,9 @@ namespace UFZ.VTK
 					}
 				}
 
-				Mesh.SetIndices(idList.ToArray(typeof (int)) as int[], MeshTopology.Lines, 0);
-				Mesh.RecalculateBounds();
-				return;
+				mesh.SetIndices(idList.ToArray(typeof (int)) as int[], MeshTopology.Lines, 0);
+				mesh.RecalculateBounds();
+				return mesh;
 			}
 
 			// Points
@@ -137,14 +169,16 @@ namespace UFZ.VTK
 					}
 				}
 
-				Mesh.SetIndices(idList.ToArray(typeof (int)) as int[], MeshTopology.Points, 0);
-				Mesh.RecalculateBounds();
+				mesh.SetIndices(idList.ToArray(typeof (int)) as int[], MeshTopology.Points, 0);
+				mesh.RecalculateBounds();
 			}
+
+			return mesh;
 		}
 
-		public void SetColors(vtkDataArray colorArray, vtkLookupTable lut)
+		public void SetColors(Mesh mesh, vtkDataArray colorArray, vtkLookupTable lut)
 		{
-			var numVertices = Mesh.vertexCount;
+			var numVertices = mesh.vertexCount;
 			if (numVertices <= 0 || colorArray == null)
 				return;
 			var colors = new Color32[numVertices];
@@ -157,7 +191,56 @@ namespace UFZ.VTK
 					color[j] = (byte)(255 * dcolor[j]);
 				colors[i] = new Color32(color[0], color[1], color[2], 255);
 			}
-			Mesh.colors32 = colors;
+			mesh.colors32 = colors;
+		}
+
+		/// <summary>
+		/// Subdivides a vtkPolyData into pieces containing max. MaxVertices.
+		/// </summary>
+		/// <param name="pd">The pd.</param>
+		/// <returns>A list of vtkPolyData</returns>
+		private static List<vtkPolyData> Subdivide(vtkPolyData pd)
+		{
+			var pds = new List<vtkPolyData>();
+			if (pd.GetNumberOfPoints() <= MaxVertices)
+			{
+//				Debug.Log("No subdivide neccessary. " + pd.GetNumberOfPoints());
+				pds.Add(pd);
+				return pds;
+			}
+
+			var dicer = vtkOBBDicer.New();
+			dicer.SetInput(pd);
+			dicer.SetNumberOfPointsPerPiece(MaxVertices);
+			dicer.SetDiceModeToNumberOfPointsPerPiece();
+			dicer.Update();
+//			Debug.Log("Subdivided into " + dicer.GetNumberOfActualPieces() + " pieces.");
+
+			var threshold = vtkThreshold.New();
+			pd = vtkPolyData.SafeDownCast(dicer.GetOutput());
+			threshold.SetInput(pd);
+			threshold.SetInputArrayToProcess(0, 0, 0,
+				(int)vtkDataObject.FieldAssociations.FIELD_ASSOCIATION_POINTS,
+				"vtkOBBDicer_GroupIds");
+			var geometry = vtkGeometryFilter.New();
+			geometry.SetInputConnection(threshold.GetOutputPort());
+
+			for(var i = 0; i < dicer.GetNumberOfActualPieces(); i++)
+			{
+				threshold.ThresholdBetween(i, i);
+				geometry.Update();
+				// Last submesh needs not to be copied
+				if (i == dicer.GetNumberOfActualPieces() - 1)
+					pds.Add(geometry.GetOutput());
+				else
+				{
+					var copiedOutput = new vtkPolyData();
+					copiedOutput.DeepCopy(geometry.GetOutput());
+					pds.Add(copiedOutput);
+				}
+			}
+
+			return pds;
 		}
 	}
 }
