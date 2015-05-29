@@ -7269,6 +7269,10 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 269136334}
     m_Modifications:
+    - target: {fileID: 11400002, guid: 8f0e735168b3447a891bd6c9d6510685, type: 3}
+      propertyPath: _materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 8f0e735168b3447a891bd6c9d6510685, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -7653,7 +7657,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b7d7b08a1f52460cba95f3b49f7385b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _objectReferences: []
+  _objectReferences:
+  - {fileID: 2100000, guid: e93fedc82886940b5a6382beecf62771, type: 2}
   _serializedStateKeys:
   - _materials
   - _colorBy
@@ -7661,16 +7666,17 @@ MonoBehaviour:
   - _lit
   - _side
   _serializedStateValues:
-  - '[]'
+  - '[0]'
   - '"VertexColor"'
-  - '{"r":0.5,"g":0.5,"b":0.5,"a":1.0}'
-  - '"Lit"'
+  - '{"r":0.0,"g":0.0,"b":0.0,"a":0.0}'
+  - '"Unlit"'
   - '"Front"'
-  _materials: []
+  _materials:
+  - {fileID: 2100000, guid: e93fedc82886940b5a6382beecf62771, type: 2}
   _opacity: 1
   _colorBy: 1
-  _solidColor: {r: .5, g: .5, b: .5, a: 1}
-  _lit: 0
+  _solidColor: {r: 0, g: 0, b: 0, a: 0}
+  _lit: 1
   _side: 0
 --- !u!1 &369927605
 GameObject:
@@ -8003,7 +8009,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b7d7b08a1f52460cba95f3b49f7385b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _objectReferences: []
+  _objectReferences:
+  - {fileID: 2100000, guid: 36bbda763a64d4fd689b2559584acd15, type: 2}
   _serializedStateKeys:
   - _materials
   - _colorBy
@@ -8011,12 +8018,13 @@ MonoBehaviour:
   - _lit
   - _side
   _serializedStateValues:
-  - '[]'
+  - '[0]'
   - '"VertexColor"'
   - '{"r":0.5,"g":0.5,"b":0.5,"a":1.0}'
   - '"Lit"'
   - '"Front"'
-  _materials: []
+  _materials:
+  - {fileID: 2100000, guid: 36bbda763a64d4fd689b2559584acd15, type: 2}
   _opacity: 1
   _colorBy: 1
   _solidColor: {r: .5, g: .5, b: .5, a: 1}
@@ -8319,7 +8327,7 @@ MonoBehaviour:
   - _lit
   - _side
   _serializedStateValues:
-  - '[]'
+  - 
   - '"VertexColor"'
   - '{"r":0.5,"g":0.5,"b":0.5,"a":1.0}'
   - '"Unlit"'
@@ -8578,7 +8586,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b7d7b08a1f52460cba95f3b49f7385b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _objectReferences: []
+  _objectReferences:
+  - {fileID: 2100000, guid: 1bd7c17c4eca543fb8cba98f0b5f93ae, type: 2}
   _serializedStateKeys:
   - _materials
   - _colorBy
@@ -8586,14 +8595,15 @@ MonoBehaviour:
   - _lit
   - _side
   _serializedStateValues:
-  - '[]'
-  - '"VertexColor"'
+  - '[0]'
+  - '"SolidColor"'
   - '{"r":0.5,"g":0.5,"b":0.5,"a":1.0}'
   - '"Lit"'
   - '"Front"'
-  _materials: []
-  _opacity: 1
-  _colorBy: 1
+  _materials:
+  - {fileID: 2100000, guid: 1bd7c17c4eca543fb8cba98f0b5f93ae, type: 2}
+  _opacity: .5
+  _colorBy: 0
   _solidColor: {r: .5, g: .5, b: .5, a: 1}
   _lit: 0
   _side: 0
@@ -8873,6 +8883,22 @@ Prefab:
     - target: {fileID: 400000, guid: 76a1f11c68f5741f18978e9ce7be9a73, type: 3}
       propertyPath: m_RootOrder
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: 76a1f11c68f5741f18978e9ce7be9a73, type: 3}
+      propertyPath: _solidColor.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: 76a1f11c68f5741f18978e9ce7be9a73, type: 3}
+      propertyPath: _solidColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: 76a1f11c68f5741f18978e9ce7be9a73, type: 3}
+      propertyPath: _solidColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: 76a1f11c68f5741f18978e9ce7be9a73, type: 3}
+      propertyPath: _solidColor.a
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 76a1f11c68f5741f18978e9ce7be9a73, type: 3}
