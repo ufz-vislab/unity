@@ -1,3 +1,6 @@
 [submodule "Packages"]
 	path = Packages
 	url = http://141.65.34.114:10080/unity/ufz-package-dependencies.git
+[submodule "VTK"]
+	path = VTK
+	url = https://gitlab.com/vislab/package-vtk.git
