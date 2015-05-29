@@ -49,8 +49,7 @@ Assets/Editor*
 Some (commercial) packages are required which can be obtained with a git submodule inside the UFZ-folder. To enable the submodule:
 
 - `cd UFZ`
-- `git submodule init`
-- `git submodule update`
+- `git submodule update --init Packages`
 
 The packages can be found under *UFZ/Packages*. Import them by simply double-clicking.
 
@@ -70,11 +69,10 @@ You can find additional documentation on these pages:
 
 ## Backup
 
-It is recommended to backup your project on *visdata*:
+It is recommended to backup your project on the *Vislan*-group on [gitlab.com](https://gitlab.com/groups/vislab):
 
 ~~~{.sh}
-git init --bare /Volumes/visdata/unity/repos/my-project-name.git
-git remote add origin /Volumes/visdata/unity/repos/my-project-name.git
+git remote add origin https://gitlab.com/vislab/my-project-name.git
 git push -u origin master
 ~~~
 
