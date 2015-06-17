@@ -12,7 +12,5 @@ MonoBehaviour:
   m_Name: SubMesh.fbx
   m_EditorClassIdentifier: 
   _objectReferences: []
-  _serializedStateKeys:
-  - Properties
-  _serializedStateValues:
-  - '{"$content":[{"SubMeshIndex":0,"Bools":{"UseVertexColors":true},"Floats":{"ScalarRangeMin":0.0,"ScalarRangeMax":1.0},"Colors":{"ScalarRangeMinColor":{"r":0.23137255012989,"g":0.298039227724075,"b":0.752941191196442,"a":1.0},"ScalarRangeMaxColor":{"r":0.705882370471954,"g":0.0156862754374743,"b":0.149019613862038,"a":1.0}}},{"SubMeshIndex":1,"Bools":{"UseVertexColors":false},"Floats":{},"Colors":{}}]}'
+  _serializedStateKeys: []
+  _serializedStateValues: []

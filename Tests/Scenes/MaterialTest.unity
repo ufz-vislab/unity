@@ -7225,7 +7225,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 11400002, guid: 8f0e735168b3447a891bd6c9d6510685, type: 3}
       propertyPath: _materials.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 8f0e735168b3447a891bd6c9d6510685, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7329,9 +7329,48 @@ Prefab:
       propertyPath: m_RootOrder
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: d85186b59a2b541f2b84a5c886c9b259, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b9b03a18161f64c869d424029380f593, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d85186b59a2b541f2b84a5c886c9b259, type: 3}
   m_IsPrefabParent: 0
+--- !u!1 &245198007 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 100000, guid: d85186b59a2b541f2b84a5c886c9b259, type: 3}
+  m_PrefabInternal: {fileID: 245198006}
+--- !u!114 &245198008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 245198007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b7d7b08a1f52460cba95f3b49f7385b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _objectReferences:
+  - {fileID: 2100000, guid: b9b03a18161f64c869d424029380f593, type: 2}
+  _serializedStateKeys:
+  - Opacity
+  - ColorBy
+  - SolidColor
+  - Lighting
+  - Side
+  - Texture
+  - _materials
+  _serializedStateValues:
+  - 1.0
+  - '"VertexColor"'
+  - '{"r":0.5,"g":0.5,"b":0.5,"a":1.0}'
+  - '"Lit"'
+  - '"Front"'
+  - 
+  - '[0]'
+  _materials:
+  - {fileID: 2100000, guid: b9b03a18161f64c869d424029380f593, type: 2}
 --- !u!1001 &264270065
 Prefab:
   m_ObjectHideFlags: 0
@@ -7604,10 +7643,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _keys:
   - {fileID: 943946043}
+  - {fileID: 2031360319}
+  - {fileID: 2031360318}
+  - {fileID: 245198008}
   _values:
   - _keys: []
     _values: []
     _target: {fileID: 943946043}
+  - _keys: []
+    _values: []
+    _target: {fileID: 2031360319}
+  - _keys: []
+    _values: []
+    _target: {fileID: 2031360318}
+  - _keys: []
+    _values: []
+    _target: {fileID: 245198008}
 --- !u!114 &640131314
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7621,10 +7672,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _keys:
   - {fileID: 943946043}
+  - {fileID: 2031360319}
+  - {fileID: 2031360318}
+  - {fileID: 245198008}
   _values:
   - _keys: []
     _values: []
     _target: {fileID: 943946043}
+  - _keys: []
+    _values: []
+    _target: {fileID: 2031360319}
+  - _keys: []
+    _values: []
+    _target: {fileID: 2031360318}
+  - _keys: []
+    _values: []
+    _target: {fileID: 245198008}
 --- !u!4 &640131315
 Transform:
   m_ObjectHideFlags: 1
@@ -8179,6 +8242,10 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 11400002, guid: 76a1f11c68f5741f18978e9ce7be9a73, type: 3}
+      propertyPath: _objectReferences.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 76a1f11c68f5741f18978e9ce7be9a73, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -8209,7 +8276,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400002, guid: 76a1f11c68f5741f18978e9ce7be9a73, type: 3}
       propertyPath: _serializedStateValues.Array.data[2]
-      value: 1
+      value: '{"r":0.0,"g":0.0,"b":0.0,"a":0.0}'
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 76a1f11c68f5741f18978e9ce7be9a73, type: 3}
       propertyPath: m_RootOrder
@@ -8231,6 +8298,51 @@ Prefab:
       propertyPath: _solidColor.a
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2300002, guid: 76a1f11c68f5741f18978e9ce7be9a73, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4d79a8cbdc6ce4755a3b37d8f768b4ec, type: 2}
+    - target: {fileID: 11400002, guid: 76a1f11c68f5741f18978e9ce7be9a73, type: 3}
+      propertyPath: _serializedStateValues.Array.data[0]
+      value: 1.0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: 76a1f11c68f5741f18978e9ce7be9a73, type: 3}
+      propertyPath: _serializedStateValues.Array.data[6]
+      value: '[0]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: 76a1f11c68f5741f18978e9ce7be9a73, type: 3}
+      propertyPath: _materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4d79a8cbdc6ce4755a3b37d8f768b4ec, type: 2}
+    - target: {fileID: 11400002, guid: 76a1f11c68f5741f18978e9ce7be9a73, type: 3}
+      propertyPath: _objectReferences.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4d79a8cbdc6ce4755a3b37d8f768b4ec, type: 2}
+    - target: {fileID: 11400002, guid: 76a1f11c68f5741f18978e9ce7be9a73, type: 3}
+      propertyPath: _serializedStateValues.Array.data[3]
+      value: '"Unlit"'
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300002, guid: 76a1f11c68f5741f18978e9ce7be9a73, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 76a1f11c68f5741f18978e9ce7be9a73, type: 3}
+      propertyPath: ScriptableObject
+      value: 
+      objectReference: {fileID: 11400000, guid: 5d25c45155dc14d65a1eca756532e0b6,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 76a1f11c68f5741f18978e9ce7be9a73, type: 3}
   m_IsPrefabParent: 0
+--- !u!114 &2031360318 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11400000, guid: 76a1f11c68f5741f18978e9ce7be9a73,
+    type: 3}
+  m_PrefabInternal: {fileID: 2031360317}
+  m_Script: {fileID: 11500000, guid: 4491fdbee359b4530b547f55eee6829a, type: 3}
+--- !u!114 &2031360319 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11400002, guid: 76a1f11c68f5741f18978e9ce7be9a73,
+    type: 3}
+  m_PrefabInternal: {fileID: 2031360317}
+  m_Script: {fileID: 11500000, guid: 1b7d7b08a1f52460cba95f3b49f7385b, type: 3}

@@ -35,6 +35,7 @@ namespace UFZ.Initialization
 			modelImporter.animationType = ModelImporterAnimationType.None;
 			modelImporter.optimizeMesh = false;
 			modelImporter.globalScale = 1.0f;
+			modelImporter.importMaterials = false;
 		}
 
 		private void OnPostprocessModel(GameObject go)
@@ -73,6 +74,7 @@ namespace UFZ.Initialization
 					: MaterialProperties.ColorMode.SolidColor;
 				if (pointRendering || lineRendering)
 					matProps.Lighting = MaterialProperties.LightingMode.Unlit;
+				matProps.UpdateRenderers();
 				matProps.UpdateShader();
 				//FullInspector.FullInspectorSaveManager.SaveAll();
 				matProps.SaveState();

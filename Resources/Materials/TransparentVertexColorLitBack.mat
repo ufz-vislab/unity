@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: PointCloud-0_material
-  m_Shader: {fileID: 4800000, guid: c95ae05d4bd454b23b8fc3e2a376a581, type: 3}
+  m_Name: TransparentVertexColorLitBack
+  m_Shader: {fileID: 4800000, guid: f2d97f6d5d3f8475ca7c8bfa5a62330b, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
   m_CustomRenderQueue: -1
@@ -26,4 +26,4 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: 1, g: 1, b: 1, a: .319999993}
+        second: {r: 1, g: 1, b: 1, a: .470588237}

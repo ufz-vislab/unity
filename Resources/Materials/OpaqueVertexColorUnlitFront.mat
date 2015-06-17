@@ -2,13 +2,14 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 3
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Alpha_Vertex_Color
-  m_Shader: {fileID: 4800000, guid: 3bb8d2d2cd2b446c6bd846ad94a32910, type: 3}
-  m_ShaderKeywords: []
+  m_Name: OpaqueVertexColorUnlitFront
+  m_Shader: {fileID: 4800000, guid: c95ae05d4bd454b23b8fc3e2a376a581, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 5
   m_CustomRenderQueue: -1
   m_SavedProperties:
     serializedVersion: 2
@@ -20,9 +21,13 @@ Material:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
-    m_Floats: {}
+    m_Floats:
+      data:
+        first:
+          name: _Unlit
+        second: .714285731
     m_Colors:
       data:
         first:
           name: _Color
-        second: {r: 1, g: 1, b: 1, a: .490196079}
+        second: {r: 1, g: 1, b: 1, a: 1}

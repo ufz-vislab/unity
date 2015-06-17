@@ -5,8 +5,7 @@ using UnityEngine;
 using UnityEditor;
 #endif
 using FullInspector;
-using System;
-using System.Text.RegularExpressions;
+using Debug = UnityEngine.Debug;
 
 namespace UFZ.Rendering
 {
@@ -15,7 +14,7 @@ namespace UFZ.Rendering
 	/// Can be added to any GameObject. Sets the properties on all materials in this
 	/// object and child objects.
 	/// </remarks>
-	public class MaterialProperties : BaseBehavior<FullSerializerSerializer>
+	public class MaterialProperties : BaseBehavior
 	{
 		public enum VisibilityMode
 		{
@@ -64,27 +63,28 @@ namespace UFZ.Rendering
 
 		protected const float disableThreshold = 0.01f;
 
-		[SerializeField] protected Material[] _materials;
+		[SerializeField]
+		[HideInInspector]
+		protected Material[] _materials;
+
+		[SerializeField]
+		MaterialPropertyBlock PropertyBlock
+		{
+			get { return _propertyBlock ?? (_propertyBlock = new MaterialPropertyBlock()); }
+		}
+		protected MaterialPropertyBlock _propertyBlock;
 
 #if UNITY_EDITOR
 		private void Reset()
 		{
-			UpdateProperties();
+			RestoreState();
+			UpdateShader();
 		}
 #endif
 
-		/// <summary>Retrieves properties from the currently set material(s).</summary>
-		public void UpdateProperties()
-		{
-			RestoreState();
-			Renderer[] renderers = gameObject.GetComponentsInChildren<Renderer>();
-			if (renderers != null && renderers.Length > 0)
-				GetSettingsFromMaterial(renderers[0].sharedMaterials);
-			SaveState();
-		}
-
 		/// <summary>The opacity of the object.</summary>
 		/// <value>Can be between 0 (fully transparent) and 1 (opaque)</value>
+		[SerializeField] 
 		public float Opacity
 		{
 			get { return _opacity; }
@@ -96,11 +96,17 @@ namespace UFZ.Rendering
 				if (value < 0f) _opacity = 0f;
 				else if (value > 1f) _opacity = 1f;
 				else _opacity = value;
+
+				var colorId = Shader.PropertyToID("_Color");
+				var color = PropertyBlock.GetVector(colorId);
+				color.w = _opacity;
+				PropertyBlock.SetVector(colorId, color);
 				UpdateShader();
+				UpdateRenderers();
 			}
 		}
 
-		[SerializeField] private float _opacity = 1f;
+		private float _opacity = 1f;
 
 		/// <summary>
 		/// Returns if an object is fully opaque, transparent or completely disabled
@@ -117,6 +123,7 @@ namespace UFZ.Rendering
 			}
 		}
 
+		[SerializeField]
 		public ColorMode ColorBy
 		{
 			get { return _colorBy; }
@@ -130,25 +137,23 @@ namespace UFZ.Rendering
 			}
 		}
 
-		[SerializeField] private ColorMode _colorBy = ColorMode.VertexColor;
+		private ColorMode _colorBy = ColorMode.VertexColor;
 
+		[SerializeField]
 		public Color SolidColor
 		{
 			get { return _solidColor; }
 			set
 			{
 				_solidColor = value;
-				foreach (var material in _materials)
-				{
-					if (!material.HasProperty("_Color"))
-						continue;
-					material.color = value;
-				}
+				PropertyBlock.SetColor(Shader.PropertyToID("_Color"), _solidColor);
+				UpdateRenderers();
 			}
 		}
 
-		[SerializeField] private Color _solidColor = Color.gray;
+		private Color _solidColor = Color.gray;
 
+		[SerializeField]
 		public LightingMode Lighting
 		{
 			get { return _lit; }
@@ -162,10 +167,9 @@ namespace UFZ.Rendering
 			}
 		}
 
-		[SerializeField] private LightingMode _lit = LightingMode.Lit;
+		private LightingMode _lit = LightingMode.Lit;
 
-		[InspectorMargin(5)]
-		[InspectorComment("Set two sided mode with the 'UFZ / Two Sided Material' menu option!")]
+		[SerializeField]
 		public SideMode Side
 		{
 			get { return _side; }
@@ -179,31 +183,31 @@ namespace UFZ.Rendering
 			}
 		}
 
-		[SerializeField] private SideMode _side = SideMode.Front;
+		private SideMode _side = SideMode.Front;
 
-		/// <summary>Initializes class to an existing material</summary>
-		protected void GetSettingsFromMaterial(Material[] mat)
+		[SerializeField]
+		public Texture Texture
 		{
-			if (mat == null || mat.Length < 1)
-				return;
-			var match = Regex.Match(mat[0].shader.name, @"UFZ/(.*)-(.*)-(.*)-(.*)");
-			if (!match.Success)
+			get { return _texture; }
+			set
 			{
-				// Shader will be set for the first time
-				UpdateShader();
-				GetSettingsFromMaterial(mat);
-				return;
+				_texture = value;
+				if(value == null)
+					return;
+				PropertyBlock.SetTexture(Shader.PropertyToID("_MainTex"), _texture);
+				UpdateRenderers();
 			}
+		}
 
-			_opacity = match.Groups[1].Value == "Opaque" ? 1f : mat[0].color.a;
+		private Texture _texture;
 
-			_colorBy = (ColorMode) Enum.Parse(typeof (ColorMode), match.Groups[2].Value);
-			_lit = (LightingMode) Enum.Parse(typeof (LightingMode), match.Groups[3].Value);
-			if (mat.Length == 1)
-				Side = (SideMode) Enum.Parse(typeof (SideMode), match.Groups[4].Value);
-			else
-				Side = SideMode.TwoSided;
-			UpdateShader();
+
+		public void UpdateRenderers()
+		{
+			if(this == null)
+				return;
+			foreach (var localRenderer in gameObject.GetComponentsInChildren<Renderer>())
+				localRenderer.SetPropertyBlock(PropertyBlock);
 		}
 
 		/// <summary>Sets the appropriate shader via string-kungfu.</summary>
@@ -222,7 +226,7 @@ namespace UFZ.Rendering
 				var lit = _lit.ToString("f");
 				var side = _side.ToString("f");
 
-				var materials = Application.isPlaying ? localRenderer.materials : localRenderer.sharedMaterials;
+				var materials = localRenderer.sharedMaterials;
 
 				if (Visibility == VisibilityMode.Disabled)
 				{
@@ -237,16 +241,27 @@ namespace UFZ.Rendering
 					else
 						localRenderer.enabled = true;
 
+					if(materials.Length == 0)
+						materials = new Material[1];
+					if(materials.Length != 2 && _side == SideMode.TwoSided)
+						materials = new Material[2];
+
 					switch (materials.Length)
 					{
 						case 1:
-							materials[0].shader = Shader.Find("UFZ/" + transparent + "-" + colorBy + "-" + lit + "-" + side);
+							var matName = transparent + colorBy + lit + side;
+							var mat = Resources.Load("Materials/" + matName, typeof(Material)) as Material;
+							if(mat == null)
+								Debug.LogWarning("Material " + matName + " not found.");
+							materials[0] =mat;
 							break;
 						case 2:
-							materials[0].shader =
-								Shader.Find("UFZ/" + transparent + "-" + colorBy + "-" + lit + "-" + SideMode.Front.ToString("f"));
-							materials[1].shader =
-								Shader.Find("UFZ/" + transparent + "-" + colorBy + "-" + lit + "-" + SideMode.Back.ToString("f"));
+							var matNameFront = transparent + colorBy + lit + SideMode.Front.ToString("f");
+							var matNameBack = transparent + colorBy + lit + SideMode.Back.ToString("f");
+							var matFront = Resources.Load("Materials/" + matNameFront, typeof(Material)) as Material;
+							var matBack = Resources.Load("Materials/" + matNameBack, typeof(Material)) as Material;
+							materials[0] = matFront;
+							materials[1] = matBack;
 							if (Side != SideMode.TwoSided)
 							{
 								var newMaterials = new Material[1];
@@ -254,25 +269,17 @@ namespace UFZ.Rendering
 									newMaterials[0] = materials[0];
 								else
 									newMaterials[0] = materials[1];
-								if (Application.isPlaying)
-									localRenderer.materials = newMaterials;
-								else
-									localRenderer.sharedMaterials = newMaterials;
 
 								materials = newMaterials;
 							}
 							break;
 					}
+					
 				}
-
-				foreach (var mat in materials)
-				{
-					if (!mat.HasProperty("_Color"))
-						continue;
-					var color = mat.color;
-					color.a = _opacity;
-					mat.color = color;
-				}
+				if (Application.isPlaying)
+					localRenderer.materials = materials;
+				else
+					localRenderer.sharedMaterials = materials;
 				_materials = materials;
 			}
 		}

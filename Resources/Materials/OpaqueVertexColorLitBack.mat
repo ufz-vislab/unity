@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: lines-0_material
-  m_Shader: {fileID: 4800000, guid: c95ae05d4bd454b23b8fc3e2a376a581, type: 3}
+  m_Name: OpaqueVertexColorLitBack
+  m_Shader: {fileID: 4800000, guid: 64ac99a161b67412eb8a1ac7cda66e99, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
   m_CustomRenderQueue: -1
