@@ -9,6 +9,10 @@
 
 - @ref navigation
 
+## Data import
+
+- @ref fbx-converter
+
 ## Third-party documentation
 
 - MiddleVR: [User Guide](http://www.middlevr.com/doc/current/)
