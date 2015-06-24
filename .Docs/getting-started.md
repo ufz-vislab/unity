@@ -46,7 +46,7 @@ Assets/Editor*
 
 ## Required packages
 
-Some (commercial) packages are required which can be obtained with a git submodule inside the UFZ-folder. To enable the submodule:
+Some (commercial) packages are required which can be obtained from `Y:\gruppen\vislab\unity\packages\package-dependencies` or with a git submodule inside the UFZ-folder. To enable the submodule:
 
 - `cd UFZ`
 - `git submodule update --init Packages`
