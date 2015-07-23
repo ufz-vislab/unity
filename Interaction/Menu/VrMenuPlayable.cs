@@ -52,7 +52,7 @@ namespace UFZ.Menu
 
 			_playableObjectChangedCommand = new vrCommand("Playable object command", PlayableObjectChanged);
 			_list = new vrWidgetList("Playable objects:", _menu, "Playable objects:",
-				_playableObjectChangedCommand, valueList, 0);
+				_playableObjectChangedCommand, valueList);
 
 			_group = new vrWidgetGroup("Play controls", _menu);
 			_beginButton = new vrWidgetButton("Begin", _group);

@@ -56,7 +56,7 @@ namespace UFZ.Interaction
 		{
 			_nodeToMove.transform.position = transform.position;
 			_nodeToMove.transform.rotation = transform.rotation;
-			OnSet();
+			if(OnSet != null) OnSet();
 			return true;
 		}
 
