@@ -1,6 +1,3 @@
-[submodule "Packages"]
-	path = Packages
-url=https://gitlab.com/vislab/package-dependencies.git
 [submodule "VTK"]
 	path = VTK
 	url = https://gitlab.com/vislab/package-vtk.git
