@@ -84,7 +84,7 @@ namespace UFZ.Rendering
 
 		/// <summary>The opacity of the object.</summary>
 		/// <value>Can be between 0 (fully transparent) and 1 (opaque)</value>
-		[SerializeField] 
+		[SerializeField]
 		public float Opacity
 		{
 			get { return _opacity; }
@@ -146,7 +146,7 @@ namespace UFZ.Rendering
 			set
 			{
 				_solidColor = value;
-				PropertyBlock.SetColor(Shader.PropertyToID("_Color"), _solidColor);
+				PropertyBlock.SetColor(Shader.PropertyToID("_Color"), new Color(value.r, value.g, value.b, _opacity));
 				UpdateRenderers();
 			}
 		}
@@ -274,7 +274,7 @@ namespace UFZ.Rendering
 							}
 							break;
 					}
-					
+
 				}
 				if (Application.isPlaying)
 					localRenderer.materials = materials;

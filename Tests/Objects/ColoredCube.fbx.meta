@@ -1,13 +1,22 @@
 fileFormatVersion: 2
 guid: d85186b59a2b541f2b84a5c886c9b259
 ModelImporter:
-  serializedVersion: 18
+  serializedVersion: 16
   fileIDToRecycleName:
     100000: //RootNode
+    100002: ColoredCube-0
+    100004: ColoredCube-0-1
     400000: //RootNode
+    400002: ColoredCube-0
+    400004: ColoredCube-0-1
     2300000: //RootNode
+    2300002: ColoredCube-0-1
     3300000: //RootNode
+    3300002: ColoredCube-0-1
     4300000: ColoredCube
+    4300002: ColoredCube-0-1
+    11400000: ColoredCube-0-1
+    11400002: ColoredCube-0-1
   materials:
     importMaterials: 0
     materialName: 0
@@ -35,13 +44,11 @@ ModelImporter:
     generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 0
-    keepQuads: 0
     weldVertices: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
-    useFileScale: 0
   tangentSpace:
     normalSmoothAngle: 60
     splitTangentsAcrossUV: 1
@@ -64,5 +71,3 @@ ModelImporter:
   animationType: 0
   additionalBone: 1
   userData: 
-  assetBundleName: 
-  assetBundleVariant: 

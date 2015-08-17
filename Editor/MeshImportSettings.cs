@@ -60,15 +60,19 @@ namespace UFZ.Initialization
 				if (meshInfo == null)
 					continue;
 
-				var alpha = 1f;
 				var material = renderer.sharedMaterial;
-				if (material.HasProperty("_Color") && material.color.a < 1.0f)
-					alpha = material.color.a;
 				var useVertexColors = meshInfo.GetBool("UseVertexColors", subMeshIndex);
 				var pointRendering = meshInfo.GetBool("PointRendering", subMeshIndex);
 				var lineRendering = meshInfo.GetBool("LineRendering", subMeshIndex);
+				var opacity = 1.0f;
+				if(meshInfo.HasFloat("Opacity", subMeshIndex))
+					opacity = meshInfo.GetFloat("Opacity", subMeshIndex);
+				var solidColor = Color.white;
+				if(meshInfo.HasColor("DiffuseColor", subMeshIndex))
+					solidColor = meshInfo.GetColor("DiffuseColor", subMeshIndex);
 				var matProps = renderer.gameObject.AddComponent<MaterialProperties>();
-				matProps.Opacity = alpha;
+				matProps.Opacity = opacity;
+				matProps.SolidColor = solidColor;
 				matProps.ColorBy = useVertexColors
 					? MaterialProperties.ColorMode.VertexColor
 					: MaterialProperties.ColorMode.SolidColor;
@@ -76,7 +80,6 @@ namespace UFZ.Initialization
 					matProps.Lighting = MaterialProperties.LightingMode.Unlit;
 				matProps.UpdateRenderers();
 				matProps.UpdateShader();
-				//FullInspector.FullInspectorSaveManager.SaveAll();
 				matProps.SaveState();
 
 				// Convert to points or lines

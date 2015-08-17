@@ -12,7 +12,5 @@ MonoBehaviour:
   m_Name: Streamlines.fbx
   m_EditorClassIdentifier: 
   _objectReferences: []
-  _serializedStateKeys:
-  - Properties
-  _serializedStateValues:
-  - '{"$content":[{"SubMeshIndex":0,"Bools":{"LineRendering":true,"UseVertexColors":true},"Floats":{"ScalarRangeMin":357.034881591797,"ScalarRangeMax":461.59228515625},"Colors":{"ScalarRangeMinColor":{"r":0.0,"g":0.0,"b":1.0,"a":1.0},"ScalarRangeMaxColor":{"r":1.0,"g":0.0,"b":0.0,"a":1.0}}},{"SubMeshIndex":1,"Bools":{},"Floats":{"ScalarRangeMin":0.0,"ScalarRangeMax":1.0},"Colors":{"ScalarRangeMinColor":{"r":0.0,"g":0.0,"b":0.0,"a":1.0},"ScalarRangeMaxColor":{"r":0.0,"g":0.0,"b":0.00784313771873713,"a":1.0}}}]}'
+  _serializedStateKeys: []
+  _serializedStateValues: []
