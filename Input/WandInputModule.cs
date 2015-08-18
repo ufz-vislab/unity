@@ -15,12 +15,6 @@ public class WandInputModule : BaseInputModule {
 		}
 	}
 
-	// name of button to use for click/submit
-	public string submitButtonName = "Submit";
-
-	// name of axis to use for scrolling/sliders
-	public string controlAxisName = "Horizontal";
-
 	// smooth axis - default UI move handlers do things in steps, meaning you can smooth scroll a slider or scrollbar
 	// with axis control. This option allows setting value of scrollbar/slider directly as opposed to using move handler
 	// to avoid this
@@ -269,8 +263,8 @@ public class WandInputModule : BaseInputModule {
 		if (!ignoreInputsWhenLookAway || ignoreInputsWhenLookAway && currentLook != null) {
 			// button down handling
 			_buttonUsed = false;
-			if (Input.GetButtonDown (submitButtonName)) {
-				Debug.Log("Submit pressed");
+			if (UFZ.IOC.Core.Instance.Input.IsOkButtonPressed())
+			{
 				ClearSelection();
 				lookData.pressPosition = lookData.position;
 				lookData.pointerPressRaycast = lookData.pointerCurrentRaycast;
@@ -339,7 +333,7 @@ public class WandInputModule : BaseInputModule {
 		}
 
 		// have to handle button up even if looking away
-		if (Input.GetButtonUp(submitButtonName)) {
+		if (UFZ.IOC.Core.Instance.Input.WasOkButtonPressed()) {
 			if (currentDragging) {
 				ExecuteEvents.Execute(currentDragging,lookData,ExecuteEvents.endDragHandler);
 				if (currentLook != null) {
@@ -364,8 +358,8 @@ public class WandInputModule : BaseInputModule {
 		if (!ignoreInputsWhenLookAway || ignoreInputsWhenLookAway && currentLook != null) {
 			// control axis handling
 			_controlAxisUsed = false;
-			if (eventSystem.currentSelectedGameObject && controlAxisName != null && controlAxisName != "") {
-				float newVal = Input.GetAxis (controlAxisName);
+			if (eventSystem.currentSelectedGameObject) {
+				float newVal = UFZ.IOC.Core.Instance.Input.GetHorizontalAxis();
 				if (newVal > 0.01f || newVal < -0.01f) {
 					if (useSmoothAxis) {
 						Slider sl = eventSystem.currentSelectedGameObject.GetComponent<Slider>();

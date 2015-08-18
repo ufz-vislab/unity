@@ -18,5 +18,8 @@ namespace UFZ.IOC
 
 		[Inject]
 		public IMouse Mouse;
+
+		[Inject]
+		public IInput Input;
 	}
 }

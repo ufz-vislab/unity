@@ -14,15 +14,17 @@ namespace UFZ.Initialization
 			//Container.Bind<IDependencyRoot>().ToSingle<DependencyRootStandard>();
 			//Container.Bind<IInstaller>().ToSingle<StandardUnityInstaller>();
 #if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-		Container.Bind<ITime>().ToSingle<UnityTime>();
-		Container.Bind<IKeyboard>().ToSingle<UnityKeyboard>();
-		Container.Bind<IMouse>().ToSingle<UnityMouse>();
-		Container.Bind<ILogger>().ToSingle<UnityLogger>();
+			Container.Bind<ITime>().ToSingle<UnityTime>();
+			Container.Bind<IKeyboard>().ToSingle<UnityKeyboard>();
+			Container.Bind<IMouse>().ToSingle<UnityMouse>();
+			Container.Bind<ILogger>().ToSingle<UnityLogger>();
+			Container.Bind<IInput>().ToSingle<UnityInput>();
 #else
 			Container.Bind<ITime>().ToSingle<MiddleVrTime>();
 			Container.Bind<IKeyboard>().ToSingle<MiddleVrKeyboard>();
 			Container.Bind<IMouse>().ToSingle<MiddleVrMouse>();
 			Container.Bind<ILogger>().ToSingle<MiddleVrLogger>();
+			Container.Bind<IInput>().ToSingle<MiddleVrInput>();
 #endif
 		}
 	}
