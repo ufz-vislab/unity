@@ -16,7 +16,7 @@ public class WandInputModule : BaseInputModule {
 	}
 
 	// name of button to use for click/submit
-	public string submitButtonName = "Fire1";
+	public string submitButtonName = "Submit";
 
 	// name of axis to use for scrolling/sliders
 	public string controlAxisName = "Horizontal";
@@ -107,7 +107,7 @@ public class WandInputModule : BaseInputModule {
 
 	// deselect when looking away from all UI elements
 	// useful if you want to use axis for other controls
-	public bool deselectWhenLookAway = false;
+	public bool deselectWhenLookAway = true;
 
 	// interal vars
 	private PointerEventData lookData;
@@ -270,6 +270,7 @@ public class WandInputModule : BaseInputModule {
 			// button down handling
 			_buttonUsed = false;
 			if (Input.GetButtonDown (submitButtonName)) {
+				Debug.Log("Submit pressed");
 				ClearSelection();
 				lookData.pressPosition = lookData.position;
 				lookData.pointerPressRaycast = lookData.pointerCurrentRaycast;
