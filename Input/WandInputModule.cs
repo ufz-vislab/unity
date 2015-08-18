@@ -3,6 +3,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Collections;
 
+// From https://forums.oculus.com/viewtopic.php?t=16710
 public class WandInputModule : BaseInputModule {
 
 	// singleton makes it easy to access the instanced fields from other code without needing a pointer
