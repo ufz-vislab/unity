@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cca94a1232ed7459f84ad8fb7ad429ee, type: 3}
+  m_Name: ColoredCube.fbx
+  m_EditorClassIdentifier: 
+  _objectReferences: []
+  _serializedStateKeys:
+  - Properties
+  _serializedStateValues:
+  - '{"$content":[{"SubMeshIndex":0,"Bools":{"UseVertexColors":true},"Floats":{"ScalarRangeMin":0.0,"ScalarRangeMax":1.0,"Opacity":1.0},"Colors":{"ScalarRangeMinColor":{"r":0.23137255012989,"g":0.298039227724075,"b":0.752941191196442,"a":1.0},"ScalarRangeMaxColor":{"r":0.705882370471954,"g":0.0156862754374743,"b":0.149019613862038,"a":1.0},"DiffuseColor":{"r":1.0,"g":1.0,"b":1.0,"a":1.0}}}]}'
