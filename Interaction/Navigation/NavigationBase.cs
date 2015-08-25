@@ -1,3 +1,6 @@
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using UnityEngine;
 
 namespace UFZ.Interaction
@@ -77,6 +80,14 @@ namespace UFZ.Interaction
 		{
 			if(!IsActive())
 				return;
+
+
+#if UNITY_EDITOR
+			// Disable input when GameView is not focussed
+			var window = EditorWindow.focusedWindow;
+			if (window != null && window.title != "UnityEditor.GameView")
+				return;
+#endif
 
 			var logger = IOC.Core.Instance.Log;
 			if (_directionRefNode == null)
