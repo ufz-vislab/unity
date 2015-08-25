@@ -56,29 +56,29 @@ namespace UFZ.IOC
 
 		public bool IsOkButtonPressed()
 		{
-			var key = MiddleVR.VRDeviceMgr.IsKeyPressed(MiddleVR.VRK_RETURN);
-			var button = MiddleVR.VRDeviceMgr.IsWandButtonPressed(_submitButton);
+			var key = MiddleVR.VRDeviceMgr.GetKeyboard().IsKeyToggled(MiddleVR.VRK_RETURN);
+			var button = MiddleVR.VRDeviceMgr.IsWandButtonToggled(_submitButton);
 			return key || button;
 		}
 
 		public bool IsCancelButtonPressed()
 		{
-			var key = MiddleVR.VRDeviceMgr.IsKeyPressed(MiddleVR.VRK_M);
-			var button = MiddleVR.VRDeviceMgr.IsWandButtonPressed(_cancelButton);
+			var key = MiddleVR.VRDeviceMgr.GetKeyboard().IsKeyToggled(MiddleVR.VRK_M);
+			var button = MiddleVR.VRDeviceMgr.IsWandButtonToggled(_cancelButton);
 			return key || button;
 		}
 
 		public bool WasOkButtonPressed()
 		{
-			var key = MiddleVR.VRDeviceMgr.IsKeyToggled(MiddleVR.VRK_RETURN);
-			var button = MiddleVR.VRDeviceMgr.IsWandButtonToggled(_submitButton);
+			var key = MiddleVR.VRDeviceMgr.GetKeyboard().IsKeyToggled(MiddleVR.VRK_RETURN, false);
+			var button = MiddleVR.VRDeviceMgr.IsWandButtonToggled(_submitButton, false);
 			return key || button;
 		}
 
 		public bool WasCancelButtonPressed()
 		{
-			var key = MiddleVR.VRDeviceMgr.IsKeyToggled(MiddleVR.VRK_M);
-			var button = MiddleVR.VRDeviceMgr.IsWandButtonToggled(_cancelButton);
+			var key = MiddleVR.VRDeviceMgr.GetKeyboard().IsKeyToggled(MiddleVR.VRK_M, false);
+			var button = MiddleVR.VRDeviceMgr.IsWandButtonToggled(_cancelButton, false);
 			return key || button;
 		}
 
