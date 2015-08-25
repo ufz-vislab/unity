@@ -9,7 +9,7 @@ namespace UFZ.Interaction
 	/// Can be attached to a Viewpoint and controls fade in/out of objects
 	/// upon view point arrival.
 	/// </summary>
-	public class ViewpointObjectVisibility : BaseBehavior
+	public class ViewpointObjectVisibility : ObjectVisibility
 	{
 		/// <summary>
 		/// Defines the visibility transition.
@@ -26,29 +26,8 @@ namespace UFZ.Interaction
 			StepOnComplete
 		}
 
-		/// <summary>
-		/// Struct for storing transition data for one GameObject.
-		/// </summary>
-		public struct ObjectVisibility
-		{
-			/// <summary>
-			/// The game object which will be fade in / out.
-			/// </summary>
-			public GameObject GameObject;
-			/// <summary>
-			/// The target opacity.
-			/// </summary>
-			public float Opacity;
-			/// <summary>
-			/// The transition type
-			/// </summary>
-			public VisibilityTransition TransitionType;
-		}
+		public VisibilityTransition Transition = VisibilityTransition.Smooth;
 
-		/// <summary>
-		/// An array of object transition data.
-		/// </summary>
-		public ObjectVisibility[] Entries;
 
 		private void Start()
 		{
@@ -66,43 +45,19 @@ namespace UFZ.Interaction
 
 		private void OnStart(float duration)
 		{
-			foreach (var entry in Entries)
-			{
-				if(entry.TransitionType == VisibilityTransition.StepOnComplete)
-					continue;
-
-				var matProps = entry.GameObject.GetComponentsInChildren<MaterialProperties>();
-				foreach (var matProp in matProps)
-				{
-					if (entry.TransitionType == VisibilityTransition.Smooth && duration > 0f)
-						DOTween.To(() => matProp.Opacity, x => matProp.Opacity = x, entry.Opacity, duration);
-					else
-						matProp.Opacity = entry.Opacity;
-				}
-			}
+			if(Transition != VisibilityTransition.StepOnComplete)
+				Do();
 		}
 
 		private void OnComplete()
 		{
-			foreach (var entry in Entries)
-			{
-				if (entry.TransitionType != VisibilityTransition.StepOnComplete)
-					continue;
-
-				var matProps = entry.GameObject.GetComponentsInChildren<MaterialProperties>();
-				foreach (var matProp in matProps)
-					matProp.Opacity = entry.Opacity;
-			}
+			if(Transition == VisibilityTransition.StepOnComplete)
+				Do(true);
 		}
 
 		private void OnSet()
 		{
-			foreach (var entry in Entries)
-			{
-				var matProps = entry.GameObject.GetComponentsInChildren<MaterialProperties>();
-				foreach (var matProp in matProps)
-					matProp.Opacity = entry.Opacity;
-			}
+			Do(true);
 		}
 	}
 }

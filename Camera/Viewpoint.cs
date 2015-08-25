@@ -1,4 +1,5 @@
 using DG.Tweening;
+using FullInspector;
 using UnityEngine;
 
 namespace UFZ.Interaction
@@ -14,9 +15,17 @@ namespace UFZ.Interaction
 		public vrCommand JumpToViewpointCommand;
 		public bool StartHere = false;
 
+		// TODO for MarkUX
+		public string Name = "Viewpoint";
+
 		private GameObject _nodeToMove;
 
-		private void Start()
+		public void Awake()
+		{
+			Name = name;
+		}
+
+		public void Start()
 		{
 			_nodeToMove = GameObject.Find("Player");
 			MoveToViewpointCommand = new vrCommand("Move To Viewpoint Command " + GetInstanceID(), MoveToViewpoint);

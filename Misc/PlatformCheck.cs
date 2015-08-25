@@ -3,6 +3,14 @@ using System.Collections;
 
 public class PlatformCheck : MonoBehaviour
 {
+	public enum InputType
+	{
+		Mouse,
+		Wand
+	}
+
+	public InputType GuiInput = InputType.Mouse;
+
 	public MonoBehaviour[] disabledScripts;
 	public GameObject[] disabledGameObjects;
 	void Awake()
@@ -15,18 +23,27 @@ public class PlatformCheck : MonoBehaviour
 			go.SetActive(false);
 #endif
 
-		var cam = GameObject.Find("VRWand").AddComponent<Camera>();
-		cam.enabled = false;
-		cam.cullingMask = LayerMask.GetMask("UI");
-		if(!GameObject.Find("EventSystem").GetComponent<WandInputModule>())
-		{
-			var inputModule = GameObject.Find("EventSystem").AddComponent<WandInputModule>();
-			inputModule.cursor = GameObject.Find("WandCursor").GetComponent<RectTransform>();
-		}
-
 		var canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
-		if(canvas != null && canvas.renderMode == RenderMode.WorldSpace)
+		if (GuiInput == InputType.Wand)
 		{
+			var cam = GameObject.Find("VRWand").AddComponent<Camera>();
+			cam.enabled = false;
+			cam.cullingMask = LayerMask.GetMask("UI");
+			if (!GameObject.Find("EventSystem").GetComponent<WandInputModule>())
+			{
+				var inputModule = GameObject.Find("EventSystem").AddComponent<WandInputModule>();
+				inputModule.cursor = GameObject.Find("WandCursor").GetComponent<RectTransform>();
+			}
+
+			
+			if (canvas != null && canvas.renderMode == RenderMode.WorldSpace)
+			{
+				canvas.worldCamera = cam;
+			}
+		}
+		else
+		{
+			var cam = GameObject.Find("HeadNode").GetComponentInChildren<Camera>();
 			canvas.worldCamera = cam;
 		}
 	}
