@@ -124,6 +124,19 @@ namespace UFZ.Rendering
 		}
 
 		[SerializeField]
+		public bool Enabled
+		{
+			get { return _enabled; }
+			set
+			{
+				_enabled = value;
+				UpdateShader();
+			}
+		}
+
+		private bool _enabled = true;
+
+		[SerializeField]
 		public ColorMode ColorBy
 		{
 			get { return _colorBy; }
@@ -192,7 +205,7 @@ namespace UFZ.Rendering
 			set
 			{
 				_texture = value;
-				if(value == null)
+				if (value == null)
 					return;
 				PropertyBlock.SetTexture(Shader.PropertyToID("_MainTex"), _texture);
 				UpdateRenderers();
@@ -204,7 +217,7 @@ namespace UFZ.Rendering
 
 		public void UpdateRenderers()
 		{
-			if(this == null)
+			if (this == null)
 				return;
 			foreach (var localRenderer in gameObject.GetComponentsInChildren<Renderer>())
 				localRenderer.SetPropertyBlock(PropertyBlock);
@@ -221,6 +234,10 @@ namespace UFZ.Rendering
 				return;
 			foreach (var localRenderer in gameObject.GetComponentsInChildren<Renderer>())
 			{
+				localRenderer.enabled = Enabled;
+				if (!Enabled)
+					continue;
+
 				var transparent = Visibility.ToString("f");
 				var colorBy = _colorBy.ToString("f");
 				var lit = _lit.ToString("f");
@@ -241,9 +258,9 @@ namespace UFZ.Rendering
 					else
 						localRenderer.enabled = true;
 
-					if(materials.Length == 0)
+					if (materials.Length == 0)
 						materials = new Material[1];
-					if(materials.Length != 2 && _side == SideMode.TwoSided)
+					if (materials.Length != 2 && _side == SideMode.TwoSided)
 						materials = new Material[2];
 
 					switch (materials.Length)
@@ -251,9 +268,9 @@ namespace UFZ.Rendering
 						case 1:
 							var matName = transparent + colorBy + lit + side;
 							var mat = Resources.Load("Materials/" + matName, typeof(Material)) as Material;
-							if(mat == null)
+							if (mat == null)
 								Debug.LogWarning("Material " + matName + " not found.");
-							materials[0] =mat;
+							materials[0] = mat;
 							break;
 						case 2:
 							var matNameFront = transparent + colorBy + lit + SideMode.Front.ToString("f");
