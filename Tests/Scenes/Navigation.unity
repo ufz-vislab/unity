@@ -13281,7 +13281,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f0cb999f578146faac5a3846665492b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useSmoothAxis: 1
+  useSmoothAxis: 0
   smoothAxisMultiplier: .00999999978
   steppedAxisStepsPerSecond: 10
   mode: 0
@@ -35918,6 +35918,7 @@ GameObject:
   - 224: {fileID: 1271548243}
   - 222: {fileID: 1271548246}
   - 114: {fileID: 1271548245}
+  - 114: {fileID: 1271548244}
   m_Layer: 5
   m_Name: WandCursor
   m_TagString: Untagged
@@ -35942,6 +35943,17 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: .5, y: .5}
+--- !u!114 &1271548244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1271548242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34000661df919475aaf93f95eee0907c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1271548245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53202,8 +53214,8 @@ MonoBehaviour:
   _uniqueObjects: []
   _crossSceneReferences: []
   _topLevelGameObjs:
-  - {fileID: 303000976}
   - {fileID: 128082368}
+  - {fileID: 303000976}
   - {fileID: 381606613}
   - {fileID: 488875746}
   - {fileID: 532854864}
