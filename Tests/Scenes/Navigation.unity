@@ -86,7 +86,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2149a00c98488648bd26e4c4be90d6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GuiInput: 0
   IsGuiDisabledOnStart: 1
   disabledScripts: []
   disabledGameObjects: []
@@ -332,7 +331,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OnlyInjectWhenActive: 1
-  InjectFullScene: 0
+  InjectFullScene: 1
   Installers:
   - {fileID: 80}
 --- !u!4 &82
@@ -13169,6 +13168,7 @@ GameObject:
   - 114: {fileID: 456327967}
   - 114: {fileID: 456327966}
   - 114: {fileID: 456327965}
+  - 114: {fileID: 456327969}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -13231,6 +13231,34 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
+--- !u!114 &456327969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 456327964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f0cb999f578146faac5a3846665492b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useSmoothAxis: 1
+  smoothAxisMultiplier: .00999999978
+  steppedAxisStepsPerSecond: 10
+  mode: 0
+  useLookDrag: 1
+  useLookDragSlider: 1
+  useLookDragScrollbar: 0
+  useCursor: 1
+  normalCursorScale: .000500000024
+  scaleCursorWithDistance: 1
+  cursor: {fileID: 0}
+  useSelectColor: 1
+  useSelectColorOnButton: 0
+  useSelectColorOnToggle: 0
+  selectColor: {r: 0, g: 0, b: 1, a: 1}
+  ignoreInputsWhenLookAway: 1
+  deselectWhenLookAway: 1
 --- !u!1 &467436638
 GameObject:
   m_ObjectHideFlags: 0
@@ -26539,7 +26567,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 940118967}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 

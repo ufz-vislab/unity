@@ -19,12 +19,14 @@ namespace UFZ.Initialization
 			Container.Bind<IMouse>().ToSingle<UnityMouse>();
 			Container.Bind<ILogger>().ToSingle<UnityLogger>();
 			Container.Bind<IInput>().ToSingle<UnityInput>();
+			Container.Bind<IEnvironment>().ToSingle<UnityEnvironment>();
 #else
 			Container.Bind<ITime>().ToSingle<MiddleVrTime>();
 			Container.Bind<IKeyboard>().ToSingle<MiddleVrKeyboard>();
 			Container.Bind<IMouse>().ToSingle<MiddleVrMouse>();
 			Container.Bind<ILogger>().ToSingle<MiddleVrLogger>();
 			Container.Bind<IInput>().ToSingle<MiddleVrInput>();
+			Container.Bind<IEnvironment>().ToSingle<MiddleVrEnvironment>();
 #endif
 		}
 	}

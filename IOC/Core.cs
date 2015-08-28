@@ -5,7 +5,7 @@ namespace UFZ.IOC
 	// Should be added to 'Composition Root" object
 	public class Core : UFZ.Misc.Singleton<Core>
 	{
-		protected Core () {}
+		protected Core() { }
 
 		[Inject]
 		public ITime Time;
@@ -21,5 +21,8 @@ namespace UFZ.IOC
 
 		[Inject]
 		public IInput Input;
+
+		[Inject]
+		public IEnvironment Environment;
 	}
 }

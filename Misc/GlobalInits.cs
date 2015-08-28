@@ -15,7 +15,27 @@ namespace UFZ.Initialization
 			Wand
 		}
 
-		public InputType GuiInput = InputType.Mouse;
+		public InputType GuiInput
+		{
+			get { return _guiInputType; }
+			set
+			{
+				_guiInputType = value;
+				SetWandInputModule(value);
+			}
+		}
+
+		private static void SetWandInputModule(InputType inputType)
+		{
+			var inputModule = GameObject.Find("EventSystem").GetComponent<WandInputModule>();
+			if (inputType == InputType.Wand)
+				inputModule.enabled = true;
+			else
+				inputModule.enabled = false;
+		}
+
+		private InputType _guiInputType = InputType.Mouse;
+
 		public bool IsGuiDisabledOnStart = true;
 
 		public MonoBehaviour[] disabledScripts;
@@ -63,6 +83,10 @@ namespace UFZ.Initialization
 			}
 			_canvas.transform.SetParent(GameObject.Find("HeadNode").transform, false);
 			_canvas.gameObject.SetActive(!IsGuiDisabledOnStart);
+
+			if (IOC.Core.Instance.Environment.IsCluster())
+				_guiInputType = InputType.Wand;
+			SetWandInputModule(_guiInputType);
 		}
 
 		public void Start()
