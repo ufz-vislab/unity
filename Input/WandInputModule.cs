@@ -1,16 +1,18 @@
-﻿using UnityEngine;
+using System.Threading;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using System.Collections;
 
 // From https://forums.oculus.com/viewtopic.php?t=16710
-public class WandInputModule : BaseInputModule {
-
+public class WandInputModule : BaseInputModule
+{
 	// singleton makes it easy to access the instanced fields from other code without needing a pointer
 	// e.g.  if (WandInputModule.singleton != null && WandInputModule.singleton.controlAxisUsed) ...
 	private static WandInputModule _singleton;
-	public static WandInputModule singleton {
-		get {
+	public static WandInputModule singleton
+	{
+		get
+		{
 			return _singleton;
 		}
 	}
@@ -27,8 +29,10 @@ public class WandInputModule : BaseInputModule {
 	// guiRaycastHit is helpful if you have other places you want to use look input outside of UI system
 	// you can use this to tell if the UI raycaster hit a UI element
 	private bool _guiRaycastHit;
-	public bool guiRaycastHit {
-		get {
+	public bool guiRaycastHit
+	{
+		get
+		{
 			return _guiRaycastHit;
 		}
 	}
@@ -37,8 +41,10 @@ public class WandInputModule : BaseInputModule {
 	// you can use this boolean to see if the UI used the axis control or not
 	// if something is selected and takes move event, then this will be set
 	private bool _controlAxisUsed;
-	public bool controlAxisUsed {
-		get {
+	public bool controlAxisUsed
+	{
+		get
+		{
 			return _controlAxisUsed;
 		}
 	}
@@ -46,13 +52,15 @@ public class WandInputModule : BaseInputModule {
 	// buttonUsed is helpful if you use same button elsewhere
 	// you can use this boolean to see if the UI used the button press or not
 	private bool _buttonUsed;
-	public bool buttonUsed {
-		get {
+	public bool buttonUsed
+	{
+		get
+		{
 			return _buttonUsed;
 		}
 	}
 
-	public enum Mode {Pointer,Submit};
+	public enum Mode { Pointer, Submit };
 	// WandInputModule supports 2 modes:
 	// 1 - Pointer
 	//     Module acts a lot like a mouse with pointer locked where you look. Where you look is where
@@ -114,217 +122,260 @@ public class WandInputModule : BaseInputModule {
 	private float nextAxisActionTime;
 
 	// use screen midpoint as locked pointer location, enabling look location to be the "mouse"
-	private PointerEventData GetLookPointerEventData() {
+	private PointerEventData GetLookPointerEventData()
+	{
 		Vector2 lookPosition;
-		lookPosition.x = Screen.width/2;
-		lookPosition.y = Screen.height/2;
-		if (lookData == null) {
+		lookPosition.x = Screen.width / 2f;
+		lookPosition.y = Screen.height / 2f;
+		if (lookData == null)
 			lookData = new PointerEventData(eventSystem);
-		}
+
 		lookData.Reset();
 		lookData.delta = Vector2.zero;
 		lookData.position = lookPosition;
 		lookData.scrollDelta = Vector2.zero;
 		eventSystem.RaycastAll(lookData, m_RaycastResultCache);
 		lookData.pointerCurrentRaycast = FindFirstRaycast(m_RaycastResultCache);
-		if (lookData.pointerCurrentRaycast.gameObject != null) {
-			_guiRaycastHit = true;
-		} else {
-			_guiRaycastHit = false;
-		}
+		_guiRaycastHit = lookData.pointerCurrentRaycast.gameObject != null;
 		m_RaycastResultCache.Clear();
 		return lookData;
 	}
 
 	// update the cursor location and whether it is enabled
 	// this code is based on Unity's DragMe.cs code provided in the UI drag and drop example
-	private void UpdateCursor(PointerEventData lookData) {
-		if (cursor != null) {
-			if (useCursor) {
-				if (lookData.pointerEnter != null) {
-					RectTransform draggingPlane = lookData.pointerEnter.GetComponent<RectTransform>();
-					Vector3 globalLookPos;
-					if (RectTransformUtility.ScreenPointToWorldPointInRectangle(draggingPlane, lookData.position, lookData.enterEventCamera, out globalLookPos)) {
-						cursor.gameObject.SetActive(true);
-						cursor.position = globalLookPos;
-						cursor.rotation = draggingPlane.rotation;
-						if (scaleCursorWithDistance) {
-							// scale cursor with distance
-							float lookPointDistance = (globalLookPos - lookData.enterEventCamera.transform.position).magnitude;
-							float cursorScale = lookPointDistance * normalCursorScale;
-							if (cursorScale < normalCursorScale) {
-								cursorScale = normalCursorScale;
-							}
-							Vector3 cursorScaleVector;
-							cursorScaleVector.x = cursorScale;
-							cursorScaleVector.y = cursorScale;
-							cursorScaleVector.z = cursorScale;
-							cursor.localScale = cursorScaleVector;
-						}
-					} else {
-						cursor.gameObject.SetActive(false);
+	private void UpdateCursor(PointerEventData lookDataLocal)
+	{
+		if (cursor == null)
+			return;
+
+		if (useCursor)
+		{
+			if (lookDataLocal.pointerEnter != null)
+			{
+				var draggingPlane = lookDataLocal.pointerEnter.GetComponent<RectTransform>();
+				Vector3 globalLookPos;
+				if (RectTransformUtility.ScreenPointToWorldPointInRectangle(draggingPlane, lookDataLocal.position, lookDataLocal.enterEventCamera, out globalLookPos))
+				{
+					cursor.gameObject.SetActive(true);
+					cursor.position = globalLookPos;
+					cursor.rotation = draggingPlane.rotation;
+					if (!scaleCursorWithDistance)
+						return;
+					// scale cursor with distance
+					var lookPointDistance = (globalLookPos - lookDataLocal.enterEventCamera.transform.position).magnitude;
+					var cursorScale = lookPointDistance * normalCursorScale;
+					if (cursorScale < normalCursorScale)
+					{
+						cursorScale = normalCursorScale;
 					}
-				} else {
+					Vector3 cursorScaleVector;
+					cursorScaleVector.x = cursorScale;
+					cursorScaleVector.y = cursorScale;
+					cursorScaleVector.z = cursorScale;
+					cursor.localScale = cursorScaleVector;
+				}
+				else
+				{
 					cursor.gameObject.SetActive(false);
 				}
-			} else {
+			}
+			else
+			{
 				cursor.gameObject.SetActive(false);
 			}
+		}
+		else
+		{
+			cursor.gameObject.SetActive(false);
 		}
 	}
 
 	// sets color of selected UI element and saves current color so it can be restored on deselect
-	private void SetSelectedColor(GameObject go) {
-		if (useSelectColor) {
-			if (!useSelectColorOnButton && go.GetComponent<Button>()) {
-				currentSelectedNormalColorValid = false;
-				return;
-			}
-			if (!useSelectColorOnToggle && go.GetComponent<Toggle>()) {
-				currentSelectedNormalColorValid = false;
-				return;
-			}
-			Selectable s = go.GetComponent<Selectable>();
-			if (s != null) {
-				ColorBlock cb = s.colors;
-				currentSelectedNormalColor = cb.normalColor;
-				currentSelectedNormalColorValid = true;
-				currentSelectedHighlightedColor = cb.highlightedColor;
-				cb.normalColor = selectColor;
-				cb.highlightedColor = selectColor;
-				s.colors = cb;
-			}
+	private void SetSelectedColor(GameObject go)
+	{
+		if (!useSelectColor)
+			return;
+
+		if (!useSelectColorOnButton && go.GetComponent<Button>())
+		{
+			currentSelectedNormalColorValid = false;
+			return;
 		}
+		if (!useSelectColorOnToggle && go.GetComponent<Toggle>())
+		{
+			currentSelectedNormalColorValid = false;
+			return;
+		}
+		var s = go.GetComponent<Selectable>();
+		if (s == null)
+			return;
+
+		var cb = s.colors;
+		currentSelectedNormalColor = cb.normalColor;
+		currentSelectedNormalColorValid = true;
+		currentSelectedHighlightedColor = cb.highlightedColor;
+		cb.normalColor = selectColor;
+		cb.highlightedColor = selectColor;
+		s.colors = cb;
 	}
 
 	// restore color of previously selected UI element
-	private void RestoreColor(GameObject go) {
-		if (useSelectColor && currentSelectedNormalColorValid) {
-			Selectable s = go.GetComponent<Selectable>();
-			if (s != null) {
-				ColorBlock cb = s.colors;
-				cb.normalColor = currentSelectedNormalColor;
-				cb.highlightedColor = currentSelectedHighlightedColor;
-				s.colors = cb;
-			}
-		}
+	private void RestoreColor(GameObject go)
+	{
+		if (!useSelectColor || !currentSelectedNormalColorValid)
+			return;
+
+		var s = go.GetComponent<Selectable>();
+		if (s == null)
+			return;
+
+		var cb = s.colors;
+		cb.normalColor = currentSelectedNormalColor;
+		cb.highlightedColor = currentSelectedHighlightedColor;
+		s.colors = cb;
 	}
 
 	// clear the current selection
-	public void ClearSelection() {
-		if (eventSystem.currentSelectedGameObject) {
-			RestoreColor(eventSystem.currentSelectedGameObject);
-			eventSystem.SetSelectedGameObject(null);
-		}
+	public void ClearSelection()
+	{
+		if (!eventSystem.currentSelectedGameObject)
+			return;
+
+		RestoreColor(eventSystem.currentSelectedGameObject);
+		eventSystem.SetSelectedGameObject(null);
 	}
 
 	// select a game object
-	private void Select(GameObject go) {
+	private void Select(GameObject go)
+	{
 		ClearSelection();
-		if (ExecuteEvents.GetEventHandler<ISelectHandler> (go)) {
-			SetSelectedColor(go);
-			eventSystem.SetSelectedGameObject(go);
-		}
+		if (!ExecuteEvents.GetEventHandler<ISelectHandler>(go)) return;
+
+		SetSelectedColor(go);
+		eventSystem.SetSelectedGameObject(go);
 	}
 
 	// send update event to selected object
 	// needed for InputField to receive keyboard input
-	private bool SendUpdateEventToSelectedObject() {
+	private bool SendUpdateEventToSelectedObject()
+	{
 		if (eventSystem.currentSelectedGameObject == null)
 			return false;
-		BaseEventData data = GetBaseEventData ();
-		ExecuteEvents.Execute (eventSystem.currentSelectedGameObject, data, ExecuteEvents.updateSelectedHandler);
+		var data = GetBaseEventData();
+		ExecuteEvents.Execute(eventSystem.currentSelectedGameObject, data, ExecuteEvents.updateSelectedHandler);
 		return data.used;
 	}
 
 	// Process is called by UI system to process events
-	public override void Process() {
+	public override void Process()
+	{
 		_singleton = this;
 
 		// send update events if there is a selected object - this is important for InputField to receive keyboard events
 		SendUpdateEventToSelectedObject();
 
 		// see if there is a UI element that is currently being looked at
-		PointerEventData lookData = GetLookPointerEventData();
-		currentLook = lookData.pointerCurrentRaycast.gameObject;
+		var lookDataLocal = GetLookPointerEventData();
+		currentLook = lookDataLocal.pointerCurrentRaycast.gameObject;
 
 		// deselect when look away
-		if (deselectWhenLookAway && currentLook == null) {
+		if (deselectWhenLookAway && currentLook == null)
 			ClearSelection();
-		}
 
 		// handle enter and exit events (highlight)
 		// using the function that is already defined in BaseInputModule
-		HandlePointerExitAndEnter(lookData,currentLook);
+		HandlePointerExitAndEnter(lookDataLocal, currentLook);
 
 		// update cursor
-		UpdateCursor(lookData);
+		UpdateCursor(lookDataLocal);
 
-		if (!ignoreInputsWhenLookAway || ignoreInputsWhenLookAway && currentLook != null) {
+		if (!ignoreInputsWhenLookAway || ignoreInputsWhenLookAway && currentLook != null)
+		{
 			// button down handling
 			_buttonUsed = false;
 			if (UFZ.IOC.Core.Instance.Input.IsOkButtonPressed())
 			{
 				ClearSelection();
-				lookData.pressPosition = lookData.position;
-				lookData.pointerPressRaycast = lookData.pointerCurrentRaycast;
-				lookData.pointerPress = null;
-				if (currentLook != null) {
+				lookDataLocal.pressPosition = lookDataLocal.position;
+				lookDataLocal.pointerPressRaycast = lookDataLocal.pointerCurrentRaycast;
+				lookDataLocal.pointerPress = null;
+				if (currentLook != null)
+				{
 					currentPressed = currentLook;
 					GameObject newPressed = null;
-					if (mode == Mode.Pointer) {
-						newPressed = ExecuteEvents.ExecuteHierarchy (currentPressed, lookData, ExecuteEvents.pointerDownHandler);
-						if (newPressed == null) {
-							// some UI elements might only have click handler and not pointer down handler
-							newPressed = ExecuteEvents.ExecuteHierarchy (currentPressed, lookData, ExecuteEvents.pointerClickHandler);
-							if (newPressed != null) {
-								currentPressed = newPressed;
+					switch (mode)
+					{
+						case Mode.Pointer:
+							newPressed = ExecuteEvents.ExecuteHierarchy(currentPressed, lookDataLocal, ExecuteEvents.pointerDownHandler);
+							if (newPressed == null)
+							{
+								// some UI elements might only have click handler and not pointer down handler
+								newPressed = ExecuteEvents.ExecuteHierarchy(currentPressed, lookDataLocal, ExecuteEvents.pointerClickHandler);
+								if (newPressed != null)
+								{
+									currentPressed = newPressed;
+								}
 							}
-						} else {
-							currentPressed = newPressed;
-							// we want to do click on button down at same time, unlike regular mouse processing
-							// which does click when mouse goes up over same object it went down on
-							// reason to do this is head tracking might be jittery and this makes it easier to click buttons
-							ExecuteEvents.Execute (newPressed, lookData, ExecuteEvents.pointerClickHandler);
-						}
-					} else if (mode == Mode.Submit) {
-						newPressed = ExecuteEvents.ExecuteHierarchy (currentPressed, lookData, ExecuteEvents.submitHandler);
-						if (newPressed == null) {
-							// try select handler instead
-							newPressed = ExecuteEvents.ExecuteHierarchy (currentPressed, lookData, ExecuteEvents.selectHandler);
-						}
+							else
+							{
+								currentPressed = newPressed;
+								// we want to do click on button down at same time, unlike regular mouse processing
+								// which does click when mouse goes up over same object it went down on
+								// reason to do this is head tracking might be jittery and this makes it easier to click buttons
+								ExecuteEvents.Execute(newPressed, lookDataLocal, ExecuteEvents.pointerClickHandler);
+							}
+							break;
+						case Mode.Submit:
+							newPressed = ExecuteEvents.ExecuteHierarchy(currentPressed, lookDataLocal, ExecuteEvents.submitHandler);
+							if (newPressed == null)
+							{
+								// try select handler instead
+								newPressed = ExecuteEvents.ExecuteHierarchy(currentPressed, lookDataLocal, ExecuteEvents.selectHandler);
+							}
+							break;
 					}
-					if (newPressed != null) {
-						lookData.pointerPress = newPressed;
+					if (newPressed != null)
+					{
+						lookDataLocal.pointerPress = newPressed;
 						currentPressed = newPressed;
 						Select(currentPressed);
 						_buttonUsed = true;
 					}
-					if (mode == Mode.Pointer) {
-						if (useLookDrag) {
-							bool useLookTest = true;
-							if (!useLookDragSlider && currentPressed.GetComponent<Slider>()) {
+					if (mode == Mode.Pointer)
+					{
+						if (useLookDrag)
+						{
+							var useLookTest = true;
+							if (!useLookDragSlider && currentPressed.GetComponent<Slider>())
+							{
 								useLookTest = false;
-							} else if (!useLookDragScrollbar && currentPressed.GetComponent<Scrollbar>()) {
+							}
+							else if (!useLookDragScrollbar && currentPressed.GetComponent<Scrollbar>())
+							{
 								useLookTest = false;
 								// the following is for scrollbars to work right
 								// apparently they go into an odd drag mode when pointerDownHandler is called
 								// a begin/end drag fixes that
-								if (ExecuteEvents.Execute(currentPressed,lookData, ExecuteEvents.beginDragHandler)) {
-									ExecuteEvents.Execute(currentPressed,lookData,ExecuteEvents.endDragHandler);
+								if (ExecuteEvents.Execute(currentPressed, lookDataLocal, ExecuteEvents.beginDragHandler))
+								{
+									ExecuteEvents.Execute(currentPressed, lookDataLocal, ExecuteEvents.endDragHandler);
 								}
 							}
-							if (useLookTest) {
-								ExecuteEvents.Execute(currentPressed,lookData, ExecuteEvents.beginDragHandler);
-								lookData.pointerDrag = currentPressed;
+							if (useLookTest)
+							{
+								ExecuteEvents.Execute(currentPressed, lookDataLocal, ExecuteEvents.beginDragHandler);
+								lookDataLocal.pointerDrag = currentPressed;
 								currentDragging = currentPressed;
 							}
-						} else if (currentPressed.GetComponent<Scrollbar>()) {
+						}
+						else if (currentPressed.GetComponent<Scrollbar>())
+						{
 							// the following is for scrollbars to work right
 							// apparently they go into an odd drag mode when pointerDownHandler is called
 							// a begin/end drag fixes that
-							if (ExecuteEvents.Execute(currentPressed,lookData, ExecuteEvents.beginDragHandler)) {
-								ExecuteEvents.Execute(currentPressed,lookData,ExecuteEvents.endDragHandler);
+							if (ExecuteEvents.Execute(currentPressed, lookDataLocal, ExecuteEvents.beginDragHandler))
+							{
+								ExecuteEvents.Execute(currentPressed, lookDataLocal, ExecuteEvents.endDragHandler);
 							}
 						}
 					}
@@ -333,60 +384,75 @@ public class WandInputModule : BaseInputModule {
 		}
 
 		// have to handle button up even if looking away
-		if (UFZ.IOC.Core.Instance.Input.WasOkButtonPressed()) {
-			if (currentDragging) {
-				ExecuteEvents.Execute(currentDragging,lookData,ExecuteEvents.endDragHandler);
-				if (currentLook != null) {
-					ExecuteEvents.ExecuteHierarchy(currentLook,lookData,ExecuteEvents.dropHandler);
+		if (UFZ.IOC.Core.Instance.Input.WasOkButtonPressed())
+		{
+			if (currentDragging)
+			{
+				ExecuteEvents.Execute(currentDragging, lookDataLocal, ExecuteEvents.endDragHandler);
+				if (currentLook != null)
+				{
+					ExecuteEvents.ExecuteHierarchy(currentLook, lookDataLocal, ExecuteEvents.dropHandler);
 				}
-				lookData.pointerDrag = null;
+				lookDataLocal.pointerDrag = null;
 				currentDragging = null;
 			}
-			if (currentPressed) {
-				ExecuteEvents.Execute(currentPressed,lookData,ExecuteEvents.pointerUpHandler);
-				lookData.rawPointerPress = null;
-				lookData.pointerPress = null;
+			if (currentPressed)
+			{
+				ExecuteEvents.Execute(currentPressed, lookDataLocal, ExecuteEvents.pointerUpHandler);
+				lookDataLocal.rawPointerPress = null;
+				lookDataLocal.pointerPress = null;
 				currentPressed = null;
 			}
 		}
 
 		// drag handling
-		if (currentDragging != null) {
-			ExecuteEvents.Execute (currentDragging,lookData,ExecuteEvents.dragHandler);
+		if (currentDragging != null)
+		{
+			ExecuteEvents.Execute(currentDragging, lookDataLocal, ExecuteEvents.dragHandler);
 		}
 
-		if (!ignoreInputsWhenLookAway || ignoreInputsWhenLookAway && currentLook != null) {
-			// control axis handling
-			_controlAxisUsed = false;
-			if (eventSystem.currentSelectedGameObject) {
-				float newVal = UFZ.IOC.Core.Instance.Input.GetHorizontalAxis();
-				if (newVal > 0.01f || newVal < -0.01f) {
-					if (useSmoothAxis) {
-						Slider sl = eventSystem.currentSelectedGameObject.GetComponent<Slider>();
-						if (sl != null) {
-							float mult = sl.maxValue - sl.minValue;
-							sl.value += newVal*smoothAxisMultiplier*mult;
-							_controlAxisUsed = true;
-						} else {
-							Scrollbar sb = eventSystem.currentSelectedGameObject.GetComponent<Scrollbar>();
-							if (sb != null) {
-								sb.value += newVal*smoothAxisMultiplier;
-								_controlAxisUsed = true;
-							}
-						}
-					} else {
-						_controlAxisUsed = true;
-						float time = Time.unscaledTime;
-						if (time > nextAxisActionTime) {
-							nextAxisActionTime = time + 1f/steppedAxisStepsPerSecond;
-							AxisEventData axisData = GetAxisEventData(newVal,0.0f,0.0f);
-							if (!ExecuteEvents.Execute(eventSystem.currentSelectedGameObject, axisData, ExecuteEvents.moveHandler)) {
-								_controlAxisUsed = false;
-							}
-						}
-					}
-				}
+		if (ignoreInputsWhenLookAway && (!ignoreInputsWhenLookAway || currentLook == null))
+			return;
+
+		// control axis handling
+		_controlAxisUsed = false;
+		if (!eventSystem.currentSelectedGameObject)
+			return;
+
+		var newVal = UFZ.IOC.Core.Instance.Input.GetHorizontalAxis();
+		if (!(newVal > 0.01f) && !(newVal < -0.01f))
+			return;
+
+		if (useSmoothAxis)
+		{
+			var sl = eventSystem.currentSelectedGameObject.GetComponent<Slider>();
+			if (sl != null)
+			{
+				var mult = sl.maxValue - sl.minValue;
+				sl.value += newVal * smoothAxisMultiplier * mult;
+				_controlAxisUsed = true;
 			}
+			else
+			{
+				var sb = eventSystem.currentSelectedGameObject.GetComponent<Scrollbar>();
+				if (sb == null)
+					return;
+
+				sb.value += newVal * smoothAxisMultiplier;
+				_controlAxisUsed = true;
+			}
+		}
+		else
+		{
+			_controlAxisUsed = true;
+			var time = UFZ.IOC.Core.Instance.Time.Time(); // Time.unscaledTime
+			if (!(time > nextAxisActionTime))
+				return;
+
+			nextAxisActionTime = time + 1f / steppedAxisStepsPerSecond;
+			var axisData = GetAxisEventData(newVal, 0.0f, 0.0f);
+			if (!ExecuteEvents.Execute(eventSystem.currentSelectedGameObject, axisData, ExecuteEvents.moveHandler))
+				_controlAxisUsed = false;
 		}
 	}
 }
