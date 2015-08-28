@@ -241,6 +241,7 @@ public class WandInputModule : BaseInputModule
 		if (!eventSystem.currentSelectedGameObject)
 			return;
 
+		Debug.Log("Deselect");
 		RestoreColor(eventSystem.currentSelectedGameObject);
 		eventSystem.SetSelectedGameObject(null);
 	}
