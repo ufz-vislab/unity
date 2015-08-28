@@ -24,7 +24,7 @@ namespace UFZ.Rendering
 			/// <summary>Transparent</summary>
 			Transparent,
 
-			/// <summary>Renderer is disabled<summary>
+			/// <summary>Renderer is disabled</summary>
 			Disabled
 		}
 
@@ -67,7 +67,7 @@ namespace UFZ.Rendering
 		[HideInInspector]
 		protected Material[] _materials;
 
-		[SerializeField]
+		[SerializeField, HideInInspector]
 		MaterialPropertyBlock PropertyBlock
 		{
 			get { return _propertyBlock ?? (_propertyBlock = new MaterialPropertyBlock()); }
@@ -82,9 +82,23 @@ namespace UFZ.Rendering
 		}
 #endif
 
+		/// <summary> Is the renderer of the object enabled? Ignores opacity.</summary>
+		[SerializeField, InspectorHeader("Visibility"), InspectorDivider]
+		public bool Enabled
+		{
+			get { return _enabled; }
+			set
+			{
+				_enabled = value;
+				UpdateShader();
+			}
+		}
+
+		private bool _enabled = true;
+
 		/// <summary>The opacity of the object.</summary>
 		/// <value>Can be between 0 (fully transparent) and 1 (opaque)</value>
-		[SerializeField]
+		[SerializeField, InspectorShowIf("Enabled"), InspectorRange(0f, 1f, Step = 0.01f)]
 		public float Opacity
 		{
 			get { return _opacity; }
@@ -93,9 +107,7 @@ namespace UFZ.Rendering
 				if (Mathf.Approximately(_opacity, value))
 					return;
 
-				if (value < 0f) _opacity = 0f;
-				else if (value > 1f) _opacity = 1f;
-				else _opacity = value;
+				_opacity = value;
 
 				var colorId = Shader.PropertyToID("_Color");
 				var color = PropertyBlock.GetVector(colorId);
@@ -112,7 +124,7 @@ namespace UFZ.Rendering
 		/// Returns if an object is fully opaque, transparent or completely disabled
 		/// based on the <see cref="Opacity" />-value.
 		/// </summary>
-		[SerializeField]
+		[SerializeField, InspectorShowIf("Enabled")]
 		public VisibilityMode Visibility
 		{
 			get
@@ -123,20 +135,7 @@ namespace UFZ.Rendering
 			}
 		}
 
-		[SerializeField]
-		public bool Enabled
-		{
-			get { return _enabled; }
-			set
-			{
-				_enabled = value;
-				UpdateShader();
-			}
-		}
-
-		private bool _enabled = true;
-
-		[SerializeField]
+		[SerializeField, InspectorHeader("Coloring"), InspectorDivider]
 		public ColorMode ColorBy
 		{
 			get { return _colorBy; }
@@ -217,8 +216,6 @@ namespace UFZ.Rendering
 
 		public void UpdateRenderers()
 		{
-			if (this == null)
-				return;
 			foreach (var localRenderer in gameObject.GetComponentsInChildren<Renderer>())
 				localRenderer.SetPropertyBlock(PropertyBlock);
 		}

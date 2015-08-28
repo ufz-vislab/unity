@@ -31,7 +31,7 @@ namespace UFZ.Initialization
 			if (!CheckPath(assetPath))
 				return;
 			//Debug.Log("OnPreprocessModel");
-			var modelImporter = (ModelImporter) assetImporter;
+			var modelImporter = (ModelImporter)assetImporter;
 			modelImporter.animationType = ModelImporterAnimationType.None;
 			modelImporter.optimizeMesh = false;
 			modelImporter.globalScale = 1.0f;
@@ -45,10 +45,10 @@ namespace UFZ.Initialization
 
 			//Debug.Log ("OnPostprocessModel for " + go.name);
 			var meshInfo = AssetDatabase.LoadAssetAtPath(assetPath + ".asset",
-				typeof (MeshInfo)) as MeshInfo;
-			foreach (var component in go.GetComponentsInChildren(typeof (Renderer), true))
+				typeof(MeshInfo)) as MeshInfo;
+			foreach (var component in go.GetComponentsInChildren(typeof(Renderer), true))
 			{
-				var renderer = (Renderer) component;
+				var renderer = (Renderer)component;
 				var subMeshIndex = 0;
 				var gameObject = renderer.gameObject;
 				var match = Regex.Match(gameObject.name, @"(?<name>[\w]*)-(?<index>[0-9])*");
@@ -60,15 +60,14 @@ namespace UFZ.Initialization
 				if (meshInfo == null)
 					continue;
 
-				var material = renderer.sharedMaterial;
 				var useVertexColors = meshInfo.GetBool("UseVertexColors", subMeshIndex);
 				var pointRendering = meshInfo.GetBool("PointRendering", subMeshIndex);
 				var lineRendering = meshInfo.GetBool("LineRendering", subMeshIndex);
 				var opacity = 1.0f;
-				if(meshInfo.HasFloat("Opacity", subMeshIndex))
+				if (meshInfo.HasFloat("Opacity", subMeshIndex))
 					opacity = meshInfo.GetFloat("Opacity", subMeshIndex);
 				var solidColor = Color.white;
-				if(meshInfo.HasColor("DiffuseColor", subMeshIndex))
+				if (meshInfo.HasColor("DiffuseColor", subMeshIndex))
 					solidColor = meshInfo.GetColor("DiffuseColor", subMeshIndex);
 				var matProps = renderer.gameObject.AddComponent<MaterialProperties>();
 				matProps.Opacity = opacity;
@@ -128,11 +127,11 @@ namespace UFZ.Initialization
 
 					var props = meshInfo.Properties[subMeshIndex];
 					if (values[i] is bool)
-						props.Bools.Add(match.Groups["name"].Value, (bool) values[i]);
+						props.Bools.Add(match.Groups["name"].Value, (bool)values[i]);
 					else if (values[i] is float)
-						props.Floats.Add(match.Groups["name"].Value, (float) values[i]);
+						props.Floats.Add(match.Groups["name"].Value, (float)values[i]);
 					else if (values[i] is Color)
-						props.Colors.Add(match.Groups["name"].Value, (Color) values[i]);
+						props.Colors.Add(match.Groups["name"].Value, (Color)values[i]);
 				}
 				else
 					Debug.Log("AssetPostprocessor: Property does not match naming convention: index-propname");
@@ -153,7 +152,7 @@ namespace UFZ.Initialization
 			if (!assetPath.Contains("vtk"))
 				return;
 
-			var textureImporter = (TextureImporter) assetImporter;
+			var textureImporter = (TextureImporter)assetImporter;
 			textureImporter.filterMode = FilterMode.Point;
 			textureImporter.wrapMode = TextureWrapMode.Clamp;
 		}
@@ -170,10 +169,10 @@ namespace UFZ.Initialization
 			var modelName = Path.GetFileName(assetPath.Substring(0, assetPath.LastIndexOf(".fbm", StringComparison.Ordinal)));
 			var basePath = Path.GetDirectoryName(assetPath.Substring(0, assetPath.LastIndexOf(".fbm", StringComparison.Ordinal)));
 			var materialPath = basePath + "/Materials/" + modelName + "_material.mat";
-			var material = (Material) (AssetDatabase.LoadAssetAtPath(materialPath, typeof (Material)));
+			var material = (Material)(AssetDatabase.LoadAssetAtPath(materialPath, typeof(Material)));
 			if (material)
 			{
-				var tex = (Texture2D) (AssetDatabase.LoadAssetAtPath(assetPath, typeof (Texture2D)));
+				var tex = (Texture2D)(AssetDatabase.LoadAssetAtPath(assetPath, typeof(Texture2D)));
 				if (tex)
 				{
 					material.mainTexture = tex;
@@ -182,7 +181,7 @@ namespace UFZ.Initialization
 				else
 				{
 					AssetDatabase.Refresh();
-					tex = (Texture2D) (AssetDatabase.LoadAssetAtPath(assetPath, typeof (Texture2D)));
+					tex = (Texture2D)(AssetDatabase.LoadAssetAtPath(assetPath, typeof(Texture2D)));
 					if (!tex)
 						return;
 
@@ -236,10 +235,10 @@ namespace UFZ.Initialization
 			// Re-index
 			var triangles = mesh.triangles;
 			var indicesForLines = new List<int>();
-			for (var line = 0; line < (triangles.Length - 3)/3; line++)
+			for (var line = 0; line < (triangles.Length - 3) / 3; line++)
 			{
-				indicesForLines.Add(triangles[(line*3 + 0)]);
-				indicesForLines.Add(triangles[(line*3 + 2)]);
+				indicesForLines.Add(triangles[(line * 3 + 0)]);
+				indicesForLines.Add(triangles[(line * 3 + 2)]);
 			}
 			// After 11 hours of work I am too stupid to merge this into the for-loop
 			indicesForLines.Add(triangles[triangles.Length - 3]);

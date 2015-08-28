@@ -14,10 +14,19 @@ namespace UFZ.Initialization
 			if (sceneSetupGo == null)
 				sceneSetupGo = new GameObject("Scene Setup");
 
-			var cameraPathsGo = GetChildGameObject(sceneSetupGo, "CameraPaths");
-			var viewpointsGo = GetChildGameObject(sceneSetupGo, "Viewpoints");
+			GetChildGameObject(sceneSetupGo, "CameraPaths");
+			GetChildGameObject(sceneSetupGo, "Viewpoints");
 			var visibilitiesGo = GetChildGameObject(sceneSetupGo, "Visibilities");
 			AddComponent<GameObjectList>(visibilitiesGo);
+
+			var playerGo = GetChildGameObject(sceneSetupGo, "Player");
+			AddComponent<Player>(playerGo);
+			var vrManager = FindObjectOfType<VRManagerScript>();
+			if (vrManager == null)
+				Debug.LogWarning("VRManager not found. VR System Center Node could " +
+								 "not be set to Player GameObject");
+			else
+				vrManager.VRSystemCenterNode = playerGo;
 
 			Selection.activeGameObject = sceneSetupGo;
 		}
@@ -55,8 +64,12 @@ namespace UFZ.Initialization
 			newCameraPath.transform.SetParent(pathsGo.transform, false);
 			newCameraPath.AddComponent<CameraPath>();
 			var animator = newCameraPath.AddComponent<CameraPathAnimator>();
-			//if (Camera.main != null)
-			//	animator.animationObject = Camera.main.transform;
+			animator.playOnStart = false;
+			var playerGo = GameObject.Find("Player");
+			if (playerGo == null)
+				Debug.LogWarning("Could not find Player GameObject. Set Animation Object manually!");
+			else
+				animator.animationObject = playerGo.transform;
 			Selection.activeGameObject = newCameraPath;
 			SceneView.lastActiveSceneView.FrameSelected();
 		}
