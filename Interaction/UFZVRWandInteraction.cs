@@ -8,8 +8,9 @@ using MiddleVR_Unity3D;
 
 namespace UFZ.Interaction
 {
-	public class UFZVRWandInteraction : MonoBehaviour {
-
+	public class UFZVRWandInteraction : MonoBehaviour
+	{
+		/*
 		public float RayLength = 2;
 
 		public bool Highlight = true;
@@ -195,5 +196,6 @@ namespace UFZ.Interaction
 					_mCurrentObject.SendMessage("VRAction", SendMessageOptions.DontRequireReceiver);
 			}
 		}
+		*/
 	}
 }

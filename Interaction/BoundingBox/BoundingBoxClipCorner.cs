@@ -2,8 +2,9 @@ using UnityEngine;
 
 namespace UFZ.Interaction
 {
-	public class BoundingBoxClipCorner : MonoBehaviour {
-
+	public class BoundingBoxClipCorner : MonoBehaviour
+	{
+		/*
 		public int Index;
 		Vector3 _oldPosition;
 
@@ -27,5 +28,6 @@ namespace UFZ.Interaction
 			GameObject parentObject = gameObject.GetComponent<VRWandGrab>().Parent.gameObject;
 			parentObject.GetComponent<BoundingBoxClip> ().SetCutoutOctant(Index);
 		}
+		*/
 	}
 }

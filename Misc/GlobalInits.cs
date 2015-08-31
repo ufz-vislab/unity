@@ -1,5 +1,8 @@
+using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using FullInspector;
+using UFZ.Interaction;
 using UnityEngine;
 
 namespace UFZ.Initialization
@@ -23,7 +26,7 @@ namespace UFZ.Initialization
 		public MonoBehaviour[] disabledScripts;
 		public GameObject[] disabledGameObjects;
 
-		private Canvas _canvas;
+		private Canvas _mainMenuCanvas;
 
 		protected void Awake()
 		{
@@ -37,37 +40,53 @@ namespace UFZ.Initialization
 			if (IOC.Core.Instance.Environment.IsCluster())
 				GuiInputType = InputType.Wand;
 
-			var menuGo = GameObject.Find("Menu");
-			_canvas = menuGo.transform.FindChild("Canvas").gameObject.GetComponent<Canvas>();
-			//_canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
-			if (_canvas == null)
-			{
-				Debug.LogError("Gui Canvas not found!");
-				return;
-			}
+			Camera guiCamera;
 			if (GuiInputType == InputType.Wand)
 			{
-				var cam = GameObject.Find("VRWand").AddComponent<Camera>();
-				cam.enabled = false;
-				cam.cullingMask = LayerMask.GetMask("UI");
-
-				if (_canvas != null && _canvas.renderMode == RenderMode.WorldSpace)
-					_canvas.worldCamera = cam;
+				guiCamera = GameObject.Find("VRWand").AddComponent<Camera>();
+				guiCamera.enabled = false;
+				guiCamera.cullingMask = LayerMask.GetMask("UI");
 			}
 			else
+				guiCamera = GameObject.Find("HeadNode").GetComponentInChildren<Camera>();
+
+			var canvases = FindObjectsOfType<Canvas>().Where(
+				canvas => canvas.renderMode == RenderMode.WorldSpace);
+			var enumerable = canvases as Canvas[] ?? canvases.ToArray();
+			if (!enumerable.Any())
 			{
-				var cam = GameObject.Find("HeadNode").GetComponentInChildren<Camera>();
-				_canvas.worldCamera = cam;
-
-				var inputModule = GameObject.Find("EventSystem").GetComponent<WandInputModule>();
-				if (inputModule == null)
-					return;
-
-				inputModule.enabled = false;
-				inputModule.cursor.gameObject.SetActive(false);
+				Debug.LogError("No Gui Canvas found!");
+				return;
 			}
-			menuGo.transform.SetParent(GameObject.Find("HeadNode").transform, false);
-			_canvas.gameObject.SetActive(!IsGuiDisabledOnStart);
+			foreach (var canvas in enumerable)
+			{
+				canvas.worldCamera = guiCamera;
+				if (canvas.name == "ApplicationMenuCanvas")
+				{
+					canvas.transform.parent.transform.SetParent(
+						GameObject.Find("HeadNode").transform, false);
+					canvas.gameObject.SetActive(!IsGuiDisabledOnStart);
+					_mainMenuCanvas = canvas;
+					continue;
+				}
+				if (canvas.name == "InfoCanvas")
+				{
+					foreach (var objectInfo in FindObjectsOfType<ObjectInfo>())
+						objectInfo.Menu = canvas.GetComponentInChildren<InfoView>();
+
+				}
+
+				canvas.gameObject.SetActive(false);
+			}
+
+			if (GuiInputType == InputType.Wand)
+				return;
+			var inputModule = GameObject.Find("EventSystem").GetComponent<WandInputModule>();
+			if (inputModule == null)
+				return;
+
+			inputModule.enabled = false;
+			inputModule.cursor.gameObject.SetActive(false);
 		}
 
 		public void Start()
@@ -80,10 +99,10 @@ namespace UFZ.Initialization
 			var input = IOC.Core.Instance.Input;
 			if (!input.WasCancelButtonPressed()) return;
 
-			if (_canvas == null)
+			if (_mainMenuCanvas == null)
 				return;
 
-			_canvas.gameObject.SetActive(!_canvas.gameObject.activeSelf);
+			_mainMenuCanvas.gameObject.SetActive(!_mainMenuCanvas.gameObject.activeSelf);
 		}
 	}
 }

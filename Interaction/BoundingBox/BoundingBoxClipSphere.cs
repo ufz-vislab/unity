@@ -5,6 +5,7 @@ namespace UFZ.Interaction
 {
 	public class BoundingBoxClipSphere : MonoBehaviour
 	{
+		/*
 		Vector3 _oldPosition;
 
 		void Start ()
@@ -22,5 +23,6 @@ namespace UFZ.Interaction
 				parentObject.GetComponent<BoundingBoxClip> ().SetCutoutPosition (_oldPosition);
 			}
 		}
+		*/
 	}
 }

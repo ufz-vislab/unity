@@ -4,6 +4,7 @@ namespace UFZ.Interaction
 {
 	public class BoundingBoxClip : MonoBehaviour
 	{
+		/*
 		public GameObject[] Boxes;
 		public GameObject Sphere;
 		Shader _oldShader;
@@ -190,5 +191,6 @@ namespace UFZ.Interaction
 				lineArray[2][i * 2 + 1] = Boxes[i + 4].transform.position;
 			}
 		}
+		*/
 	}
 }
