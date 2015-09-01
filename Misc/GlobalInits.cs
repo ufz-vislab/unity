@@ -26,6 +26,8 @@ namespace UFZ.Initialization
 		public MonoBehaviour[] disabledScripts;
 		public GameObject[] disabledGameObjects;
 
+		public Vector3 CanvasPosition = new Vector3(0.5f, 0f, 1f);
+
 		private Canvas _mainMenuCanvas;
 
 		protected void Awake()
@@ -60,11 +62,12 @@ namespace UFZ.Initialization
 			}
 			foreach (var canvas in enumerable)
 			{
+				canvas.transform.SetParent(
+					GameObject.Find("Player").transform, false);
+				canvas.transform.localPosition = CanvasPosition;
 				canvas.worldCamera = guiCamera;
 				if (canvas.name == "ApplicationMenuCanvas")
 				{
-					canvas.transform.parent.transform.SetParent(
-						GameObject.Find("HeadNode").transform, false);
 					canvas.gameObject.SetActive(!IsGuiDisabledOnStart);
 					_mainMenuCanvas = canvas;
 					continue;
