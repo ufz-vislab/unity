@@ -7,7 +7,6 @@ namespace UFZ.Interaction
 	[RequireComponent(typeof(VRActor))]
 	public class ObjectInfo : BaseBehavior
 	{
-		//public string[] Urls;
 		public Texture2D[] Images;
 
 		public InfoView Menu;
@@ -20,21 +19,19 @@ namespace UFZ.Interaction
 			vrActor.Grabable = false;
 		}
 
+		/// <summary>
+		/// Is triggered when Wand button 0 was pressed and shows the info canvas
+		/// </summary>
 		protected void VRAction(VRSelection iSelection)
 		{
-			Menu.gameObject.transform.parent.gameObject.SetActive(true);
+			Menu.Show();
 			Menu.SetObjectInfo(this);
 		}
 
-		protected void OnMVRWandEnter(VRSelection iSelection)
+		protected void OnMouseDown()
 		{
-			Menu.gameObject.transform.parent.parent.gameObject.SetActive(true);
+			Menu.Show();
 			Menu.SetObjectInfo(this);
-		}
-
-		protected void OnMVRWandExit(VRSelection iSelection)
-		{
-			Menu.gameObject.transform.parent.parent.gameObject.SetActive(false);
 		}
 	}
 }
