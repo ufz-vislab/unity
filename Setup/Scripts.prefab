@@ -77,6 +77,7 @@ MonoBehaviour:
   IsGuiDisabledOnStart: 1
   disabledScripts: []
   disabledGameObjects: []
+  CanvasPosition: {x: .5, y: 0, z: 1}
 --- !u!114 &11443572
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -91,7 +92,7 @@ MonoBehaviour:
   NodeToMove: Player
   DirectionReferenceNode: HandNode
   TurnAroundNode: HeadNode
-  NavigationSpeed: 15
+  NavigationSpeed: 3
   RotationSpeed: 45
   DeadZone: .100000001
   RunningSpeed: 30
@@ -109,7 +110,7 @@ MonoBehaviour:
   NodeToMove: Player
   DirectionReferenceNode: HandNode
   TurnAroundNode: HeadNode
-  NavigationSpeed: 15
+  NavigationSpeed: 3
   RotationSpeed: 45
   DeadZone: .100000001
   RunningSpeed: 30
@@ -127,7 +128,7 @@ MonoBehaviour:
   NodeToMove: Player
   DirectionReferenceNode: HeadNode
   TurnAroundNode: HeadNode
-  NavigationSpeed: 15
+  NavigationSpeed: 3
   RotationSpeed: 45
   DeadZone: .100000001
   RunningSpeed: 30
