@@ -294,7 +294,7 @@ public class WandInputModule : BaseInputModule
 		{
 			// button down handling
 			_buttonUsed = false;
-			if (UFZ.IOC.Core.Instance.Input.IsOkButtonPressed())
+			if (UFZ.IOC.Core.Instance.Input.WasOkButtonPressed())
 			{
 				ClearSelection();
 				lookDataLocal.pressPosition = lookDataLocal.position;

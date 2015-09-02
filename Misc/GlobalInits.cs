@@ -16,7 +16,8 @@ namespace UFZ.Initialization
 		public enum InputType
 		{
 			Mouse,
-			Wand
+			Wand,
+			Head
 		}
 
 		public InputType GuiInputType = InputType.Mouse;
@@ -32,6 +33,8 @@ namespace UFZ.Initialization
 
 		protected void Awake()
 		{
+			var wandGo = GameObject.Find("VRWand");
+
 #if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
 		foreach(var script in disabledScripts)
 			script.enabled = false;
@@ -41,18 +44,37 @@ namespace UFZ.Initialization
 #endif
 			if (IOC.Core.Instance.Environment.IsCluster())
 				GuiInputType = InputType.Wand;
+			else
+			{
+				for (uint index = 0; index < MiddleVR.VRDeviceMgr.GetDevicesNb(); index++)
+				{
+					var device = MiddleVR.VRDeviceMgr.GetDeviceByIndex(index);
+					if (device.GetName().Contains("Rift"))
+					{
+						GuiInputType = InputType.Head;
+						CanvasPosition = new Vector3(0f, 0f, 0.2f);
+						break;
+					}
+				}
+			}
 
 			Camera guiCamera;
 			if (GuiInputType == InputType.Wand)
 			{
-				guiCamera = GameObject.Find("VRWand").AddComponent<Camera>();
+				guiCamera = wandGo.AddComponent<Camera>();
 				guiCamera.enabled = false;
 				guiCamera.cullingMask = LayerMask.GetMask("UI");
 			}
 			else
 				guiCamera = GameObject.Find("HeadNode").GetComponentInChildren<Camera>();
 
-			var canvases = FindObjectsOfType<Canvas>().Where(
+			if (GuiInputType == InputType.Head)
+			{
+				FindObjectOfType<VRManagerScript>().ShowWand = false;
+				wandGo.GetComponent<VRAttachToNode>().VRParentNode = "HeadNode";
+			}
+
+			var canvases = GameObject.Find("Menus").GetComponentsInChildren<Canvas>().Where(
 				canvas => canvas.renderMode == RenderMode.WorldSpace);
 			var enumerable = canvases as Canvas[] ?? canvases.ToArray();
 			if (!enumerable.Any())
@@ -82,8 +104,9 @@ namespace UFZ.Initialization
 				canvas.gameObject.SetActive(false);
 			}
 
-			if (GuiInputType == InputType.Wand)
+			if (GuiInputType == InputType.Wand || GuiInputType == InputType.Head)
 				return;
+
 			var inputModule = GameObject.Find("EventSystem").GetComponent<WandInputModule>();
 			if (inputModule == null)
 				return;

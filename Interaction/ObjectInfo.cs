@@ -1,3 +1,4 @@
+using System.Runtime.Remoting;
 using FullInspector;
 using MarkUX;
 using UnityEngine;
@@ -24,11 +25,31 @@ namespace UFZ.Interaction
 		/// </summary>
 		protected void VRAction(VRSelection iSelection)
 		{
-			Menu.Show();
-			Menu.SetObjectInfo(this);
+			Activate();
 		}
 
 		protected void OnMouseDown()
+		{
+			Activate();
+		}
+
+		protected void OnTriggerEnter(Collider other)
+		{
+			// TODO Visualize this
+		}
+
+		protected void OnTriggerExit(Collider other)
+		{
+			// TODO
+		}
+
+		protected void OnTriggerStay(Collider other)
+		{
+			if (IOC.Core.Instance.Input.WasOkButtonPressed())
+				Activate();
+		}
+
+		private void Activate()
 		{
 			Menu.Show();
 			Menu.SetObjectInfo(this);

@@ -63,7 +63,7 @@ namespace UFZ.IOC
 
 		public bool IsCancelButtonPressed()
 		{
-			var key = MiddleVR.VRDeviceMgr.GetKeyboard().IsKeyToggled(MiddleVR.VRK_M);
+			var key = MiddleVR.VRDeviceMgr.GetKeyboard().IsKeyToggled(MiddleVR.VRK_BACK);
 			var button = MiddleVR.VRDeviceMgr.IsWandButtonToggled(_cancelButton);
 			return key || button;
 		}
