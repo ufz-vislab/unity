@@ -6,6 +6,7 @@ using UnityEditor;
 #endif
 using FullInspector;
 using Debug = UnityEngine.Debug;
+using UFZ.Tools.Extensions;
 
 namespace UFZ.Rendering
 {
@@ -297,5 +298,30 @@ namespace UFZ.Rendering
 				_materials = materials;
 			}
 		}
+
+#if UNITY_EDITOR
+		[MenuItem("UFZ/Consolidate MaterialProperties")]
+		private static void Consolidate()
+		{
+			var gos = Selection.gameObjects;
+			if (gos.Length == 0)
+				Debug.LogWarning("No GameObjects selected!");
+
+			foreach (var go in gos)
+			{
+				var matProps = go.GetComponentsInChildren<MaterialProperties>();
+				if (matProps.Length == 0)
+				{
+					Debug.LogWarning("No MaterialProperties found!");
+					return;
+				}
+
+				go.AddComponent<MaterialProperties>(matProps[0]);
+
+				foreach (var matProp in matProps)
+					DestroyImmediate(matProp);
+			}
+		}
+#endif
 	}
 }
