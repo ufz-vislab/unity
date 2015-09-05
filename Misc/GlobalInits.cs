@@ -53,6 +53,9 @@ namespace UFZ.Initialization
 					{
 						GuiInputType = InputType.Head;
 						CanvasPosition = new Vector3(0f, 0f, 0.2f);
+						var navigations = FindObjectsOfType<NavigationBase>();
+						foreach (var navigation in navigations)
+							navigation.DirectionReferenceNode = "HeadNode";
 						break;
 					}
 				}
@@ -113,11 +116,15 @@ namespace UFZ.Initialization
 
 			inputModule.enabled = false;
 			inputModule.cursor.gameObject.SetActive(false);
+
+
+
 		}
 
 		public void Start()
 		{
 			DOTween.Init();
+
 		}
 
 		public void Update()
@@ -129,6 +136,7 @@ namespace UFZ.Initialization
 				return;
 
 			_mainMenuCanvas.gameObject.SetActive(!_mainMenuCanvas.gameObject.activeSelf);
+
 		}
 	}
 }
