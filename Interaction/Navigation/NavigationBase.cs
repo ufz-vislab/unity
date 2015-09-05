@@ -78,7 +78,7 @@ namespace UFZ.Interaction
 
 		void Update()
 		{
-			if(!IsActive())
+			if (!IsActive())
 				return;
 
 
@@ -128,35 +128,43 @@ namespace UFZ.Interaction
 				Upward = 0.0f;
 			if (Mathf.Abs(Sideward) < DeadZone)
 				Sideward = 0.0f;
-			if (Mathf.Abs(HorizontalRotation) < DeadZone)
-				HorizontalRotation = 0.0f;
-			if (Mathf.Abs(VerticalRotation) < DeadZone)
-				VerticalRotation = 0.0f;
 			if (Mathf.Abs(Running) < DeadZone)
 				Running = 0.0f;
 
 			var time = IOC.Core.Instance.Time;
-			var translationVector = new Vector3(1, 1, 1);
-			var tVec = translationVector * (NavigationSpeed + Running * (RunningSpeed - NavigationSpeed)) *
-			           time.DeltaTime();
-			var nVec = new Vector3(tVec.x * Sideward, tVec.y * Upward, tVec.z * Forward);
-			var mVec = _directionRefNode.transform.TransformDirection(nVec);
-			_nodeToMove.transform.Translate(mVec, Space.World);
 
-			var horizontalRotation = HorizontalRotation * RotationSpeed * time.DeltaTime();
-			var verticalRotation = VerticalRotation * RotationSpeed * time.DeltaTime();
-
-			if (_turnNode != null)
+			if (!(Mathf.Approximately(Forward, 0f)
+				  && Mathf.Approximately(Upward, 0f)
+				  && Mathf.Approximately(Sideward, 0f)))
 			{
-				_nodeToMove.transform.RotateAround(_turnNode.transform.position, new Vector3(0, 1, 0), horizontalRotation);
-				_nodeToMove.transform.RotateAround(_turnNode.transform.position, new Vector3(1, 0, 0), verticalRotation);
-			}
-			else
-			{
-				_nodeToMove.transform.Rotate(new Vector3(0, 1, 0), horizontalRotation);
-				_nodeToMove.transform.Rotate(new Vector3(1, 0, 0), verticalRotation);
+				var translationVector = new Vector3(1, 1, 1);
+				var tVec = translationVector * (NavigationSpeed + Running * (RunningSpeed - NavigationSpeed)) *
+						   time.DeltaTime();
+				var nVec = new Vector3(tVec.x * Sideward, tVec.y * Upward, tVec.z * Forward);
+				if (!Mathf.Approximately(nVec.magnitude, 0f))
+				{
+					var mVec = _directionRefNode.transform.TransformDirection(nVec);
+					_nodeToMove.transform.Translate(mVec, Space.World);
+				}
 			}
 
+			if (Mathf.Abs(HorizontalRotation) > DeadZone)
+			{
+				var horizontalRotation = HorizontalRotation * RotationSpeed * time.DeltaTime();
+				if (_turnNode != null)
+					_nodeToMove.transform.RotateAround(_turnNode.transform.position, new Vector3(0, 1, 0), horizontalRotation);
+				else
+					_nodeToMove.transform.Rotate(new Vector3(0, 1, 0), horizontalRotation);
+			}
+			if (Mathf.Abs(VerticalRotation) > DeadZone)
+			{
+				var verticalRotation = VerticalRotation * RotationSpeed * time.DeltaTime();
+
+				if (_turnNode != null)
+					_nodeToMove.transform.RotateAround(_turnNode.transform.position, new Vector3(1, 0, 0), verticalRotation);
+				else
+					_nodeToMove.transform.Rotate(new Vector3(1, 0, 0), verticalRotation);
+			}
 		}
 
 		/// <summary>
