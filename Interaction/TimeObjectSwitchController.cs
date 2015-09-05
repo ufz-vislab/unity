@@ -35,7 +35,7 @@ namespace UFZ.Interaction
 				foreach (var sw in transform.GetComponentsInChildren<TimeObjectSwitch>())
 					sw.SetTime(value);
 				var hours = Mathf.FloorToInt(_time);
-				var minutes = (int) ((_time - hours)*60);
+				var minutes = (int)((_time - hours) * 60);
 				TimeString = hours.ToString("00") + ":" + minutes.ToString("00");
 			}
 		}
@@ -44,8 +44,8 @@ namespace UFZ.Interaction
 		public string TimeString { get; private set; }
 
 		private Vector2 _range;
-		[HideInInspector] public List<float> TimeSteps;
-		public bool IsPlaying = false;
+		[HideInInspector]
+		public List<float> TimeSteps;
 		public bool IsRepeating = false;
 
 		public float UnitsPerSecond = 1f;
@@ -73,7 +73,7 @@ namespace UFZ.Interaction
 		private void Update()
 		{
 			if (IsPlaying)
-				Time += UFZ.IOC.Core.Instance.Time.DeltaTime()*UnitsPerSecond;
+				Time += UFZ.IOC.Core.Instance.Time.DeltaTime() * UnitsPerSecond;
 		}
 
 		public override vrValue Forward(vrValue iValue = null)
