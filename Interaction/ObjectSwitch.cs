@@ -7,7 +7,6 @@ namespace UFZ.Interaction
 	public class ObjectSwitch : ObjectSwitchBase
 	{
 		public float Fps;
-		public bool IsPlaying = false;
 
 		void Reset()
 		{
@@ -50,16 +49,16 @@ namespace UFZ.Interaction
 		public override vrValue Forward(vrValue iValue = null)
 		{
 			IsPlaying = false;
-			if(ElapsedTime > (1f / Fps))
-				SetActiveChild(ActiveChild + 1);
+			//if (ElapsedTime > (1f / Fps))
+			SetActiveChild(ActiveChild + 1);
 			return iValue;
 		}
 
 		public override vrValue Back(vrValue iValue = null)
 		{
 			IsPlaying = false;
-			if(ElapsedTime > (1f / Fps))
-				SetActiveChild(ActiveChild - 1);
+			//if (ElapsedTime > (1f / Fps))
+			SetActiveChild(ActiveChild - 1);
 			return iValue;
 		}
 

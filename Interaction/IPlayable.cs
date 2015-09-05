@@ -16,6 +16,8 @@ namespace UFZ.Interaction
 		public vrCommand StopCommand;
 		public vrCommand TogglePlayCommand;
 
+		public bool IsPlaying = false;
+
 		private void Start()
 		{
 			BeginCommand = new vrCommand("Begin Command - " + gameObject.name, Begin);
