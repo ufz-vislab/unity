@@ -57,6 +57,7 @@ public abstract class ObjectSwitchBase : IPlayable
 		ElapsedTime = 0f;
 	}
 
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 	public override vrValue Begin(vrValue iValue = null)
 	{
 		SetActiveChild(0);
@@ -68,4 +69,15 @@ public abstract class ObjectSwitchBase : IPlayable
 		SetActiveChild(transform.childCount - 1);
 		return iValue;
 	}
+#else
+	public override void Begin()
+	{
+		SetActiveChild(0);
+	}
+
+	public override void End()
+	{
+		SetActiveChild(transform.childCount - 1);
+	}
+#endif
 }

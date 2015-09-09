@@ -6,6 +6,7 @@ namespace UFZ.Menu
 {
 	public class VrMenuViewpoint : MonoBehaviour
 	{
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 		private vrWidgetMenu _menu;
 
 		private IEnumerator Start()
@@ -45,5 +46,6 @@ namespace UFZ.Menu
 				resetButton.AddCommand(playerComp.ResetRotationCommand);
 			}
 		}
+#endif
 	}
 }

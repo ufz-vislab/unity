@@ -76,6 +76,7 @@ namespace UFZ.Interaction
 				Time += UFZ.IOC.Core.Instance.Time.DeltaTime() * UnitsPerSecond;
 		}
 
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 		public override vrValue Forward(vrValue iValue = null)
 		{
 			Stop();
@@ -125,5 +126,49 @@ namespace UFZ.Interaction
 			IsPlaying = !IsPlaying;
 			return iValue;
 		}
+#else
+		public override void Forward()
+		{
+			Stop();
+			var nearestStep = Mathf.Abs(TimeSteps.BinarySearch(Time + 0.00001f)) - 1;
+			if (nearestStep < TimeSteps.Count)
+				Time = TimeSteps[nearestStep];
+		}
+
+		public override void Back()
+		{
+			Stop();
+			var nearestStep = Mathf.Abs(TimeSteps.BinarySearch(Time - 0.00001f)) - 2;
+			if (nearestStep >= 0)
+				Time = TimeSteps[nearestStep];
+		}
+
+		public override void Begin()
+		{
+			Stop();
+			Time = _range.x;
+		}
+
+		public override void End()
+		{
+			Stop();
+			Time = _range.y;
+		}
+
+		public override void Play()
+		{
+			IsPlaying = true;
+		}
+
+		public override void Stop()
+		{
+			IsPlaying = false;
+		}
+
+		public override void TogglePlay()
+		{
+			IsPlaying = !IsPlaying;
+		}
+#endif
 	}
 }

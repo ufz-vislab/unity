@@ -1,4 +1,3 @@
-using MiddleVR_Unity3D;
 using UnityEngine;
 
 namespace UFZ.Interaction
@@ -8,15 +7,11 @@ namespace UFZ.Interaction
 		void Start ()
 		{
 			DeadZone = 0.15f;
-
-			CreateInteraction("GamepadNavigation");
-			GetInteraction().AddTag("ContinuousNavigation");
-			Activate();
-			MVRTools.Log("[ ] Navigation Gamepad activated.");
 		}
 
 		protected override void GetInputs()
 		{
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 			if(MiddleVR.VRDeviceMgr == null)
 				return;
 
@@ -28,6 +23,7 @@ namespace UFZ.Interaction
 			Sideward = joystick.GetAxisValue(0);
 			HorizontalRotation = joystick.GetAxisValue(3);
 			Running = Mathf.Abs(joystick.GetAxisValue(2));
+#endif
 		}
 	}
 }

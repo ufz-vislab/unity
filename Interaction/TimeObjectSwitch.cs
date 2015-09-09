@@ -48,6 +48,7 @@ namespace UFZ.Interaction
 			SetActiveChild((int) Math.Floor((time - StartTime)/StepSize));
 		}
 
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 		public override vrValue Forward(vrValue iValue = null)
 		{
 			throw new NotImplementedException();
@@ -72,5 +73,31 @@ namespace UFZ.Interaction
 		{
 			throw new NotImplementedException();
 		}
+#else
+		public override void Forward()
+		{
+			throw new NotImplementedException();
+		}
+
+		public override void Back()
+		{
+			throw new NotImplementedException();
+		}
+
+		public override void Play()
+		{
+			throw new NotImplementedException();
+		}
+
+		public override void Stop()
+		{
+			throw new NotImplementedException();
+		}
+
+		public override void TogglePlay()
+		{
+			throw new NotImplementedException();
+		}
+#endif
 	}
 }

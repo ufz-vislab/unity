@@ -41,9 +41,18 @@ namespace UFZ.Initialization
 					"UFZ/Create scene setup!");
 				return;
 			}
+
 			var viewpointGo = new GameObject("New Viewpoint");
 			Undo.RegisterCreatedObjectUndo(viewpointGo, "Created new viewpoint");
 			viewpointGo.transform.SetParent(viewpointsGo.transform, false);
+			// TODO sets the pivot point and not the transform?
+			//var cam = Camera.current;
+			//if (cam)
+			//{
+			//	viewpointsGo.transform.position = cam.transform.position;
+			//	viewpointsGo.transform.rotation = cam.transform.rotation;
+			//	viewpointsGo.transform.hasChanged = true;
+			//}
 			viewpointGo.AddComponent<Viewpoint>();
 
 			Selection.activeGameObject = viewpointGo;

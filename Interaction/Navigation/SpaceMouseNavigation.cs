@@ -1,6 +1,3 @@
-using MiddleVR_Unity3D;
-using UnityEngine;
-
 namespace UFZ.Interaction
 {
 	/// <summary>
@@ -17,15 +14,11 @@ namespace UFZ.Interaction
 		{
 			DirectionReferenceNode = "HeadNode";
 			DeadZone = 0.05f;
-
-			CreateInteraction("SpaceMouseNavigation");
-			GetInteraction().AddTag("ContinuousNavigation");
-			Activate();
-			MVRTools.Log("[ ] Navigation SpaceMouse activated.");
 		}
 
 		protected override void GetInputs()
 		{
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 			var axis = MiddleVR.VRDeviceMgr.GetAxis(DeviceName + ".Axis");
 			var buttons = MiddleVR.VRDeviceMgr.GetButtons(DeviceName + ".Buttons");
 
@@ -40,6 +33,7 @@ namespace UFZ.Interaction
 				return;
 
 			Running = buttons.IsPressed(0) ? 1.0f : 0.0f;
+#endif
 		}
 	}
 }

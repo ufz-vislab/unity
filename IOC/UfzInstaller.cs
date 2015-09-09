@@ -20,6 +20,7 @@ namespace UFZ.Initialization
 			Container.Bind<ILogger>().ToSingle<MiddleVrLogger>();
 			Container.Bind<IInput>().ToSingle<MiddleVrInput>();
 			Container.Bind<IEnvironment>().ToSingle<MiddleVrEnvironment>();
+			Container.Bind<ICamera>().ToSingle<MiddleVrCamera>();
 #else
 			Container.Bind<ITime>().ToSingle<UnityTime>();
 			Container.Bind<IKeyboard>().ToSingle<UnityKeyboard>();
@@ -27,6 +28,7 @@ namespace UFZ.Initialization
 			Container.Bind<ILogger>().ToSingle<UnityLogger>();
 			Container.Bind<IInput>().ToSingle<UnityInput>();
 			Container.Bind<IEnvironment>().ToSingle<UnityEnvironment>();
+			Container.Bind<ICamera>().ToSingle<UnityCamera>();
 #endif
 		}
 	}

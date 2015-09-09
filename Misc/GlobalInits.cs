@@ -1,7 +1,5 @@
-using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
-using FullInspector;
 using UFZ.Interaction;
 using UnityEngine;
 
@@ -33,31 +31,43 @@ namespace UFZ.Initialization
 
 		protected void Awake()
 		{
+			// Setup player
+			var playerGo = GameObject.Find("Player");
+			if (playerGo.transform.FindChild("HeadNode") == null)
+			{
+				var headGo = new GameObject("HeadNode");
+				headGo.transform.SetParent(playerGo.transform, false);
+				var camGo = GameObject.FindWithTag("MainCamera");
+				camGo.transform.SetParent(headGo.transform, false);
+
+				var handGo = new GameObject("HandNode");
+				handGo.transform.SetParent(playerGo.transform, false);
+			}
+
 			var wandGo = GameObject.Find("VRWand");
 
 #if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-		foreach(var script in disabledScripts)
-			script.enabled = false;
+			foreach(var script in disabledScripts)
+				script.enabled = false;
 
-		foreach(var go in disabledGameObjects)
-			go.SetActive(false);
+			foreach(var go in disabledGameObjects)
+				go.SetActive(false);
+#endif
+#if !(UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN)
+			foreach(var actor in FindObjectsOfType<VRActor>())
+				actor.enabled = false;
 #endif
 			if (IOC.Core.Instance.Environment.IsCluster())
 				GuiInputType = InputType.Wand;
 			else
 			{
-				for (uint index = 0; index < MiddleVR.VRDeviceMgr.GetDevicesNb(); index++)
+				if (IOC.Core.Instance.Environment.HasDevice("Rift"))
 				{
-					var device = MiddleVR.VRDeviceMgr.GetDeviceByIndex(index);
-					if (device.GetName().Contains("Rift"))
-					{
-						GuiInputType = InputType.Head;
-						CanvasPosition = new Vector3(0f, 0f, 0.2f);
-						var navigations = FindObjectsOfType<NavigationBase>();
-						foreach (var navigation in navigations)
-							navigation.DirectionReferenceNode = "HeadNode";
-						break;
-					}
+					GuiInputType = InputType.Head;
+					CanvasPosition = new Vector3(0f, 0f, 0.2f);
+					var navigations = FindObjectsOfType<NavigationBase>();
+					foreach (var navigation in navigations)
+						navigation.DirectionReferenceNode = "HeadNode";
 				}
 			}
 
@@ -116,9 +126,6 @@ namespace UFZ.Initialization
 
 			inputModule.enabled = false;
 			inputModule.cursor.gameObject.SetActive(false);
-
-
-
 		}
 
 		public void Start()

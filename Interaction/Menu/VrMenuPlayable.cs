@@ -8,6 +8,7 @@ namespace UFZ.Menu
 {
 	public class VrMenuPlayable : MonoBehaviour
 	{
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 		private vrWidgetMenu _menu;
 
 #pragma warning disable 414
@@ -93,5 +94,6 @@ namespace UFZ.Menu
 
 			return null;
 		}
+#endif
 	}
 }

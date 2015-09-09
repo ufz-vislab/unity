@@ -12,6 +12,7 @@ namespace UFZ.Interaction
 		/// </summary>
 		public vrCommand ResetRotationCommand;
 
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 		private void Awake()
 		{
 			ResetRotationCommand = new vrCommand("Reset Rotation Command", ResetRotation);
@@ -23,5 +24,6 @@ namespace UFZ.Interaction
 			node.SetOrientationLocal(new vrQuat(node.GetYawLocal(), 0, 0));
 			return 0;
 		}
+#endif
 	}
 }

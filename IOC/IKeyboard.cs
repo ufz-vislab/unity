@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace UFZ.IOC
@@ -39,7 +38,7 @@ namespace UFZ.IOC
 
 		static public uint Map(KeyCode key)
 		{
-			if(_mapping == null)
+			if (_mapping == null)
 				createMapping();
 			return _mapping[key];
 		}

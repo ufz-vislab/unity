@@ -28,6 +28,7 @@ namespace UFZ.Interaction
 			IsPlaying = false;
 		}
 
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 		public override vrValue Play(vrValue iValue = null)
 		{
 			IsPlaying = true;
@@ -73,5 +74,45 @@ namespace UFZ.Interaction
 			IsPlaying = false;
 			return base.End(iValue);
 		}
+#else
+		public override void Play()
+		{
+			IsPlaying = true;
+		}
+
+		public override void Stop()
+		{
+			IsPlaying = false;
+		}
+
+		public override void TogglePlay()
+		{
+			IsPlaying = !IsPlaying;
+		}
+
+		public override void Forward()
+		{
+			IsPlaying = false;
+			//if (ElapsedTime > (1f / Fps))
+			SetActiveChild(ActiveChild + 1);
+		}
+
+		public override void Back()
+		{
+			IsPlaying = false;
+			//if (ElapsedTime > (1f / Fps))
+			SetActiveChild(ActiveChild - 1);
+		}
+
+		public override void Begin()
+		{
+			IsPlaying = false;
+		}
+
+		public override void End()
+		{
+			IsPlaying = false;
+		}
+#endif
 	}
 }

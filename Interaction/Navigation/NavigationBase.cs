@@ -8,9 +8,13 @@ namespace UFZ.Interaction
 	/// <summary>
 	/// Base class for fly-like navigation.
 	/// </summary>
-	/// 
+	///
 	/// Subclasses have to implement GetInputs().
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 	public abstract class NavigationBase : VRInteraction
+#else
+	public abstract class NavigationBase : MonoBehaviour
+#endif
 	{
 		/// <summary>
 		/// The name of the GameObject which will be moved.
@@ -71,15 +75,12 @@ namespace UFZ.Interaction
 		/// </summary>
 		protected float Running = 0.0f;
 
-		void Start()
-		{
-			InitializeBaseInteraction();
-		}
-
 		void Update()
 		{
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 			if (!IsActive())
 				return;
+#endif
 
 
 #if UNITY_EDITOR

@@ -1,18 +1,9 @@
-using MiddleVR_Unity3D;
 using UnityEngine;
 
 namespace UFZ.Interaction
 {
 	public class KeyboardNavigation : NavigationBase
 	{
-		void Start()
-		{
-			CreateInteraction("KeyboardNavigation");
-			GetInteraction().AddTag("ContinuousNavigation");
-			Activate();
-			MVRTools.Log("[ ] Navigation Keyboard activated.");
-		}
-
 		protected override void GetInputs()
 		{
 			var keyboard = UFZ.IOC.Core.Instance.Keyboard;

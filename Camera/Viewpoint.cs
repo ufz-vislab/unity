@@ -1,5 +1,4 @@
 using DG.Tweening;
-using FullInspector;
 using UnityEngine;
 
 namespace UFZ.Interaction
@@ -11,8 +10,11 @@ namespace UFZ.Interaction
 	public class Viewpoint : MonoBehaviour
 	{
 		public string NodeToMove = "Player";
+
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 		public vrCommand MoveToViewpointCommand;
 		public vrCommand JumpToViewpointCommand;
+#endif
 		public bool StartHere = false;
 
 		// TODO for MarkUX
@@ -28,11 +30,14 @@ namespace UFZ.Interaction
 		public void Start()
 		{
 			_nodeToMove = GameObject.Find("Player");
+
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 			MoveToViewpointCommand = new vrCommand("Move To Viewpoint Command " + GetInstanceID(), MoveToViewpoint);
 			JumpToViewpointCommand = new vrCommand("Jump To Viewpoint Command " + GetInstanceID(), JumpToViewpoint);
+#endif
 
 			if (StartHere)
-				JumpToViewpoint(0);
+				JumpToViewpoint();
 
 			// Workaround to null exceptions when there is no subscriber to the event
 			OnFinish += delegate { return; };
@@ -45,7 +50,11 @@ namespace UFZ.Interaction
 		/// </summary>
 		/// <param name="ivalue">Not used.</param>
 		/// <returns></returns>
-		public vrValue MoveToViewpoint(vrValue ivalue)
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+		public vrValue MoveToViewpoint(vrValue ivalue == null)
+#else
+		public void MoveToViewpoint()
+#endif
 		{
 			// TODO calculate speed
 			const float duration = 5;
@@ -53,7 +62,9 @@ namespace UFZ.Interaction
 			_nodeToMove.transform.DOMove(transform.position, duration)
 				.OnStart(() => OnStart(duration)).OnComplete(() => OnFinish());
 			_nodeToMove.transform.DORotate(transform.rotation.eulerAngles, duration);
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 			return true;
+#endif
 		}
 
 		/// <summary>
@@ -61,12 +72,18 @@ namespace UFZ.Interaction
 		/// </summary>
 		/// <param name="ivalue">Not used.</param>
 		/// <returns></returns>
-		public vrValue JumpToViewpoint(vrValue ivalue)
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+		public vrValue JumpToViewpoint(vrValue ivalue == null)
+#else
+		public void JumpToViewpoint()
+#endif
 		{
 			_nodeToMove.transform.position = transform.position;
 			_nodeToMove.transform.rotation = transform.rotation;
 			if(OnSet != null) OnSet();
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 			return true;
+#endif
 		}
 
 		public delegate void OnSetEvent();
