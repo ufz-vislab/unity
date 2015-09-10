@@ -109,7 +109,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!132 &37
 GUIText:
   m_ObjectHideFlags: 0
@@ -90466,6 +90466,7 @@ MonoBehaviour:
   _uniqueObjects: []
   _crossSceneReferences: []
   _topLevelGameObjs:
+  - {fileID: 36}
   - {fileID: 53}
   - {fileID: 128082368}
   - {fileID: 303000976}
@@ -118781,7 +118782,7 @@ Prefab:
       objectReference: {fileID: 63162017}
     - target: {fileID: 115336, guid: 2035effcd528cbb459ffd036bc42af77, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11415334, guid: 2035effcd528cbb459ffd036bc42af77, type: 2}
       propertyPath: TemplateCamera
