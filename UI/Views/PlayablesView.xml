@@ -1,0 +1,36 @@
+<PlayablesView>
+  <Region Width="30%" Alignment="Left" Margin="30,30,15,30">
+    <Group Spacing="10px" Alignment="TopLeft" ContentAlignment="Left">
+      <Label Text="{MenuHeader}" />
+      <FlowList Orientation="Vertical" Items="{Playables}" Height="180px" Id="PlayablesFlowList"
+                SelectedIndex="0" CanSelect="true" SelectionChanged="PlayableChanged"
+                BackgroundColor="Gray80"
+                HighlightedItemColor="Orange"
+                SelectedItemColor="Red">
+        <FlowListItem Id="Template">
+          <!--TODO <Label Text="{CameraPathNames[Item.Index].Value}" /> -->
+          <Label Text="Animation {Item.Index}" />
+        </FlowListItem>
+      </FlowList>
+    </Group>
+  </Region>
+  <Region Width="70%" Alignment="Right" Margin="15,30,30,30">
+    <Group Alignment="TopLeft" ContentAlignment="Left" Spacing="10px">
+      <Group Orientation="Horizontal" Spacing="10px">
+        <Label Text="Position" />
+        <Slider Value="{SelectedPosition}" Min="0.0" Max="1.0" />
+      </Group>
+      <Group Orientation="Horizontal" Spacing="10px">
+        <Button Text="{ToggleButtonText}" Click="TogglePlay" />
+      </Group>
+      <Group Orientation="Horizontal" Spacing="10px">
+        <Button Text="Back" Click="Back" />
+        <Button Text="Forward" Click="Forward" />
+      </Group>
+      <Group Orientation="Horizontal" Spacing="10px">
+        <Button Text="To Start" Click="ToStart" />
+        <Button Text="To End" Click="ToEnd" />
+      </Group>
+    </Group>
+  </Region>
+</PlayablesView>

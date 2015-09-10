@@ -1,0 +1,17 @@
+<VisibilityView EnabledChanged="EnabledHandler">
+  <Group Alignment="TopLeft" ContentAlignment="Left" Spacing="10px">
+    <DataGrid RowSpacing="10px" ShowHeaders="True" Items="{Objects}"
+              TextAlignment="Left" HeaderTextAlignment="Center" SortColumnIndex="1" CanSelect="false">
+      <RowDefinition Height="40px">
+        <ColumnDefinition Width="*" Header="Object" Text="{Item.Name}">
+        </ColumnDefinition>
+        <ColumnDefinition Width="*" Header="Opacity">
+          <Slider Value="{Item.Opacity}" Min="0.0" Max="1.0" />
+        </ColumnDefinition>
+        <ColumnDefinition Width="20%" Header="Enabled">
+          <Button Style="CheckBox" IsToggleButton="True" ToggleValue="{Item.Enabled}" Width="40px" />
+        </ColumnDefinition>
+      </RowDefinition>
+    </DataGrid>
+  </Group>
+</VisibilityView>

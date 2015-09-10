@@ -1,0 +1,20 @@
+<CameraPathsView>
+  <Region Width="30%" Alignment="Left" Margin="30,30,15,30">
+    <Group Spacing="10px" Alignment="TopLeft" ContentAlignment="Left">
+      <Label Text="{MenuHeader}" />
+      <FlowList Orientation="Vertical" Items="{CameraPaths}" Height="180px" Id="PathsFlowList"
+                SelectedIndex="0" CanSelect="true" SelectionChanged="PathChanged"
+                BackgroundColor="Gray80"
+                HighlightedItemColor="Orange"
+                SelectedItemColor="Red">
+        <FlowListItem Id="Template">
+          <!--TODO <Label Text="{CameraPathNames[Item.Index].Value}" /> -->
+          <Label Text="Path {Item.Index}" />
+        </FlowListItem>
+      </FlowList>
+    </Group>
+  </Region>
+  <Region Width="70%" Alignment="Right" Margin="15,30,30,30">
+    <CameraPathView Id="PathView" CameraPath="{SelectedPath}" Position="{SelectedPathPosition}" />
+  </Region>
+</CameraPathsView>

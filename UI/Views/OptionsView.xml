@@ -1,0 +1,12 @@
+<OptionsView>
+  <Group Spacing="10px" Alignment="TopLeft" ContentAlignment="Left">
+    <Label Text="Volume: " />
+    <Slider Value="{Volume}" Min="0" Max="100" Width="400px" />
+
+    <Label Text="Easy mode: " />
+    <Button Style="CheckBox" IsToggleButton="True" ToggleValue="{EasyMode}" />
+
+    <Label Text="Player: " />
+    <InputField Text="{PlayerName}" />
+  </Group>
+</OptionsView>
