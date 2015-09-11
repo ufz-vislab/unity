@@ -131,7 +131,7 @@ namespace UFZ.Initialization
 		public void Start()
 		{
 			DOTween.Init();
-
+			Loom.Current.GetComponent<Loom>();
 		}
 
 		public void Update()

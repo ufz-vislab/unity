@@ -122,6 +122,7 @@ namespace UFZ.Rendering
 
 				_opacity = value;
 
+#if UNITY_EDITOR
 				if (!FullInspector.Internal.fiUtility.IsMainThread)
 					return;
 
@@ -131,6 +132,18 @@ namespace UFZ.Rendering
 				PropertyBlock.SetVector(colorId, color);
 				UpdateShader();
 				UpdateRenderers();
+#else
+
+				Loom.QueueOnMainThread(() =>
+				{
+					var colorId = Shader.PropertyToID("_Color");
+					var color = PropertyBlock.GetVector(colorId);
+					color.w = _opacity;
+					PropertyBlock.SetVector(colorId, color);
+					UpdateShader();
+					UpdateRenderers();
+				});
+#endif
 			}
 		}
 
@@ -175,11 +188,19 @@ namespace UFZ.Rendering
 			{
 				_solidColor = value;
 
+#if UNITY_EDITOR
 				if (!FullInspector.Internal.fiUtility.IsMainThread)
 					return;
 
 				PropertyBlock.SetColor(Shader.PropertyToID("_Color"), new Color(value.r, value.g, value.b, _opacity));
 				UpdateRenderers();
+#else
+				Loom.QueueOnMainThread(() =>
+				{
+					PropertyBlock.SetColor(Shader.PropertyToID("_Color"), new Color(value.r, value.g, value.b, _opacity));
+					UpdateRenderers();
+				});
+#endif
 			}
 		}
 
@@ -249,15 +270,25 @@ namespace UFZ.Rendering
 		/// <summary>Sets the appropriate shader via string-kungfu.</summary>
 		public void UpdateShader()
 		{
-			if (!FullInspector.Internal.fiUtility.IsMainThread)
-				return;
-
 			var stackTrace = new StackTrace();
 			if (stackTrace.GetFrames().Any(stackFrame => stackFrame.GetMethod().Name.Contains("RestoreState")))
 				return;
 
 			if (gameObject == null)
 				return;
+
+#if UNITY_EDITOR
+			if (!FullInspector.Internal.fiUtility.IsMainThread)
+				return;
+
+			UpdateShaderInternal();
+#else
+			Loom.QueueOnMainThread(UpdateShaderInternal);
+#endif
+		}
+
+		private void UpdateShaderInternal()
+		{
 			foreach (var localRenderer in gameObject.GetComponentsInChildren<Renderer>())
 			{
 				localRenderer.enabled = Enabled;
@@ -317,7 +348,6 @@ namespace UFZ.Rendering
 							}
 							break;
 					}
-
 				}
 				if (Application.isPlaying)
 					localRenderer.materials = materials;
