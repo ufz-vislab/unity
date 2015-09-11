@@ -85,18 +85,6 @@ NavMeshSettings:
     cellSize: .166666657
     manualCellSize: 0
   m_NavMeshData: {fileID: 0}
---- !u!114 &28983085 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 11400000, guid: d85186b59a2b541f2b84a5c886c9b259,
-    type: 3}
-  m_PrefabInternal: {fileID: 297264797}
-  m_Script: {fileID: 11500000, guid: 4491fdbee359b4530b547f55eee6829a, type: 3}
---- !u!114 &28983086 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 11400002, guid: d85186b59a2b541f2b84a5c886c9b259,
-    type: 3}
-  m_PrefabInternal: {fileID: 297264797}
-  m_Script: {fileID: 11500000, guid: 1b7d7b08a1f52460cba95f3b49f7385b, type: 3}
 --- !u!1001 &217051223
 Prefab:
   m_ObjectHideFlags: 0
@@ -166,7 +154,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400002, guid: 8f0e735168b3447a891bd6c9d6510685, type: 3}
       propertyPath: _serializedStateValues.Array.data[0]
-      value: 1.0
+      value: false
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8f0e735168b3447a891bd6c9d6510685, type: 3}
@@ -295,7 +283,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 074e861608f1e4737b85f3a42fd528d9, type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 2300004, guid: 074e861608f1e4737b85f3a42fd528d9, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -405,7 +393,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: d85186b59a2b541f2b84a5c886c9b259, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 11400002, guid: d85186b59a2b541f2b84a5c886c9b259, type: 3}
       propertyPath: _objectReferences.Array.data[0]
@@ -567,41 +555,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _keys:
   - {fileID: 245198008}
-  - {fileID: 2144765672}
-  - {fileID: 2144765671}
   - {fileID: 369927610}
-  - {fileID: 1132447732}
-  - {fileID: 1132447731}
   - {fileID: 683304585}
   - {fileID: 875449755}
   - {fileID: 1351098641}
-  - {fileID: 1062167157}
-  - {fileID: 1062167156}
-  - {fileID: 28983086}
-  - {fileID: 28983085}
-  - {fileID: 1708897380}
-  - {fileID: 1708897379}
-  - {fileID: 2007645164}
-  - {fileID: 2007645163}
+  - {fileID: 1351580066}
+  - {fileID: 1351580065}
   _values:
   - _keys: []
     _values: []
     _target: {fileID: 245198008}
   - _keys: []
     _values: []
-    _target: {fileID: 2144765672}
-  - _keys: []
-    _values: []
-    _target: {fileID: 2144765671}
-  - _keys: []
-    _values: []
     _target: {fileID: 369927610}
-  - _keys: []
-    _values: []
-    _target: {fileID: 1132447732}
-  - _keys: []
-    _values: []
-    _target: {fileID: 1132447731}
   - _keys: []
     _values: []
     _target: {fileID: 683304585}
@@ -613,28 +579,10 @@ MonoBehaviour:
     _target: {fileID: 1351098641}
   - _keys: []
     _values: []
-    _target: {fileID: 1062167157}
+    _target: {fileID: 1351580066}
   - _keys: []
     _values: []
-    _target: {fileID: 1062167156}
-  - _keys: []
-    _values: []
-    _target: {fileID: 28983086}
-  - _keys: []
-    _values: []
-    _target: {fileID: 28983085}
-  - _keys: []
-    _values: []
-    _target: {fileID: 1708897380}
-  - _keys: []
-    _values: []
-    _target: {fileID: 1708897379}
-  - _keys: []
-    _values: []
-    _target: {fileID: 2007645164}
-  - _keys: []
-    _values: []
-    _target: {fileID: 2007645163}
+    _target: {fileID: 1351580065}
 --- !u!114 &640131314
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -648,22 +596,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _keys:
   - {fileID: 245198008}
-  - {fileID: 2144765672}
-  - {fileID: 2144765671}
   - {fileID: 369927610}
-  - {fileID: 1132447732}
-  - {fileID: 1132447731}
   - {fileID: 683304585}
   - {fileID: 875449755}
   - {fileID: 1351098641}
-  - {fileID: 1062167157}
-  - {fileID: 1062167156}
-  - {fileID: 28983086}
-  - {fileID: 28983085}
-  - {fileID: 1708897380}
-  - {fileID: 1708897379}
-  - {fileID: 2007645164}
-  - {fileID: 2007645163}
+  - {fileID: 1351580066}
+  - {fileID: 1351580065}
   _values:
   - _keys: []
     _values: []
@@ -679,28 +617,7 @@ MonoBehaviour:
       _serializedIsActive: 1
     - _showDropdown: 0
       _serializedIsActive: 1
-    _target: {fileID: 2144765672}
-  - _keys: []
-    _values: []
-    _target: {fileID: 2144765671}
-  - _keys:
-    - DefaultBehaviorEditor.Enabled.EditProperty
-    - DefaultBehaviorEditor.Opacity.EditProperty
-    - DefaultBehaviorEditor.ColorBy.EditProperty
-    _values:
-    - _showDropdown: 0
-      _serializedIsActive: 1
-    - _showDropdown: 0
-      _serializedIsActive: 1
-    - _showDropdown: 0
-      _serializedIsActive: 1
     _target: {fileID: 369927610}
-  - _keys: []
-    _values: []
-    _target: {fileID: 1132447732}
-  - _keys: []
-    _values: []
-    _target: {fileID: 1132447731}
   - _keys:
     - DefaultBehaviorEditor.Enabled.EditProperty
     - DefaultBehaviorEditor.Opacity.EditProperty
@@ -737,66 +654,12 @@ MonoBehaviour:
     - _showDropdown: 0
       _serializedIsActive: 1
     _target: {fileID: 1351098641}
-  - _keys:
-    - DefaultBehaviorEditor.Enabled.EditProperty
-    - DefaultBehaviorEditor.Opacity.EditProperty
-    - DefaultBehaviorEditor.ColorBy.EditProperty
-    _values:
-    - _showDropdown: 0
-      _serializedIsActive: 1
-    - _showDropdown: 0
-      _serializedIsActive: 1
-    - _showDropdown: 0
-      _serializedIsActive: 1
-    _target: {fileID: 1062167157}
   - _keys: []
     _values: []
-    _target: {fileID: 1062167156}
-  - _keys:
-    - DefaultBehaviorEditor.Enabled.EditProperty
-    - DefaultBehaviorEditor.Opacity.EditProperty
-    - DefaultBehaviorEditor.ColorBy.EditProperty
-    _values:
-    - _showDropdown: 0
-      _serializedIsActive: 1
-    - _showDropdown: 0
-      _serializedIsActive: 1
-    - _showDropdown: 0
-      _serializedIsActive: 1
-    _target: {fileID: 28983086}
+    _target: {fileID: 1351580066}
   - _keys: []
     _values: []
-    _target: {fileID: 28983085}
-  - _keys:
-    - DefaultBehaviorEditor.Enabled.EditProperty
-    - DefaultBehaviorEditor.Opacity.EditProperty
-    - DefaultBehaviorEditor.ColorBy.EditProperty
-    _values:
-    - _showDropdown: 0
-      _serializedIsActive: 1
-    - _showDropdown: 0
-      _serializedIsActive: 1
-    - _showDropdown: 0
-      _serializedIsActive: 1
-    _target: {fileID: 1708897380}
-  - _keys: []
-    _values: []
-    _target: {fileID: 1708897379}
-  - _keys:
-    - DefaultBehaviorEditor.Enabled.EditProperty
-    - DefaultBehaviorEditor.Opacity.EditProperty
-    - DefaultBehaviorEditor.ColorBy.EditProperty
-    _values:
-    - _showDropdown: 0
-      _serializedIsActive: 1
-    - _showDropdown: 0
-      _serializedIsActive: 1
-    - _showDropdown: 0
-      _serializedIsActive: 1
-    _target: {fileID: 2007645164}
-  - _keys: []
-    _values: []
-    _target: {fileID: 2007645163}
+    _target: {fileID: 1351580065}
 --- !u!4 &640131315
 Transform:
   m_ObjectHideFlags: 1
@@ -981,7 +844,7 @@ Prefab:
       objectReference: {fileID: 2100000, guid: 87597f8f80d204950a8be531d14c9202, type: 2}
     - target: {fileID: 400000, guid: d85186b59a2b541f2b84a5c886c9b259, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 11400002, guid: d85186b59a2b541f2b84a5c886c9b259, type: 3}
       propertyPath: _objectReferences.Array.data[1]
@@ -1136,30 +999,6 @@ MonoBehaviour:
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 074e861608f1e4737b85f3a42fd528d9, type: 3}
   m_PrefabInternal: {fileID: 264270065}
---- !u!114 &1062167156 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 11400000, guid: d85186b59a2b541f2b84a5c886c9b259,
-    type: 3}
-  m_PrefabInternal: {fileID: 245198006}
-  m_Script: {fileID: 11500000, guid: 4491fdbee359b4530b547f55eee6829a, type: 3}
---- !u!114 &1062167157 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 11400002, guid: d85186b59a2b541f2b84a5c886c9b259,
-    type: 3}
-  m_PrefabInternal: {fileID: 245198006}
-  m_Script: {fileID: 11500000, guid: 1b7d7b08a1f52460cba95f3b49f7385b, type: 3}
---- !u!114 &1132447731 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 11400000, guid: d85186b59a2b541f2b84a5c886c9b259,
-    type: 3}
-  m_PrefabInternal: {fileID: 1738400119}
-  m_Script: {fileID: 11500000, guid: 4491fdbee359b4530b547f55eee6829a, type: 3}
---- !u!114 &1132447732 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 11400002, guid: d85186b59a2b541f2b84a5c886c9b259,
-    type: 3}
-  m_PrefabInternal: {fileID: 1738400119}
-  m_Script: {fileID: 11500000, guid: 1b7d7b08a1f52460cba95f3b49f7385b, type: 3}
 --- !u!1 &1190944705 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: d85186b59a2b541f2b84a5c886c9b259, type: 3}
@@ -1271,6 +1110,18 @@ MonoBehaviour:
   - '[0]'
   _materials:
   - {fileID: 2100000, guid: 7212080d66a65fc4c9441a24c98807e4, type: 2}
+--- !u!114 &1351580065 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11400000, guid: d85186b59a2b541f2b84a5c886c9b259,
+    type: 3}
+  m_PrefabInternal: {fileID: 1738400119}
+  m_Script: {fileID: 11500000, guid: 4491fdbee359b4530b547f55eee6829a, type: 3}
+--- !u!114 &1351580066 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11400002, guid: d85186b59a2b541f2b84a5c886c9b259,
+    type: 3}
+  m_PrefabInternal: {fileID: 1738400119}
+  m_Script: {fileID: 11500000, guid: 1b7d7b08a1f52460cba95f3b49f7385b, type: 3}
 --- !u!1 &1377475446 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: d85186b59a2b541f2b84a5c886c9b259, type: 3}
@@ -1335,18 +1186,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!114 &1708897379 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 11400000, guid: d85186b59a2b541f2b84a5c886c9b259,
-    type: 3}
-  m_PrefabInternal: {fileID: 852128309}
-  m_Script: {fileID: 11500000, guid: 4491fdbee359b4530b547f55eee6829a, type: 3}
---- !u!114 &1708897380 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 11400002, guid: d85186b59a2b541f2b84a5c886c9b259,
-    type: 3}
-  m_PrefabInternal: {fileID: 852128309}
-  m_Script: {fileID: 11500000, guid: 1b7d7b08a1f52460cba95f3b49f7385b, type: 3}
 --- !u!1 &1737608649 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 76a1f11c68f5741f18978e9ce7be9a73, type: 3}
@@ -1396,7 +1235,7 @@ Prefab:
       objectReference: {fileID: 2100000, guid: 3eeeffcc1d15d45728d71b699e8c4ed1, type: 2}
     - target: {fileID: 400000, guid: d85186b59a2b541f2b84a5c886c9b259, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 11400002, guid: d85186b59a2b541f2b84a5c886c9b259, type: 3}
       propertyPath: _objectReferences.Array.data[0]
@@ -1404,7 +1243,7 @@ Prefab:
       objectReference: {fileID: 2100000, guid: 3eeeffcc1d15d45728d71b699e8c4ed1, type: 2}
     - target: {fileID: 11400002, guid: d85186b59a2b541f2b84a5c886c9b259, type: 3}
       propertyPath: _serializedStateValues.Array.data[1]
-      value: 0.529999971389771
+      value: 0.489999979734421
       objectReference: {fileID: 0}
     - target: {fileID: 11400002, guid: d85186b59a2b541f2b84a5c886c9b259, type: 3}
       propertyPath: _materials.Array.data[0]
@@ -1414,6 +1253,10 @@ Prefab:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 3eeeffcc1d15d45728d71b699e8c4ed1, type: 2}
+    - target: {fileID: 11400000, guid: d85186b59a2b541f2b84a5c886c9b259, type: 3}
+      propertyPath: ScriptableObject
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d85186b59a2b541f2b84a5c886c9b259, type: 3}
   m_IsPrefabParent: 0
@@ -1607,18 +1450,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 13
---- !u!114 &2007645163 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 11400004, guid: 074e861608f1e4737b85f3a42fd528d9,
-    type: 3}
-  m_PrefabInternal: {fileID: 264270065}
-  m_Script: {fileID: 11500000, guid: 4491fdbee359b4530b547f55eee6829a, type: 3}
---- !u!114 &2007645164 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 11400006, guid: 074e861608f1e4737b85f3a42fd528d9,
-    type: 3}
-  m_PrefabInternal: {fileID: 264270065}
-  m_Script: {fileID: 11500000, guid: 1b7d7b08a1f52460cba95f3b49f7385b, type: 3}
 --- !u!1001 &2031360317
 Prefab:
   m_ObjectHideFlags: 0
@@ -1660,7 +1491,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400002, guid: 76a1f11c68f5741f18978e9ce7be9a73, type: 3}
       propertyPath: _serializedStateValues.Array.data[2]
-      value: '{"r":0.0,"g":0.0,"b":0.0,"a":0.0}'
+      value: '"SolidColor"'
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 76a1f11c68f5741f18978e9ce7be9a73, type: 3}
       propertyPath: m_RootOrder
@@ -1688,11 +1519,11 @@ Prefab:
       objectReference: {fileID: 2100000, guid: 4d79a8cbdc6ce4755a3b37d8f768b4ec, type: 2}
     - target: {fileID: 11400002, guid: 76a1f11c68f5741f18978e9ce7be9a73, type: 3}
       propertyPath: _serializedStateValues.Array.data[0]
-      value: 1.0
+      value: false
       objectReference: {fileID: 0}
     - target: {fileID: 11400002, guid: 76a1f11c68f5741f18978e9ce7be9a73, type: 3}
       propertyPath: _serializedStateValues.Array.data[6]
-      value: '[0]'
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 11400002, guid: 76a1f11c68f5741f18978e9ce7be9a73, type: 3}
       propertyPath: _materials.Array.data[0]
@@ -1704,7 +1535,7 @@ Prefab:
       objectReference: {fileID: 2100000, guid: 4d79a8cbdc6ce4755a3b37d8f768b4ec, type: 2}
     - target: {fileID: 11400002, guid: 76a1f11c68f5741f18978e9ce7be9a73, type: 3}
       propertyPath: _serializedStateValues.Array.data[3]
-      value: '"Unlit"'
+      value: '{"r":0.0,"g":0.0,"b":0.0,"a":0.0}'
       objectReference: {fileID: 0}
     - target: {fileID: 2300002, guid: 76a1f11c68f5741f18978e9ce7be9a73, type: 3}
       propertyPath: m_Enabled
@@ -1721,15 +1552,3 @@ Prefab:
 Transform:
   m_PrefabParentObject: {fileID: 400002, guid: 8f0e735168b3447a891bd6c9d6510685, type: 3}
   m_PrefabInternal: {fileID: 217051223}
---- !u!114 &2144765671 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 11400000, guid: 074e861608f1e4737b85f3a42fd528d9,
-    type: 3}
-  m_PrefabInternal: {fileID: 264270065}
-  m_Script: {fileID: 11500000, guid: 4491fdbee359b4530b547f55eee6829a, type: 3}
---- !u!114 &2144765672 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 11400002, guid: 074e861608f1e4737b85f3a42fd528d9,
-    type: 3}
-  m_PrefabInternal: {fileID: 264270065}
-  m_Script: {fileID: 11500000, guid: 1b7d7b08a1f52460cba95f3b49f7385b, type: 3}
