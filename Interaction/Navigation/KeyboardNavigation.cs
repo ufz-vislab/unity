@@ -6,7 +6,7 @@ namespace UFZ.Interaction
 	{
 		protected override void GetInputs()
 		{
-			var keyboard = UFZ.IOC.Core.Instance.Keyboard;
+			var keyboard = IOC.Core.Instance.Keyboard;
 			if (keyboard.IsKeyPressed(KeyCode.W))
 				Forward = 1f;
 			if (keyboard.IsKeyPressed(KeyCode.S))

@@ -77,20 +77,14 @@ namespace UFZ.Interaction
 
 		void Update()
 		{
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-			if (!IsActive())
-				return;
-#endif
-
-
 #if UNITY_EDITOR
 			// Disable input when GameView is not focussed
-#if UNITY_4_0
+#if UNITY_4_6
 			var window = EditorWindow.focusedWindow;
 			if (window != null && window.title != "UnityEditor.GameView")
 				return;
 #endif
-#if UNITY_5_0
+#if UNITY_5_2
 			var window = EditorWindow.focusedWindow;
 			if (window != null && window.titleContent.text != "Game")
 				return;

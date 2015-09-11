@@ -41,7 +41,7 @@ namespace UFZ.Interaction
 
 			// Workaround to null exceptions when there is no subscriber to the event
 			OnFinish += delegate { return; };
-			OnStart += delegate(float duration) { return; };
+			OnStart += delegate (float duration) { return; };
 			OnFinish += delegate { return; };
 		}
 
@@ -51,7 +51,7 @@ namespace UFZ.Interaction
 		/// <param name="ivalue">Not used.</param>
 		/// <returns></returns>
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-		public vrValue MoveToViewpoint(vrValue ivalue == null)
+		public vrValue MoveToViewpoint(vrValue ivalue = null)
 #else
 		public void MoveToViewpoint()
 #endif
@@ -73,14 +73,14 @@ namespace UFZ.Interaction
 		/// <param name="ivalue">Not used.</param>
 		/// <returns></returns>
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-		public vrValue JumpToViewpoint(vrValue ivalue == null)
+		public vrValue JumpToViewpoint(vrValue ivalue = null)
 #else
 		public void JumpToViewpoint()
 #endif
 		{
 			_nodeToMove.transform.position = transform.position;
 			_nodeToMove.transform.rotation = transform.rotation;
-			if(OnSet != null) OnSet();
+			if (OnSet != null) OnSet();
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 			return true;
 #endif
