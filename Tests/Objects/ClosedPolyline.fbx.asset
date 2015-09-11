@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Name: ClosedPolyline.fbx
   m_EditorClassIdentifier: 
   _objectReferences: []
-  _serializedStateKeys: []
-  _serializedStateValues: []
+  _serializedStateKeys:
+  - Properties
+  _serializedStateValues:
+  - '[{"SubMeshIndex":0,"Bools":{"LineRendering":true,"UseVertexColors":true},"Floats":{"ScalarRangeMin":0.0,"ScalarRangeMax":0.0},"Colors":{"ScalarRangeMinColor":{"r":1.0,"g":0.0,"b":0.0,"a":1.0},"ScalarRangeMaxColor":{"r":1.0,"g":0.0,"b":0.0,"a":1.0}}}]'
