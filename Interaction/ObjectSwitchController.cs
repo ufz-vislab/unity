@@ -12,7 +12,7 @@ namespace UFZ.Interaction
 			if(!ObjectSwitch)
 				return;
 
-			var leftOrRight = (int)MiddleVR.VRDeviceMgr.GetWandHorizontalAxisValue();
+			var leftOrRight = (int)IOC.Core.Instance.Input.GetHorizontalAxis();
 			switch (leftOrRight)
 			{
 				case -1:

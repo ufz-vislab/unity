@@ -81,6 +81,18 @@ namespace UFZ.Rendering
 			RestoreState();
 			UpdateShader();
 		}
+
+		protected override void OnValidate()
+		{
+			base.OnValidate();
+
+			// Workaround, otherwise color and texture is lost when exiting playmode
+			PropertyBlock.SetColor(Shader.PropertyToID("_Color"),
+				new Color(_solidColor.r, _solidColor.g, _solidColor.b, _opacity));
+			if (_texture != null)
+				PropertyBlock.SetTexture(Shader.PropertyToID("_MainTex"), _texture);
+			UpdateRenderers();
+		}
 #endif
 
 		/// <summary> Is the renderer of the object enabled? Ignores opacity.</summary>
@@ -109,6 +121,9 @@ namespace UFZ.Rendering
 					return;
 
 				_opacity = value;
+
+				if (!FullInspector.Internal.fiUtility.IsMainThread)
+					return;
 
 				var colorId = Shader.PropertyToID("_Color");
 				var color = PropertyBlock.GetVector(colorId);
@@ -159,6 +174,10 @@ namespace UFZ.Rendering
 			set
 			{
 				_solidColor = value;
+
+				if (!FullInspector.Internal.fiUtility.IsMainThread)
+					return;
+
 				PropertyBlock.SetColor(Shader.PropertyToID("_Color"), new Color(value.r, value.g, value.b, _opacity));
 				UpdateRenderers();
 			}
@@ -205,7 +224,7 @@ namespace UFZ.Rendering
 			set
 			{
 				_texture = value;
-				if (value == null)
+				if (value == null || !FullInspector.Internal.fiUtility.IsMainThread)
 					return;
 				PropertyBlock.SetTexture(Shader.PropertyToID("_MainTex"), _texture);
 				UpdateRenderers();
@@ -214,6 +233,12 @@ namespace UFZ.Rendering
 
 		private Texture _texture;
 
+		protected override void Awake()
+		{
+			base.Awake();
+
+			RestoreState();
+		}
 
 		public void UpdateRenderers()
 		{
@@ -224,6 +249,9 @@ namespace UFZ.Rendering
 		/// <summary>Sets the appropriate shader via string-kungfu.</summary>
 		public void UpdateShader()
 		{
+			if (!FullInspector.Internal.fiUtility.IsMainThread)
+				return;
+
 			var stackTrace = new StackTrace();
 			if (stackTrace.GetFrames().Any(stackFrame => stackFrame.GetMethod().Name.Contains("RestoreState")))
 				return;

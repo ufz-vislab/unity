@@ -44,10 +44,6 @@ namespace UFZ.Interaction
 			{
 				foreach(Renderer currentRenderer in go.GetComponentsInChildren<Renderer>())
 				{
-					if(currentRenderer.gameObject.GetComponent<BoundingBoxClipCorner>() ||
-					   currentRenderer.gameObject.GetComponent<BoundingBoxClipSphere>())
-						continue;
-
 					MaterialProperties matProps = currentRenderer.gameObject.GetComponent<MaterialProperties>();
 					if(matProps == null)
 						matProps = currentRenderer.gameObject.AddComponent<MaterialProperties>();

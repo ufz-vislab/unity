@@ -7,12 +7,11 @@ namespace UFZ.Interaction
 	/// </summary>
 	public class Player : MonoBehaviour
 	{
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 		/// <summary>
 		/// vrCommands which resets the players orientation.
 		/// </summary>
 		public vrCommand ResetRotationCommand;
-
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 		private void Awake()
 		{
 			ResetRotationCommand = new vrCommand("Reset Rotation Command", ResetRotation);

@@ -24,8 +24,5 @@ namespace UFZ.IOC
 
 		[Inject]
 		public IEnvironment Environment;
-
-		[Inject]
-		public ICamera Camera;
 	}
 }

@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Name: SubMesh.fbx
   m_EditorClassIdentifier: 
   _objectReferences: []
-  _serializedStateKeys: []
-  _serializedStateValues: []
+  _serializedStateKeys:
+  - Properties
+  _serializedStateValues:
+  - '[]'

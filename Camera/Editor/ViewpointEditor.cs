@@ -23,7 +23,7 @@ namespace UFZ.Interaction
 			{
 #if UNITY_EDITOR
 				if (!SystemInfo.supportsRenderTextures) return false;
-				if (SystemInfo.graphicsShaderLevel >= 50 && PlayerSettings.useDirect3D11) return false;
+				// if (SystemInfo.graphicsShaderLevel >= 50 && PlayerSettings.useDirect3D11) return false;
 				return Application.HasProLicense();
 #endif
 			}

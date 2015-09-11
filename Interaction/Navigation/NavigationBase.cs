@@ -86,8 +86,14 @@ namespace UFZ.Interaction
 #if UNITY_EDITOR
 			// Disable input when GameView is not focussed
 			var window = EditorWindow.focusedWindow;
+#if UNITY_4_0
 			if (window != null && window.title != "UnityEditor.GameView")
 				return;
+#endif
+#if UNITY_5_0
+			if (window != null && window.titleContent.text != "Game")
+				return;
+#endif
 #endif
 
 			var logger = IOC.Core.Instance.Log;
