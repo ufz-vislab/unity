@@ -26,7 +26,15 @@ namespace UFZ.Initialization
 				Debug.LogWarning("VRManager not found. VR System Center Node could " +
 								 "not be set to Player GameObject");
 			else
+			{
 				vrManager.VRSystemCenterNode = playerGo;
+				var cam = GameObject.FindWithTag(SRTags.MainCamera);
+				if (cam == null)
+				{
+					// TODO: Create cam
+				}
+				vrManager.TemplateCamera = cam;
+			}
 
 			Selection.activeGameObject = sceneSetupGo;
 		}
