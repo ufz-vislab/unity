@@ -36,6 +36,7 @@ namespace UFZ.Initialization
 			modelImporter.optimizeMesh = false;
 			modelImporter.globalScale = 1.0f;
 			modelImporter.importMaterials = false;
+
 		}
 
 		private void OnPostprocessModel(GameObject go)
@@ -63,6 +64,7 @@ namespace UFZ.Initialization
 				var useVertexColors = meshInfo.GetBool("UseVertexColors", subMeshIndex);
 				var pointRendering = meshInfo.GetBool("PointRendering", subMeshIndex);
 				var lineRendering = meshInfo.GetBool("LineRendering", subMeshIndex);
+				var useTexture = meshInfo.GetBool("UseTexture", subMeshIndex);
 				var opacity = 1.0f;
 				if (meshInfo.HasFloat("Opacity", subMeshIndex))
 					opacity = meshInfo.GetFloat("Opacity", subMeshIndex);
@@ -72,9 +74,21 @@ namespace UFZ.Initialization
 				var matProps = renderer.gameObject.AddComponent<MaterialProperties>();
 				matProps.Opacity = opacity;
 				matProps.SolidColor = solidColor;
-				matProps.ColorBy = useVertexColors
-					? MaterialProperties.ColorMode.VertexColor
-					: MaterialProperties.ColorMode.SolidColor;
+				if (useTexture)
+				{
+					matProps.ColorBy = MaterialProperties.ColorMode.Texture;
+
+					var modelName = Path.GetFileName(assetPath.Substring(0, assetPath.LastIndexOf(".fbx", StringComparison.Ordinal)));
+					var fbmPath = assetPath.Replace(".fbx", ".fbm");
+					var tex = (Texture2D)(AssetDatabase.LoadAssetAtPath(fbmPath + "/" + modelName + "-0_vtk_texture.png", typeof(Texture2D)));
+					matProps.Texture = tex;
+				}
+				else
+				{
+					matProps.ColorBy = useVertexColors
+						? MaterialProperties.ColorMode.VertexColor
+						: MaterialProperties.ColorMode.SolidColor;
+				}
 				if (pointRendering || lineRendering)
 					matProps.Lighting = MaterialProperties.LightingMode.Unlit;
 				matProps.UpdateRenderers();
@@ -159,38 +173,7 @@ namespace UFZ.Initialization
 
 		private void OnPostprocessTexture(Texture2D texture)
 		{
-			if (!CheckPath(assetPath))
-				return;
-
-			//Debug.Log ("OnPostprocessTexture");
-
-			if (!assetPath.Contains(".fbm"))
-				return;
-			var modelName = Path.GetFileName(assetPath.Substring(0, assetPath.LastIndexOf(".fbm", StringComparison.Ordinal)));
-			var basePath = Path.GetDirectoryName(assetPath.Substring(0, assetPath.LastIndexOf(".fbm", StringComparison.Ordinal)));
-			var materialPath = basePath + "/Materials/" + modelName + "_material.mat";
-			var material = (Material)(AssetDatabase.LoadAssetAtPath(materialPath, typeof(Material)));
-			if (material)
-			{
-				var tex = (Texture2D)(AssetDatabase.LoadAssetAtPath(assetPath, typeof(Texture2D)));
-				if (tex)
-				{
-					material.mainTexture = tex;
-					material.SetColor("_Color", new Color(1f, 1f, 1f, 1f));
-				}
-				else
-				{
-					AssetDatabase.Refresh();
-					tex = (Texture2D)(AssetDatabase.LoadAssetAtPath(assetPath, typeof(Texture2D)));
-					if (!tex)
-						return;
-
-					material.mainTexture = tex;
-					material.SetColor("_Color", new Color(1f, 1f, 1f, 1f));
-				}
-			}
-			else
-				Debug.Log("Error: material not found for " + assetPath);
+			//Debug.Log ("OnPostprocessTexture: " + assetPath);
 		}
 
 		private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets,
