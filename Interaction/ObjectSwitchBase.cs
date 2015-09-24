@@ -1,17 +1,27 @@
 using System.Linq;
 using UFZ.Interaction;
 using UnityEngine;
+using System;
+using System.Collections.Generic;
 
 /// <summary>
 /// Basic flip-book like object switch.
 /// </summary>
 public abstract class ObjectSwitchBase : IPlayable
 {
+	public enum Ordering
+	{
+		Alphanumeric,
+		Transform
+	}
+
 	public int ActiveChild;
 	protected float ElapsedTime = 0f;
 
 	public delegate void Callback(int index);
 	public Callback ActiveChildCallback;
+
+	public Ordering Order = Ordering.Alphanumeric;
 
 	void OnValidate()
 	{
@@ -33,12 +43,17 @@ public abstract class ObjectSwitchBase : IPlayable
 		ActiveChild = index;
 
 		var i = 0;
-		foreach (var child in transform.Cast<Transform>().OrderBy(t => t.name))
+		Transform[] transforms;
+		if(Order == Ordering.Alphanumeric)
+			transforms = transform.Cast<Transform>().ToArray().OrderBy(t => t.name, new AlphanumComparatorFast()).ToArray();
+		else
+			transforms = transform.Cast<Transform>().ToArray();
+		foreach (var child in transforms)
 		{
 			foreach (var childRenderer in child.gameObject.GetComponentsInChildren<Renderer>())
 			{
 				if (i == index || index < 0)
-					childRenderer.enabled = true;
+						childRenderer.enabled = true;
 				else
 					childRenderer.enabled = false;
 			}
