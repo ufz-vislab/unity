@@ -24,7 +24,7 @@ Shader "UFZ/Transparent-SolidColor-Lit-Back" {
 
 		void surf(Input IN, inout SurfaceOutput o) {
 			half4 c = _Color;
-			o.Albedo = c.rgb;
+			o.Albedo = c.rgb * _Color.a;
 			o.Alpha = _Color.a;
 		}
 		ENDCG

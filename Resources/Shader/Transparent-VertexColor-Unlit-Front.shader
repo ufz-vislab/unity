@@ -28,7 +28,7 @@ Shader "UFZ/Transparent-VertexColor-Unlit-Front" {
 		}
 
 		void surf(Input IN, inout SurfaceOutput o) {
-			o.Albedo = IN.vertColor;
+			o.Albedo = IN.vertColor * _Color.a;
 			o.Alpha = _Color.a;
 		}
 		ENDCG

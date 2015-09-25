@@ -1,12 +1,8 @@
 <OptionsView>
   <Group Spacing="10px" Alignment="TopLeft" ContentAlignment="Left">
-    <Label Text="Volume: " />
-    <Slider Value="{Volume}" Min="0" Max="100" Width="400px" />
-
-    <Label Text="Easy mode: " />
-    <Button Style="CheckBox" IsToggleButton="True" ToggleValue="{EasyMode}" />
-
-    <Label Text="Player: " />
-    <InputField Text="{PlayerName}" />
+    <Button Text="Toggle superelevation" Width="550px" Click="SuperelevatedButtonClick" />
+    <Button Text="Show temperature" Width="550px" Click="TemperatureButtonClick" />
+    <Button Text="Show velocity" Width="550px" Click="VelocityButtonClick" />
+    <Button Text="Toggle satelite image" Width="550px" Click="SateliteButtonClick" />
   </Group>
 </OptionsView>

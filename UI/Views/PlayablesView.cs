@@ -1,6 +1,5 @@
 using MarkUX;
 using MarkUX.Views;
-using UFZ.Interaction;
 using UnityEngine;
 
 public class PlayablesView : View
@@ -19,7 +18,9 @@ public class PlayablesView : View
 	{
 		base.Initialize();
 
-		Playables = FindObjectsOfType<ObjectSwitchBase>();
+		// Resources.FindObjectsOfTypeAll instead of FindObjectsOfType
+		// finds also disabled objects.
+		Playables = Resources.FindObjectsOfTypeAll<ObjectSwitchBase>();
 
 		if (Playables != null && Playables.Length > 0)
 			Selected = Playables[0];

@@ -1,13 +1,13 @@
 <ViewpointsView>
-  <Group Orientation="Vertical" Spacing="10px" Alignment="TopLeft" ContentAlignment="Left">
+  <Group Orientation="Vertical" Spacing="10px" Alignment="Top" ContentAlignment="Center">
     <Label Text="{MenuHeader}" />
-    <FlowList Orientation="Vertical" Items="{Viewpoints}"
+    <FlowList Orientation="Vertical" Alignment="Top" Items="{Viewpoints}"
               Width="600px" Height="480px" VerticalSpacing="10px"
               CanSelect="true" SelectionChanged="ViewpointChanged"
               HighlightedItemColor="Orange"
               SelectedItemColor="Red">
       <FlowListItem Width="550px" Id="Template" BackgroundColor="Gray80">
-        <Label Text="{Item.Name}" />
+        <Label Text="{Item.Name}" TextAlignment="Center" Width="500px" />
       </FlowListItem>
     </FlowList>
   </Group>

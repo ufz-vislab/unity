@@ -245,10 +245,18 @@ namespace UFZ.Rendering
 			set
 			{
 				_texture = value;
+#if UNITY_EDITOR
 				if (value == null || !FullInspector.Internal.fiUtility.IsMainThread)
 					return;
 				PropertyBlock.SetTexture(Shader.PropertyToID("_MainTex"), _texture);
 				UpdateRenderers();
+#else
+				Loom.QueueOnMainThread(() =>
+				{
+					PropertyBlock.SetTexture(Shader.PropertyToID("_MainTex"), _texture);
+					UpdateRenderers();
+				});
+#endif
 			}
 		}
 

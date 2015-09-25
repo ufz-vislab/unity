@@ -1,6 +1,6 @@
 <InfoView>
   <Group Orientation="Vertical" Spacing="10px" BackgroundColor="#949494">
-    <Label Text="{ObjectName}" />
+    <Label Text="{ObjectName}" Width="500px" TextAlignmemt="Center" />
     <Panel Height="550px">
       <Image Id="ImageWidget" Path="{Image}" Width="{ImageWidth}" Height="{ImageHeight}" />
     </Panel>

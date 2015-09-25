@@ -86,10 +86,10 @@ void fragment_shader( v2f IN,
 	float3 N = IN.normal.xyz;
 
 	N = mul(UNITY_MATRIX_IT_MV, float4(N, 1));
-	float diffuse = saturate(dot(glstate.light[0].position, N));
+	//float diffuse = saturate(dot(glstate.light[0].position, N));
 
 	finalcolor = float4(0,0,0,1);
-	finalcolor.xyz = section_color *(diffuse *0.6 +0.4);
+	//finalcolor.xyz = section_color *(diffuse *0.6 +0.4);
 }
 ENDCG
 		}
@@ -165,10 +165,10 @@ void fragment_shader( v2f IN,
 	float3 N = IN.normal;
 
 	N = mul(UNITY_MATRIX_IT_MV, float4(N, 1));
-	float diffuse = saturate(dot(glstate.light[0].position, N));
+	// float diffuse = saturate(dot(glstate.light[0].position, N));
 
 	finalcolor = IN.color; float4(0,0,0,1);
-	finalcolor.xyz = tex2D(_MainTex, IN.texcoord).xyz *(diffuse *0.6 +0.4) * finalcolor.xyz;
+	// finalcolor.xyz = tex2D(_MainTex, IN.texcoord).xyz *(diffuse *0.6 +0.4) * finalcolor.xyz;
 }
 ENDCG
 

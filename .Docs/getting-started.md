@@ -90,5 +90,15 @@ These scenes can be loaded into your actual application scene with the *Advanced
 
 The loaded sub-scene is now part of your actual scene and you cannot change it. To make modifications click *Unlock* in the inspector of the *Sub Scene*-script.
 
+# How to setup a scene with basic VR functionality (new)
+
+Drag the the following prefabs from *Assets/UFZ/Setup* into the Hierarchy:
+
+- VRManager
+- Scripts
+- Menus
+
+Click on *Menu / UFZ / Create scene setup*.
+
 ----
 Previous page: @ref dev-env

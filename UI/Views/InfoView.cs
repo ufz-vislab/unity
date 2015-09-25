@@ -22,6 +22,10 @@ public class InfoView : View
 
 		// BUG workaround(?): Images are rotated 180 degrees around Y-axis
 		ImageWidget.transform.localRotation = Quaternion.identity;
+
+		// Empty init
+		ImageWidth = "0";
+		ImageHeight = "0";
 	}
 
 	public void SetObjectInfo(ObjectInfo objectInfo)
