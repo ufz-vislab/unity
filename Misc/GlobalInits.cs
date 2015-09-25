@@ -58,7 +58,10 @@ namespace UFZ.Initialization
 				actor.enabled = false;
 #endif
 			if (IOC.Core.Instance.Environment.IsCluster())
+			{
+				CanvasPosition = new Vector3(0.75f, 2f, 1f);
 				GuiInputType = InputType.Wand;
+			}
 			else
 			{
 				if (IOC.Core.Instance.Environment.HasDevice("Rift"))

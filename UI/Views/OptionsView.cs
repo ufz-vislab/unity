@@ -47,4 +47,12 @@ public class OptionsView : View
 		else
 			koenigProps.ColorBy = MaterialProperties.ColorMode.VertexColor;
 	}
+
+	public void OrientationButtonClick()
+	{
+		var player = GameObject.Find("Player");
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+		player.ResetRotation(0);
+#endif
+	}
 }
