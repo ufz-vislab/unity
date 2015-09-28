@@ -1,4 +1,5 @@
 using MarkUX;
+using UFZ.Interaction;
 using UnityEngine;
 using UFZ.Rendering;
 
@@ -50,7 +51,7 @@ public class OptionsView : View
 
 	public void OrientationButtonClick()
 	{
-		var player = GameObject.Find("Player");
+		var player = GameObject.Find("Player").GetComponent<Player>();
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 		player.ResetRotation(0);
 #endif
