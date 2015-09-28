@@ -168,7 +168,7 @@ namespace UFZ.Initialization
 
 			var textureImporter = (TextureImporter)assetImporter;
 			textureImporter.filterMode = FilterMode.Point;
-			textureImporter.wrapMode = TextureWrapMode.Clamp;
+			textureImporter.wrapMode = TextureWrapMode.Repeat;
 		}
 
 		private void OnPostprocessTexture(Texture2D texture)
