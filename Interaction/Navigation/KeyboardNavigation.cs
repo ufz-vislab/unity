@@ -15,6 +15,14 @@ namespace UFZ.Interaction
 				Sideward = -1f;
 			if (keyboard.IsKeyPressed(KeyCode.D))
 				Sideward = 1f;
+			if (keyboard.IsKeyPressed(KeyCode.PageUp))
+				Upward = 1f;
+			if (keyboard.IsKeyPressed(KeyCode.PageDown))
+				Upward = -1f;
+			if (keyboard.IsKeyPressed(KeyCode.Q))
+				HorizontalRotation = -1f;
+			if (keyboard.IsKeyPressed(KeyCode.E))
+				HorizontalRotation = 1f;
 
 			if (keyboard.IsKeyPressed(KeyCode.LeftShift))
 				Running = 1f;
