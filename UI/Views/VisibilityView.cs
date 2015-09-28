@@ -52,6 +52,8 @@ public class VisibilityView : View
 	{
 		if (GoList == null)
 			return;
+		if (GoList.Objects == null)
+			return;
 
 		Objects.Clear();
 		foreach (var o in GoList.Objects)
