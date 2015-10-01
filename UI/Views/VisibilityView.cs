@@ -16,7 +16,7 @@ public class VisibilityView : View
 		base.Initialize();
 
 		Objects = new List<VisibilityStruct>();
-		/*
+
 		var objectVisibilities = FindObjectsOfType<UFZ.Interaction.ObjectVisibility>();
 		foreach (var objectVisibility in objectVisibilities)
 		{
@@ -39,7 +39,7 @@ public class VisibilityView : View
 				});
 			}
 		}
-		*/
+
 		var go = GameObject.Find("Visibilities");
 		if (go == null)
 			return;
