@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -15,20 +16,8 @@ namespace UFZ.Rendering
 	/// Can be added to any GameObject. Sets the properties on all materials in this
 	/// object and child objects.
 	/// </remarks>
-	public class MaterialProperties : BaseBehavior
+	public class MaterialProperties : MaterialPropertiesBase
 	{
-		public enum VisibilityMode
-		{
-			/// <summary>Fully opaque</summary>
-			Opaque,
-
-			/// <summary>Transparent</summary>
-			Transparent,
-
-			/// <summary>Renderer is disabled</summary>
-			Disabled
-		}
-
 		public enum ColorMode
 		{
 			/// <summary>A single color</summary>
@@ -62,20 +51,12 @@ namespace UFZ.Rendering
 			TwoSided
 		}
 
-		protected const float disableThreshold = 0.01f;
-
 		[SerializeField]
 		[HideInInspector]
 		protected Material[] _materials;
 
-		[SerializeField, HideInInspector]
-		MaterialPropertyBlock PropertyBlock
-		{
-			get { return _propertyBlock ?? (_propertyBlock = new MaterialPropertyBlock()); }
-		}
-		protected MaterialPropertyBlock _propertyBlock;
 
-#if UNITY_EDITOR
+		#if UNITY_EDITOR
 		private void Reset()
 		{
 			RestoreState();
@@ -93,83 +74,12 @@ namespace UFZ.Rendering
 				PropertyBlock.SetTexture(Shader.PropertyToID("_MainTex"), _texture);
 			UpdateRenderers();
 		}
-#endif
-
-		/// <summary> Is the renderer of the object enabled? Ignores opacity.</summary>
-		[SerializeField, InspectorHeader("Visibility"), InspectorDivider]
-		public bool Enabled
-		{
-			get { return _enabled; }
-			set
-			{
-				_enabled = value;
-				UpdateShader();
-			}
-		}
-
-		private bool _enabled = true;
-
-		/// <summary>The opacity of the object.</summary>
-		/// <value>Can be between 0 (fully transparent) and 1 (opaque)</value>
-		[SerializeField, InspectorShowIf("Enabled"), InspectorRange(0f, 1f, Step = 0.01f)]
-		public float Opacity
-		{
-			get { return _opacity; }
-			set
-			{
-				if (Mathf.Approximately(_opacity, value))
-					return;
-
-				_opacity = value;
-
-#if UNITY_EDITOR
-				if (!FullInspector.Internal.fiUtility.IsMainThread)
-					return;
-
-				var colorId = Shader.PropertyToID("_Color");
-				var color = PropertyBlock.GetVector(colorId);
-				color.w = _opacity;
-				PropertyBlock.SetVector(colorId, color);
-				UpdateShader();
-				UpdateRenderers();
-#else
-
-				Loom.QueueOnMainThread(() =>
-				{
-					var colorId = Shader.PropertyToID("_Color");
-					var color = PropertyBlock.GetVector(colorId);
-					color.w = _opacity;
-					PropertyBlock.SetVector(colorId, color);
-					UpdateShader();
-					UpdateRenderers();
-				});
-#endif
-			}
-		}
-
-		private float _opacity = 1f;
-
-		/// <summary>
-		/// Returns if an object is fully opaque, transparent or completely disabled
-		/// based on the <see cref="Opacity" />-value.
-		/// </summary>
-		[SerializeField, InspectorShowIf("Enabled")]
-		public VisibilityMode Visibility
-		{
-			get
-			{
-				if (Mathf.Approximately(_opacity, 1f))
-					return VisibilityMode.Opaque;
-				return _opacity < disableThreshold ? VisibilityMode.Disabled : VisibilityMode.Transparent;
-			}
-		}
+		#endif
 
 		[SerializeField, InspectorHeader("Coloring"), InspectorDivider]
-		public ColorMode ColorBy
-		{
+		public ColorMode ColorBy {
 			get { return _colorBy; }
-			set
-			{
+			set {
 				if (_colorBy == value)
 					return;
 
@@ -181,11 +91,9 @@ namespace UFZ.Rendering
 		private ColorMode _colorBy = ColorMode.VertexColor;
 
 		[SerializeField]
-		public Color SolidColor
-		{
+		public Color SolidColor {
 			get { return _solidColor; }
-			set
-			{
+			set {
 				_solidColor = value;
 
 #if UNITY_EDITOR
@@ -207,11 +115,9 @@ namespace UFZ.Rendering
 		private Color _solidColor = Color.gray;
 
 		[SerializeField]
-		public LightingMode Lighting
-		{
+		public LightingMode Lighting {
 			get { return _lit; }
-			set
-			{
+			set {
 				if (_lit == value)
 					return;
 
@@ -223,11 +129,9 @@ namespace UFZ.Rendering
 		private LightingMode _lit = LightingMode.Lit;
 
 		[SerializeField]
-		public SideMode Side
-		{
+		public SideMode Side {
 			get { return _side; }
-			set
-			{
+			set {
 				if (_side == value)
 					return;
 
@@ -239,11 +143,9 @@ namespace UFZ.Rendering
 		private SideMode _side = SideMode.Front;
 
 		[SerializeField]
-		public Texture Texture
-		{
+		public Texture Texture {
 			get { return _texture; }
-			set
-			{
+			set {
 				_texture = value;
 #if UNITY_EDITOR
 				if (value == null || !FullInspector.Internal.fiUtility.IsMainThread)
@@ -269,14 +171,14 @@ namespace UFZ.Rendering
 			RestoreState();
 		}
 
-		public void UpdateRenderers()
+		public override void UpdateRenderers()
 		{
 			foreach (var localRenderer in gameObject.GetComponentsInChildren<Renderer>())
 				localRenderer.SetPropertyBlock(PropertyBlock);
 		}
 
 		/// <summary>Sets the appropriate shader via string-kungfu.</summary>
-		public void UpdateShader()
+		public override void UpdateShader()
 		{
 			var stackTrace = new StackTrace();
 			if (stackTrace.GetFrames().Any(stackFrame => stackFrame.GetMethod().Name.Contains("RestoreState")))
@@ -313,8 +215,7 @@ namespace UFZ.Rendering
 				if (Visibility == VisibilityMode.Disabled)
 				{
 					localRenderer.enabled = false;
-				}
-				else
+				} else
 				{
 					// Object switches have precedence in enabling / disabling the renderer
 					var switchBase = GetComponentInParent<ObjectSwitchBase>();
@@ -330,31 +231,31 @@ namespace UFZ.Rendering
 
 					switch (materials.Length)
 					{
-						case 1:
-							var matName = transparent + colorBy + lit + side;
-							var mat = Resources.Load("Materials/" + matName, typeof(Material)) as Material;
-							if (mat == null)
-								Debug.LogWarning("Material " + matName + " not found.");
-							materials[0] = mat;
-							break;
-						case 2:
-							var matNameFront = transparent + colorBy + lit + SideMode.Front.ToString("f");
-							var matNameBack = transparent + colorBy + lit + SideMode.Back.ToString("f");
-							var matFront = Resources.Load("Materials/" + matNameFront, typeof(Material)) as Material;
-							var matBack = Resources.Load("Materials/" + matNameBack, typeof(Material)) as Material;
-							materials[0] = matFront;
-							materials[1] = matBack;
-							if (Side != SideMode.TwoSided)
-							{
-								var newMaterials = new Material[1];
-								if (Side == SideMode.Front)
-									newMaterials[0] = materials[0];
-								else
-									newMaterials[0] = materials[1];
+					case 1:
+						var matName = transparent + colorBy + lit + side;
+						var mat = Resources.Load("Materials/" + matName, typeof(Material)) as Material;
+						if (mat == null)
+							Debug.LogWarning("Material " + matName + " not found.");
+						materials[0] = mat;
+						break;
+					case 2:
+						var matNameFront = transparent + colorBy + lit + SideMode.Front.ToString("f");
+						var matNameBack = transparent + colorBy + lit + SideMode.Back.ToString("f");
+						var matFront = Resources.Load("Materials/" + matNameFront, typeof(Material)) as Material;
+						var matBack = Resources.Load("Materials/" + matNameBack, typeof(Material)) as Material;
+						materials[0] = matFront;
+						materials[1] = matBack;
+						if (Side != SideMode.TwoSided)
+						{
+							var newMaterials = new Material[1];
+							if (Side == SideMode.Front)
+								newMaterials[0] = materials[0];
+							else
+								newMaterials[0] = materials[1];
 
-								materials = newMaterials;
-							}
-							break;
+							materials = newMaterials;
+						}
+						break;
 					}
 				}
 				if (Application.isPlaying)
@@ -365,7 +266,7 @@ namespace UFZ.Rendering
 			}
 		}
 
-#if UNITY_EDITOR
+		#if UNITY_EDITOR
 		[MenuItem("UFZ/Consolidate MaterialProperties")]
 		private static void Consolidate()
 		{
@@ -388,6 +289,6 @@ namespace UFZ.Rendering
 					DestroyImmediate(matProp);
 			}
 		}
-#endif
+		#endif
 	}
 }
