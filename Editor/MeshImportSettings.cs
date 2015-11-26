@@ -26,6 +26,11 @@ namespace UFZ.Initialization
 			return Paths.Any(assetPath.Contains);
 		}
 
+		private bool IsCityEngine()
+		{
+			return assetPath.Contains("CityEngine");
+		}
+
 		private void OnPreprocessModel()
 		{
 			if (!CheckPath(assetPath))
@@ -35,8 +40,7 @@ namespace UFZ.Initialization
 			modelImporter.animationType = ModelImporterAnimationType.None;
 			modelImporter.optimizeMesh = false;
 			modelImporter.globalScale = 1.0f;
-			modelImporter.importMaterials = false;
-
+			modelImporter.importMaterials = IsCityEngine();
 		}
 
 		private void OnPostprocessModel(GameObject go)
