@@ -15,13 +15,12 @@ namespace UFZ.Initialization
 	/// </summary>
 	public class MeshImportSettings : AssetPostprocessor
 	{
-		private static readonly string[] Paths =
-		{
+		private static readonly string[] Paths = {
 			"Assets/_project",
 			"Assets/UFZ/Tests/Objects"
 		};
 
-		private static bool CheckPath(string assetPath)
+		private bool CheckPath()
 		{
 			return Paths.Any(assetPath.Contains);
 		}
@@ -31,26 +30,47 @@ namespace UFZ.Initialization
 			return assetPath.Contains("CityEngine");
 		}
 
+		private bool CheckParaViewExport()
+		{
+			// Check for filename-0 [1] and Properties [last] (filename-0/filename-0-1 [2])
+			var filename = Path.GetFileNameWithoutExtension(assetPath);
+			var modelImporter = (ModelImporter)assetImporter;
+			var transformPaths = modelImporter.transformPaths;
+			if (transformPaths.Count() < 2)
+				return false;
+			if (transformPaths[0].Count() == 0 && (transformPaths[1] == filename + "-0" || transformPaths[1] == "Properties")) // && transformPaths.Last() == "Properties"
+				return true;
+			else
+				return false;
+		}
+
 		private void OnPreprocessModel()
 		{
-			if (!CheckPath(assetPath))
+			if (!CheckPath())
 				return;
-			//Debug.Log("OnPreprocessModel");
+			if (!CheckParaViewExport())
+				return;
+			
+			Debug.Log("ParaView import: " + Path.GetFileNameWithoutExtension(assetPath));
 			var modelImporter = (ModelImporter)assetImporter;
 			modelImporter.animationType = ModelImporterAnimationType.None;
 			modelImporter.optimizeMesh = IsCityEngine();
 			modelImporter.globalScale = 1.0f;
 			modelImporter.importMaterials = IsCityEngine();
+			modelImporter.userData = "ParaView";
 		}
 
 		private void OnPostprocessModel(GameObject go)
 		{
 			if (!CheckPath(assetPath) || IsCityEngine())
 				return;
+			var modelImporter = (ModelImporter)assetImporter;
+			if (!modelImporter.userData.Contains("ParaView"))
+				return;
 
 			//Debug.Log ("OnPostprocessModel for " + go.name);
 			var meshInfo = AssetDatabase.LoadAssetAtPath(assetPath + ".asset",
-				typeof(MeshInfo)) as MeshInfo;
+				               typeof(MeshInfo)) as MeshInfo;
 			foreach (var component in go.GetComponentsInChildren(typeof(Renderer), true))
 			{
 				var renderer = (Renderer)component;
@@ -86,8 +106,7 @@ namespace UFZ.Initialization
 					var fbmPath = assetPath.Replace(".fbx", ".fbm");
 					var tex = (Texture2D)(AssetDatabase.LoadAssetAtPath(fbmPath + "/" + modelName + "-0_vtk_texture.png", typeof(Texture2D)));
 					matProps.Texture = tex;
-				}
-				else
+				} else
 				{
 					matProps.ColorBy = useVertexColors
 						? MaterialProperties.ColorMode.VertexColor
@@ -100,8 +119,10 @@ namespace UFZ.Initialization
 				matProps.SaveState();
 
 				// Convert to points or lines
-				if (pointRendering) ConvertMeshToPoints(renderer);
-				else if (lineRendering) ConvertMeshToLines(renderer);
+				if (pointRendering)
+					ConvertMeshToPoints(renderer);
+				else if (lineRendering)
+					ConvertMeshToLines(renderer);
 
 				renderer.gameObject.AddComponent<MeshInfoVtkProperties>().ScriptableObject = meshInfo;
 			}
@@ -114,7 +135,7 @@ namespace UFZ.Initialization
 
 		private void OnPostprocessGameObjectWithUserProperties(GameObject go, string[] propNames, System.Object[] values)
 		{
-			if (!CheckPath(assetPath))
+			if (!CheckPath())
 				return;
 
 			//Debug.Log("OnPostprocessGameObjectWithUserProperties for " + go.name);
@@ -133,8 +154,7 @@ namespace UFZ.Initialization
 				{
 					if (subMeshIndex >= meshInfo.Properties.Count)
 					{
-						var newProps = new MeshInfo.PropertyDictionaries
-						{
+						var newProps = new MeshInfo.PropertyDictionaries {
 							SubMeshIndex = subMeshIndex,
 							Bools = new Dictionary<string, bool>(),
 							Floats = new Dictionary<string, float>(),
@@ -150,8 +170,7 @@ namespace UFZ.Initialization
 						props.Floats.Add(match.Groups["name"].Value, (float)values[i]);
 					else if (values[i] is Color)
 						props.Colors.Add(match.Groups["name"].Value, (Color)values[i]);
-				}
-				else
+				} else
 					Debug.Log("AssetPostprocessor: Property does not match naming convention: index-propname");
 			}
 
@@ -185,7 +204,7 @@ namespace UFZ.Initialization
 
 		private void OnPreprocessTexture()
 		{
-			if (!CheckPath(assetPath))
+			if (!CheckPath())
 				return;
 
 			//Debug.Log ("OnPreprocessTexture");
@@ -203,7 +222,7 @@ namespace UFZ.Initialization
 		}
 
 		private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets,
-			string[] movedFromPath)
+		                                           string[] movedFromPath)
 		{
 			//Debug.Log ("OnPostprocessAllAssets");
 		}
