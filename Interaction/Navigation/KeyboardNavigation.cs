@@ -23,6 +23,10 @@ namespace UFZ.Interaction
 				HorizontalRotation = -1f;
 			if (keyboard.IsKeyPressed(KeyCode.E))
 				HorizontalRotation = 1f;
+			if (keyboard.IsKeyPressed(KeyCode.F))
+				VerticalRotation = -1f;
+			if (keyboard.IsKeyPressed(KeyCode.R))
+				VerticalRotation = 1f;
 
 			if (keyboard.IsKeyPressed(KeyCode.LeftShift))
 				Running = 1f;

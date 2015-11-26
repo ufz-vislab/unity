@@ -85,42 +85,6 @@ LightmapSettings:
     m_ReflectionCompression: 2
   m_LightmapSnapshot: {fileID: 0}
   m_RuntimeCPUUsage: 25
---- !u!114 &16 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 11443570, guid: a26b89864d2d7bd419ae45d255bac385,
-    type: 2}
-  m_PrefabInternal: {fileID: 618315241}
-  m_Script: {fileID: 11500000, guid: c2149a00c98488648bd26e4c4be90d6b, type: 3}
---- !u!1 &36 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 115336, guid: 2035effcd528cbb459ffd036bc42af77, type: 2}
-  m_PrefabInternal: {fileID: 2026543774}
---- !u!1 &53 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 143570, guid: a26b89864d2d7bd419ae45d255bac385, type: 2}
-  m_PrefabInternal: {fileID: 618315241}
---- !u!114 &55
-MonoBehaviour:
-  m_ObjectHideFlags: 2
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 53}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d31b62ec9d586a4e94389d9071559ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &60
-MonoBehaviour:
-  m_ObjectHideFlags: 2
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 53}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f945e777233a59f4aba40aeca29093a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2243823
 GameObject:
   m_ObjectHideFlags: 0
@@ -5228,6 +5192,8 @@ MonoBehaviour:
   _serializedStateValues:
   - '[{"GameObject":0,"Opacity":0.75,"Duration":2.0},{"GameObject":1,"Opacity":0.25,"Duration":0.0},{"GameObject":2,"Opacity":0.25,"Duration":0.0}]'
   - '"StepOnStart"'
+  Opacity: 0
+  Duration: 5
   Transition: 1
 --- !u!114 &106529790
 MonoBehaviour:
@@ -6892,7 +6858,6 @@ MonoBehaviour:
   - {fileID: 420287252}
   - {fileID: 1941318103}
   - {fileID: 530627376}
-  - {fileID: 16}
   - {fileID: 420287257}
   _values:
   - _keys: []
@@ -6922,9 +6887,6 @@ MonoBehaviour:
   - _keys: []
     _values: []
     _target: {fileID: 530627376}
-  - _keys: []
-    _values: []
-    _target: {fileID: 16}
   - _keys: []
     _values: []
     _target: {fileID: 420287257}
@@ -6949,7 +6911,6 @@ MonoBehaviour:
   - {fileID: 420287252}
   - {fileID: 1941318103}
   - {fileID: 530627376}
-  - {fileID: 16}
   - {fileID: 420287257}
   _values:
   - _keys: []
@@ -6997,9 +6958,6 @@ MonoBehaviour:
   - _keys: []
     _values: []
     _target: {fileID: 530627376}
-  - _keys: []
-    _values: []
-    _target: {fileID: 16}
   - _keys: []
     _values: []
     _target: {fileID: 420287257}
@@ -16258,7 +16216,7 @@ Transform:
   - {fileID: 1590915084}
   - {fileID: 1271548243}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 5
 --- !u!1 &303584710
 GameObject:
   m_ObjectHideFlags: 1
@@ -20616,7 +20574,7 @@ Transform:
   - {fileID: 1941318102}
   - {fileID: 450090159}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
 --- !u!1 &382334462
 GameObject:
   m_ObjectHideFlags: 1
@@ -23856,6 +23814,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsPlaying: 0
   ActiveChild: 0
+  Order: 0
   Fps: .5
 --- !u!1 &456327964
 GameObject:
@@ -25994,51 +25953,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 613777074}
-  m_RootOrder: 0
---- !u!1 &532854864
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 532854866}
-  - 114: {fileID: 532854865}
-  m_Layer: 0
-  m_Name: Lighting
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &532854865
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 532854864}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1485709454, guid: 926951d45b63c0448bc127a39128034b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _sceneAssetGuid: ee3105e0ccc750d42aff62af5c7e2ff8
-  _editorLoadSettings: 1
-  _editorColor: {r: 1, g: 1, b: 0, a: .100000001}
-  _runtimeLoadSettings: 0
-  _loadLevelAdditiveSceneName: simplelighting
-  _loadLevelAsChild: 0
---- !u!4 &532854866
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 532854864}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!1 &533565527
 GameObject:
@@ -28598,7 +28512,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
 --- !u!1 &581381203
 GameObject:
   m_ObjectHideFlags: 1
@@ -30973,7 +30887,7 @@ Transform:
   - {fileID: 882137866}
   - {fileID: 63162018}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 4
 --- !u!1 &618001354
 GameObject:
   m_ObjectHideFlags: 0
@@ -57298,6 +57212,8 @@ MonoBehaviour:
   _serializedStateValues:
   - '[{"GameObject":0,"Opacity":0.100000001490116,"Duration":5.0},{"GameObject":1,"Opacity":1.0,"Duration":5.0}]'
   - '"Smooth"'
+  Opacity: 0
+  Duration: 5
   Transition: 0
 --- !u!1 &1094188580
 GameObject:
@@ -85527,9 +85443,6 @@ MonoBehaviour:
   IsDynamic: 0
   RootCanvas: {fileID: 310505079}
   ParentViewPresenter: {fileID: 310505081}
-  Volume: 0
-  EasyMode: 0
-  PlayerName: 
 --- !u!225 &1560252709
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -90061,64 +89974,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1616858994}
---- !u!1 &1621354699
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 1621354701}
-  - 114: {fileID: 1621354700}
-  m_Layer: 0
-  m_Name: '! CodingJar.AdditiveScenes.SceneData'
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1621354700
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1621354699}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 750558685, guid: 926951d45b63c0448bc127a39128034b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _uniqueObjects: []
-  _crossSceneReferences: []
-  _topLevelGameObjs:
-  - {fileID: 36}
-  - {fileID: 53}
-  - {fileID: 128082368}
-  - {fileID: 303000976}
-  - {fileID: 381606613}
-  - {fileID: 532854864}
-  - {fileID: 579553732}
-  - {fileID: 613777073}
-  - {fileID: 1246743235}
-  - {fileID: 1621354699}
-  _sceneAssetGuid: 4685215df7e679545a2e27c4ed74363b
-  _lightmapData:
-    lightmapsNear: []
-    lightmapsFar: []
-    meshData: []
-    bakedLights: []
---- !u!4 &1621354701
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1621354699}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
 --- !u!1 &1624571236
 GameObject:
   m_ObjectHideFlags: 1
@@ -105960,6 +105815,8 @@ MonoBehaviour:
   _serializedStateValues:
   - '[{"GameObject":0,"Opacity":0.5,"Duration":2.0},{"GameObject":1,"Opacity":1.0,"Duration":2.0},{"GameObject":2,"Opacity":0.0,"Duration":2.0},{"GameObject":3,"Opacity":1.0,"Duration":1.0}]'
   - '"Smooth"'
+  Opacity: 0
+  Duration: 5
   Transition: 0
 --- !u!1 &1954054868
 GameObject:
@@ -110815,6 +110672,10 @@ Prefab:
       propertyPath: TemplateCamera
       value: 
       objectReference: {fileID: 579553732}
+    - target: {fileID: 11415334, guid: 2035effcd528cbb459ffd036bc42af77, type: 2}
+      propertyPath: ConfigFile
+      value: C:/Program Files (x86)/MiddleVR/data/Config/Misc/Default.vrx
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2035effcd528cbb459ffd036bc42af77, type: 2}
   m_IsPrefabParent: 0

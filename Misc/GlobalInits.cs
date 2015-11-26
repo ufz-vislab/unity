@@ -82,11 +82,13 @@ namespace UFZ.Initialization
 				guiCamera.cullingMask = LayerMask.GetMask("UI");
 			}
 			else
+			{
 				guiCamera = GameObject.Find("HeadNode").GetComponentInChildren<Camera>();
+				FindObjectOfType<VRManagerScript>().ShowWand = false;
+			}
 
 			if (GuiInputType == InputType.Head)
 			{
-				FindObjectOfType<VRManagerScript>().ShowWand = false;
 				wandGo.GetComponent<VRAttachToNode>().VRParentNode = "HeadNode";
 			}
 
@@ -114,6 +116,7 @@ namespace UFZ.Initialization
 				{
 					foreach (var objectInfo in FindObjectsOfType<ObjectInfo>())
 						objectInfo.Menu = canvas.GetComponentInChildren<InfoView>();
+					canvas.transform.localPosition = new Vector3(-0.75f, 2f, 1f);
 
 				}
 
