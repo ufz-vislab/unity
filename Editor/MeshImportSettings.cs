@@ -62,7 +62,7 @@ namespace UFZ.Initialization
 
 		private void OnPostprocessModel(GameObject go)
 		{
-			if (!CheckPath(assetPath) || IsCityEngine())
+			if (!CheckPath() || IsCityEngine())
 				return;
 			var modelImporter = (ModelImporter)assetImporter;
 			if (!modelImporter.userData.Contains("ParaView"))
