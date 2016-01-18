@@ -5,7 +5,7 @@ Shader "UFZ/Opaque-VertexColor-Unlit-Back" {
 		LOD 200
 
 		CGPROGRAM
-		#pragma surface surf Unlit alpha vertex:vert
+		#pragma surface surf Unlit vertex:vert
 		half4 LightingUnlit(SurfaceOutput s, half3 lightDir, half atten) {
 			half4 c;
 			c.rgb = s.Albedo;
