@@ -24,7 +24,7 @@ public class ViewpointsView : View
 
 	public void ViewpointChanged(FlowListSelectionActionData eventData)
 	{
-		Viewpoints[eventData.FlowListItem.ZeroBasedIndex].MoveToViewpoint();
+		Viewpoints[eventData.FlowListItem.ZeroBasedIndex].Move();
 	}
 
 

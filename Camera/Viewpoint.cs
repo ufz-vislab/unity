@@ -10,14 +10,7 @@ namespace UFZ.Interaction
 	public class Viewpoint : MonoBehaviour
 	{
 		public string NodeToMove = "Player";
-
-#if MVR
-		public vrCommand MoveToViewpointCommand;
-		public vrCommand JumpToViewpointCommand;
-#endif
 		public bool StartHere = false;
-
-		// TODO for MarkUX
 		public string Name = "Viewpoint";
 
 		private GameObject _nodeToMove;
@@ -32,12 +25,12 @@ namespace UFZ.Interaction
 			_nodeToMove = GameObject.Find("Player");
 
 #if MVR
-			MoveToViewpointCommand = new vrCommand("Move To Viewpoint Command " + GetInstanceID(), MoveToViewpoint);
-			JumpToViewpointCommand = new vrCommand("Jump To Viewpoint Command " + GetInstanceID(), JumpToViewpoint);
+			_moveCommand = new vrCommand("", MoveHandler);
+			_jumpCommand = new vrCommand("", JumpHandler);
 #endif
 
 			if (StartHere)
-				JumpToViewpoint();
+				Jump();
 
 			// Workaround to null exceptions when there is no subscriber to the event
 			OnFinish += delegate { return; };
@@ -45,45 +38,70 @@ namespace UFZ.Interaction
 			OnFinish += delegate { return; };
 		}
 
+#if MVR
+		private void OnDestroy()
+		{
+			MiddleVR.DisposeObject(ref _moveCommand);
+			MiddleVR.DisposeObject(ref _jumpCommand);
+		}
+
+		private vrCommand _moveCommand;
+		private vrCommand _jumpCommand;
+
+		private vrValue MoveHandler(vrValue value)
+		{
+			MoveInternal();
+			return true;
+		}
+
+		private vrValue JumpHandler(vrValue value)
+		{
+			JumpInternal();
+			return true;
+		}
+#endif
+
 		/// <summary>
 		/// Moves a GameObject smoothly to this viewpoint.
 		/// </summary>
-		/// <param name="ivalue">Not used.</param>
-		/// <returns></returns>
-#if MVR
-		public vrValue MoveToViewpoint(vrValue ivalue = null)
-#else
-		public void MoveToViewpoint()
-#endif
+		public void Move()
 		{
-			// TODO calculate speed
-			const float duration = 5;
+#if MVR
+			if (_moveCommand != null)
+				_moveCommand.Do(true);
+#else
+			MoveInternal();
+#endif
+		}
+		private void MoveInternal()
+		{
+			const float speed = 1.5f; // units per seconds
+			var vec = transform.position - _nodeToMove.transform.position;
+			var length = vec.magnitude;
+			var duration = length/speed;
 
 			_nodeToMove.transform.DOMove(transform.position, duration)
 				.OnStart(() => OnStart(duration)).OnComplete(() => OnFinish());
 			_nodeToMove.transform.DORotate(transform.rotation.eulerAngles, duration);
-#if MVR
-			return true;
-#endif
 		}
 
 		/// <summary>
 		/// Translates a GameObject to a viewpoint instantly.
 		/// </summary>
-		/// <param name="ivalue">Not used.</param>
-		/// <returns></returns>
+		public void Jump()
+		{
 #if MVR
-		public vrValue JumpToViewpoint(vrValue ivalue = null)
+			if (_jumpCommand != null)
+				_jumpCommand.Do(true);
 #else
-		public void JumpToViewpoint()
+			JumpInternal();
 #endif
+		}
+		private void JumpInternal()
 		{
 			_nodeToMove.transform.position = transform.position;
 			_nodeToMove.transform.rotation = transform.rotation;
 			if (OnSet != null) OnSet();
-#if MVR
-			return true;
-#endif
 		}
 
 		public delegate void OnSetEvent();
