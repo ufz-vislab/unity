@@ -7,7 +7,7 @@ namespace UFZ.Interaction
 	/// </summary>
 	public abstract class IPlayable : MonoBehaviour
 	{
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+#if MVR
 		// Commands
 		public vrCommand BeginCommand;
 		public vrCommand EndCommand;
@@ -22,7 +22,7 @@ namespace UFZ.Interaction
 
 		private void Start()
 		{
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+#if MVR
 			BeginCommand = new vrCommand("Begin Command - " + gameObject.name, Begin);
 			EndCommand = new vrCommand("End Command - " + gameObject.name, End);
 			ForwardCommand = new vrCommand("Forward Command - " + gameObject.name, Forward);
@@ -33,7 +33,7 @@ namespace UFZ.Interaction
 #endif
 		}
 
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+#if MVR
 		public abstract vrValue Begin(vrValue iValue = null);
 		public abstract vrValue End(vrValue iValue = null);
 		public abstract vrValue Forward(vrValue iValue = null);

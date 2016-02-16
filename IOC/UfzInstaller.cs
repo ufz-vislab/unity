@@ -13,7 +13,7 @@ namespace UFZ.Initialization
 		{
 			//Container.Bind<IDependencyRoot>().ToSingle<DependencyRootStandard>();
 			//Container.Bind<IInstaller>().ToSingle<StandardUnityInstaller>();
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+#if MVR
 			Container.Bind<ITime>().ToSingle<MiddleVrTime>();
 			Container.Bind<IKeyboard>().ToSingle<MiddleVrKeyboard>();
 			Container.Bind<IMouse>().ToSingle<MiddleVrMouse>();

@@ -72,7 +72,7 @@ public abstract class ObjectSwitchBase : IPlayable
 		ElapsedTime = 0f;
 	}
 
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+#if MVR
 	public override vrValue Begin(vrValue iValue = null)
 	{
 		SetActiveChild(0);

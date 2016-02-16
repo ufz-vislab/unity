@@ -6,7 +6,7 @@ namespace UFZ.Menu
 {
 	public class VrMenuViewpoint : MonoBehaviour
 	{
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+#if MVR
 		private vrWidgetMenu _menu;
 
 		private IEnumerator Start()

@@ -48,7 +48,7 @@ namespace UFZ.Interaction
 			SetActiveChild((int) Math.Floor((time - StartTime)/StepSize));
 		}
 
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+#if MVR
 		public override vrValue Forward(vrValue iValue = null)
 		{
 			throw new NotImplementedException();

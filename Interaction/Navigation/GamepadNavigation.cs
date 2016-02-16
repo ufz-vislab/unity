@@ -11,7 +11,7 @@ namespace UFZ.Interaction
 
 		protected override void GetInputs()
 		{
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+#if MVR
 			if(MiddleVR.VRDeviceMgr == null)
 				return;
 

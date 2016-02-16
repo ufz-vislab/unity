@@ -10,7 +10,7 @@ namespace UFZ.Interaction
 	/// </summary>
 	///
 	/// Subclasses have to implement GetInputs().
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+#if MVR
 	public abstract class NavigationBase : VRInteraction
 #else
 	public abstract class NavigationBase : MonoBehaviour

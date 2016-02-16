@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -121,6 +122,19 @@ public class WandInputModule : BaseInputModule
 	private GameObject currentDragging;
 	private float nextAxisActionTime;
 
+#if MVR
+	private VRSharedValue<MiddleVR_Unity3D.SerializableVector3> _globalLookPosShared;
+#else
+	private Vector3 globalLookPos = Vector3.zero;
+#endif
+
+	protected override void Start()
+	{
+		base.Start();
+		_globalLookPosShared = new VRSharedValue<MiddleVR_Unity3D.SerializableVector3>
+			("globalLookPos", new Vector3(0.0f, 0.0f, 0.0f));
+	}
+
 	// use screen midpoint as locked pointer location, enabling look location to be the "mouse"
 	private PointerEventData GetLookPointerEventData()
 	{
@@ -156,6 +170,10 @@ public class WandInputModule : BaseInputModule
 				Vector3 globalLookPos;
 				if (RectTransformUtility.ScreenPointToWorldPointInRectangle(draggingPlane, lookDataLocal.position, lookDataLocal.enterEventCamera, out globalLookPos))
 				{
+#if MVR
+					_globalLookPosShared.value = globalLookPos;
+					globalLookPos = _globalLookPosShared.value;
+#endif
 					cursor.gameObject.SetActive(true);
 					cursor.position = globalLookPos;
 					cursor.rotation = draggingPlane.rotation;
@@ -334,6 +352,8 @@ public class WandInputModule : BaseInputModule
 								newPressed = ExecuteEvents.ExecuteHierarchy(currentPressed, lookDataLocal, ExecuteEvents.selectHandler);
 							}
 							break;
+						default:
+							throw new ArgumentOutOfRangeException();
 					}
 					if (newPressed != null)
 					{
@@ -430,7 +450,7 @@ public class WandInputModule : BaseInputModule
 			if (sl != null)
 			{
 				var mult = sl.maxValue - sl.minValue;
-				sl.value += newVal * smoothAxisMultiplier * mult;
+				sl.value += newVal*smoothAxisMultiplier*mult;
 				_controlAxisUsed = true;
 			}
 			else
@@ -439,7 +459,7 @@ public class WandInputModule : BaseInputModule
 				if (sb == null)
 					return;
 
-				sb.value += newVal * smoothAxisMultiplier;
+				sb.value += newVal*smoothAxisMultiplier;
 				_controlAxisUsed = true;
 			}
 		}
@@ -450,7 +470,7 @@ public class WandInputModule : BaseInputModule
 			if (!(time > nextAxisActionTime))
 				return;
 
-			nextAxisActionTime = time + 1f / steppedAxisStepsPerSecond;
+			nextAxisActionTime = time + 1f/steppedAxisStepsPerSecond;
 			var axisData = GetAxisEventData(newVal, 0.0f, 0.0f);
 			if (!ExecuteEvents.Execute(eventSystem.currentSelectedGameObject, axisData, ExecuteEvents.moveHandler))
 				_controlAxisUsed = false;

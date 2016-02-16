@@ -7,7 +7,7 @@ namespace UFZ.Interaction
 	/// </summary>
 	public class Player : MonoBehaviour
 	{
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+#if MVR
 		/// <summary>
 		/// vrCommands which resets the players orientation.
 		/// </summary>

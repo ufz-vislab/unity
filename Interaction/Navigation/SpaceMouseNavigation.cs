@@ -18,7 +18,7 @@ namespace UFZ.Interaction
 
 		protected override void GetInputs()
 		{
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+#if MVR
 			var axis = MiddleVR.VRDeviceMgr.GetAxis(DeviceName + ".Axis");
 			var buttons = MiddleVR.VRDeviceMgr.GetButtons(DeviceName + ".Buttons");
 

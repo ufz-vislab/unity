@@ -11,7 +11,7 @@ namespace UFZ.Interaction
 	{
 		public string NodeToMove = "Player";
 
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+#if MVR
 		public vrCommand MoveToViewpointCommand;
 		public vrCommand JumpToViewpointCommand;
 #endif
@@ -31,7 +31,7 @@ namespace UFZ.Interaction
 		{
 			_nodeToMove = GameObject.Find("Player");
 
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+#if MVR
 			MoveToViewpointCommand = new vrCommand("Move To Viewpoint Command " + GetInstanceID(), MoveToViewpoint);
 			JumpToViewpointCommand = new vrCommand("Jump To Viewpoint Command " + GetInstanceID(), JumpToViewpoint);
 #endif
@@ -50,7 +50,7 @@ namespace UFZ.Interaction
 		/// </summary>
 		/// <param name="ivalue">Not used.</param>
 		/// <returns></returns>
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+#if MVR
 		public vrValue MoveToViewpoint(vrValue ivalue = null)
 #else
 		public void MoveToViewpoint()
@@ -62,7 +62,7 @@ namespace UFZ.Interaction
 			_nodeToMove.transform.DOMove(transform.position, duration)
 				.OnStart(() => OnStart(duration)).OnComplete(() => OnFinish());
 			_nodeToMove.transform.DORotate(transform.rotation.eulerAngles, duration);
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+#if MVR
 			return true;
 #endif
 		}
@@ -72,7 +72,7 @@ namespace UFZ.Interaction
 		/// </summary>
 		/// <param name="ivalue">Not used.</param>
 		/// <returns></returns>
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+#if MVR
 		public vrValue JumpToViewpoint(vrValue ivalue = null)
 #else
 		public void JumpToViewpoint()
@@ -81,7 +81,7 @@ namespace UFZ.Interaction
 			_nodeToMove.transform.position = transform.position;
 			_nodeToMove.transform.rotation = transform.rotation;
 			if (OnSet != null) OnSet();
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+#if MVR
 			return true;
 #endif
 		}

@@ -76,7 +76,7 @@ namespace UFZ.Interaction
 				Time += UFZ.IOC.Core.Instance.Time.DeltaTime() * UnitsPerSecond;
 		}
 
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+#if MVR
 		public override vrValue Forward(vrValue iValue = null)
 		{
 			Stop();

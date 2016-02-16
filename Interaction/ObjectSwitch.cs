@@ -28,7 +28,7 @@ namespace UFZ.Interaction
 			IsPlaying = false;
 		}
 
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+#if MVR
 		public override vrValue Play(vrValue iValue = null)
 		{
 			IsPlaying = true;

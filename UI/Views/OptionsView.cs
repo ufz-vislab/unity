@@ -52,7 +52,7 @@ public class OptionsView : View
 	public void OrientationButtonClick()
 	{
 		var player = GameObject.Find("Player").GetComponent<Player>();
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+#if MVR
 		player.ResetRotation(0);
 #endif
 	}
