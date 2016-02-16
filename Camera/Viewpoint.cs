@@ -14,6 +14,8 @@ namespace UFZ.Interaction
 		public string Name = "Viewpoint";
 
 		private GameObject _nodeToMove;
+		private Tweener _moveTweener;
+		private Tweener _rotateTweener;
 
 		public void Awake()
 		{
@@ -80,9 +82,13 @@ namespace UFZ.Interaction
 			var length = vec.magnitude;
 			var duration = length/speed;
 
-			_nodeToMove.transform.DOMove(transform.position, duration)
+			var vps = FindObjectsOfType<Viewpoint>();
+			foreach (var vp in vps)
+				vp.Stop();
+
+			_moveTweener = _nodeToMove.transform.DOMove(transform.position, duration)
 				.OnStart(() => OnStart(duration)).OnComplete(() => OnFinish());
-			_nodeToMove.transform.DORotate(transform.rotation.eulerAngles, duration);
+			_rotateTweener = _nodeToMove.transform.DORotate(transform.rotation.eulerAngles, duration);
 		}
 
 		/// <summary>
@@ -102,6 +108,14 @@ namespace UFZ.Interaction
 			_nodeToMove.transform.position = transform.position;
 			_nodeToMove.transform.rotation = transform.rotation;
 			if (OnSet != null) OnSet();
+		}
+
+		public void Stop()
+		{
+			if (_moveTweener != null)
+				_moveTweener.Kill();
+			if (_rotateTweener != null)
+				_rotateTweener.Kill();
 		}
 
 		public delegate void OnSetEvent();
