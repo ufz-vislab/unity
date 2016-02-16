@@ -15,4 +15,4 @@ MonoBehaviour:
   _serializedStateKeys:
   - Properties
   _serializedStateValues:
-  - '[{"SubMeshIndex":0,"Bools":{"UseVertexColors":true},"Floats":{"ScalarRangeMin":0.0,"ScalarRangeMax":1.0},"Colors":{"ScalarRangeMinColor":{"r":0.23137255012989,"g":0.298039227724075,"b":0.752941191196442,"a":1.0},"ScalarRangeMaxColor":{"r":0.705882370471954,"g":0.0156862754374743,"b":0.149019613862038,"a":1.0}}},{"SubMeshIndex":1,"Bools":{"UseVertexColors":false},"Floats":{},"Colors":{}}]'
+  - '[{"SubMeshIndex":0,"Bools":{"UseVertexColors":true},"Floats":{"ScalarRangeMin":0.0,"ScalarRangeMax":1.0},"Colors":{"ScalarRangeMinColor":{"r":0.2313726,"g":0.2980392,"b":0.7529412,"a":1.0},"ScalarRangeMaxColor":{"r":0.7058824,"g":0.01568628,"b":0.1490196,"a":1.0}}},{"SubMeshIndex":1,"Bools":{"UseVertexColors":false},"Floats":{},"Colors":{}}]'
