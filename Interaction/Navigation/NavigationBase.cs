@@ -159,17 +159,16 @@ namespace UFZ.Interaction
 					_nodeToMove.transform.Rotate(new Vector3(0, 1, 0), horizontalRotation);
 			}
 
-			return;
-			// TODO: alwazs rotates around right vector in world space
-			if (Mathf.Abs(VerticalRotation) > DeadZone)
-			{
-				var verticalRotation = VerticalRotation * RotationSpeed * time.DeltaTime();
-
-				if (_turnNode != null)
-					_nodeToMove.transform.RotateAround(_turnNode.transform.position, new Vector3(1, 0, 0), verticalRotation);
-				else
-					_nodeToMove.transform.Rotate(new Vector3(1, 0, 0), verticalRotation);
-			}
+			// TODO: always rotates around right vector in world space
+			//if (Mathf.Abs(VerticalRotation) > DeadZone)
+			//{
+			//	var verticalRotation = VerticalRotation * RotationSpeed * time.DeltaTime();
+			//
+			//	if (_turnNode != null)
+			//		_nodeToMove.transform.RotateAround(_turnNode.transform.position, new Vector3(1, 0, 0), verticalRotation);
+			//	else
+			//		_nodeToMove.transform.Rotate(new Vector3(1, 0, 0), verticalRotation);
+			//}
 		}
 
 		/// <summary>
