@@ -21,6 +21,7 @@ namespace UFZ.Initialization
 
 			var playerGo = GetChildGameObject(sceneSetupGo, "Player");
 			AddComponent<Player>(playerGo);
+			AddComponent<VRShareTransform>(playerGo);
 			var vrManager = FindObjectOfType<VRManagerScript>();
 			if (vrManager == null)
 				Debug.LogWarning("VRManager not found. VR System Center Node could " +
