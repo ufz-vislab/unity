@@ -23,9 +23,29 @@ public abstract class ObjectSwitchBase : IPlayable
 
 	public Ordering Order = Ordering.Alphanumeric;
 
+#if MVR
+	private vrCommand _activeChildCommand;
+
+	protected void Start()
+	{
+		_activeChildCommand = new vrCommand("", ActiveChildCommandHandler);
+	}
+
+	private void OnDestroy()
+	{
+		MiddleVR.DisposeObject(ref _activeChildCommand);
+	}
+
+	private vrValue ActiveChildCommandHandler(vrValue index)
+	{
+		SetActiveChildInternal(index.GetInt());
+		return true;
+	}
+#endif
+
 	void OnValidate()
 	{
-		SetActiveChild(ActiveChild);
+		SetActiveChildInternal(ActiveChild);
 	}
 
 	protected virtual void Update ()
@@ -34,6 +54,16 @@ public abstract class ObjectSwitchBase : IPlayable
 	}
 
 	public void SetActiveChild(int index)
+	{
+#if MVR
+		if (_activeChildCommand != null)
+			_activeChildCommand.Do(index);
+#else
+			SetActiveChildInternal(index);
+#endif
+	}
+
+	private void SetActiveChildInternal(int index)
 	{
 		var numChilds = transform.childCount;
 		if (index >= numChilds)
@@ -72,19 +102,6 @@ public abstract class ObjectSwitchBase : IPlayable
 		ElapsedTime = 0f;
 	}
 
-#if MVR
-	public override vrValue Begin(vrValue iValue = null)
-	{
-		SetActiveChild(0);
-		return iValue;
-	}
-
-	public override vrValue End(vrValue iValue = null)
-	{
-		SetActiveChild(transform.childCount - 1);
-		return iValue;
-	}
-#else
 	public override void Begin()
 	{
 		SetActiveChild(0);
@@ -94,5 +111,4 @@ public abstract class ObjectSwitchBase : IPlayable
 	{
 		SetActiveChild(transform.childCount - 1);
 	}
-#endif
 }
