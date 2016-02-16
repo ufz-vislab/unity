@@ -62,7 +62,3 @@ namespace UFZ.Interaction
 		}
 	}
 }
-
-#if MVR
-using MiddleVR_Unity3D;
-#endif

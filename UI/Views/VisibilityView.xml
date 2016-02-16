@@ -1,15 +1,16 @@
 <VisibilityView EnabledChanged="EnabledHandler">
   <Group Alignment="TopLeft" ContentAlignment="Left" Spacing="10px">
-    <DataGrid RowSpacing="10px" ShowHeaders="True" Items="{Objects}"
+    <DataGrid RowSpacing="10px" FontSize="30" ShowHeaders="True" Items="{Objects}"
               TextAlignment="Left" HeaderTextAlignment="Center" SortColumnIndex="1" CanSelect="false">
-      <RowDefinition Height="40px">
-        <ColumnDefinition Width="*" Header="Object" Text="{Item.Name}">
+      <RowDefinition Height="30px">
+        <ColumnDefinition Width="*" Header="Object">
+          <HyperLink FontColor="black" Text="{Item.Name}" AdjustToText="Width" Click="TextClick" Id="{Item.ZeroBasedIndex}" />
         </ColumnDefinition>
         <ColumnDefinition Width="*" Header="Opacity">
-          <Slider Value="{Item.Opacity}" Min="0.0" Max="1.0" />
+          <Slider Value="{Item.Opacity}" Min="0.0" Max="1.0" ValueChanged="OpacityChanged" Id="{Item.ZeroBasedIndex}" />
         </ColumnDefinition>
         <ColumnDefinition Width="20%" Header="Enabled">
-          <Button Style="CheckBox" IsToggleButton="True" ToggleValue="{Item.Enabled}" Width="40px" />
+          <CheckBox Checked="{Item.Enabled}" Click="EnabledClick" Id="{Item.ZeroBasedIndex}" />
         </ColumnDefinition>
       </RowDefinition>
     </DataGrid>

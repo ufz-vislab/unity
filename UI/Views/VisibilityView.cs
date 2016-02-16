@@ -1,13 +1,16 @@
+using System;
 using UnityEngine;
 using MarkUX;
 using System.Collections.Generic;
 using UFZ.Misc;
 using UFZ.Rendering;
+using MarkUX.Views;
 
 [InternalView]
 public class VisibilityView : View
 {
 	public List<VisibilityStruct> Objects;
+	//public int AdditionalInfo;
 
 	protected GameObjectList GoList;
 
@@ -24,6 +27,7 @@ public class VisibilityView : View
 			if (objectVisibility.Entries == null || objectVisibility.Entries.Length == 0)
 				continue;
 
+			var index = 0;
 			foreach (var objectVisibilityInfo in objectVisibility.Entries)
 			{
 				var materialProperties = objectVisibilityInfo.GameObject.GetComponentsInChildren<MaterialProperties>();
@@ -35,8 +39,10 @@ public class VisibilityView : View
 					Name = objectVisibilityInfo.GameObject.name,
 					Opacity = materialProperties[0].Opacity,
 					Enabled = materialProperties[0].Enabled,
+					Index = index,
 					MatProps = materialProperties
 				});
+				index++;
 			}
 		}
 
@@ -89,21 +95,31 @@ public class VisibilityView : View
 		//UpdateVisibilities();
 	}
 
-	public void Update()
+	public void EnabledClick(CheckBox source)
 	{
-		// TODO: Update only when UI has changed
-		if (!Enabled)
-			return;
+		var visibilityStruct = Objects[int.Parse(source.Id) - 1];
 
-		foreach (var visibilityStruct in Objects)
-		{
-			foreach (var matProp in visibilityStruct.MatProps)
-			{
-				matProp.RestoreState();
-				matProp.Opacity = visibilityStruct.Opacity;
-				matProp.Enabled = visibilityStruct.Enabled;
-			}
-		}
+		foreach (var matProp in visibilityStruct.MatProps)
+			matProp.SetEnabled(visibilityStruct.Enabled);
+	}
+
+	public void OpacityChanged(Slider source)
+	{
+		var visibilityStruct = Objects[int.Parse(source.Id) - 1];
+		Debug.Log("Opacity: " + visibilityStruct.Opacity);
+		foreach (var matProp in visibilityStruct.MatProps)
+			matProp.SetOpacity(visibilityStruct.Opacity);
+	}
+
+	public void TextClick(HyperLink source)
+	{
+		// TODO: does not sync checkbox
+		var visibilityStruct = Objects[int.Parse(source.Id) - 1];
+		visibilityStruct.Enabled = !visibilityStruct.Enabled;
+		SetChanged(() => Objects);
+
+		foreach (var matProp in visibilityStruct.MatProps)
+			matProp.SetEnabled(visibilityStruct.Enabled);
 	}
 }
 
@@ -112,5 +128,6 @@ public class VisibilityStruct
 	public string Name;
 	public float Opacity;
 	public bool Enabled;
+	public int Index;
 	public MaterialProperties[] MatProps;
 }

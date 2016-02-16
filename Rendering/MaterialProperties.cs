@@ -79,7 +79,8 @@ namespace UFZ.Rendering
 		[SerializeField, InspectorHeader("Coloring"), InspectorDivider]
 		public ColorMode ColorBy {
 			get { return _colorBy; }
-			set {
+			set
+			{
 				if (_colorBy == value)
 					return;
 
@@ -93,22 +94,12 @@ namespace UFZ.Rendering
 		[SerializeField]
 		public Color SolidColor {
 			get { return _solidColor; }
-			set {
+			set
+			{
 				_solidColor = value;
-
-#if UNITY_EDITOR
-				if (!FullInspector.Internal.fiUtility.IsMainThread)
-					return;
 
 				PropertyBlock.SetColor(Shader.PropertyToID("_Color"), new Color(value.r, value.g, value.b, _opacity));
 				UpdateRenderers();
-#else
-				Loom.QueueOnMainThread(() =>
-				{
-					PropertyBlock.SetColor(Shader.PropertyToID("_Color"), new Color(value.r, value.g, value.b, _opacity));
-					UpdateRenderers();
-				});
-#endif
 			}
 		}
 
@@ -147,29 +138,16 @@ namespace UFZ.Rendering
 			get { return _texture; }
 			set {
 				_texture = value;
-#if UNITY_EDITOR
-				if (value == null || !FullInspector.Internal.fiUtility.IsMainThread)
+
+				if (value == null)
 					return;
 				PropertyBlock.SetTexture(Shader.PropertyToID("_MainTex"), _texture);
 				UpdateRenderers();
-#else
-				Loom.QueueOnMainThread(() =>
-				{
-					PropertyBlock.SetTexture(Shader.PropertyToID("_MainTex"), _texture);
-					UpdateRenderers();
-				});
-#endif
 			}
 		}
 
 		private Texture _texture;
 
-		protected override void Awake()
-		{
-			base.Awake();
-
-			RestoreState();
-		}
 
 		public override void UpdateRenderers()
 		{
@@ -187,14 +165,7 @@ namespace UFZ.Rendering
 			if (gameObject == null)
 				return;
 
-#if UNITY_EDITOR
-			if (!FullInspector.Internal.fiUtility.IsMainThread)
-				return;
-
 			UpdateShaderInternal();
-#else
-			Loom.QueueOnMainThread(UpdateShaderInternal);
-#endif
 		}
 
 		private void UpdateShaderInternal()
