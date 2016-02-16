@@ -11,7 +11,7 @@ namespace UFZ.Tests
 
 		[Inject] private IKeyboard _keyboard;
 
-		[Inject] private ILogger _logger;
+		[Inject] private UFZ.IOC.ILogger _logger;
 #pragma warning restore 649
 
 		private void Update()
