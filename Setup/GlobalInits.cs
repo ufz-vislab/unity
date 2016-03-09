@@ -43,6 +43,12 @@ namespace UFZ.Initialization
 				var handGo = new GameObject("HandNode");
 				handGo.transform.SetParent(playerGo.transform, false);
 			}
+			else
+			{
+				var camGo = GameObject.FindWithTag("MainCamera");
+				camGo.tag = "Untagged";
+			}
+			
 
 			var wandGo = GameObject.Find("VRWand");
 
@@ -71,6 +77,11 @@ namespace UFZ.Initialization
 					var navigations = FindObjectsOfType<NavigationBase>();
 					foreach (var navigation in navigations)
 						navigation.DirectionReferenceNode = "HeadNode";
+				}
+				else
+				{
+					var camGo = GameObject.FindWithTag("MainCamera");
+					camGo.GetComponent<SuperSampling_SSAA>().enabled = true;
 				}
 			}
 

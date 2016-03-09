@@ -228,8 +228,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 115318}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.04999995, y: -8.14999962, z: 0}
-  m_LocalScale: {x: 5.11999989, y: 15.3599997, z: 1}
+  m_LocalPosition: {x: 2.05, y: -8.15, z: 0}
+  m_LocalScale: {x: 5.12, y: 15.36, z: 1}
   m_Children: []
   m_Father: {fileID: 415326}
   m_RootOrder: 2
@@ -239,9 +239,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 115320}
-  m_LocalRotation: {x: .5, y: -.5, z: -.5, w: .5}
+  m_LocalRotation: {x: 0.5, y: -0.5, z: -0.5, w: 0.5}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: .100000001, y: .100000001, z: .100000001}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children: []
   m_Father: {fileID: 415330}
   m_RootOrder: 0
@@ -252,8 +252,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 115322}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .637499988, y: 0, z: 0}
-  m_LocalScale: {x: .25, y: 1, z: 1}
+  m_LocalPosition: {x: 0.6375, y: 0, z: 0}
+  m_LocalScale: {x: 0.25, y: 1, z: 1}
   m_Children:
   - {fileID: 415324}
   m_Father: {fileID: 415326}
@@ -265,7 +265,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 115324}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -.658038259}
+  m_LocalPosition: {x: 0, y: 0, z: -0.65803826}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 415322}
@@ -277,8 +277,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 115326}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: .200000003}
-  m_LocalScale: {x: .200000003, y: .0500000007, z: .00499999989}
+  m_LocalPosition: {x: 0, y: 1, z: 0.2}
+  m_LocalScale: {x: 0.2, y: 0.05, z: 0.005}
   m_Children:
   - {fileID: 415322}
   - {fileID: 415332}
@@ -292,7 +292,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 115328}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: .5}
+  m_LocalPosition: {x: 0, y: 0, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 50}
   m_Children: []
   m_Father: {fileID: 415334}
@@ -318,7 +318,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 115332}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -.645008683}
+  m_LocalPosition: {x: 0, y: 0, z: -0.6450087}
   m_LocalScale: {x: 5, y: 20, z: 200}
   m_Children: []
   m_Father: {fileID: 415326}
@@ -368,8 +368,10 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_AutoUVMaxDistance: .5
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
@@ -392,8 +394,10 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_AutoUVMaxDistance: .5
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
@@ -416,8 +420,10 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_AutoUVMaxDistance: .5
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
@@ -440,8 +446,10 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_AutoUVMaxDistance: .5
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
@@ -464,8 +472,10 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_AutoUVMaxDistance: .5
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
@@ -488,8 +498,10 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_AutoUVMaxDistance: .5
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
@@ -512,8 +524,10 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_AutoUVMaxDistance: .5
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
@@ -569,7 +583,7 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: .0500000007
+  m_AngularDrag: 0.05
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -621,7 +635,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: .00999999978, y: .00999999978, z: .0199999996}
+  m_Size: {x: 0.01, y: 0.01, z: 0.02}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!102 &10215336
 TextMesh:
@@ -632,7 +646,7 @@ TextMesh:
   m_GameObject: {fileID: 115332}
   m_Text: Menu
   m_OffsetZ: 0
-  m_CharacterSize: .00400000019
+  m_CharacterSize: 0.004
   m_LineSpacing: 1
   m_Anchor: 4
   m_Alignment: 0
@@ -731,7 +745,7 @@ MonoBehaviour:
   WandActionButton: 1
   TranslationSpeed: 1
   RotationSpeed: 45
-  DistanceThreshold: .0250000004
+  DistanceThreshold: 0.025
   AngleThreshold: 5
   UseRotationYaw: 1
   Fly: 0
@@ -762,7 +776,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc5a0c0c6aa4ad94985a0863fffaf5e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CollisionDistance: .200000003
+  CollisionDistance: 0.2
   CollisionNodeName: HeadNode
 --- !u!114 &11415310
 MonoBehaviour:
@@ -805,7 +819,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cde4e9eaf19e1b40876056ef09896ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObjectReturnSpeed: 1.39999998
+  ObjectReturnSpeed: 1.4
 --- !u!114 &11415316
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -820,8 +834,8 @@ MonoBehaviour:
   Name: InteractionVirtualHandGogo
   HandNode: HandNode
   HeadNode: HeadNode
-  GogoStartDistance: .5
-  RealDistanceMax: .699999988
+  GogoStartDistance: 0.5
+  RealDistanceMax: 0.7
   VirtualDistanceMax: 10
 --- !u!114 &11415318
 MonoBehaviour:
@@ -835,7 +849,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: InteractionScreenProximityWarning
-  WarningDistance: .200000003
+  WarningDistance: 0.2
   NodesToWatch:
   - HeadNode
   - HandNode
@@ -962,7 +976,7 @@ MonoBehaviour:
   WandButton4: 0
   WandButton5: 0
   DeltaTime: 0
-  ConfigFile: C:/Users/Public/Documents/projects/all/Assets/UFZ/StreamingAssets/MiddleVRConfigs/Empty.vrx
+  ConfigFile: C:/Program Files (x86)/MiddleVR/data/Config/Misc/Default.vrx
   VRSystemCenterNode: {fileID: 0}
   TemplateCamera: {fileID: 0}
   ShowWand: 1

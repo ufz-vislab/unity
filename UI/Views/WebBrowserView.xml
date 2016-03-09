@@ -1,0 +1,7 @@
+<WebBrowserView>
+  <Group Alignment="TopLeft" ContentAlignment="Left" Spacing="10px">
+    <Label Text="My Web Browser View" />
+    <WebView Id="WebView" />
+    <Label Text="Bottom 123" />
+  </Group>
+</WebBrowserView>
