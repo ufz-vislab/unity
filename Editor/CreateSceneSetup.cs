@@ -34,6 +34,9 @@ namespace UFZ.Initialization
 				{
 					// TODO: Create cam
 				}
+				if(cam.GetComponent<AudioListener>() != null)
+					cam.GetComponent<AudioListener>().enabled = false;
+				cam.AddComponent<SuperSampling_SSAA>().enabled = false;
 				vrManager.TemplateCamera = cam;
 			}
 
