@@ -45,8 +45,19 @@ namespace UFZ.Interaction
 
 		private void OnStart(float duration)
 		{
-			if(Transition != VisibilityTransition.StepOnComplete)
-				Do();
+			switch (Transition)
+			{
+				case VisibilityTransition.StepOnStart:
+					Do(true);
+					break;
+
+				case VisibilityTransition.Smooth:
+					Do();
+					break;
+
+				default:
+					break;
+			}
 		}
 
 		private void OnComplete()

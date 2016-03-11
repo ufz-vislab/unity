@@ -61,10 +61,14 @@ namespace UFZ.Interaction
 				var matProps = entry.GameObject.GetComponentsInChildren<MaterialProperties>();
 				foreach (var matProp in matProps)
 				{
+					// This assignment is necessary due to the old version of NET that Unity uses,
+					// where the target of a foreach is not considered unique as it should
+					// From http://dotween.demigiant.com/support.php
+					var thisProp = matProp;
 					if (entry.Duration > 0f && !immediate)
-						DOTween.To(() => matProp.Opacity, x => matProp.Opacity = x, entry.Opacity, entry.Duration);
+						DOTween.To(() => thisProp.Opacity, x => thisProp.Opacity = x, entry.Opacity, entry.Duration);
 					else
-						matProp.Opacity = entry.Opacity;
+						thisProp.Opacity = entry.Opacity;
 				}
 			}
 		}

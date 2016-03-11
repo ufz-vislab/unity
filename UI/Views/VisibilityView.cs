@@ -106,7 +106,6 @@ public class VisibilityView : View
 	public void OpacityChanged(Slider source)
 	{
 		var visibilityStruct = Objects[int.Parse(source.Id) - 1];
-		Debug.Log("Opacity: " + visibilityStruct.Opacity);
 		foreach (var matProp in visibilityStruct.MatProps)
 			matProp.SetOpacity(visibilityStruct.Opacity);
 	}
