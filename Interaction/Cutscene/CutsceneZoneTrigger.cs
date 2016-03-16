@@ -10,8 +10,15 @@ namespace UFZ
 		public Collider Collider;
 		public Slate.Cutscene[] Cutscenes;
 
+		public void Awake()
+		{
+			if (Collider == null)
+				Collider = GameObject.Find("Player").GetComponent<Collider>();
+		}
+
 		void OnTriggerEnter (Collider other)
 		{
+			Debug.Log("Collision: " + other.name);
 			if (other != Collider)
 				return;
 

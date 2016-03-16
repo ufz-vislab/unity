@@ -20,8 +20,22 @@ namespace UFZ.Initialization
 			AddComponent<GameObjectList>(visibilitiesGo);
 
 			var playerGo = GetChildGameObject(sceneSetupGo, "Player");
-			AddComponent<Player>(playerGo);
-			AddComponent<VRShareTransform>(playerGo);
+			if(playerGo.GetComponent<Player>() == null)
+				AddComponent<Player>(playerGo);
+			if(playerGo.GetComponent<VRShareTransform>() == null)
+				AddComponent<VRShareTransform>(playerGo);
+			if (playerGo.GetComponent<Rigidbody>() == null)
+			{
+				var rigidBody = playerGo.AddComponent<Rigidbody>();
+				//rigidBody.isKinematic = false;
+				rigidBody.useGravity = false;
+			}
+			if (playerGo.GetComponent<CapsuleCollider>() == null)
+			{
+				var collider = playerGo.AddComponent<CapsuleCollider>();
+				collider.radius = 0.25f;
+				collider.isTrigger = true;
+			}
 			var vrManager = FindObjectOfType<VRManagerScript>();
 			if (vrManager == null)
 				Debug.LogWarning("VRManager not found. VR System Center Node could " +
