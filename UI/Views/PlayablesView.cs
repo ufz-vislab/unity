@@ -1,18 +1,19 @@
 using MarkUX;
 using MarkUX.Views;
+using UFZ.Interaction;
 using UnityEngine;
 
 public class PlayablesView : View
 {
 	public FlowList PlayablesFlowList;
 	public string MenuHeader = "Animations";
-	public ObjectSwitchBase[] Playables;
+	public IPlayable[] Playables;
 	public string[] Names;
 	public string ToggleButtonText = "Play";
 	public float SelectedPosition = 0f;
 	public float Speed = 1f;
 
-	protected ObjectSwitchBase Selected;
+	protected IPlayable Selected;
 
 	public override void Initialize()
 	{
@@ -20,7 +21,7 @@ public class PlayablesView : View
 
 		// Resources.FindObjectsOfTypeAll instead of FindObjectsOfType
 		// finds also disabled objects.
-		Playables = Resources.FindObjectsOfTypeAll<ObjectSwitchBase>();
+		Playables = Resources.FindObjectsOfTypeAll<IPlayable>();
 
 		if (Playables != null && Playables.Length > 0)
 			Selected = Playables[0];
@@ -43,8 +44,8 @@ public class PlayablesView : View
 
 		SetValue(() => ToggleButtonText, Selected.IsPlaying ? "Pause" : "Play");
 
-		SetValue(() => SelectedPosition,
-			Selected.ActiveChild / ((float)Selected.transform.childCount - 1));
+		//SetValue(() => SelectedPosition,
+		//	Selected.ActiveChild / ((float)Selected.transform.childCount - 1));
 	}
 
 	public void TogglePlay()

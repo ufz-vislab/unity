@@ -28,15 +28,27 @@ namespace UFZ.Rendering
 
 		private static void SetEyeDistance(float distance)
 		{
-			string camName;
-			if (MiddleVR.VRClusterMgr.GetMyClusterNode() != null)
-				camName = MiddleVR.VRClusterMgr.GetMyClusterNode().GetViewport().GetCamera().GetName();
-			else
-				camName = MiddleVR.VRDisplayMgr.GetCameraByIndex().GetName();
-			var stereoCam = MiddleVR.VRDisplayMgr.GetCameraStereo(camName);
+			var clusterNode = MiddleVR.VRClusterMgr.GetMyClusterNode();
+			if (clusterNode == null)
+			{
+				var camName = MiddleVR.VRDisplayMgr.GetCameraByIndex().GetName();
+				var stereoCam = MiddleVR.VRDisplayMgr.GetCameraStereo(camName);
 
-			if (stereoCam != null)
-				stereoCam.SetInterEyeDistance(distance);
+				if (stereoCam != null)
+					stereoCam.SetInterEyeDistance(distance);
+			}
+			else
+			{
+				for (uint i = 0; i < clusterNode.GetViewportsNb(); i++)
+				{
+					var vp = clusterNode.GetViewport(i);
+					var camName = vp.GetCamera().GetName();
+					var stereoCam = MiddleVR.VRDisplayMgr.GetCameraStereo(camName);
+
+					if (stereoCam != null)
+						stereoCam.SetInterEyeDistance(distance);
+				}
+			}
 		}
 	}
 }

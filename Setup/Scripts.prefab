@@ -15,6 +15,7 @@ GameObject:
   - 114: {fileID: 11466438}
   - 114: {fileID: 11448926}
   - 114: {fileID: 11462534}
+  - 114: {fileID: 11440224}
   m_Layer: 0
   m_Name: Scripts
   m_TagString: Untagged
@@ -48,10 +49,10 @@ MonoBehaviour:
   NodeToMove: Player
   DirectionReferenceNode: HandNode
   TurnAroundNode: HeadNode
-  NavigationSpeed: 1
+  NavigationSpeed: 0.5
   RotationSpeed: 45
-  DeadZone: .100000001
-  RunningSpeed: 10
+  DeadZone: 0.1
+  RunningSpeed: 3
 --- !u!114 &11432266
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -66,10 +67,10 @@ MonoBehaviour:
   NodeToMove: Player
   DirectionReferenceNode: HandNode
   TurnAroundNode: HeadNode
-  NavigationSpeed: 3
+  NavigationSpeed: 0.75
   RotationSpeed: 45
-  DeadZone: .100000001
-  RunningSpeed: 30
+  DeadZone: 0.1
+  RunningSpeed: 3
 --- !u!114 &11439564
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -86,9 +87,23 @@ MonoBehaviour:
   TurnAroundNode: HeadNode
   NavigationSpeed: 3
   RotationSpeed: 45
-  DeadZone: .100000001
-  RunningSpeed: 30
+  DeadZone: 0.1
+  RunningSpeed: 10
   DeviceName: SpaceMouse
+--- !u!114 &11440224
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 199408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c7c77503cbb04bf2aad1be645fda511, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _objectReferences: []
+  _serializedStateKeys: []
+  _serializedStateValues: []
 --- !u!114 &11447792
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -104,7 +119,7 @@ MonoBehaviour:
   IsGuiDisabledOnStart: 1
   disabledScripts: []
   disabledGameObjects: []
-  CanvasPosition: {x: .5, y: 0, z: 1}
+  CanvasPosition: {x: 0.5, y: 0, z: 1}
 --- !u!114 &11448926
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -139,7 +154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OnlyInjectWhenActive: 1
-  InjectFullScene: 1
+  ParentNewObjectsUnderRoot: 1
   Installers:
   - {fileID: 11448926}
 --- !u!1001 &100100000

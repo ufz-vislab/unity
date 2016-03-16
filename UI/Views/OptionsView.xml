@@ -1,9 +1,12 @@
 <OptionsView>
-  <Group Spacing="10px" Alignment="TopLeft" ContentAlignment="Left">
+  <Group Spacing="15px" Alignment="TopLeft" ContentAlignment="Left">
+    
     <Button Text="Toggle superelevation" Width="550px" Click="SuperelevatedButtonClick" />
     <Button Text="Show velocity" Width="550px" Click="VelocityButtonClick" />
     <Button Text="Show temperature" Width="550px" Click="TemperatureButtonClick" />
     <Button Text="Toggle satelite image" Width="550px" Click="SateliteButtonClick" />
     <Button Text="Reset orientation" Width="550px" Click="OrientationButtonClick" />
+
+    <CheckBox Text="Stereo" Checked="True" CheckBoxWidth="80px" CheckBoxHeight="40px" Click="StereoEnabledClick" />
   </Group>
 </OptionsView>

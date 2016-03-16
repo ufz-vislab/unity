@@ -1,4 +1,5 @@
 using MarkUX;
+using MarkUX.Views;
 using UFZ.Interaction;
 using UnityEngine;
 using UFZ.Rendering;
@@ -6,6 +7,12 @@ using UFZ.Rendering;
 [InternalView]
 public class OptionsView : View
 {
+	public void StereoEnabledClick(CheckBox source)
+	{
+		var eye = FindObjectOfType<EyeDistance>();
+		eye.Distance = source.Checked ? 0.063f : 0f;
+	}
+
 	public void SuperelevatedButtonClick()
 	{
 		var simAnim = FindObjectOfType<BathySimAnimation>();
