@@ -108,6 +108,7 @@ namespace UFZ.Interaction
 			EditorGUILayout.BeginVertical(GUILayout.Width(400));
 			((Viewpoint) target).StartHere = EditorGUILayout.Toggle("Start Application Here", ((Viewpoint) target).StartHere);
 			((Viewpoint)target).Speed = EditorGUILayout.FloatField("Speed", ((Viewpoint)target).Speed);
+			((Viewpoint)target).MaxTransitionTime = EditorGUILayout.FloatField("Max Transition Time (s)", ((Viewpoint)target).MaxTransitionTime);
 			RenderPreview();
 
 			//Get animation values and apply them to the preview camera

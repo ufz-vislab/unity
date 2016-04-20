@@ -9,6 +9,9 @@ namespace UFZ.Interaction
 	/// </summary>
 	public class Viewpoint : MonoBehaviour
 	{
+		// TODO: Better set globally or based on scene size
+		public float Speed = 1.5f;
+		public float MaxTransitionTime = 5f;
 		public string NodeToMove = "Player";
 		public bool StartHere = false;
 		public string Name = "Viewpoint";
@@ -77,10 +80,12 @@ namespace UFZ.Interaction
 		}
 		private void MoveInternal()
 		{
-			const float speed = 1.5f; // units per seconds
+			//const float speed = 1.5f; // units per seconds
 			var vec = transform.position - _nodeToMove.transform.position;
 			var length = vec.magnitude;
-			var duration = length/speed;
+			var duration = length/Speed;
+			if(duration > MaxTransitionTime)
+				duration = MaxTransitionTime;
 
 			var vps = FindObjectsOfType<Viewpoint>();
 			foreach (var vp in vps)
