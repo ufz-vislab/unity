@@ -1,6 +1,10 @@
 <WebBrowserView>
-  <Group Alignment="TopLeft" ContentAlignment="Left" Spacing="10px">
-    <Label Text="My Web Browser View" />
+  <Group Alignment="TopLeft" ContentAlignment="Left" Spacing="10px" Height="100%" BackgroundColor="#949494">
+    <Group Orientation="Horizontal" Spacing="10px">
+      <Label Text="My Web Browser View" AdjustToText="Width" />
+      <Button Text="Back" Click="BackButtonClick" Width="100px" />
+      <Button Text="Forward" Click="ForwardButtonClick" Width="100px" />
+    </Group>
     <WebView Id="WebView" />
     <Label Text="Bottom 123" />
   </Group>
