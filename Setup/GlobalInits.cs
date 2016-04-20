@@ -96,6 +96,7 @@ namespace UFZ.Initialization
 			{
 				guiCamera = GameObject.Find("HeadNode").GetComponentInChildren<Camera>();
 				FindObjectOfType<VRManagerScript>().ShowWand = false;
+				FindObjectOfType<VRRaySelection>().enabled = false;
 			}
 
 			if (GuiInputType == InputType.Head)
