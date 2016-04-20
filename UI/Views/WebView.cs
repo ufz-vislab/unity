@@ -54,17 +54,36 @@ namespace MarkUX.Views
 			_vrWebView = plane.AddComponent<VRWebView>();
 			_vrWebView.m_Width = width;
 			_vrWebView.m_Height = height;
+		}
 
+		public void Start()
+		{
 			UpdateURL();
 		}
 
 		public virtual void UpdateURL()
 		{
-			if(_vrWebView != null && _vrWebView.webView != null)
-				_vrWebView.webView.SetURL(URL);
+			if (_vrWebView == null || _vrWebView.webView == null)
+				return;
+			Debug.Log("Setting URL: " + URL);
+			_vrWebView.webView.SetURL(URL);
+		}
+
+		public void Back()
+		{
+			if (_vrWebView == null || _vrWebView.webView == null)
+				return;
+			_vrWebView.webView.GoBack();
+		}
+
+		public void Forward()
+		{
+			if (_vrWebView == null || _vrWebView.webView == null)
+				return;
+			_vrWebView.webView.GoForward();
 		}
 
 		#endregion
-}
+	}
 
 }
