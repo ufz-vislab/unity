@@ -30,7 +30,12 @@ namespace UFZ.Interaction
 			public float Duration;
 		}
 
-		[InspectorComment("Global settings")]
+		/// <summary>
+		/// An array of object transition data.
+		/// </summary>
+		public ObjectVisibilityInfo[] Entries;
+
+		[InspectorHeader("Global settings")]
 		public float Opacity = 0f;
 		public float Duration = 5f;
 
@@ -39,18 +44,18 @@ namespace UFZ.Interaction
 		{
 			for (var index = 0; index < Entries.Length; index++)
 			{
-				var entry = Entries[index];
-				entry.Opacity = Opacity;
-				entry.Duration = Duration;
+				Entries[index].Opacity = Opacity;
+				Entries[index].Duration = Duration;
 			}
 		}
 
-		/// <summary>
-		/// An array of object transition data.
-		/// </summary>
-		public ObjectVisibilityInfo[] Entries;
-
+		[InspectorOrder(0.0)]
 		[InspectorButton]
+		private void SetVisibilitiesInScene()
+		{
+			Do(true);
+		}
+
 		public void Do(bool immediate = false)
 		{
 			foreach (var entry in Entries)

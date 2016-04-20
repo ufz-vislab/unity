@@ -26,6 +26,7 @@ namespace UFZ.Interaction
 			StepOnComplete
 		}
 
+		[InspectorHeader("Advanced settings")]
 		public VisibilityTransition Transition = VisibilityTransition.Smooth;
 
 
