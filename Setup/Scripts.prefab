@@ -115,8 +115,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2149a00c98488648bd26e4c4be90d6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _objectReferences: []
+  _serializedStateKeys:
+  - GuiInputType
+  - CanvasPositionEditor
+  - CanvasPositionVislab
+  - CanvasPositionRift
+  - disabledScripts
+  - disabledGameObjects
+  - CanvasPosition
+  _serializedStateValues:
+  - '"Mouse"'
+  - '{"x":0.5,"y":0.0,"z":1.0}'
+  - '{"x":0.75,"y":2.0,"z":1.0}'
+  - '{"x":0.0,"y":0.0,"z":0.2}'
+  - '[]'
+  - '[]'
+  - '{"x":0.5,"y":0.0,"z":1.0}'
   GuiInputType: 0
   IsGuiDisabledOnStart: 1
+  CanvasPositionEditor: {x: 0.5, y: 0, z: 1}
+  CanvasPositionVislab: {x: 0.75, y: 2, z: 1}
+  CanvasPositionRift: {x: 0, y: 0, z: 0.2}
   disabledScripts: []
   disabledGameObjects: []
   CanvasPosition: {x: 0.5, y: 0, z: 1}

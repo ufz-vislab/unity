@@ -1,5 +1,6 @@
 using System.Linq;
 using DG.Tweening;
+using FullInspector;
 using UFZ.Interaction;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ namespace UFZ.Initialization
 	/// Do global initialization stuff here.
 	/// </summary>
 	/// Is part of the VRBase scene.
-	public class GlobalInits : MonoBehaviour
+	public class GlobalInits : BaseBehavior
 	{
 		public enum InputType
 		{
@@ -18,16 +19,18 @@ namespace UFZ.Initialization
 			Head
 		}
 
+		[InspectorHeader("GUI")]
+		[HideInInspector]
 		public InputType GuiInputType = InputType.Mouse;
-
 		public bool IsGuiDisabledOnStart = true;
-
-		public MonoBehaviour[] disabledScripts;
-		public GameObject[] disabledGameObjects;
-
 		public Vector3 CanvasPositionEditor = new Vector3(0.5f, 0f, 1f);
 		public Vector3 CanvasPositionVislab = new Vector3(0.75f, 2f, 1f);
 		public Vector3 CanvasPositionRift = new Vector3(0f, 0f, 0.2f);
+
+		[InspectorDivider]
+		public MonoBehaviour[] disabledScripts;
+		public GameObject[] disabledGameObjects;
+
 
 		[HideInInspector]
 		public Vector3 CanvasPosition;
@@ -50,12 +53,6 @@ namespace UFZ.Initialization
 				var handGo = new GameObject("HandNode");
 				handGo.transform.SetParent(playerGo.transform, false);
 			}
-			else
-			{
-				var camGo = GameObject.FindWithTag("MainCamera");
-				camGo.tag = "Untagged";
-			}
-			
 
 			var wandGo = GameObject.Find("VRWand");
 
@@ -153,6 +150,8 @@ namespace UFZ.Initialization
 		{
 			DOTween.Init();
 			Loom.Current.GetComponent<Loom>();
+
+			FindObjectOfType<VRManagerScript>().TemplateCamera.SetActive(false);
 		}
 
 		public void Update()
