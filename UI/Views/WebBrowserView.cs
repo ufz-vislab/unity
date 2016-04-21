@@ -16,4 +16,9 @@ public class WebBrowserView : View
 	{
 		WebViewWidget.Forward();
 	}
+
+	public void Close()
+	{
+		this.GetLayoutRoot().transform.parent.gameObject.SetActive(false);
+	}
 }

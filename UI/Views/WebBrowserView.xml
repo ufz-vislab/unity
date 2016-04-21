@@ -5,7 +5,7 @@
       <Button Text="Back" Click="BackButtonClick" Width="100px" />
       <Button Text="Forward" Click="ForwardButtonClick" Width="100px" />
     </Group>
-    <WebView Id="WebViewWidget" />
-    <Label Text="Bottom 123" />
+    <WebView Id="WebViewWidget" BackgroundColor="#ffffff" />
+    <Button Text="Close" Click="Close" />
   </Group>
 </WebBrowserView>

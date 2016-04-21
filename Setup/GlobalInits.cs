@@ -25,12 +25,19 @@ namespace UFZ.Initialization
 		public MonoBehaviour[] disabledScripts;
 		public GameObject[] disabledGameObjects;
 
-		public Vector3 CanvasPosition = new Vector3(0.5f, 0f, 1f);
+		public Vector3 CanvasPositionEditor = new Vector3(0.5f, 0f, 1f);
+		public Vector3 CanvasPositionVislab = new Vector3(0.75f, 2f, 1f);
+		public Vector3 CanvasPositionRift = new Vector3(0f, 0f, 0.2f);
+
+		[HideInInspector]
+		public Vector3 CanvasPosition;
+		protected Camera GuiCamera;
 
 		private Canvas _mainMenuCanvas;
 
 		protected void Awake()
 		{
+			CanvasPosition = CanvasPositionEditor;
 			// Setup player
 			var playerGo = GameObject.Find("Player");
 			if (playerGo.transform.FindChild("HeadNode") == null)
@@ -65,7 +72,7 @@ namespace UFZ.Initialization
 #endif
 			if (IOC.Core.Instance.Environment.IsCluster())
 			{
-				CanvasPosition = new Vector3(0.75f, 2f, 1f);
+				CanvasPosition = CanvasPositionVislab;
 				GuiInputType = InputType.Wand;
 			}
 			else
@@ -73,7 +80,7 @@ namespace UFZ.Initialization
 				if (IOC.Core.Instance.Environment.HasDevice("Rift"))
 				{
 					GuiInputType = InputType.Head;
-					CanvasPosition = new Vector3(0f, 0f, 0.2f);
+					CanvasPosition = CanvasPositionRift;
 					var navigations = FindObjectsOfType<NavigationBase>();
 					foreach (var navigation in navigations)
 						navigation.DirectionReferenceNode = "HeadNode";
@@ -85,16 +92,15 @@ namespace UFZ.Initialization
 				}
 			}
 
-			Camera guiCamera;
 			if (GuiInputType == InputType.Wand)
 			{
-				guiCamera = wandGo.AddComponent<Camera>();
-				guiCamera.enabled = false;
-				guiCamera.cullingMask = LayerMask.GetMask("UI");
+				GuiCamera = wandGo.AddComponent<Camera>();
+				GuiCamera.enabled = false;
+				GuiCamera.cullingMask = LayerMask.GetMask("UI");
 			}
 			else
 			{
-				guiCamera = GameObject.Find("HeadNode").GetComponentInChildren<Camera>();
+				GuiCamera = GameObject.Find("HeadNode").GetComponentInChildren<Camera>();
 				FindObjectOfType<VRManagerScript>().ShowWand = false;
 				FindObjectOfType<VRRaySelection>().enabled = false;
 			}
@@ -114,10 +120,7 @@ namespace UFZ.Initialization
 			}
 			foreach (var canvas in enumerable)
 			{
-				canvas.transform.SetParent(
-					GameObject.Find("Player").transform, false);
-				canvas.transform.localPosition = CanvasPosition;
-				canvas.worldCamera = guiCamera;
+				RegisterUi(canvas, Vector3.zero);
 				if (canvas.name == "ApplicationMenuCanvas")
 				{
 					canvas.gameObject.SetActive(!IsGuiDisabledOnStart);
@@ -162,6 +165,14 @@ namespace UFZ.Initialization
 
 			_mainMenuCanvas.gameObject.SetActive(!_mainMenuCanvas.gameObject.activeSelf);
 
+		}
+
+		public void RegisterUi(Canvas canvas, Vector3 position)
+		{
+			canvas.transform.SetParent(
+					GameObject.Find("Player").transform, false);
+			canvas.transform.localPosition = CanvasPosition + position;
+			canvas.worldCamera = GuiCamera;
 		}
 	}
 }
