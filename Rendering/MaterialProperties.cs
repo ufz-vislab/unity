@@ -206,7 +206,7 @@ namespace UFZ.Rendering
 						var matName = transparent + colorBy + lit + side;
 						var mat = Resources.Load("Materials/" + matName, typeof(Material)) as Material;
 						if (mat == null)
-							Debug.LogWarning("Material " + matName + " not found.");
+							Debug.LogWarning(gameObject.name + ": Material " + matName + " not found.");
 						materials[0] = mat;
 						break;
 					case 2:
