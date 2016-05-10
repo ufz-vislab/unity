@@ -2,7 +2,7 @@
   <Group Orientation="Vertical" Spacing="10px" Alignment="Top" ContentAlignment="Center">
     <Label Text="{MenuHeader}" />
     <FlowList Orientation="Vertical" Alignment="Top" Items="{Viewpoints}"
-              Width="600px" Height="480px" VerticalSpacing="10px"
+              Width="600px" Height="650px" VerticalSpacing="10px"
               CanSelect="true" SelectionChanged="ViewpointChanged"
               HighlightedItemColor="Orange"
               SelectedItemColor="Red">
