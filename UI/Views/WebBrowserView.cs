@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
-using System.Collections;
-using MarkUX;
-using MarkUX.Views;
+using MarkLight.Views;
+using MarkLight.Views.UI;
 
-public class WebBrowserView : View
+public class WebBrowserView : UIView
 {
 	public WebView WebViewWidget;
 
@@ -19,6 +18,7 @@ public class WebBrowserView : View
 
 	public void Close()
 	{
-		this.GetLayoutRoot().transform.parent.gameObject.SetActive(false);
+		// TODO
+		//this.GetLayoutRoot().transform.parent.gameObject.SetActive(false);
 	}
 }

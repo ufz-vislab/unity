@@ -1,9 +1,8 @@
+using MarkLight.Views.UI;
 using UnityEngine;
-using MarkUX;
-using MarkUX.Views;
 using UFZ.Interaction;
 
-public class InfoView : View
+public class InfoView : UIView
 {
 	public Sprite Image;
 	public string ImageWidth;
@@ -32,7 +31,7 @@ public class InfoView : View
 	{
 		_objectInfo = objectInfo;
 		ObjectName = _objectInfo.name;
-		SetChanged(() => ObjectName);
+		//SetChanged(() => ObjectName);
 		SetImage(0);
 	}
 
@@ -66,11 +65,13 @@ public class InfoView : View
 
 	public void Show()
 	{
-		this.GetLayoutRoot().transform.parent.gameObject.SetActive(true);
+		// TODO
+		//this.GetLayoutRoot().transform.parent.gameObject.SetActive(true);
 	}
 
 	public void Close()
 	{
-		this.GetLayoutRoot().transform.parent.gameObject.SetActive(false);
+		// TODO
+		//this.GetLayoutRoot().transform.parent.gameObject.SetActive(false);
 	}
 }

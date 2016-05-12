@@ -1,18 +1,20 @@
-<VisibilityView EnabledChanged="EnabledHandler">
+<VisibilityView Activated="EnabledHandler">
   <Group Alignment="TopLeft" ContentAlignment="Left" Spacing="10px">
-    <DataGrid RowSpacing="5px" FontSize="30" ShowHeaders="True" Items="{Objects}"
-              TextAlignment="Left" HeaderTextAlignment="Center" SortColumnIndex="1" CanSelect="false">
-      <RowDefinition Height="50px">
-        <ColumnDefinition Width="*" Header="Object">
-          <HyperLink FontColor="black" Text="{Item.Name}" AdjustToText="Width" Click="TextClick" Id="{Item.ZeroBasedIndex}" />
-        </ColumnDefinition>
-        <ColumnDefinition Width="*" Header="Opacity">
-          <Slider Value="{Item.Opacity}" Min="0.0" Max="1.0" ValueChanged="OpacityChanged" Id="{Item.ZeroBasedIndex}" />
-        </ColumnDefinition>
-        <ColumnDefinition Width="20%" Header="Enabled">
-          <CheckBox Checked="{Item.Enabled}" CheckBoxWidth="80px" CheckBoxHeight="50px" Click="EnabledClick" Id="{Item.ZeroBasedIndex}" />
-        </ColumnDefinition>
-      </RowDefinition>
+    <DataGrid ListSpacing="5px" Items="{Objects}" IsDynamic="True"
+              ListContentAlignment="Left" ColumnTextAlignment="Center" SortIndex="1">
+      <ListItem IsTemplate="True">
+      <Row Height="50px">
+        <Column>
+          <HyperLink FontColor="black" Text="{#Item.Name}" AdjustToText="Width" Click="TextClick" />
+        </Column>
+        <Column>
+          <Slider Value="{#Item.Opacity}" Min="0.0" Max="1.0" ValueChanged="OpacityChanged" />
+        </Column>
+        <Column Width="20%">
+          <CheckBox IsChecked="{#Item.Enabled}" CheckBoxWidth="80px" CheckBoxHeight="50px" Click="EnabledClick" />
+        </Column>
+      </Row>
+      </ListItem>
     </DataGrid>
   </Group>
 </VisibilityView>

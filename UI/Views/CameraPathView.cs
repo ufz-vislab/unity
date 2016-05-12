@@ -1,10 +1,10 @@
 using UnityEngine;
 using DG.Tweening;
-using MarkUX;
-using MarkUX.Views;
+using MarkLight;
+using MarkLight.Views.UI;
 
-[InternalView]
-public class CameraPathView : View
+//[InternalView]
+public class CameraPathView : UIView
 {
 	// public CheckBox LoopCheckBox;
 
@@ -31,7 +31,7 @@ public class CameraPathView : View
 		CameraPath.Stop();
 		CameraPath.Seek(0f);
 		Position = 0f;
-		SetChanged(() => Position);
+		// SetChanged(() => Position);
 	}
 
 	public void FlyToStart()
@@ -58,7 +58,7 @@ public class CameraPathView : View
 
 	public void Update()
 	{
-		if (!Enabled || CameraPath == null)
+		if (!IsActive || CameraPath == null)
 			return;
 
 		if (CameraPath.isPlaying)

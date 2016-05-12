@@ -1,18 +1,18 @@
-using UnityEngine;
-using MarkUX;
-using MarkUX.Views;
+using MarkLight.Views.UI;
 
-public class MainMenu : View
+public class MainMenu : UIView
 {
 	public ViewSwitcher ContentViewSwitcher;
 
-	public void SectionSelected(FlowListSelectionActionData eventData)
+	public void SectionSelected(ItemSelectionActionData eventData)
 	{
-		ContentViewSwitcher.SwitchTo(eventData.FlowListItem.Text + "View");
+		ContentViewSwitcher.SwitchTo(eventData.ItemView.Text + "View");
 	}
 
 	public void Close()
 	{
-		this.GetLayoutRoot().transform.parent.gameObject.SetActive(false);
+		// TODO
+		// this.GetLayoutRoot().transform.parent.gameObject.SetActive(false);
+		Deactivate();
 	}
 }

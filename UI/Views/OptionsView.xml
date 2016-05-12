@@ -7,6 +7,6 @@
     <Button Text="Toggle satelite image" Width="550px" Click="SateliteButtonClick" />
     <Button Text="Reset orientation" Width="550px" Click="OrientationButtonClick" />
 
-    <CheckBox Text="Stereo" Checked="True" CheckBoxWidth="80px" CheckBoxHeight="40px" Click="StereoEnabledClick" />
+    <CheckBox Text="Stereo" IsChecked="True" CheckBoxWidth="80px" CheckBoxHeight="40px" Click="StereoEnabledClick" />
   </Group>
 </OptionsView>

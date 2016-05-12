@@ -1,16 +1,15 @@
-using MarkUX;
-using MarkUX.Views;
+using MarkLight.Views.UI;
 using UFZ.Interaction;
 using UnityEngine;
 using UFZ.Rendering;
 
-[InternalView]
-public class OptionsView : View
+//[InternalView]
+public class OptionsView : UIView
 {
 	public void StereoEnabledClick(CheckBox source)
 	{
 		var eye = FindObjectOfType<EyeDistance>();
-		eye.Distance = source.Checked ? 0.063f : 0f;
+		eye.Distance = source.IsChecked ? 0.063f : 0f;
 	}
 
 	public void SuperelevatedButtonClick()

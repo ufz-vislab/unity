@@ -2,19 +2,16 @@
   <Region Width="30%" Alignment="Left" Margin="30,30,15,30">
     <Group Spacing="10px" Alignment="TopLeft" ContentAlignment="Left">
       <Label Text="{MenuHeader}" />
-      <FlowList Orientation="Vertical" Items="{CameraPaths}" Height="180px" Id="PathsFlowList"
-                SelectedIndex="0" CanSelect="true" SelectionChanged="PathChanged"
+      <List Orientation="Vertical" Items="{CameraPaths}" Height="180px" Id="PathsList"
+                CanSelect="true" ItemSelected="PathChanged"
                 BackgroundColor="Gray80"
-                HighlightedItemColor="Orange"
-                SelectedItemColor="Red">
-        <FlowListItem Id="Template">
-          <!--TODO <Label Text="{CameraPathNames[Item.Index].Value}" /> -->
-          <Label Text="Path {Item.Index}" />
-        </FlowListItem>
-      </FlowList>
+                Highlighted-ItemColor="Orange"
+                Selected-ItemColor="Red">
+        <ListItem IsTemplate="True" Text="{#Item.GameObject.Name}" />
+      </List>
     </Group>
   </Region>
   <Region Width="70%" Alignment="Right" Margin="15,30,30,30">
-    <CameraPathView Id="PathView" CameraPath="{SelectedPath}" Position="{SelectedPathPosition}" />
+    <CameraPathView Id="PathView" CameraPath="{PathsList.SelectedItem}" />
   </Region>
 </CameraPathsView>

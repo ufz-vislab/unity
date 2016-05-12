@@ -2,16 +2,15 @@
   <Region Width="30%" Alignment="Left" Margin="30,30,15,30">
     <Group Spacing="10px" Alignment="TopLeft" ContentAlignment="Left">
       <Label Text="{MenuHeader}" />
-      <FlowList Orientation="Vertical" Items="{Playables}" Height="180px" Id="PlayablesFlowList"
-                SelectedIndex="0" CanSelect="true" SelectionChanged="PlayableChanged"
-                BackgroundColor="Gray80"
-                HighlightedItemColor="Orange"
-                SelectedItemColor="Red">
-        <FlowListItem Id="Template">
-          <!--TODO <Label Text="{CameraPathNames[Item.Index].Value}" /> -->
-          <Label Text="Animation {Item.Index}" />
-        </FlowListItem>
-      </FlowList>
+      <List Items="{Playables}" Orientation="Vertical" Height="180px"
+                CanSelect="true"
+                BackgroundColor="Gray80">
+        <!--
+                Highlighted-ItemColor="Orange"
+                Selected-ItemColor="Red"
+        -->
+        <ListItem IsTemplate="True" Text="{#Item.GameObject.Name}" />
+      </List>
     </Group>
   </Region>
   <Region Width="70%" Alignment="Right" Margin="15,30,30,30">

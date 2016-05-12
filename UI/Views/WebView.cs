@@ -1,11 +1,10 @@
-﻿using UnityEngine;
-using MarkUX;
-using MarkUX.Views;
+﻿using MarkLight.Views.UI;
+using UnityEngine;
 
-namespace MarkUX.Views
+namespace MarkLight.Views
 {
-	[InternalView]
-	public class WebView : View
+	//[InternalView]
+	public class WebView : UIView
 	{
 		#region Fields
 
@@ -22,10 +21,10 @@ namespace MarkUX.Views
 		{
 			URL = "http://www.ufz.de/index.php?en=37716";
 
-			Width = new ElementSize(1f, ElementSizeUnit.Percents);
+			Width = new _ElementSize(1f, ElementSizeUnit.Percents);
 			
 			// TODO: Hardcoded height
-			Height = new ElementSize(520f, ElementSizeUnit.Pixels);
+			Height = new _ElementSize(520f, ElementSizeUnit.Pixels);
 		}
 
 		#endregion

@@ -1,15 +1,16 @@
 using System;
 using UnityEngine;
-using MarkUX;
 using System.Collections.Generic;
+using MarkLight;
+using MarkLight.Views.UI;
+using UFZ.Interaction;
 using UFZ.Misc;
 using UFZ.Rendering;
-using MarkUX.Views;
 
-[InternalView]
-public class VisibilityView : View
+//[InternalView]
+public class VisibilityView : UIView
 {
-	public List<VisibilityStruct> Objects;
+	public ObservableList<VisibilityStruct> Objects;
 	//public int AdditionalInfo;
 
 	protected GameObjectList GoList;
@@ -18,7 +19,8 @@ public class VisibilityView : View
 	{
 		base.Initialize();
 
-		Objects = new List<VisibilityStruct>();
+
+		Objects = new ObservableList<VisibilityStruct>();
 
 		var objectVisibilities = FindObjectsOfType<UFZ.Interaction.ObjectVisibility>();
 		foreach (var objectVisibility in objectVisibilities)
@@ -39,7 +41,6 @@ public class VisibilityView : View
 					Name = objectVisibilityInfo.GameObject.name,
 					Opacity = materialProperties[0].Opacity,
 					Enabled = materialProperties[0].Enabled,
-					Index = index,
 					MatProps = materialProperties
 				});
 				index++;
@@ -83,21 +84,21 @@ public class VisibilityView : View
 				MatProps = materialProperties
 			});
 		}
-		SetChanged(() => Objects);
+		Objects.ItemsModified();
+		//SetChanged(() => Objects);
 	}
 
 	public void EnabledHandler()
 	{
-		if (!Enabled)
+		if (!IsActive)
 			return;
 
-		// TODO Does not work yet
-		//UpdateVisibilities();
+		UpdateVisibilities();
 	}
 
 	public void EnabledClick(CheckBox source)
 	{
-		var visibilityStruct = Objects[int.Parse(source.Id) - 1];
+		var visibilityStruct = Objects.SelectedItem;
 
 		foreach (var matProp in visibilityStruct.MatProps)
 			matProp.SetEnabled(visibilityStruct.Enabled);
@@ -105,7 +106,7 @@ public class VisibilityView : View
 
 	public void OpacityChanged(Slider source)
 	{
-		var visibilityStruct = Objects[int.Parse(source.Id) - 1];
+		var visibilityStruct = Objects.SelectedItem;
 		foreach (var matProp in visibilityStruct.MatProps)
 			matProp.SetOpacity(visibilityStruct.Opacity);
 	}
@@ -113,9 +114,10 @@ public class VisibilityView : View
 	public void TextClick(HyperLink source)
 	{
 		// TODO: does not sync checkbox
-		var visibilityStruct = Objects[int.Parse(source.Id) - 1];
+		var visibilityStruct = Objects.SelectedItem;
 		visibilityStruct.Enabled = !visibilityStruct.Enabled;
-		SetChanged(() => Objects);
+		//SetChanged(() => Objects);
+		Objects.ItemModified(visibilityStruct);
 
 		foreach (var matProp in visibilityStruct.MatProps)
 			matProp.SetEnabled(visibilityStruct.Enabled);
@@ -127,6 +129,5 @@ public class VisibilityStruct
 	public string Name;
 	public float Opacity;
 	public bool Enabled;
-	public int Index;
 	public MaterialProperties[] MatProps;
 }

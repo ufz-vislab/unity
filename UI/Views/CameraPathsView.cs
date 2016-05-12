@@ -1,36 +1,30 @@
 using UnityEngine;
 using System.Collections.Generic;
-using MarkUX;
-using MarkUX.Views;
+using MarkLight;
+using MarkLight.Views.UI;
 using ModestTree;
 
-[InternalView]
-public class CameraPathsView : View
+//[InternalView]
+public class CameraPathsView : UIView
 {
-	public FlowList PathsFlowList;
+	public List PathsFlowList;
 
 	public string MenuHeader = "Cam Paths";
-	public List<CameraPathAnimator> CameraPaths;
-	public List<StringWrapper> CameraPathNames;
-	public CameraPathAnimator SelectedPath;
-	public float SelectedPathPosition;
+	public ObservableList<CameraPathAnimator> CameraPaths;
 
 	public override void Initialize()
 	{
 		base.Initialize();
-
-		CameraPaths = GetPaths();
-		SetChanged(() => CameraPaths);
+		
+		//SetChanged(() => CameraPaths);
 		if (CameraPaths == null || CameraPaths.IsEmpty())
 		{
 			MenuHeader = "No paths";
 			return;
 		}
-
-		CameraPathNames = new List<StringWrapper>();
-		foreach (var cameraPath in CameraPaths)
-			CameraPathNames.Add(new StringWrapper(cameraPath.name));
-		SetPathByIndex(0);
+		CameraPaths = new ObservableList<CameraPathAnimator>();
+		foreach (var path in GetPaths())
+			CameraPaths.Add(path);
 	}
 
 	/*
@@ -40,12 +34,6 @@ public class CameraPathsView : View
 		SetChanged(() => SelectedPath);
 	}
 	*/
-
-	private void SetPathByIndex(int index)
-	{
-		SelectedPath = CameraPaths[index];
-		SelectedPathPosition = SelectedPath.percentage;
-	}
 
 	private static List<CameraPathAnimator> GetPaths()
 	{
@@ -67,15 +55,5 @@ public class CameraPathsView : View
 		}
 
 		return paths;
-	}
-}
-
-public class StringWrapper
-{
-	public string Value;
-
-	public StringWrapper(string value)
-	{
-		Value = value;
 	}
 }

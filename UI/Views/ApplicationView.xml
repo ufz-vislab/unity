@@ -1,0 +1,12 @@
+<ApplicationView xmlns="MarkLight">
+  <Player Id="Player">
+    <UserInterface RenderMode="WorldSpace" Alignment="Center"
+                   Width="800px" Height="600px"
+                   Position="1.0,0.0, 1.0"
+                   Scale="0.001,0.001,0.001">
+      <MainMenu />
+    </UserInterface>
+  </Player>
+  <EventSystem />
+  <VRManager CenterNode="{=Player.gameObject}" />
+</ApplicationView>

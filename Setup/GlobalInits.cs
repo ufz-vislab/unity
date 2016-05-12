@@ -1,6 +1,7 @@
 using System.Linq;
 using DG.Tweening;
 using FullInspector;
+using MarkLight;
 using UFZ.Interaction;
 using UnityEngine;
 
@@ -36,13 +37,13 @@ namespace UFZ.Initialization
 		public Vector3 CanvasPosition;
 		protected Camera GuiCamera;
 
-		private Canvas _mainMenuCanvas;
+		private View _mainMenuView;
 
 		protected void Awake()
 		{
 			CanvasPosition = CanvasPositionEditor;
 			// Setup player
-			var playerGo = GameObject.Find("Player");
+			var playerGo = GameObject.Find("Player (Player)");
 			if (playerGo.transform.FindChild("HeadNode") == null)
 			{
 				var headGo = new GameObject("HeadNode");
@@ -107,7 +108,7 @@ namespace UFZ.Initialization
 				wandGo.GetComponent<VRAttachToNode>().VRParentNode = "HeadNode";
 			}
 
-			var canvases = GameObject.Find("Menus").GetComponentsInChildren<Canvas>().Where(
+			var canvases = GameObject.Find("Views").GetComponentsInChildren<Canvas>().Where(
 				canvas => canvas.renderMode == RenderMode.WorldSpace);
 			var enumerable = canvases as Canvas[] ?? canvases.ToArray();
 			if (!enumerable.Any())
@@ -118,10 +119,11 @@ namespace UFZ.Initialization
 			foreach (var canvas in enumerable)
 			{
 				RegisterUi(canvas, Vector3.zero);
-				if (canvas.name == "ApplicationMenuCanvas")
+				if (canvas.name == "UserInterface")
 				{
-					canvas.gameObject.SetActive(!IsGuiDisabledOnStart);
-					_mainMenuCanvas = canvas;
+					_mainMenuView = canvas.transform.FindChild("MainMenu").GetComponent<View>();
+					if (IsGuiDisabledOnStart)
+						_mainMenuView.Deactivate();
 					continue;
 				}
 				if (canvas.name == "InfoCanvas")
@@ -159,18 +161,20 @@ namespace UFZ.Initialization
 			var input = IOC.Core.Instance.Input;
 			if (!input.WasCancelButtonPressed()) return;
 
-			if (_mainMenuCanvas == null)
+			if (_mainMenuView == null)
 				return;
 
-			_mainMenuCanvas.gameObject.SetActive(!_mainMenuCanvas.gameObject.activeSelf);
-
+			if (_mainMenuView.IsActive)
+				_mainMenuView.Deactivate();
+			else
+				_mainMenuView.Activate();
 		}
 
 		public void RegisterUi(Canvas canvas, Vector3 position)
 		{
-			canvas.transform.SetParent(
-					GameObject.Find("Player").transform, false);
-			canvas.transform.localPosition = CanvasPosition + position;
+			//canvas.transform.SetParent(
+			//		GameObject.Find("Player").transform, false);
+			//canvas.transform.localPosition = CanvasPosition + position;
 			canvas.worldCamera = GuiCamera;
 		}
 	}
