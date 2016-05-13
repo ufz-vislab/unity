@@ -13,7 +13,7 @@ namespace UFZ
 		public void Awake()
 		{
 			if (Collider == null)
-				Collider = GameObject.Find("Player").GetComponent<Collider>();
+				Collider = GameObject.Find("Player (Player)").GetComponent<Collider>();
 		}
 
 		void OnTriggerEnter (Collider other)

@@ -12,7 +12,7 @@ namespace UFZ.Interaction
 		// TODO: Better set globally or based on scene size
 		public float Speed = 1.5f;
 		public float MaxTransitionTime = 5f;
-		public string NodeToMove = "Player";
+		public string NodeToMove = "Player (Player)";
 		public bool StartHere = false;
 		public string Name = "Viewpoint";
 
@@ -27,7 +27,7 @@ namespace UFZ.Interaction
 
 		public void Start()
 		{
-			_nodeToMove = GameObject.Find("Player");
+			_nodeToMove = GameObject.Find("Player (Player)");
 
 #if MVR
 			_moveCommand = new vrCommand("", MoveHandler);

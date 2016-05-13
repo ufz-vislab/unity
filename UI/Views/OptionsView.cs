@@ -57,7 +57,7 @@ public class OptionsView : UIView
 
 	public void OrientationButtonClick()
 	{
-		var player = GameObject.Find("Player").GetComponent<Player>();
+		var player = GameObject.Find("Player (Player)").GetComponent<Player>();
 #if MVR
 		player.ResetRotation(0);
 #endif

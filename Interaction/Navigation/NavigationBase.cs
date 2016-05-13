@@ -19,7 +19,7 @@ namespace UFZ.Interaction
 		/// <summary>
 		/// The name of the GameObject which will be moved.
 		/// </summary>
-		public string NodeToMove = "Player";
+		public string NodeToMove = "Player (Player)";
 		/// <summary>
 		/// The name of the GameObject which rotation determines the fly direction.
 		/// </summary>
