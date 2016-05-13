@@ -99,30 +99,22 @@ public class VisibilityView : UIView
 
 	public void EnabledClick(CheckBox source)
 	{
-		var visibilityStruct = Objects.SelectedItem;
-		if (visibilityStruct == null)
-			return;
+		var visibilityStruct = source.Item.Value as VisibilityStruct;
 		foreach (var matProp in visibilityStruct.MatProps)
 			matProp.SetEnabled(visibilityStruct.Enabled);
 	}
 
 	public void OpacityChanged(Slider source)
 	{
-		var visibilityStruct = Objects.SelectedItem;
-		if (visibilityStruct == null)
-			return;
+		var visibilityStruct = source.Item.Value as VisibilityStruct;
 		foreach (var matProp in visibilityStruct.MatProps)
 			matProp.SetOpacity(visibilityStruct.Opacity);
 	}
 
 	public void TextClick(HyperLink source)
 	{
-		// TODO: does not sync checkbox
-		var visibilityStruct = Objects.SelectedItem;
-		if (visibilityStruct == null)
-			return;
+		var visibilityStruct = source.Item.Value as VisibilityStruct;
 		visibilityStruct.Enabled = !visibilityStruct.Enabled;
-		//SetChanged(() => Objects);
 		Objects.ItemModified(visibilityStruct);
 
 		foreach (var matProp in visibilityStruct.MatProps)
