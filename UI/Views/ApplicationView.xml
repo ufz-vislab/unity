@@ -10,4 +10,5 @@
   <EventSystem />
   <VRManager CenterNode="{=Player.gameObject}" />
   <NavigationManager CenterNode="{=Player.gameObject}" />
+  <InjectionManager />
 </ApplicationView>
