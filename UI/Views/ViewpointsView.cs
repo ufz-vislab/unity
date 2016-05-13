@@ -1,11 +1,9 @@
 using UnityEngine;
-using System.Collections.Generic;
 using MarkLight;
 using MarkLight.Views.UI;
-using ModestTree;
 using UFZ.Interaction;
 
-// [InternalView]
+[HideInPresenter]
 public class ViewpointsView : UIView
 {
 	public string MenuHeader = "Viewpoints";
@@ -15,13 +13,14 @@ public class ViewpointsView : UIView
 	{
 		base.Initialize();
 
-		Viewpoints = new ObservableList<Viewpoint>();
+		
 		var viewpointGroup = GameObject.Find("Viewpoints");
-		if (viewpointGroup == null ||
-		    (viewpointGroup.GetComponentsInChildren<Viewpoint>() == null))
-			MenuHeader = "No viewpoints";
+		if (viewpointGroup == null || viewpointGroup.transform.childCount == 0 ||
+		    viewpointGroup.GetComponentsInChildren<Viewpoint>() == null)
+			MenuHeader = "No viewpoints defined";
 		else
 		{
+			Viewpoints = new ObservableList<Viewpoint>();
 			// Iterate over childs to preserve order from editor
 			for (var i = 0; i < viewpointGroup.transform.childCount; ++i)
 			{
@@ -30,7 +29,6 @@ public class ViewpointsView : UIView
 				if (viewpoint == null) continue;
 				Viewpoints.Add(viewpoint);
 			}
-			// SetChanged(() => Viewpoints);
 		}
 	}
 

@@ -2,12 +2,9 @@
   <Group Orientation="Vertical" Spacing="10px" Alignment="Top" ContentAlignment="Center">
     <Label Text="{MenuHeader}" />
     <List Orientation="Vertical" Alignment="Top" Items="{Viewpoints}"
-              VerticalSpacing="10px"
-              CanSelect="true" ItemSelected="ViewpointChanged">
-      <!--
-              Highlighted-ItemColor="Orange"
-              Selected-ItemColor="Red"
-        -->
+          VerticalSpacing="10px"
+          CanSelect="true" ItemSelected="ViewpointChanged"
+          Highlighted-ItemColor="Orange">
       <ListItem IsTemplate="true" BackgroundColor="Gray80">
         <Label Text="{#Item.Name}" TextAlignment="Center" />
       </ListItem>
