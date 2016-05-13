@@ -8,7 +8,7 @@
               Highlighted-ItemColor="Orange"
               Selected-ItemColor="Red"
         -->
-      <ListItem Id="Template" BackgroundColor="Gray80">
+      <ListItem IsTemplate="true" BackgroundColor="Gray80">
         <Label Text="{#Item.Name}" TextAlignment="Center" />
       </ListItem>
     </List>
