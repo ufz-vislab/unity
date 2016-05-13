@@ -1,9 +1,9 @@
 <VisibilityView Activated="EnabledHandler">
   <Group Alignment="TopLeft" ContentAlignment="Left" Spacing="10px">
-    <DataGrid ListSpacing="5px" Items="{Objects}" IsDynamic="True"
-              ListContentAlignment="Left" ColumnTextAlignment="Center" SortIndex="1">
-      <ListItem IsTemplate="True">
-      <Row Height="50px">
+    <DataGrid Id="DataGrid" ListSpacing="5px" Items="{Objects}" CanSelect="false"
+              ListContentAlignment="Left" ColumnTextAlignment="Center" SortIndex="1"
+              Highlighted-ItemColor="White">
+      <Row IsTemplate="true" Height="50px">
         <Column>
           <HyperLink FontColor="black" Text="{#Item.Name}" AdjustToText="Width" Click="TextClick" />
         </Column>
@@ -14,7 +14,6 @@
           <CheckBox IsChecked="{#Item.Enabled}" CheckBoxWidth="80px" CheckBoxHeight="50px" Click="EnabledClick" />
         </Column>
       </Row>
-      </ListItem>
     </DataGrid>
   </Group>
 </VisibilityView>

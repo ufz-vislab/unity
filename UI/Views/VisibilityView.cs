@@ -10,6 +10,7 @@ using UFZ.Rendering;
 //[InternalView]
 public class VisibilityView : UIView
 {
+	public DataGrid DataGrid;
 	public ObservableList<VisibilityStruct> Objects;
 	//public int AdditionalInfo;
 
@@ -99,7 +100,8 @@ public class VisibilityView : UIView
 	public void EnabledClick(CheckBox source)
 	{
 		var visibilityStruct = Objects.SelectedItem;
-
+		if (visibilityStruct == null)
+			return;
 		foreach (var matProp in visibilityStruct.MatProps)
 			matProp.SetEnabled(visibilityStruct.Enabled);
 	}
@@ -107,6 +109,8 @@ public class VisibilityView : UIView
 	public void OpacityChanged(Slider source)
 	{
 		var visibilityStruct = Objects.SelectedItem;
+		if (visibilityStruct == null)
+			return;
 		foreach (var matProp in visibilityStruct.MatProps)
 			matProp.SetOpacity(visibilityStruct.Opacity);
 	}
@@ -115,6 +119,8 @@ public class VisibilityView : UIView
 	{
 		// TODO: does not sync checkbox
 		var visibilityStruct = Objects.SelectedItem;
+		if (visibilityStruct == null)
+			return;
 		visibilityStruct.Enabled = !visibilityStruct.Enabled;
 		//SetChanged(() => Objects);
 		Objects.ItemModified(visibilityStruct);
