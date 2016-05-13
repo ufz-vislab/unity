@@ -17,9 +17,9 @@ namespace UFZ.Interaction
 #endif
 	{
 		/// <summary>
-		/// The name of the GameObject which will be moved.
+		/// The GameObject which will be moved.
 		/// </summary>
-		public string NodeToMove = "Player (Player)";
+		public GameObject NodeToMove;
 		/// <summary>
 		/// The name of the GameObject which rotation determines the fly direction.
 		/// </summary>
@@ -49,7 +49,6 @@ namespace UFZ.Interaction
 
 		protected GameObject VrMgr = null;
 		private GameObject _directionRefNode;
-		private GameObject _nodeToMove;
 		private GameObject _turnNode;
 
 		private bool _searchedRefNode;
@@ -94,8 +93,6 @@ namespace UFZ.Interaction
 			var logger = IOC.Core.Instance.Log;
 			if (_directionRefNode == null)
 				_directionRefNode = GameObject.Find(DirectionReferenceNode);
-			if (_nodeToMove == null)
-				_nodeToMove = GameObject.Find(NodeToMove);
 			if (_turnNode == null)
 				_turnNode = GameObject.Find(TurnAroundNode);
 
@@ -105,19 +102,13 @@ namespace UFZ.Interaction
 				_searchedRefNode = true;
 			}
 
-			if (_searchedNodeToMove == false && _nodeToMove == null)
-			{
-				logger.Error("BaseNavigation: Couldn't find '" + NodeToMove + "'");
-				_searchedNodeToMove = true;
-			}
-
 			if (_searchedRotationNode == false && TurnAroundNode.Length > 0 && _turnNode == null)
 			{
 				logger.Error("BaseNavigation: Couldn't find '" + TurnAroundNode + "'");
 				_searchedRotationNode = true;
 			}
 
-			if (_nodeToMove == null || _directionRefNode == null)
+			if (NodeToMove == null || _directionRefNode == null)
 				return;
 
 			Forward = Upward = Sideward = HorizontalRotation = VerticalRotation = Running = 0.0f;
@@ -146,7 +137,7 @@ namespace UFZ.Interaction
 				if (!Mathf.Approximately(nVec.magnitude, 0f))
 				{
 					var mVec = _directionRefNode.transform.TransformDirection(nVec);
-					_nodeToMove.transform.Translate(mVec, Space.World);
+					NodeToMove.transform.Translate(mVec, Space.World);
 				}
 			}
 
@@ -154,9 +145,9 @@ namespace UFZ.Interaction
 			{
 				var horizontalRotation = HorizontalRotation * RotationSpeed * time.DeltaTime();
 				if (_turnNode != null)
-					_nodeToMove.transform.RotateAround(_turnNode.transform.position, new Vector3(0, 1, 0), horizontalRotation);
+					NodeToMove.transform.RotateAround(_turnNode.transform.position, new Vector3(0, 1, 0), horizontalRotation);
 				else
-					_nodeToMove.transform.Rotate(new Vector3(0, 1, 0), horizontalRotation);
+					NodeToMove.transform.Rotate(new Vector3(0, 1, 0), horizontalRotation);
 			}
 
 			// TODO: always rotates around right vector in world space
@@ -165,9 +156,9 @@ namespace UFZ.Interaction
 			//	var verticalRotation = VerticalRotation * RotationSpeed * time.DeltaTime();
 			//
 			//	if (_turnNode != null)
-			//		_nodeToMove.transform.RotateAround(_turnNode.transform.position, new Vector3(1, 0, 0), verticalRotation);
+			//		NodeToMove.transform.RotateAround(_turnNode.transform.position, new Vector3(1, 0, 0), verticalRotation);
 			//	else
-			//		_nodeToMove.transform.Rotate(new Vector3(1, 0, 0), verticalRotation);
+			//		NodeToMove.transform.Rotate(new Vector3(1, 0, 0), verticalRotation);
 			//}
 		}
 
