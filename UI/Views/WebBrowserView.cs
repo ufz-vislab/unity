@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-using MarkLight.Views;
+﻿using MarkLight.Views;
 using MarkLight.Views.UI;
 
 public class WebBrowserView : UIView
@@ -18,7 +17,6 @@ public class WebBrowserView : UIView
 
 	public void Close()
 	{
-		// TODO
-		//this.GetLayoutRoot().transform.parent.gameObject.SetActive(false);
+		Deactivate();
 	}
 }

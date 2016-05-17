@@ -19,12 +19,6 @@ namespace UFZ.Views
 			RigidbodyComponent.useGravity = false;
 			CapsuleColliderComponent.radius = 0.25f;
 			CapsuleColliderComponent.isTrigger = true;
-
-			//var vrManager = FindObjectOfType<VRManagerScript>();
-			//if (vrManager == null)
-			//	Debug.LogError("VRManagerScript not found!");
-			//else
-			//	vrManager.VRSystemCenterNode = gameObject;
 		}
 
 #if MVR

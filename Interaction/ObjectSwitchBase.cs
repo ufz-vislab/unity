@@ -46,6 +46,7 @@ public abstract class ObjectSwitchBase : IPlayable
 	void OnValidate()
 	{
 		SetActiveChildInternal(ActiveChild);
+		Name = gameObject.name;
 	}
 
 	protected virtual void Update ()

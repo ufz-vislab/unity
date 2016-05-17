@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace MarkLight.Views
 {
-	//[InternalView]
+	[HideInPresenter]
 	public class WebView : UIView
 	{
 		#region Fields
@@ -24,7 +24,7 @@ namespace MarkLight.Views
 			Width = new _ElementSize(1f, ElementSizeUnit.Percents);
 			
 			// TODO: Hardcoded height
-			Height = new _ElementSize(520f, ElementSizeUnit.Pixels);
+			Height = new _ElementSize(500f, ElementSizeUnit.Pixels);
 		}
 
 		#endregion
@@ -39,6 +39,11 @@ namespace MarkLight.Views
 			if(!Application.isPlaying)
 				return;
 
+			// TODO: Hardcoded values
+			Height.DirectValue = ElementSize.FromPixels(480f);
+			Width.DirectValue = ElementSize.FromPixels(620f);
+			LayoutChanged();
+
 			var height = (int) ActualHeight;
 			var width = (int) ActualWidth;
 
@@ -47,7 +52,7 @@ namespace MarkLight.Views
 			plane.transform.rotation = Quaternion.Euler(90, 180, 0);
 			plane.transform.localScale = new Vector3(width * 0.0001f, 1f, height * 0.0001f);
 			plane.transform.parent = transform;
-			plane.transform.localPosition = new Vector3(0f, 0f, -0.001f);
+			plane.transform.localPosition = new Vector3(0f, 0f, -0.01f);
 			//plane.GetComponent<MeshCollider>().convex = true;
 			var planeRigidbody = plane.AddComponent<Rigidbody>();
 			planeRigidbody.useGravity = false;
