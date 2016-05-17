@@ -8,6 +8,7 @@ namespace UFZ.Interaction
 	public abstract class IPlayable : MonoBehaviour
 	{
 		public bool IsPlaying = false;
+		public string Name = "";
 
 		public abstract void Begin();
 		public abstract void End();

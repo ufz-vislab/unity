@@ -9,7 +9,7 @@
                 Highlighted-ItemColor="Orange"
                 Selected-ItemColor="Red"
         -->
-        <ListItem IsTemplate="True" Text="{#Item.GameObject.Name}" />
+        <ListItem IsTemplate="True" Text="{#Item.Name}" />
       </List>
     </Group>
   </Region>
