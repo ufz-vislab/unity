@@ -1,8 +1,8 @@
 <InfoView>
   <Group Orientation="Vertical" Spacing="10px" BackgroundColor="#949494">
-    <Label Text="{ObjectName}" Width="500px" TextAlignmemt="Center" />
+    <Label Text="{ObjectInfo.name}" Width="500px" TextAlignment="Center" />
     <Panel Height="550px">
-      <Image Id="ImageWidget" Path="{Image}" Width="{ImageWidth}" Height="{ImageHeight}" />
+      <Image Id="ImageWidget" Sprite="{Image}" Width="{ImageWidth}" Height="{ImageHeight}" />
     </Panel>
     <Group Orientation="Horizontal" Spacing="10px">
       <Button Text="&lt; Backward" Click="Backward" />

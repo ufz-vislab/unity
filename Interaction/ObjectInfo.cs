@@ -1,3 +1,4 @@
+using MarkLight.Views.UI;
 using UnityEngine;
 
 namespace UFZ.Interaction
@@ -6,19 +7,19 @@ namespace UFZ.Interaction
 	{
 		public Texture2D[] Images;
 
-		public InfoView Menu;
+		private InfoView _menu;
 
-		protected override void OnValidate()
+		public void Start()
 		{
-			base.OnValidate();
-
-			Menu = FindObjectOfType<InfoView>();
+			_menu = FindObjectOfType<UserInterface>().CreateView<InfoView>();
+			_menu.ObjectInfo = this;
+			_menu.InitializeViews();
+			_menu.Deactivate();
 		}
 
 		protected override void Activate()
 		{
-			Menu.Show();
-			Menu.SetObjectInfo(this);
+			_menu.Activate();
 		}
 	}
 }

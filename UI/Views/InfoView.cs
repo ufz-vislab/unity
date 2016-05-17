@@ -1,3 +1,4 @@
+using MarkLight;
 using MarkLight.Views.UI;
 using UnityEngine;
 using UFZ.Interaction;
@@ -7,12 +8,13 @@ public class InfoView : UIView
 	public Sprite Image;
 	public string ImageWidth;
 	public string ImageHeight;
-	public string ObjectName;
 	public string PageInfo;
 
 	public Image ImageWidget;
 
-	private ObjectInfo _objectInfo;
+	[ChangeHandler("ObjectInfoChanged")]
+	public ObjectInfo ObjectInfo;
+
 	private int _index = 0;
 
 	public override void Initialize()
@@ -27,20 +29,19 @@ public class InfoView : UIView
 		ImageHeight = "0";
 	}
 
-	public void SetObjectInfo(ObjectInfo objectInfo)
+	protected void ObjectInfoChanged()
 	{
-		_objectInfo = objectInfo;
-		ObjectName = _objectInfo.name;
-		//SetChanged(() => ObjectName);
+		if (ObjectInfo == null)
+			return;
 		SetImage(0);
 	}
 
 	private void SetImage(int newIndex)
 	{
-		if (newIndex >= _objectInfo.Images.Length || newIndex < 0)
+		if (ObjectInfo.Images == null || newIndex >= ObjectInfo.Images.Length || newIndex < 0)
 			return;
 
-		var tex2D = _objectInfo.Images[newIndex];
+		var tex2D = ObjectInfo.Images[newIndex];
 		if (Image != null)
 			Destroy(Image);
 
@@ -48,7 +49,7 @@ public class InfoView : UIView
 			new Vector2(0.5f, 0.5f)));
 		SetValue(() => ImageWidth, tex2D.width + "px");
 		SetValue(() => ImageHeight, tex2D.height + "px");
-		SetValue(() => PageInfo, (newIndex + 1) + " / " + (_objectInfo.Images.Length));
+		SetValue(() => PageInfo, (newIndex + 1) + " / " + (ObjectInfo.Images.Length));
 
 		_index = newIndex;
 	}
@@ -63,15 +64,8 @@ public class InfoView : UIView
 		SetImage(_index - 1);
 	}
 
-	public void Show()
-	{
-		// TODO
-		//this.GetLayoutRoot().transform.parent.gameObject.SetActive(true);
-	}
-
 	public void Close()
 	{
-		// TODO
-		//this.GetLayoutRoot().transform.parent.gameObject.SetActive(false);
+		Deactivate();
 	}
 }

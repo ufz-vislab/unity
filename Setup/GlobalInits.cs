@@ -128,10 +128,7 @@ namespace UFZ.Initialization
 				}
 				if (canvas.name == "InfoCanvas")
 				{
-					foreach (var objectInfo in FindObjectsOfType<ObjectInfo>())
-						objectInfo.Menu = canvas.GetComponentInChildren<InfoView>();
 					canvas.transform.localPosition = new Vector3(-0.75f, 2f, 1f);
-
 				}
 
 				canvas.gameObject.SetActive(false);
