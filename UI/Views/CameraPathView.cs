@@ -3,19 +3,18 @@ using DG.Tweening;
 using MarkLight;
 using MarkLight.Views.UI;
 
-//[InternalView]
+[HideInPresenter]
 public class CameraPathView : UIView
 {
-	// public CheckBox LoopCheckBox;
 
 	public CameraPathAnimator CameraPath;
-	public float Position;
+	public float PathPosition;
 	public string ToggleButtonText = "Play";
 
 	public void PositionChanged()
 	{
 		if (!CameraPath.isPlaying)
-			CameraPath.Seek(Position);
+			CameraPath.Seek(PathPosition);
 	}
 
 	public void TogglePlay()
@@ -30,8 +29,7 @@ public class CameraPathView : UIView
 	{
 		CameraPath.Stop();
 		CameraPath.Seek(0f);
-		Position = 0f;
-		// SetChanged(() => Position);
+		PathPosition = 0f;
 	}
 
 	public void FlyToStart()
@@ -64,12 +62,12 @@ public class CameraPathView : UIView
 		if (CameraPath.isPlaying)
 		{
 			SetValue(() => ToggleButtonText, "Pause");
-			SetValue(() => Position, CameraPath.percentage);
+			SetValue(() => PathPosition, CameraPath.percentage);
 		}
 		else
 		{
 			SetValue(() => ToggleButtonText, "Play");
-			SetValue(() => Position, CameraPath.percentage);
+			SetValue(() => PathPosition, CameraPath.percentage);
 		}
 	}
 }

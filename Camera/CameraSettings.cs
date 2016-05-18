@@ -10,8 +10,10 @@ namespace UFZ.Rendering
 	{
 		public List<vrCamera> _cameras;
 
-		public void Awake()
+		protected override void Awake()
 		{
+			base.Awake();
+
 			var clusterNode = MiddleVR.VRClusterMgr.GetMyClusterNode();
 			if (clusterNode == null)
 			{
