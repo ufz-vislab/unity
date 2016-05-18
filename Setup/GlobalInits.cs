@@ -2,6 +2,7 @@ using System.Linq;
 using DG.Tweening;
 using FullInspector;
 using MarkLight;
+using MarkLight.Views.UI;
 using UFZ.Interaction;
 using UnityEngine;
 
@@ -39,8 +40,10 @@ namespace UFZ.Initialization
 
 		private View _mainMenuView;
 
-		protected void Awake()
+		protected override void Awake()
 		{
+			base.Awake();
+
 			CanvasPosition = CanvasPositionEditor;
 			// Setup player
 			var playerGo = GameObject.Find("Player (Player)");
@@ -118,31 +121,20 @@ namespace UFZ.Initialization
 			}
 			foreach (var canvas in enumerable)
 			{
-				RegisterUi(canvas, Vector3.zero);
+				canvas.worldCamera = GuiCamera;
 				if (canvas.name == "UserInterface")
 				{
+					var view = canvas.GetComponent<UIView>();
+					view.InitializeViews();
+					view.Position.Value = CanvasPosition;
 					_mainMenuView = canvas.transform.FindChild("MainMenu").GetComponent<View>();
 					if (IsGuiDisabledOnStart)
 						_mainMenuView.Deactivate();
 					continue;
 				}
-				if (canvas.name == "InfoCanvas")
-				{
-					canvas.transform.localPosition = new Vector3(-0.75f, 2f, 1f);
-				}
 
 				canvas.gameObject.SetActive(false);
 			}
-
-			if (GuiInputType == InputType.Wand || GuiInputType == InputType.Head)
-				return;
-
-			var inputModule = GameObject.Find("EventSystem").GetComponent<WandInputModule>();
-			if (inputModule == null)
-				return;
-
-			inputModule.enabled = false;
-			inputModule.cursor.gameObject.SetActive(false);
 		}
 
 		public void Start()
@@ -151,6 +143,10 @@ namespace UFZ.Initialization
 			Loom.Current.GetComponent<Loom>();
 
 			FindObjectOfType<VRManagerScript>().TemplateCamera.SetActive(false);
+
+			// Has to be set after everything is initialized
+			// Would have been overwritten if setting in Awake()
+			FindObjectOfType<UserInterface>().Position.Value = CanvasPosition;
 		}
 
 		public void Update()
@@ -165,14 +161,6 @@ namespace UFZ.Initialization
 				_mainMenuView.Deactivate();
 			else
 				_mainMenuView.Activate();
-		}
-
-		public void RegisterUi(Canvas canvas, Vector3 position)
-		{
-			//canvas.transform.SetParent(
-			//		GameObject.Find("Player").transform, false);
-			//canvas.transform.localPosition = CanvasPosition + position;
-			canvas.worldCamera = GuiCamera;
 		}
 	}
 }
