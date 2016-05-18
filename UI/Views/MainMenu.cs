@@ -11,8 +11,6 @@ public class MainMenu : UIView
 
 	public void Close()
 	{
-		// TODO
-		// this.GetLayoutRoot().transform.parent.gameObject.SetActive(false);
 		Deactivate();
 	}
 }
