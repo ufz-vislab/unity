@@ -1,33 +1,37 @@
 <MainMenu>
-
-  <Region Width="20%" Alignment="Left"
-      BackgroundColor="#838383">
-    <Group Orientation="Vertical" Spacing="10px">
-    <List Style="Menu" Orientation="Vertical"
-              Alignment="Top" Margin="10" Spacing="10px" Height="300px"
-              ItemSelected="SectionSelected" CanSelect="True">
-      <ListItem Text="Viewpoints" Width="150px" Height="40px" />
-      <ListItem Text="CameraPaths" Width="150px" Height="40px" />
-      <ListItem Text="Visibilities" Width="150px" Height="40px" />
-      <ListItem Text="Playables" Width="150px" Height="40px" />
-      <ListItem Text="Options" Width="150px" Height="40px" />
-
-    </List>
-    <Button Text="Close" Width="150px" Height="40px" Click="Close" />
-    </Group>
+  <Region Height="10%" Alignment="Top" BackgroundColor="#838383">
+    <Button Width="100%" Text="{Caption}" TextAlignment="Center" MouseDown="DragStart" MouseUp="DragEnd" />
   </Region>
+  <Region Height="90%" Alignment="Bottom">
+    <Region Width="20%" Alignment="Left"
+        BackgroundColor="#838383">
+      <Group Orientation="Vertical" Spacing="10px">
+        <List Style="Menu" Orientation="Vertical"
+                  Alignment="Top" Margin="10" Spacing="10px" Height="300px"
+                  ItemSelected="SectionSelected" CanSelect="True">
+          <ListItem Text="Viewpoints" Width="150px" Height="40px" />
+          <ListItem Text="CameraPaths" Width="150px" Height="40px" />
+          <ListItem Text="Visibilities" Width="150px" Height="40px" />
+          <ListItem Text="Playables" Width="150px" Height="40px" />
+          <ListItem Text="Options" Width="150px" Height="40px" />
 
-  <Region Width="80%" Alignment="Right"
-      BackgroundColor="#949494">
-    <ViewSwitcher Id="ContentViewSwitcher" TransitionIn="FadeIn">
-      <ViewpointsView Id="ViewpointsView" />
-      
-      <VisibilityView Id="VisibilitiesView" />
-      <PlayablesView Id="PlayablesView" />
-      <OptionsView Id="OptionsView" />
-    </ViewSwitcher>
+        </List>
+        <Button Text="Close" Width="150px" Height="40px" Click="Close" />
+      </Group>
+    </Region>
+
+    <Region Width="80%" Alignment="Right"
+        BackgroundColor="#949494">
+      <ViewSwitcher Id="ContentViewSwitcher" TransitionIn="FadeIn">
+        <ViewpointsView Id="ViewpointsView" />
+
+        <VisibilityView Id="VisibilitiesView" />
+        <PlayablesView Id="PlayablesView" />
+        <OptionsView Id="OptionsView" />
+      </ViewSwitcher>
+    </Region>
   </Region>
-
+  
   <ViewAnimation Id="FadeIn">
     <Animate Field="Alpha" From="0" To="1" Duration="0.2s"
              EasingFunction="QuadraticEaseIn" />

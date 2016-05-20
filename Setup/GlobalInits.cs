@@ -88,6 +88,8 @@ namespace UFZ.Initialization
 				}
 				else
 				{
+					if (IOC.Core.Instance.Environment.HasDevice("Flystick"))
+						GuiInputType = InputType.Wand;
 					var camGo = GameObject.FindWithTag("MainCamera");
 					camGo.GetComponent<SuperSampling_SSAA>().enabled = true;
 				}

@@ -117,8 +117,8 @@ public class WandInputModule : BaseInputModule
 	private Color currentSelectedNormalColor;
 	private bool currentSelectedNormalColorValid;
 	private Color currentSelectedHighlightedColor;
-	private GameObject currentLook;
-	private GameObject currentPressed;
+	private GameObject currentOverGo;
+	private GameObject currentPressedGo;
 	private GameObject currentDragging;
 	private float nextAxisActionTime;
 
@@ -152,6 +152,7 @@ public class WandInputModule : BaseInputModule
 		lookData.pointerCurrentRaycast = FindFirstRaycast(m_RaycastResultCache);
 		_guiRaycastHit = lookData.pointerCurrentRaycast.gameObject != null;
 		m_RaycastResultCache.Clear();
+		
 		return lookData;
 	}
 
@@ -294,62 +295,84 @@ public class WandInputModule : BaseInputModule
 		SendUpdateEventToSelectedObject();
 
 		// see if there is a UI element that is currently being looked at
-		var lookDataLocal = GetLookPointerEventData();
-		currentLook = lookDataLocal.pointerCurrentRaycast.gameObject;
+		var eventData = GetLookPointerEventData();
+		currentOverGo = eventData.pointerCurrentRaycast.gameObject;
 
 		// deselect when look away
-		if (deselectWhenLookAway && currentLook == null)
+		if (deselectWhenLookAway && currentOverGo == null)
 			ClearSelection();
 
 		// handle enter and exit events (highlight)
 		// using the function that is already defined in BaseInputModule
-		HandlePointerExitAndEnter(lookDataLocal, currentLook);
+		HandlePointerExitAndEnter(eventData, currentOverGo);
 
 		// update cursor
-		UpdateCursor(lookDataLocal);
+		UpdateCursor(eventData);
 
-		if (!ignoreInputsWhenLookAway || ignoreInputsWhenLookAway && currentLook != null)
+		if (!ignoreInputsWhenLookAway || ignoreInputsWhenLookAway && currentOverGo != null)
 		{
-			// button down handling
 			_buttonUsed = false;
+			// button up
 			if (UFZ.IOC.Core.Instance.Input.WasOkButtonPressed())
 			{
 				ClearSelection();
-				lookDataLocal.pressPosition = lookDataLocal.position;
-				lookDataLocal.pointerPressRaycast = lookDataLocal.pointerCurrentRaycast;
-				lookDataLocal.pointerPress = null;
-				if (currentLook != null)
+				eventData.pressPosition = eventData.position;
+				eventData.pointerPressRaycast = eventData.pointerCurrentRaycast;
+				eventData.pointerPress = null;
+				if (currentOverGo != null)
 				{
-					currentPressed = currentLook;
-					GameObject newPressed = null;
 					switch (mode)
 					{
 						case Mode.Pointer:
-							newPressed = ExecuteEvents.ExecuteHierarchy(currentPressed, lookDataLocal, ExecuteEvents.pointerDownHandler);
+							ExecuteEvents.ExecuteHierarchy(currentPressedGo, eventData, ExecuteEvents.pointerUpHandler);
+							break;
+						case Mode.Submit:
+							break;
+						default:
+							throw new ArgumentOutOfRangeException();
+					}
+					currentPressedGo = null;
+				}
+			}
+			// button down handling
+			else if (UFZ.IOC.Core.Instance.Input.IsOkButtonPressed())
+			{
+				ClearSelection();
+				eventData.pressPosition = eventData.position;
+				eventData.pointerPressRaycast = eventData.pointerCurrentRaycast;
+				eventData.pointerPress = null;
+				if (currentOverGo != null)
+				{
+					currentPressedGo = currentOverGo;
+					GameObject newPressed;
+					switch (mode)
+					{
+						case Mode.Pointer:
+							newPressed = ExecuteEvents.ExecuteHierarchy(currentPressedGo, eventData, ExecuteEvents.pointerDownHandler);
 							if (newPressed == null)
 							{
 								// some UI elements might only have click handler and not pointer down handler
-								newPressed = ExecuteEvents.ExecuteHierarchy(currentPressed, lookDataLocal, ExecuteEvents.pointerClickHandler);
+								newPressed = ExecuteEvents.ExecuteHierarchy(currentPressedGo, eventData, ExecuteEvents.pointerClickHandler);
 								if (newPressed != null)
 								{
-									currentPressed = newPressed;
+									currentPressedGo = newPressed;
 								}
 							}
 							else
 							{
-								currentPressed = newPressed;
+								currentPressedGo = newPressed;
 								// we want to do click on button down at same time, unlike regular mouse processing
 								// which does click when mouse goes up over same object it went down on
 								// reason to do this is head tracking might be jittery and this makes it easier to click buttons
-								ExecuteEvents.Execute(newPressed, lookDataLocal, ExecuteEvents.pointerClickHandler);
+								ExecuteEvents.Execute(newPressed, eventData, ExecuteEvents.pointerClickHandler);
 							}
 							break;
 						case Mode.Submit:
-							newPressed = ExecuteEvents.ExecuteHierarchy(currentPressed, lookDataLocal, ExecuteEvents.submitHandler);
+							newPressed = ExecuteEvents.ExecuteHierarchy(currentPressedGo, eventData, ExecuteEvents.submitHandler);
 							if (newPressed == null)
 							{
 								// try select handler instead
-								newPressed = ExecuteEvents.ExecuteHierarchy(currentPressed, lookDataLocal, ExecuteEvents.selectHandler);
+								newPressed = ExecuteEvents.ExecuteHierarchy(currentPressedGo, eventData, ExecuteEvents.selectHandler);
 							}
 							break;
 						default:
@@ -357,9 +380,9 @@ public class WandInputModule : BaseInputModule
 					}
 					if (newPressed != null)
 					{
-						lookDataLocal.pointerPress = newPressed;
-						currentPressed = newPressed;
-						Select(currentPressed);
+						eventData.pointerPress = newPressed;
+						currentPressedGo = newPressed;
+						Select(currentPressedGo);
 						_buttonUsed = true;
 					}
 					if (mode == Mode.Pointer)
@@ -367,36 +390,36 @@ public class WandInputModule : BaseInputModule
 						if (useLookDrag)
 						{
 							var useLookTest = true;
-							if (!useLookDragSlider && currentPressed.GetComponent<Slider>())
+							if (!useLookDragSlider && currentPressedGo.GetComponent<Slider>())
 							{
 								useLookTest = false;
 							}
-							else if (!useLookDragScrollbar && currentPressed.GetComponent<Scrollbar>())
+							else if (!useLookDragScrollbar && currentPressedGo.GetComponent<Scrollbar>())
 							{
 								useLookTest = false;
 								// the following is for scrollbars to work right
 								// apparently they go into an odd drag mode when pointerDownHandler is called
 								// a begin/end drag fixes that
-								if (ExecuteEvents.Execute(currentPressed, lookDataLocal, ExecuteEvents.beginDragHandler))
+								if (ExecuteEvents.Execute(currentPressedGo, eventData, ExecuteEvents.beginDragHandler))
 								{
-									ExecuteEvents.Execute(currentPressed, lookDataLocal, ExecuteEvents.endDragHandler);
+									ExecuteEvents.Execute(currentPressedGo, eventData, ExecuteEvents.endDragHandler);
 								}
 							}
 							if (useLookTest)
 							{
-								ExecuteEvents.Execute(currentPressed, lookDataLocal, ExecuteEvents.beginDragHandler);
-								lookDataLocal.pointerDrag = currentPressed;
-								currentDragging = currentPressed;
+								ExecuteEvents.Execute(currentPressedGo, eventData, ExecuteEvents.beginDragHandler);
+								eventData.pointerDrag = currentPressedGo;
+								currentDragging = currentPressedGo;
 							}
 						}
-						else if (currentPressed.GetComponent<Scrollbar>())
+						else if (currentPressedGo.GetComponent<Scrollbar>())
 						{
 							// the following is for scrollbars to work right
 							// apparently they go into an odd drag mode when pointerDownHandler is called
 							// a begin/end drag fixes that
-							if (ExecuteEvents.Execute(currentPressed, lookDataLocal, ExecuteEvents.beginDragHandler))
+							if (ExecuteEvents.Execute(currentPressedGo, eventData, ExecuteEvents.beginDragHandler))
 							{
-								ExecuteEvents.Execute(currentPressed, lookDataLocal, ExecuteEvents.endDragHandler);
+								ExecuteEvents.Execute(currentPressedGo, eventData, ExecuteEvents.endDragHandler);
 							}
 						}
 					}
@@ -409,30 +432,30 @@ public class WandInputModule : BaseInputModule
 		{
 			if (currentDragging)
 			{
-				ExecuteEvents.Execute(currentDragging, lookDataLocal, ExecuteEvents.endDragHandler);
-				if (currentLook != null)
+				ExecuteEvents.Execute(currentDragging, eventData, ExecuteEvents.endDragHandler);
+				if (currentOverGo != null)
 				{
-					ExecuteEvents.ExecuteHierarchy(currentLook, lookDataLocal, ExecuteEvents.dropHandler);
+					ExecuteEvents.ExecuteHierarchy(currentOverGo, eventData, ExecuteEvents.dropHandler);
 				}
-				lookDataLocal.pointerDrag = null;
+				eventData.pointerDrag = null;
 				currentDragging = null;
 			}
-			if (currentPressed)
+			if (currentPressedGo)
 			{
-				ExecuteEvents.Execute(currentPressed, lookDataLocal, ExecuteEvents.pointerUpHandler);
-				lookDataLocal.rawPointerPress = null;
-				lookDataLocal.pointerPress = null;
-				currentPressed = null;
+				ExecuteEvents.Execute(currentPressedGo, eventData, ExecuteEvents.pointerUpHandler);
+				eventData.rawPointerPress = null;
+				eventData.pointerPress = null;
+				currentPressedGo = null;
 			}
 		}
 
 		// drag handling
 		if (currentDragging != null)
 		{
-			ExecuteEvents.Execute(currentDragging, lookDataLocal, ExecuteEvents.dragHandler);
+			ExecuteEvents.Execute(currentDragging, eventData, ExecuteEvents.dragHandler);
 		}
 
-		if (ignoreInputsWhenLookAway && (!ignoreInputsWhenLookAway || currentLook == null))
+		if (ignoreInputsWhenLookAway && (!ignoreInputsWhenLookAway || currentOverGo == null))
 			return;
 
 		// control axis handling
