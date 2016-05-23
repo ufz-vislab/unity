@@ -19,42 +19,6 @@ namespace UFZ.Initialization
 			var visibilitiesGo = GetChildGameObject(sceneSetupGo, "Visibilities");
 			AddComponent<GameObjectList>(visibilitiesGo);
 
-			// TODO: Obsolete with MarkLight
-			//var playerGo = GetChildGameObject(sceneSetupGo, "Player");
-			//if(playerGo.GetComponent<Player>() == null)
-			//	AddComponent<Player>(playerGo);
-			//if(playerGo.GetComponent<VRShareTransform>() == null)
-			//	AddComponent<VRShareTransform>(playerGo);
-			//if (playerGo.GetComponent<Rigidbody>() == null)
-			//{
-			//	var rigidBody = playerGo.AddComponent<Rigidbody>();
-				//rigidBody.isKinematic = false;
-			//	rigidBody.useGravity = false;
-			//}
-			//if (playerGo.GetComponent<CapsuleCollider>() == null)
-			//{
-			//	var collider = playerGo.AddComponent<CapsuleCollider>();
-			//	collider.radius = 0.25f;
-			//	collider.isTrigger = true;
-			//}
-			//var vrManager = FindObjectOfType<VRManagerScript>();
-			//if (vrManager == null)
-			//	Debug.LogWarning("VRManager not found. VR System Center Node could " +
-			//					 "not be set to Player GameObject");
-			//else
-			//{
-			//	vrManager.VRSystemCenterNode = playerGo;
-			//	var cam = GameObject.FindWithTag(SRTags.MainCamera);
-			//	if (cam == null)
-			//	{
-			//		// TODO: Create cam
-			//	}
-			//	if(cam.GetComponent<AudioListener>() != null)
-			//		cam.GetComponent<AudioListener>().enabled = false;
-			//	cam.AddComponent<SuperSampling_SSAA>().enabled = false;
-			//	vrManager.TemplateCamera = cam;
-			//}
-
 			Selection.activeGameObject = sceneSetupGo;
 		}
 
