@@ -50,14 +50,13 @@ namespace UFZ.Initialization
 				return;
 			if (!CheckParaViewExport())
 				return;
-			
+
 			Debug.Log("ParaView import: " + Path.GetFileNameWithoutExtension(assetPath));
 			var modelImporter = (ModelImporter)assetImporter;
 			modelImporter.animationType = ModelImporterAnimationType.None;
 			modelImporter.optimizeMesh = IsCityEngine();
 			modelImporter.globalScale = 1.0f;
 			modelImporter.importMaterials = IsCityEngine();
-			modelImporter.userData = "ParaView";
 		}
 
 		private void OnPostprocessModel(GameObject go)
@@ -65,7 +64,7 @@ namespace UFZ.Initialization
 			if (!CheckPath() || IsCityEngine())
 				return;
 			var modelImporter = (ModelImporter)assetImporter;
-			if (!modelImporter.userData.Contains("ParaView"))
+			if (!CheckParaViewExport())
 				return;
 
 			//Debug.Log ("OnPostprocessModel for " + go.name);
@@ -183,10 +182,10 @@ namespace UFZ.Initialization
 		private Material OnAssignMaterialModel(Material material, Renderer renderer)
 		{
 			if (!IsCityEngine()) return null;
-			
+
 			if (!material.mainTexture || !material.mainTexture.name.Contains("Billboard") ||
 			    (int) material.GetFloat("_Mode") == 2) return null;
-			
+
 			// Create new materials folder if it not exists
 			if (!AssetDatabase.IsValidFolder((Path.GetDirectoryName(assetPath) + "/Materials")))
 				AssetDatabase.CreateFolder(Path.GetDirectoryName(assetPath), "Materials");
