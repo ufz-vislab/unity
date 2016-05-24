@@ -57,12 +57,12 @@ namespace UFZ.IOC
 			// Convert absolute mouse coords from MVR to Unitys game window coordinates ( 	abs |_ vs. rel |- )
 			var gameView = GetMainGameView();
 			var gameViewRect = gameView.position;
-			var gameViewMousePos = new Vector2(pos.x() - gameViewRect.x, (pos.y() - 	gameViewRect.yMax + 1)*-1);
+			var gameViewMousePos = new Vector2(pos.x() - gameViewRect.x, (pos.y() - gameViewRect.yMax + 1)*-1);
 			//Debug.Log(gameViewMousePos + " | Unity: " + Input.mousePosition);
 			return gameViewMousePos;
 #else
 			//Debug.Log("Mouse : " + pos.x() + ", " + pos.y() + " | Unity: " + Input.mousePosition);
-			return new Vector2(pos.x(), pos.y());
+			return new Vector2(pos.x(), pos.y()*-1);
 #endif
 		}
 
