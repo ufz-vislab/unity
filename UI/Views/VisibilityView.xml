@@ -1,6 +1,8 @@
 <VisibilityView Activated="EnabledHandler">
   <Group Alignment="TopLeft" ContentAlignment="Left" Spacing="10px">
-    <DataGrid Id="DataGrid" ListSpacing="5px" Items="{Objects}" CanSelect="false"
+    <DataGrid Id="DataGrid" Items="{Objects}" CanSelect="false"
+              ListHeight="540px" ListSpacing="5px"
+              DataGridList.IsScrollable="True"
               ListContentAlignment="Left" ColumnTextAlignment="Center" SortIndex="1"
               Highlighted-ItemColor="White">
       <Row IsTemplate="true" Height="50px">

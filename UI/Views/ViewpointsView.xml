@@ -1,9 +1,10 @@
 <ViewpointsView>
   <Group Orientation="Vertical" Spacing="5px" Alignment="Top" ContentAlignment="Center">
-    <Label Text="{MenuHeader}" />
+    <!-- <Label Text="{MenuHeader}" /> -->
 
     <List Orientation="Vertical" Alignment="Top" Items="{Viewpoints}"
-          VerticalSpacing="5px"
+          Height="540px" VerticalSpacing="5px"
+          IsScrollable="true"
           CanSelect="true" ItemSelected="ViewpointChanged"
           Highlighted-ItemColor="Orange">
       <ListItem IsTemplate="true" BackgroundColor="Gray80">
