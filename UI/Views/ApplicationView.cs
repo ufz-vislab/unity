@@ -1,7 +1,5 @@
-﻿using UnityEngine;
-using System.Collections;
-using MarkLight.Views.UI;
+﻿using MarkLight;
 
-public class ApplicationView : UIView
+public class ApplicationView : View
 {
 }

@@ -4,7 +4,7 @@ using MarkLight;
 using MarkLight.Views.UI;
 using ModestTree;
 
-//[InternalView]
+[HideInPresenter]
 public class CameraPathsView : UIView
 {
 	public List PathsFlowList;

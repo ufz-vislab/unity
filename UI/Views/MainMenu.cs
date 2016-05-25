@@ -27,13 +27,11 @@ public class MainMenu : UIView
 			lastPointerPos = FindObjectOfType<WandInputModule>().cursor.position;
 		else
 			lastPointerPos = UFZ.IOC.Core.Instance.Mouse.Position();
-		UFZ.IOC.Core.Instance.Log.Info("DragStart");
 	}
 
 	public void DragEnd()
 	{
 		dragging = false;
-		UFZ.IOC.Core.Instance.Log.Info("DragEnd");
 	}
 
 	public void Update()
