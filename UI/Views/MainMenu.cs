@@ -24,7 +24,7 @@ public class MainMenu : UIView
 	{
 		dragging = true;
 		if (UFZ.IOC.Core.Instance.Environment.HasDevice("Flystick"))
-			lastPointerPos = FindObjectOfType<WandInputModule>().cursor.position;
+			lastPointerPos = transform.InverseTransformPoint(FindObjectOfType<WandInputModule>().cursor.position);
 		else
 			lastPointerPos = UFZ.IOC.Core.Instance.Mouse.Position();
 	}
@@ -40,16 +40,15 @@ public class MainMenu : UIView
 			return;
 
 		Vector3 currentPointerPos;
-		var scalingFactor = 1f;
 		if (UFZ.IOC.Core.Instance.Environment.HasDevice("Flystick"))
-		{
-			currentPointerPos = FindObjectOfType<WandInputModule>().cursor.position;
-			scalingFactor = 1f / transform.lossyScale.x;
-		}
+			currentPointerPos = transform.InverseTransformPoint(FindObjectOfType<WandInputModule>().cursor.position);
 		else
 			currentPointerPos = UFZ.IOC.Core.Instance.Mouse.Position();
 		var deltaPointerPos = currentPointerPos - lastPointerPos;
-		transform.localPosition += deltaPointerPos * scalingFactor;
+		transform.localPosition += deltaPointerPos;
 		lastPointerPos = currentPointerPos;
+		// Take movement of UI into account for last pointer position
+		if (UFZ.IOC.Core.Instance.Environment.HasDevice("Flystick"))
+			lastPointerPos -= deltaPointerPos;
 	}
 }

@@ -122,19 +122,6 @@ public class WandInputModule : BaseInputModule
 	private GameObject currentDragging;
 	private float nextAxisActionTime;
 
-#if MVR
-	private VRSharedValue<MiddleVR_Unity3D.SerializableVector3> _globalLookPosShared;
-#else
-	private Vector3 globalLookPos = Vector3.zero;
-#endif
-
-	protected override void Start()
-	{
-		base.Start();
-		_globalLookPosShared = new VRSharedValue<MiddleVR_Unity3D.SerializableVector3>
-			("globalLookPos", new Vector3(0.0f, 0.0f, 0.0f));
-	}
-
 	// use screen midpoint as locked pointer location, enabling look location to be the "mouse"
 	private PointerEventData GetLookPointerEventData()
 	{
@@ -171,10 +158,6 @@ public class WandInputModule : BaseInputModule
 				Vector3 globalLookPos;
 				if (RectTransformUtility.ScreenPointToWorldPointInRectangle(draggingPlane, lookDataLocal.position, lookDataLocal.enterEventCamera, out globalLookPos))
 				{
-#if MVR
-					_globalLookPosShared.value = globalLookPos;
-					globalLookPos = _globalLookPosShared.value;
-#endif
 					cursor.gameObject.SetActive(true);
 					cursor.position = globalLookPos;
 					cursor.rotation = draggingPlane.rotation;
@@ -260,7 +243,6 @@ public class WandInputModule : BaseInputModule
 		if (!eventSystem.currentSelectedGameObject)
 			return;
 
-		Debug.Log("Deselect");
 		RestoreColor(eventSystem.currentSelectedGameObject);
 		eventSystem.SetSelectedGameObject(null);
 	}

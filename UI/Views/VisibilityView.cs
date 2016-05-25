@@ -7,12 +7,11 @@ using UFZ.Interaction;
 using UFZ.Misc;
 using UFZ.Rendering;
 
-//[InternalView]
+[HideInPresenter]
 public class VisibilityView : UIView
 {
 	public DataGrid DataGrid;
 	public ObservableList<VisibilityStruct> Objects;
-	//public int AdditionalInfo;
 
 	protected GameObjectList GoList;
 
@@ -20,10 +19,9 @@ public class VisibilityView : UIView
 	{
 		base.Initialize();
 
-
 		Objects = new ObservableList<VisibilityStruct>();
 
-		var objectVisibilities = FindObjectsOfType<UFZ.Interaction.ObjectVisibility>();
+		var objectVisibilities = FindObjectsOfType<ObjectVisibility>();
 		foreach (var objectVisibility in objectVisibilities)
 		{
 			objectVisibility.RestoreState();
