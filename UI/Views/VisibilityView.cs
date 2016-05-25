@@ -85,8 +85,23 @@ public class VisibilityView : UIView
 				MatProps = materialProperties
 			});
 		}
+		var go = GameObject.Find("Visibilities");
+		var selection = go.GetComponentInChildren<GameObjectSelection>();
+		foreach (var selectionInfo in selection.Selections)
+		{
+			var name = selectionInfo.Base.name;
+			if (selectionInfo.SearchChildren)
+				name = name + "-" + selectionInfo.SearchString;
+
+			Objects.Add(new VisibilityStruct
+			{
+				Name = name,
+				Enabled = true,
+				GameObjects = selectionInfo.Selected == null ? null : selectionInfo.Selected.ToArray()
+			});
+		}
+
 		Objects.ItemsModified();
-		//SetChanged(() => Objects);
 	}
 
 	public void EnabledHandler()
@@ -100,15 +115,16 @@ public class VisibilityView : UIView
 	public void EnabledClick(CheckBox source)
 	{
 		var visibilityStruct = source.Item.Value as VisibilityStruct;
-		foreach (var matProp in visibilityStruct.MatProps)
-			matProp.SetEnabled(visibilityStruct.Enabled);
+		SetEnabled(visibilityStruct);
 	}
 
 	public void OpacityChanged(Slider source)
 	{
 		var visibilityStruct = source.Item.Value as VisibilityStruct;
-		foreach (var matProp in visibilityStruct.MatProps)
-			matProp.SetOpacity(visibilityStruct.Opacity);
+		if(visibilityStruct.MatProps != null)
+			foreach (var matProp in visibilityStruct.MatProps)
+				matProp.SetOpacity(visibilityStruct.Opacity);
+		
 	}
 
 	public void TextClick(HyperLink source)
@@ -117,8 +133,17 @@ public class VisibilityView : UIView
 		visibilityStruct.Enabled = !visibilityStruct.Enabled;
 		Objects.ItemModified(visibilityStruct);
 
-		foreach (var matProp in visibilityStruct.MatProps)
-			matProp.SetEnabled(visibilityStruct.Enabled);
+		SetEnabled(visibilityStruct);
+	}
+
+	private static void SetEnabled(VisibilityStruct visibilityStruct)
+	{
+		if (visibilityStruct.MatProps != null)
+			foreach (var matProp in visibilityStruct.MatProps)
+				matProp.SetEnabled(visibilityStruct.Enabled);
+		if (visibilityStruct.GameObjects != null)
+			foreach (var go in visibilityStruct.GameObjects)
+				go.SetActive(visibilityStruct.Enabled);
 	}
 }
 
@@ -128,4 +153,5 @@ public class VisibilityStruct
 	public float Opacity;
 	public bool Enabled;
 	public MaterialProperties[] MatProps;
+	public GameObject[] GameObjects;
 }
