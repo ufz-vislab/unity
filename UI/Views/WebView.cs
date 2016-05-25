@@ -20,11 +20,6 @@ namespace MarkLight.Views
 		public WebView()
 		{
 			URL = "http://www.ufz.de/index.php?en=37716";
-
-			Width = new _ElementSize(1f, ElementSizeUnit.Percents);
-			
-			// TODO: Hardcoded height
-			Height = new _ElementSize(500f, ElementSizeUnit.Pixels);
 		}
 
 		#endregion
