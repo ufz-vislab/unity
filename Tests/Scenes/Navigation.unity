@@ -416,7 +416,7 @@ MonoBehaviour:
       _serializedIsActive: 1
     _target: {fileID: 1945209589}
   - _keys:
-    - DefaultBehaviorEditor.Transition.EditProperty
+    - DefaultBehaviorEditor.Opacity.EditProperty
     _values:
     - _showDropdown: 0
       _serializedIsActive: 1
@@ -616,8 +616,7 @@ Transform:
   - {fileID: 420287256}
   - {fileID: 510650770}
   - {fileID: 1941318102}
-  - {fileID: 450090159}
-  - {fileID: 1388144014}
+  - {fileID: 1419949342}
   m_Father: {fileID: 0}
   m_RootOrder: 2
 --- !u!1 &420287251
@@ -798,8 +797,8 @@ Transform:
   - {fileID: 57386632}
   - {fileID: 1669396677}
   - {fileID: 524325995}
-  m_Father: {fileID: 381606614}
-  m_RootOrder: 3
+  m_Father: {fileID: 1419949342}
+  m_RootOrder: 0
 --- !u!114 &450090160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -808,15 +807,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 450090158}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a78ac5bfbdd234ed7b43896a7381bb72, type: 3}
+  m_Script: {fileID: 11500000, guid: a44ae1e68d0b64b4ab7e58de61ffbd83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsPlaying: 1
+  IsPlaying: 0
   Name: Switch
   Percentage: 0
   ActiveChild: 0
   Order: 0
-  Fps: 1
+  StartTime: 0
+  StepSize: 1
+  ShowOutOfRange: 1
+  Range: {x: 0, y: 3}
+  Times:
+  - 0
+  - 1
+  - 2
 --- !u!1 &510650769
 GameObject:
   m_ObjectHideFlags: 0
@@ -1566,8 +1572,8 @@ Transform:
   - {fileID: 743541710}
   - {fileID: 6805828}
   - {fileID: 1626873709}
-  m_Father: {fileID: 381606614}
-  m_RootOrder: 4
+  m_Father: {fileID: 1419949342}
+  m_RootOrder: 1
 --- !u!114 &1388144015
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1576,15 +1582,74 @@ MonoBehaviour:
   m_GameObject: {fileID: 1388144013}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a78ac5bfbdd234ed7b43896a7381bb72, type: 3}
+  m_Script: {fileID: 11500000, guid: a44ae1e68d0b64b4ab7e58de61ffbd83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsPlaying: 1
+  IsPlaying: 0
   Name: Switch (1)
   Percentage: 0
   ActiveChild: 0
   Order: 0
-  Fps: 1
+  StartTime: 0
+  StepSize: 2
+  ShowOutOfRange: 1
+  Range: {x: 0, y: 6}
+  Times:
+  - 0
+  - 2
+  - 4
+--- !u!1 &1419949341
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1419949342}
+  - 114: {fileID: 1419949343}
+  m_Layer: 0
+  m_Name: TimeController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1419949342
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1419949341}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 450090159}
+  - {fileID: 1388144014}
+  m_Father: {fileID: 381606614}
+  m_RootOrder: 3
+--- !u!114 &1419949343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1419949341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f82e72ee6b48c7d459425774ec373e80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsPlaying: 0
+  Name: TimeController
+  Percentage: 0
+  Date: 
+  TimeSteps:
+  - 0
+  - 1
+  - 2
+  - 4
+  IsRepeating: 1
+  UnitsPerSecond: 1
 --- !u!1 &1481563788
 GameObject:
   m_ObjectHideFlags: 0

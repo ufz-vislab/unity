@@ -17,8 +17,10 @@ namespace UFZ.Interaction
 
 		[HideInInspector] public List<float> Times;
 
-		private void OnValidate()
+		protected override void OnValidate()
 		{
+			base.OnValidate();
+
 			Times.Clear();
 			Range = new Vector2(StartTime, StartTime + (transform.childCount)*StepSize);
 			for (var i = 0; i < transform.childCount; i++)

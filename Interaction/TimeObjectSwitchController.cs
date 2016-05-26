@@ -37,6 +37,7 @@ namespace UFZ.Interaction
 				var hours = Mathf.FloorToInt(_time);
 				var minutes = (int)((_time - hours) * 60);
 				TimeString = hours.ToString("00") + ":" + minutes.ToString("00");
+				Percentage = (_time - _range.x)/(_range.y - _range.x);
 			}
 		}
 		private float _time = 0f;
@@ -52,6 +53,7 @@ namespace UFZ.Interaction
 
 		private void OnValidate()
 		{
+			Name = name;
 			_range = new Vector2(float.MaxValue, float.MinValue);
 			TimeSteps = new List<float>();
 			foreach (TimeObjectSwitch sw in transform.GetComponentsInChildren<TimeObjectSwitch>())
