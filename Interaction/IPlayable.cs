@@ -9,6 +9,7 @@ namespace UFZ.Interaction
 	{
 		public bool IsPlaying = false;
 		public string Name = "";
+		public float Percentage;
 
 		public abstract void Begin();
 		public abstract void End();

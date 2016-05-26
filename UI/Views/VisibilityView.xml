@@ -5,6 +5,9 @@
               DataGridList.IsScrollable="True"
               ListContentAlignment="Left" ColumnTextAlignment="Center" SortIndex="1"
               Highlighted-ItemColor="White">
+      
+
+      
       <Row IsTemplate="true" Height="50px">
         <Column>
           <HyperLink FontColor="black" Text="{#Item.Name}" AdjustToText="Width" Click="TextClick" />
@@ -12,7 +15,7 @@
         <Column>
           <Slider Value="{#Item.Opacity}" Min="0.0" Max="1.0" ValueChanged="OpacityChanged" />
         </Column>
-        <Column Width="20%">
+        <Column>
           <CheckBox IsChecked="{#Item.Enabled}" CheckBoxWidth="80px" CheckBoxHeight="50px" Click="EnabledClick" />
         </Column>
       </Row>

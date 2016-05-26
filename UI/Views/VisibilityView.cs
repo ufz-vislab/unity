@@ -85,18 +85,21 @@ public class VisibilityView : UIView
 		}
 		var go = GameObject.Find("Visibilities");
 		var selection = go.GetComponentInChildren<GameObjectSelection>();
-		foreach (var selectionInfo in selection.Selections)
+		if (selection != null)
 		{
-			var name = selectionInfo.Base.name;
-			if (selectionInfo.SearchChildren)
-				name = name + "-" + selectionInfo.SearchString;
-
-			Objects.Add(new VisibilityStruct
+			foreach (var selectionInfo in selection.Selections)
 			{
-				Name = name,
-				Enabled = true,
-				GameObjects = selectionInfo.Selected == null ? null : selectionInfo.Selected.ToArray()
-			});
+				var name = selectionInfo.Base.name;
+				if (selectionInfo.SearchChildren)
+					name = name + "-" + selectionInfo.SearchString;
+
+				Objects.Add(new VisibilityStruct
+				{
+					Name = name,
+					Enabled = true,
+					GameObjects = selectionInfo.Selected == null ? null : selectionInfo.Selected.ToArray()
+				});
+			}
 		}
 
 		Objects.ItemsModified();
@@ -141,7 +144,16 @@ public class VisibilityView : UIView
 				matProp.SetEnabled(visibilityStruct.Enabled);
 		if (visibilityStruct.GameObjects != null)
 			foreach (var go in visibilityStruct.GameObjects)
-				go.SetActive(visibilityStruct.Enabled);
+			{
+				var objectSwitches = go.GetComponentsInChildren<ObjectSwitchBase>();
+				if (objectSwitches != null)
+				{
+					foreach (var switchBase in objectSwitches)
+						switchBase.Active = visibilityStruct.Enabled;
+				}
+				else
+					go.SetActive(visibilityStruct.Enabled);
+			}
 	}
 }
 

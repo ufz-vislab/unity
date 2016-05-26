@@ -17,6 +17,7 @@ public abstract class ObjectSwitchBase : IPlayable
 
 	public int ActiveChild;
 	protected float ElapsedTime = 0f;
+	protected GameObject ActiveChildGo;
 
 	public delegate void Callback(int index);
 	public Callback ActiveChildCallback;
@@ -25,6 +26,18 @@ public abstract class ObjectSwitchBase : IPlayable
 
 #if MVR
 	private vrCommand _activeChildCommand;
+
+	public bool Active
+	{
+		get { return _active; }
+		set
+		{
+			foreach (var childRenderer in ActiveChildGo.GetComponentsInChildren<Renderer>())
+				childRenderer.enabled = value;
+			_active = value;
+		}
+	}
+	private bool _active = true;
 
 	protected void Start()
 	{
@@ -72,6 +85,9 @@ public abstract class ObjectSwitchBase : IPlayable
 		if (index < 0)
 			index = numChilds - 1;
 		ActiveChild = index;
+		Percentage = (float)index/(numChilds-1);
+
+		ElapsedTime = 0f;
 
 		var i = 0;
 		Transform[] transforms;
@@ -79,6 +95,11 @@ public abstract class ObjectSwitchBase : IPlayable
 			transforms = transform.Cast<Transform>().ToArray().OrderBy(t => t.name, new AlphanumComparatorFast()).ToArray();
 		else
 			transforms = transform.Cast<Transform>().ToArray();
+
+		ActiveChildGo = transforms[index].gameObject;
+		if (!_active)
+			return;
+
 		foreach (var child in transforms)
 		{
 			foreach (var childRenderer in child.gameObject.GetComponentsInChildren<Renderer>())
@@ -90,7 +111,6 @@ public abstract class ObjectSwitchBase : IPlayable
 			}
 			++i;
 		}
-		ElapsedTime = 0f;
 
 		if (ActiveChildCallback != null)
 			ActiveChildCallback(ActiveChild);
