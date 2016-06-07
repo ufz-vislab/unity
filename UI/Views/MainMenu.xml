@@ -11,8 +11,8 @@
                   ItemSelected="SectionSelected" CanSelect="True">
           <ListItem Text="Viewpoints" Width="150px" Height="40px" />
           <!-- <ListItem Text="CameraPaths" Width="150px" Height="40px" /> -->
-          <ListItem Text="Visibilities" Width="150px" Height="40px" />
-          <ListItem Text="Playables" Width="150px" Height="40px" />
+          <ListItem Text="Objects" Width="150px" Height="40px" />
+          <ListItem Text="Animations" Width="150px" Height="40px" />
           <ListItem Text="Options" Width="150px" Height="40px" />
 
         </List>
@@ -25,8 +25,8 @@
       <ViewSwitcher Id="ContentViewSwitcher" TransitionIn="FadeIn">
         <ViewpointsView Id="ViewpointsView" />
         <!-- <CameraPathsView Id="CameraPathsView" /> -->
-        <VisibilityView Id="VisibilitiesView" />
-        <PlayablesView Id="PlayablesView" />
+        <VisibilityView Id="ObjectsView" />
+        <PlayablesView Id="AnimationsView" />
         <OptionsView Id="OptionsView" />
       </ViewSwitcher>
     </Region>

@@ -146,7 +146,7 @@ public class VisibilityView : UIView
 			foreach (var go in visibilityStruct.GameObjects)
 			{
 				var objectSwitches = go.GetComponentsInChildren<ObjectSwitchBase>();
-				if (objectSwitches != null)
+				if (objectSwitches != null && objectSwitches.Length > 0)
 				{
 					foreach (var switchBase in objectSwitches)
 						switchBase.Active = visibilityStruct.Enabled;

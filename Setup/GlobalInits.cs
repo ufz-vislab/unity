@@ -127,7 +127,6 @@ namespace UFZ.Initialization
 				if (canvas.name == "UserInterface")
 				{
 					var view = canvas.GetComponent<UIView>();
-					view.InitializeViews();
 					view.Position.Value = CanvasPosition;
 					_mainMenuView = canvas.transform.FindChild("MainMenu").GetComponent<View>();
 					if (IsGuiDisabledOnStart)

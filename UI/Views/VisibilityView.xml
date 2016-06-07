@@ -1,13 +1,10 @@
 <VisibilityView Activated="EnabledHandler">
   <Group Alignment="TopLeft" ContentAlignment="Left" Spacing="10px">
+    <!-- throws an exception Highlighted-ItemColor="White"-->
     <DataGrid Id="DataGrid" Items="{Objects}" CanSelect="false"
               ListHeight="540px" ListSpacing="5px"
               DataGridList.IsScrollable="True"
-              ListContentAlignment="Left" ColumnTextAlignment="Center" SortIndex="1"
-              Highlighted-ItemColor="White">
-      
-
-      
+              ListContentAlignment="Left" ColumnTextAlignment="Center" SortIndex="1">
       <Row IsTemplate="true" Height="50px">
         <Column>
           <HyperLink FontColor="black" Text="{#Item.Name}" AdjustToText="Width" Click="TextClick" />
