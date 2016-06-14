@@ -32,7 +32,7 @@ public abstract class ObjectSwitchBase : IPlayable
 		get { return _active; }
 		set
 		{
-			foreach (var childRenderer in ActiveChildGo.GetComponentsInChildren<Renderer>())
+			foreach (var childRenderer in ActiveChildGo.GetComponentsInChildren<Renderer>(true))
 				childRenderer.enabled = value;
 			_active = value;
 		}
@@ -102,7 +102,7 @@ public abstract class ObjectSwitchBase : IPlayable
 
 		foreach (var child in transforms)
 		{
-			foreach (var childRenderer in child.gameObject.GetComponentsInChildren<Renderer>())
+			foreach (var childRenderer in child.gameObject.GetComponentsInChildren<Renderer>(true))
 			{
 				if (i == index || index < 0)
 						childRenderer.enabled = true;
@@ -118,7 +118,7 @@ public abstract class ObjectSwitchBase : IPlayable
 
 	public void NoActiveChild()
 	{
-		foreach (var ren in transform.GetComponentsInChildren<Renderer>())
+		foreach (var ren in transform.GetComponentsInChildren<Renderer>(true))
 				ren.enabled = false;
 		ElapsedTime = 0f;
 	}
