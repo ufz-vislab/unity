@@ -1,14 +1,15 @@
 <InfoView>
-  <Group Orientation="Vertical" Spacing="10px" BackgroundColor="#949494">
-    <Label Text="{ObjectInfo.name}" Width="500px" TextAlignment="Center" />
-    <Panel Height="550px">
-      <Image Id="ImageWidget" Sprite="{Image}" Width="{ImageWidth}" Height="{ImageHeight}" />
-    </Panel>
-    <Group Orientation="Horizontal" Spacing="10px">
-      <Button Text="&lt; Backward" Click="Backward" />
-      <Button Text="Forward &gt;" Click="Forward" />
-      <Label Text="{PageInfo}" />
-      <Button Text="Close" Click="Close" />
+  <DragableUIView Id="DragableUIView" Caption="{ObjectInfo.name}">
+    <Group Orientation="Vertical" Spacing="10px" BackgroundColor="#949494">
+      <Panel Height="500px">
+        <Image Id="ImageWidget" Sprite="{Image}" Width="{ImageWidth}" Height="{ImageHeight}" />
+      </Panel>
+      <Group Orientation="Horizontal" Spacing="10px">
+        <Button Text="&lt; Backward" Click="Backward" />
+        <Button Text="Forward &gt;" Click="Forward" />
+        <Label Text="{PageInfo}" />
+        <Button Text="Close" Click="Close" />
+      </Group>
     </Group>
-  </Group>
+  </DragableUIView>
 </InfoView>

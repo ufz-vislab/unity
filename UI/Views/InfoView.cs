@@ -9,6 +9,7 @@ public class InfoView : UIView
 	public string ImageWidth;
 	public string ImageHeight;
 	public string PageInfo;
+	public DragableUIView DragableUIView;
 
 	public Image ImageWidget;
 
