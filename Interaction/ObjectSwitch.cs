@@ -60,11 +60,13 @@ namespace UFZ.Interaction
 		public override void Begin()
 		{
 			IsPlaying = false;
+			base.Begin();
 		}
 
 		public override void End()
 		{
 			IsPlaying = false;
+			base.End();
 		}
 	}
 }

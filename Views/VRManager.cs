@@ -7,6 +7,7 @@ public class VRManager : View
 	public VRManagerScript VrManagerScript;
 	public VRManagerPostFrame VrManagerPostFrame;
 	public GUIText GuiText;
+	public UFZ.Rendering.EyeDistance EyeDistance;
 
 	[ChangeHandler("CenterNodeChanged")]
 	public GameObject CenterNode;

@@ -21,15 +21,20 @@ public class PlayablesView : UIView
 			Playables.Add(t);
 	}
 
+	public void Start()
+	{
+		if (Playables.Count > 0)
+			SetValue(() => Playables.SelectedIndex, 0);
+	}
+
 	public void Update()
 	{
 		if (!IsActive || Playables.SelectedItem == null)
 			return;
-		ToggleButtonText = Playables.SelectedItem.IsPlaying ? "Pause" : "Play";
-		//SetValue(() => ToggleButtonText, Playables.SelectedItem.IsPlaying ? "Pause" : "Play");
 
-		//SetValue(() => SelectedPosition,
-		//	Selected.ActiveChild / ((float)Selected.transform.childCount - 1));
+		var buttonText = Playables.SelectedItem.IsPlaying ? "Pause" : "Play";
+		SetValue(() => ToggleButtonText, buttonText);
+		SetValue(() => SelectedPosition, Playables.SelectedItem.Percentage);
 	}
 
 	public void TogglePlay()
