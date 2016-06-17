@@ -1,4 +1,4 @@
-<PlayablesView>
+<PlayablesView Activated="OnActivate">
   <Region Width="30%" Alignment="Left" Margin="30,30,15,30">
     <Group Spacing="10px" Alignment="TopLeft" ContentAlignment="Left">
       <Label Text="{MenuHeader}" />
@@ -17,7 +17,7 @@
     <Group Alignment="TopLeft" ContentAlignment="Left" Spacing="10px">
       <Group Orientation="Horizontal" Spacing="10px">
         <Label Text="Position" />
-        <Slider Value="{SelectedPosition}" Min="0.0" Max="1.0" />
+        <Slider Value="{SelectedPosition}" ValueChanged="SliderChanged" Min="0.0" Max="1.0" />
       </Group>
       <Group Orientation="Horizontal" Spacing="10px">
         <Button Text="{ToggleButtonText}" Click="TogglePlay" />

@@ -34,7 +34,15 @@ public class PlayablesView : UIView
 
 		var buttonText = Playables.SelectedItem.IsPlaying ? "Pause" : "Play";
 		SetValue(() => ToggleButtonText, buttonText);
-		SetValue(() => SelectedPosition, Playables.SelectedItem.Percentage);
+
+		if (Playables.SelectedItem.IsPlaying)
+			SetValue(() => SelectedPosition, Playables.SelectedItem.Percentage);
+	}
+
+	public void OnActivate()
+	{
+		if (Playables.SelectedItem != null)
+			SetValue(() => SelectedPosition, Playables.SelectedItem.Percentage);
 	}
 
 	public void TogglePlay()
@@ -61,4 +69,15 @@ public class PlayablesView : UIView
 	{
 		Playables.SelectedItem.Back();
 	}
+
+	public void SliderChanged(Slider slider)
+	{
+		if (Playables.SelectedItem == null || Playables.SelectedItem.IsPlaying)
+			return;
+
+		var objSwitch = Playables.SelectedItem as ObjectSwitchBase;
+		if (objSwitch)
+			objSwitch.SetActiveChild(slider.Value);
+	}
 }
+
