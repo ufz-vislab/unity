@@ -67,6 +67,11 @@ public abstract class ObjectSwitchBase : IPlayable
 		ElapsedTime += UFZ.IOC.Core.Instance.Time.DeltaTime();
 	}
 
+	public void SetActiveChild(float percentage)
+	{
+		SetActiveChild((int)(percentage * (transform.childCount - 1)));
+	}
+
 	public void SetActiveChild(int index)
 	{
 #if MVR
@@ -86,6 +91,7 @@ public abstract class ObjectSwitchBase : IPlayable
 			index = numChilds - 1;
 		ActiveChild = index;
 		Percentage = (float)index/(numChilds-1);
+		TimeInfo = string.Format("{0:00}", index);
 
 		ElapsedTime = 0f;
 

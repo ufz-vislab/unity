@@ -1,0 +1,8 @@
+<DragableUIView xmlns="MarkLight">
+  <Region Height="10%" Alignment="Top" BackgroundColor="#838383">
+    <Button Width="100%" Text="{Caption}" TextAlignment="Center" MouseDown="DragStart" MouseUp="DragEnd" />
+  </Region>
+  <Region Id="ContentRegion" Height="90%" Alignment="Bottom" BackgroundColor="#949494">
+    <ContentPlaceholder/>
+  </Region>
+</DragableUIView>

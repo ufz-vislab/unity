@@ -1,8 +1,5 @@
-﻿using System.Runtime.Remoting;
-using FullInspector;
-using UFZ.Initialization;
+﻿using System;
 using UnityEngine;
-using MarkLight.Views;
 using MarkLight.Views.UI;
 
 namespace UFZ.Interaction
@@ -18,7 +15,9 @@ namespace UFZ.Interaction
 		{
 			_webView = FindObjectOfType<UserInterface>().CreateView<WebBrowserView>();
 			_webView.InitializeViews();
-			_webView.WebViewWidget.URL = URL;
+			_webView.WebViewWidget.SetValue("URL", URL);
+			var uri = new Uri(URL);
+			_webView.DragableUIView.SetValue("Caption", uri.Host);
 			_webView.Deactivate();
 		}
 

@@ -4,6 +4,7 @@ using MarkLight.Views.UI;
 public class WebBrowserView : UIView
 {
 	public WebView WebViewWidget;
+	public DragableUIView DragableUIView;
 
 	public void BackButtonClick()
 	{

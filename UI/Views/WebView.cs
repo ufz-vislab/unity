@@ -36,7 +36,7 @@ namespace MarkLight.Views
 
 			// TODO: Hardcoded values
 			Height.DirectValue = ElementSize.FromPixels(480f);
-			Width.DirectValue = ElementSize.FromPixels(620f);
+			Width.DirectValue = ElementSize.FromPixels(800f);
 			LayoutChanged();
 
 			var height = (int) ActualHeight;
@@ -55,8 +55,8 @@ namespace MarkLight.Views
 			plane.AddComponent<VRActor>().Grabable = false;
 
 			_vrWebView = plane.AddComponent<VRWebView>();
-			_vrWebView.m_Width = width * 2;
-			_vrWebView.m_Height = height * 2;
+			_vrWebView.m_Width = (int)(width * 1.5);
+			_vrWebView.m_Height = (int)(height * 1.5);
 		}
 
 		public void Update()

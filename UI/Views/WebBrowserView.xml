@@ -1,11 +1,13 @@
 <WebBrowserView>
-  <Group Alignment="TopLeft" ContentAlignment="Left" Spacing="10px" Height="100%" BackgroundColor="#949494">
-    <Group Orientation="Horizontal" Spacing="10px">
-      <InputField Width="400px" Text="{WebViewWidget.URL}" SetValueOnEndEdit="True" />
-      <Button Text="Back" Click="BackButtonClick" Width="100px" />
-      <Button Text="Forward" Click="ForwardButtonClick" Width="100px" />
+  <DragableUIView Id="DragableUIView">
+    <Group Alignment="TopLeft" ContentAlignment="Left" Spacing="10px" Width="100%" Height="100%" BackgroundColor="#949494">
+      <Group Orientation="Horizontal" Spacing="10px">
+        <InputField Width="400px" Text="{WebViewWidget.URL}" SetValueOnEndEdit="True" />
+        <Button Text="Back" Click="BackButtonClick" Width="100px" />
+        <Button Text="Forward" Click="ForwardButtonClick" Width="100px" />
+        <Button Text="Close" Click="Close" />
+      </Group>
+      <WebView Id="WebViewWidget" BackgroundColor="#ffffff" />
     </Group>
-    <WebView Id="WebViewWidget" BackgroundColor="#ffffff" />
-    <Button Text="Close" Click="Close" />
-  </Group>
+  </DragableUIView>
 </WebBrowserView>
