@@ -48,6 +48,7 @@ namespace UFZ.Interaction
 			}
 
 			SetActiveChild((int) Math.Floor((time - StartTime)/StepSize));
+			TimeInfo = string.Format("{0}", time);
 		}
 
 		public override void Forward()

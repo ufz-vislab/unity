@@ -10,6 +10,8 @@ namespace UFZ.Interaction
 		public bool IsPlaying = false;
 		public string Name = "";
 		public float Percentage;
+		[HideInInspector]
+		public string TimeInfo;
 
 		public abstract void Begin();
 		public abstract void End();

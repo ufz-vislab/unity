@@ -11,6 +11,7 @@ public class PlayablesView : UIView
 	public string ToggleButtonText = "Play";
 	public float SelectedPosition = 0f;
 	public float Speed = 1f;
+	public string TimeInfo = "0";
 
 	public override void Initialize()
 	{
@@ -36,13 +37,13 @@ public class PlayablesView : UIView
 		SetValue(() => ToggleButtonText, buttonText);
 
 		if (Playables.SelectedItem.IsPlaying)
-			SetValue(() => SelectedPosition, Playables.SelectedItem.Percentage);
+			UpdateTime();
 	}
 
 	public void OnActivate()
 	{
 		if (Playables.SelectedItem != null)
-			SetValue(() => SelectedPosition, Playables.SelectedItem.Percentage);
+			UpdateTime();
 	}
 
 	public void TogglePlay()
@@ -77,7 +78,16 @@ public class PlayablesView : UIView
 
 		var objSwitch = Playables.SelectedItem as ObjectSwitchBase;
 		if (objSwitch)
+		{
 			objSwitch.SetActiveChild(slider.Value);
+			SetValue(() => TimeInfo, Playables.SelectedItem.TimeInfo);
+		}
+	}
+
+	protected void UpdateTime()
+	{
+		SetValue(() => SelectedPosition, Playables.SelectedItem.Percentage);
+		SetValue(() => TimeInfo, Playables.SelectedItem.TimeInfo);
 	}
 }
 

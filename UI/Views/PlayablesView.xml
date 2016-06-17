@@ -16,7 +16,7 @@
   <Region Width="70%" Alignment="Right" Margin="15,30,30,30">
     <Group Alignment="TopLeft" ContentAlignment="Left" Spacing="10px">
       <Group Orientation="Horizontal" Spacing="10px">
-        <Label Text="Position" />
+        <Label Text="Position - {TimeInfo}" />
         <Slider Value="{SelectedPosition}" ValueChanged="SliderChanged" Min="0.0" Max="1.0" />
       </Group>
       <Group Orientation="Horizontal" Spacing="10px">

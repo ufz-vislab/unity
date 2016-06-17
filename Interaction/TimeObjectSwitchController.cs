@@ -36,13 +36,11 @@ namespace UFZ.Interaction
 					sw.SetTime(value);
 				var hours = Mathf.FloorToInt(_time);
 				var minutes = (int)((_time - hours) * 60);
-				TimeString = hours.ToString("00") + ":" + minutes.ToString("00");
+				TimeInfo = hours.ToString("00") + ":" + minutes.ToString("00");
 				Percentage = (_time - _range.x)/(_range.y - _range.x);
 			}
 		}
 		private float _time = 0f;
-
-		public string TimeString { get; private set; }
 
 		private Vector2 _range;
 		[HideInInspector]
