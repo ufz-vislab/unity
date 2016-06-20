@@ -1,9 +1,7 @@
 <InfoView>
   <DragableUIView Id="DragableUIView" Caption="{ObjectInfo.name}">
     <Group Orientation="Vertical" Spacing="10px" BackgroundColor="#949494">
-      <Panel Height="500px">
-        <Image Id="ImageWidget" Sprite="{Image}" Width="{ImageWidth}" Height="{ImageHeight}" />
-      </Panel>
+      <Image Id="ImageWidget" Sprite="{Image}" Height="494px" PreserveAspect="True" />
       <Group Orientation="Horizontal" Spacing="10px">
         <Button Text="&lt; Backward" Click="Backward" />
         <Button Text="Forward &gt;" Click="Forward" />
