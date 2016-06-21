@@ -54,21 +54,25 @@ public class PlayablesView : UIView
 	public void ToStart()
 	{
 		Playables.SelectedItem.Begin();
+		UpdateTime();
 	}
 
 	public void ToEnd()
 	{
 		Playables.SelectedItem.End();
+		UpdateTime();
 	}
 
 	public void Forward()
 	{
 		Playables.SelectedItem.Forward();
+		UpdateTime();
 	}
 
 	public void Back()
 	{
 		Playables.SelectedItem.Back();
+		UpdateTime();
 	}
 
 	public void SliderChanged(Slider slider)
