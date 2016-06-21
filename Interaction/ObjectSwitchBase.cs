@@ -77,6 +77,8 @@ public abstract class ObjectSwitchBase : IPlayable
 #if MVR
 		if (_activeChildCommand != null)
 			_activeChildCommand.Do(index);
+		else
+			SetActiveChildInternal(index);
 #else
 			SetActiveChildInternal(index);
 #endif
@@ -108,18 +110,31 @@ public abstract class ObjectSwitchBase : IPlayable
 
 		foreach (var child in transforms)
 		{
-			foreach (var childRenderer in child.gameObject.GetComponentsInChildren<Renderer>(true))
-			{
-				if (i == index || index < 0)
-						childRenderer.enabled = true;
-				else
-					childRenderer.enabled = false;
-			}
+			bool enable = false;
+			if (i == index || index < 0)
+				enable = true;
+			SetVisible(child, enable);
 			++i;
 		}
 
 		if (ActiveChildCallback != null)
 			ActiveChildCallback(ActiveChild);
+	}
+
+	protected void SetVisible(Transform currentTransform, bool enable)
+	{
+		var objectSwitch = currentTransform.GetComponent<ObjectSwitchBase>();
+
+		if (objectSwitch != null && enable)
+		{
+			objectSwitch.SetActiveChild(objectSwitch.ActiveChild);
+			return;
+		}
+		foreach (var ren in currentTransform.GetComponents<Renderer>())
+			ren.enabled = enable;
+
+		for (var i = 0; i < currentTransform.childCount; i++)
+			SetVisible(currentTransform.GetChild(i), enable);
 	}
 
 	public void NoActiveChild()
