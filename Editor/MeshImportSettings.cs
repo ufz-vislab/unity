@@ -15,6 +15,10 @@ namespace UFZ.Initialization
 	/// </summary>
 	public class MeshImportSettings : AssetPostprocessor
 	{
+		protected bool IsPath;
+		protected bool IsParaview;
+		protected bool IsCityEngine;
+
 		private static readonly string[] Paths = {
 			"Assets/_project",
 			"Assets/UFZ/Tests/Objects"
@@ -23,11 +27,6 @@ namespace UFZ.Initialization
 		private bool CheckPath()
 		{
 			return Paths.Any(assetPath.Contains);
-		}
-
-		private bool IsCityEngine()
-		{
-			return assetPath.Contains("CityEngine");
 		}
 
 		private bool CheckParaViewExport()
@@ -46,25 +45,26 @@ namespace UFZ.Initialization
 
 		private void OnPreprocessModel()
 		{
-			if (!CheckPath())
+			IsPath = Paths.Any(assetPath.Contains);
+			if (!IsPath)
 				return;
-			if (!CheckParaViewExport())
+			IsCityEngine = assetPath.Contains("CityEngine");
+
+			IsParaview = CheckParaViewExport();
+			if (!IsParaview)
 				return;
 
 			Debug.Log("ParaView import: " + Path.GetFileNameWithoutExtension(assetPath));
 			var modelImporter = (ModelImporter)assetImporter;
 			modelImporter.animationType = ModelImporterAnimationType.None;
-			modelImporter.optimizeMesh = IsCityEngine();
+			modelImporter.optimizeMesh = IsCityEngine;
 			modelImporter.globalScale = 1.0f;
-			modelImporter.importMaterials = IsCityEngine();
+			modelImporter.importMaterials = IsCityEngine;
 		}
 
 		private void OnPostprocessModel(GameObject go)
 		{
-			if (!CheckPath() || IsCityEngine())
-				return;
-			var modelImporter = (ModelImporter)assetImporter;
-			if (!CheckParaViewExport())
+			if (!CheckPath() || IsCityEngine || !IsParaview)
 				return;
 
 			//Debug.Log ("OnPostprocessModel for " + go.name);
@@ -181,7 +181,7 @@ namespace UFZ.Initialization
 
 		private Material OnAssignMaterialModel(Material material, Renderer renderer)
 		{
-			if (!IsCityEngine()) return null;
+			if (!IsCityEngine) return null;
 
 			if (!material.mainTexture || !material.mainTexture.name.Contains("Billboard") ||
 			    (int) material.GetFloat("_Mode") == 2) return null;
@@ -234,6 +234,7 @@ namespace UFZ.Initialization
 				Debug.LogWarning("Could not convert Mesh to points: no MeshFilter found!");
 				return;
 			}
+			Debug.Log("Converting mesh to points.");
 
 			var mesh = meshFilter.sharedMesh;
 			// Is it already converted to points?
@@ -250,9 +251,10 @@ namespace UFZ.Initialization
 			var meshFilter = renderer.gameObject.GetComponent<MeshFilter>();
 			if (!meshFilter)
 			{
-				Debug.LogWarning("Could not convert Mesh to points: no MeshFilter found!");
+				Debug.LogWarning("Could not convert Mesh to lines: no MeshFilter found!");
 				return;
 			}
+			Debug.Log("Converting mesh to lines.");
 
 			var mesh = meshFilter.sharedMesh;
 			// Is it already converted to lines?
