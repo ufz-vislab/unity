@@ -56,32 +56,31 @@ public class VisibilityView : UIView
 
 	private void UpdateVisibilities()
 	{
-		if (GoList == null)
-			return;
-		if (GoList.Objects == null)
-			return;
-
 		Objects.Clear();
-		foreach (var o in GoList.Objects)
+
+		if (GoList != null && GoList.Objects != null)
 		{
-			if (o == null)
-				continue;
-
-			var materialProperties = o.GetComponentsInChildren<MaterialProperties>();
-			if (materialProperties == null || materialProperties.Length == 0)
-				continue;
-
-			foreach (var materialPropertiese in materialProperties)
+			foreach (var o in GoList.Objects)
 			{
-				materialPropertiese.RestoreState();
+				if (o == null)
+					continue;
+
+				var materialProperties = o.GetComponentsInChildren<MaterialProperties>();
+				if (materialProperties == null || materialProperties.Length == 0)
+					continue;
+
+				foreach (var materialPropertiese in materialProperties)
+				{
+					materialPropertiese.RestoreState();
+				}
+				Objects.Add(new VisibilityStruct
+				{
+					Name = o.name,
+					Opacity = materialProperties[0].Opacity,
+					Enabled = materialProperties[0].Enabled,
+					MatProps = materialProperties
+				});
 			}
-			Objects.Add(new VisibilityStruct
-			{
-				Name = o.name,
-				Opacity = materialProperties[0].Opacity,
-				Enabled = materialProperties[0].Enabled,
-				MatProps = materialProperties
-			});
 		}
 		var go = GameObject.Find("Visibilities");
 		var selection = go.GetComponentInChildren<GameObjectSelection>();
@@ -89,13 +88,15 @@ public class VisibilityView : UIView
 		{
 			foreach (var selectionInfo in selection.Selections)
 			{
-				var name = selectionInfo.Base.name;
+				var localName = "";
+				if (selectionInfo.Base != null)
+					localName = selectionInfo.Base.name;
 				if (selectionInfo.SearchChildren)
-					name = name + "-" + selectionInfo.SearchString;
+					localName = localName + "-" + selectionInfo.SearchString;
 
 				Objects.Add(new VisibilityStruct
 				{
-					Name = name,
+					Name = localName,
 					Enabled = true,
 					GameObjects = selectionInfo.Selected == null ? null : selectionInfo.Selected.ToArray()
 				});

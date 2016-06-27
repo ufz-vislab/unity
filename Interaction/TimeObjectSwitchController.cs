@@ -42,6 +42,11 @@ namespace UFZ.Interaction
 		}
 		private float _time = 0f;
 
+		public void SetPercentage(float percentage)
+		{
+			Time = percentage * (_range.y - _range.x) + _range.x;
+		}
+
 		private Vector2 _range;
 		[HideInInspector]
 		public List<float> TimeSteps;
@@ -68,6 +73,12 @@ namespace UFZ.Interaction
 
 			TimeSteps = TimeSteps.Distinct().ToList();
 			TimeSteps.Sort();
+			Time = 0.0f;
+		}
+
+		public void Start()
+		{
+			Time = 0.0f;
 		}
 
 		private void Update()

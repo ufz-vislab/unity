@@ -1,6 +1,7 @@
 using MarkLight;
 using MarkLight.Views.UI;
 using UFZ.Interaction;
+using UFZ.Misc;
 using UnityEngine;
 
 public class PlayablesView : UIView
@@ -18,8 +19,23 @@ public class PlayablesView : UIView
 		base.Initialize();
 
 		Playables = new ObservableList<IPlayable>();
-		foreach (var t in Resources.FindObjectsOfTypeAll<IPlayable>())
-			Playables.Add(t);
+
+		var vis = GameObject.Find("Animations");
+		if (vis != null)
+		{
+			foreach (var go in vis.GetComponentInChildren<GameObjectList>().Objects)
+			{
+				if (go.GetComponent<IPlayable>())
+					Playables.Add(go.GetComponent<IPlayable>());
+			}
+		}
+		else
+		{
+			foreach (var t in Resources.FindObjectsOfTypeAll<IPlayable>())
+				//if ((TimeObjectSwitch)t == null)
+				Playables.Add(t);
+		}
+		
 	}
 
 	public void Start()
@@ -84,6 +100,12 @@ public class PlayablesView : UIView
 		if (objSwitch)
 		{
 			objSwitch.SetActiveChild(slider.Value);
+			SetValue(() => TimeInfo, Playables.SelectedItem.TimeInfo);
+		}
+		else if (Playables.SelectedItem as TimeObjectSwitchController)
+		{
+			var tmp = (TimeObjectSwitchController) Playables.SelectedItem;
+			tmp.SetPercentage(slider.Value);
 			SetValue(() => TimeInfo, Playables.SelectedItem.TimeInfo);
 		}
 	}
