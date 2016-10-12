@@ -1,6 +1,7 @@
 ﻿using System.Runtime.Remoting;
 using FullInspector;
 using MiddleVR_Unity3D;
+using UFZ.Rendering;
 using UnityEngine;
 
 namespace UFZ.Interaction
@@ -15,6 +16,19 @@ namespace UFZ.Interaction
 			var vrActor = GetComponent<VRActor>();
 			vrActor.Grabable = false;
 			vrActor.SyncDirection = MVRNodesMapper.ENodesSyncDirection.NoSynchronization;
+
+			if (GetComponent<Collider>())
+				return;
+			var matProps = GetComponentInChildren<MaterialProperties>();
+			if (!matProps) return;
+			var meshFilter = GetComponentsInChildren<MeshFilter>();
+			if (meshFilter == null || meshFilter.Length <= 0) return;
+
+			foreach (var filter in meshFilter)
+			{
+				var meshCollider = gameObject.AddComponent<MeshCollider>();
+				meshCollider.sharedMesh = filter.sharedMesh;
+			}
 		}
 
 		/// <summary>

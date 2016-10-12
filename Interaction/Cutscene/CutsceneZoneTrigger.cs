@@ -10,7 +10,7 @@ namespace UFZ
 		public Collider Collider;
 		public Slate.Cutscene[] Cutscenes;
 
-		public void Awake()
+		public void Start()
 		{
 			if (Collider == null)
 				Collider = GameObject.Find("Player (Player)").GetComponent<Collider>();
@@ -39,7 +39,7 @@ namespace UFZ
 					cutscene.Pause ();
 					cutscene.PlayReverse ();
 				} else
-					cutscene.PlayReverse (cutscene.playTimeMax, cutscene.playTimeMin);
+					cutscene.PlayReverse (cutscene.viewTimeMax, cutscene.viewTimeMin);
 			}
 		}
 

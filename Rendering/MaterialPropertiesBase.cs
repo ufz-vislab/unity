@@ -41,7 +41,7 @@ namespace UFZ.Rendering
 		public VisibilityMode Visibility {
 			get
 			{
-				if (Mathf.Approximately(_opacity, 1f))
+				if (_opacity > 0.99f)
 					return VisibilityMode.Opaque;
 				return _opacity < disableThreshold ? VisibilityMode.Disabled : VisibilityMode.Transparent;
 			}
