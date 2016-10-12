@@ -1,3 +1,0 @@
-[submodule "VTK"]
-	path = VTK
-url=https://github.com/ufz-vislab/package-vtk.git
