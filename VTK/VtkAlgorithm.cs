@@ -17,9 +17,8 @@ namespace UFZ.VTK
 		public bool HasInput { get { return _hasInput; } }
 		protected bool _hasInput;
 
-		//[ShowInInspector]
-		//[InspectorComment(CommentType.None, "Valid output."), InspectorShowIf("HasOutput")]
-		[ShowInInspector, InspectorHidePrimary, InspectorHideIf("HasOutput"), InspectorComment(CommentType.Error, "No valid output!")] // InspectorHideIf("HasOutput")
+		[ShowInInspector, InspectorHidePrimary, InspectorHideIf("HasOutput"),
+		 InspectorComment(CommentType.Error, "No valid output!")]
 		public bool HasOutput
 		{
 			get
@@ -41,7 +40,6 @@ namespace UFZ.VTK
 			set
 			{
 				if (Algorithm == null)
-				//	Initialize();
 					return;
 				if (value == null)
 					return;
@@ -96,7 +94,7 @@ namespace UFZ.VTK
 			Initialize();
 		}
 
-		virtual protected void Initialize()
+		protected virtual void Initialize()
 		{
 			if (_inputAlgorithm != null)
 				_inputAlgorithm.Initialize();
