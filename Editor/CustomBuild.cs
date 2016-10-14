@@ -26,5 +26,15 @@ public class CustomBuild : IAdvancedCustomBuild
 			}
 		};
 		process.Start();
+
+		var process64 = new Process
+		{
+			StartInfo =
+			{
+				FileName = "\"C:\\Program Files\\FreeFileSync\\FreeFileSync.exe\"",
+				Arguments = "FileSync\\win-x64.ffs_batch"
+			}
+		};
+		process64.Start();
 	}
 }
