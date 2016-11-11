@@ -33,6 +33,18 @@ namespace UFZ.VTK
 			}
 		}
 
+		[ShowInInspector]
+		public string OutputDataType
+		{
+			get
+			{
+				if (!HasOutput)
+					return "";
+				var output = Algorithm.GetOutputDataObject(0) as vtkDataSet;
+				return output.GetType().ToString();
+			}
+		}
+
 		[SerializeField, InspectorShowIf("HasInput")]
 		public VtkAlgorithm InputAlgorithm
 		{
@@ -111,7 +123,7 @@ namespace UFZ.VTK
 		// See http://stackoverflow.com/a/33124250/80480
 		static VtkAlgorithm()
 		{
-			const string pluginPath = "UFZ/VTK/Plugins";
+			const string pluginPath = "/UFZ/VTK/Plugins";
 #if UNITY_EDITOR
 			if (!FullInspector.Internal.fiUtility.IsMainThread)
 				return;
@@ -124,7 +136,7 @@ namespace UFZ.VTK
 #elif UNITY_EDITOR_64
 			var dllPath = Application.dataPath
 						  + pluginPath
-						  + Path.DirectorySeparatorChar + "x64";
+						  + "/" + "x64";
 #else
 			var dllPath = Application.dataPath
 				+ Path.DirectorySeparatorChar + "Plugins";
@@ -134,6 +146,7 @@ namespace UFZ.VTK
 				&& currentPath.Contains(dllPath) == false)
 				Environment.SetEnvironmentVariable("PATH", currentPath + Path.PathSeparator + dllPath,
 					EnvironmentVariableTarget.Process);
+			// Debug.Log("Set VTK Dll path to " + dllPath);
 		}
 	}
 }

@@ -23,9 +23,7 @@ namespace UFZ.VTK
 
 		private string _filepath = "X:\\minimal_mesh.vtu";
 
-		private vtkDataSetSurfaceFilter _geometryFilter;
 		private vtkCellDataToPointData _cellToPointData;
-		private vtkPolyDataNormals _normals;
 
 		protected override void Initialize()
 		{
@@ -42,25 +40,13 @@ namespace UFZ.VTK
 					_cellToPointData.PassCellDataOn();
 					_cellToPointData.SetInputConnection(_source.GetOutputPort());
 				}
-				if (_geometryFilter == null)
-				{
-					_geometryFilter = vtkDataSetSurfaceFilter.New();
-					_geometryFilter.SetInputConnection(_cellToPointData.GetOutputPort());
-				}
-				if (_normals == null)
-				{
-					_normals = vtkPolyDataNormals.New();
-					_normals.FlipNormalsOn();
-					_normals.SetInputConnection(_geometryFilter.GetOutputPort());
-				}
-				TriangleFilter.SetInputConnection(_normals.GetOutputPort());
-				AlgorithmOutput = TriangleFilter.GetOutputPort();
+				AlgorithmOutput = _cellToPointData.GetOutputPort();
 			}
 
 			_source.SetFileName(_filepath);
 			_source.Update();
 
-			// Wichtig:
+			// TODO: Wichtig:
 			_source.GetOutput().GetCellData().SetActiveScalars("evap");
 			//_source.GetOutput().GetCellData().SetScalars(_source.GetOutput().GetCellData().GetArray(0));
 		}

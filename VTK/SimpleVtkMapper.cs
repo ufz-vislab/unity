@@ -32,6 +32,8 @@ namespace UFZ.VTK
 			set
 			{
 				Update();
+				if (GetInput() == null)
+					return;
 				var pd = GetInput().GetPointData();
 				if (value >= pd.GetNumberOfArrays())
 					return;
@@ -41,6 +43,7 @@ namespace UFZ.VTK
 				Modified();
 			}
 		}
+		[SerializeField]
 		private uint _activeColorArrayIndex;
 
 		public bool ScalarVisibility
@@ -66,6 +69,7 @@ namespace UFZ.VTK
 		private SimpleVtkMapper()
 		{
 			PointDataArrayNames = new List<string>();
+			_activeColorArrayIndex = 0;
 		}
 
 		public new static SimpleVtkMapper New()

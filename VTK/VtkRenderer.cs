@@ -55,7 +55,12 @@ namespace UFZ.VTK
 		[ShowInInspector]
 		public uint ActiveColorArrayIndex
 		{
-			get { return mapper.ActiveColorArrayIndex; }
+			get
+			{
+				if (mapper == null)
+					return 9999;
+				return mapper.ActiveColorArrayIndex;
+			}
 			set { mapper.ActiveColorArrayIndex = value; }
 		}
 
