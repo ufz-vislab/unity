@@ -17,6 +17,10 @@ public class CustomBuild : IAdvancedCustomBuild
 
 	public void OnEveryBuildDone()
 	{
+		var hostname = Environment.MachineName;
+		if (!hostname.Equals("vismaster"))
+			return;
+
 		var process = new Process
 		{
 			StartInfo =
