@@ -41,10 +41,11 @@ namespace UFZ.VTK
 			if (_filter == null)
 			{
 				_filter = vtkElevationFilter.New();
-				Algorithm = _filter;
 				_filter.ModifiedEvt += (sender, args) => UpdateRenderer();
-				AlgorithmOutput = _filter.GetOutputPort();
 			}
+
+			Algorithm = _filter;
+			AlgorithmOutput = _filter.GetOutputPort();
 
 			_filter.SetLowPoint(_point1.x, _point1.y, _point1.z);
 			_filter.SetHighPoint(_point2.x, _point2.y, _point2.z);

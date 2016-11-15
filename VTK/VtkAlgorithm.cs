@@ -27,7 +27,8 @@ namespace UFZ.VTK
 					return false;
 				Algorithm.Update();
 				var output = Algorithm.GetOutputDataObject(0) as vtkDataSet;
-				if (output != null && output.GetNumberOfPoints() > 0)
+				var numPoints = output.GetNumberOfPoints();
+				if (output != null && numPoints > 0)
 					return true;
 				return false;
 			}
@@ -127,16 +128,18 @@ namespace UFZ.VTK
 #if UNITY_EDITOR
 			if (!FullInspector.Internal.fiUtility.IsMainThread)
 				return;
+
+			var pluginPath = "UFZ" + Path.DirectorySeparatorChar + "VTK" + Path.DirectorySeparatorChar + "Plugins";
 #endif
 			var currentPath = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Process);
 #if UNITY_EDITOR_32
-			var dllPath = Application.dataPath
+			var dllPath = Application.dataPath + Path.DirectorySeparatorChar
 				+ pluginPath
 				+ Path.DirectorySeparatorChar + "x32";
 #elif UNITY_EDITOR_64
-			var dllPath = Application.dataPath
+			var dllPath = Application.dataPath + Path.DirectorySeparatorChar
 						  + pluginPath
-						  + "/" + "x64";
+						  + Path.DirectorySeparatorChar + "x64";
 #else
 			var dllPath = Application.dataPath
 				+ Path.DirectorySeparatorChar + "Plugins";

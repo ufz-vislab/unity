@@ -107,7 +107,7 @@ namespace UFZ.VTK
 				LinesMaterial = new Material(Shader.Find("DX11/VtkPoints"));
 			if (TrianglesMaterial == null)
 				TrianglesMaterial = new Material(Shader.Find("DX11/VtkTriangles"));
-			UpdateBuffers();
+			// UpdateBuffers();
 			mapper.ModifiedEvt += delegate { UpdateBuffers(); };
 
 			ScalarVisibility = _scalarVisibility;

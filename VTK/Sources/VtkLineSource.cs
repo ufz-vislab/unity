@@ -55,10 +55,11 @@ namespace UFZ.VTK
 			if (_source == null)
 			{
 				_source = vtkLineSource.New();
-				Algorithm = _source;
 				_source.ModifiedEvt += (sender, args) => UpdateRenderer();
-				AlgorithmOutput = _source.GetOutputPort();
 			}
+
+			Algorithm = _source;
+			AlgorithmOutput = _source.GetOutputPort();
 
 			_source.SetPoint1(_point1.x, _point1.y, _point1.z);
 			_source.SetPoint2(_point2.x, _point2.y, _point2.z);

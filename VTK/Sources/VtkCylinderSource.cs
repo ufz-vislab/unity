@@ -46,13 +46,14 @@ namespace UFZ.VTK
 			if (_source == null)
 			{
 				_source = vtkCylinderSource.New();
-				Algorithm = _source;
 				_source.ModifiedEvt += (sender, args) => UpdateRenderer();
 
 				// Insert triangle filter
 				TriangleFilter.SetInputConnection(_source.GetOutputPort());
-				AlgorithmOutput = TriangleFilter.GetOutputPort();
 			}
+
+			Algorithm = _source;
+			AlgorithmOutput = TriangleFilter.GetOutputPort();
 
 			_source.SetRadius(_radius);
 			_source.SetHeight(_height);

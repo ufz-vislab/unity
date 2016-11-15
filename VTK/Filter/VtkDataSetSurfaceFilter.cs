@@ -32,19 +32,19 @@ namespace UFZ.VTK
 			if (_filter == null)
 			{
 				_filter = vtkDataSetSurfaceFilter.New();;
-				Algorithm = _filter;
 				_filter.ModifiedEvt += (sender, args) => UpdateRenderer();
 
 				if (_normals == null)
-				{
 					_normals = vtkPolyDataNormals.New();
-					_normals.SetInputConnection(_filter.GetOutputPort());
-					_normals.ModifiedEvt += (sender, args) => UpdateRenderer();
-				}
 
 				TriangleFilter.SetInputConnection(_normals.GetOutputPort());
-				AlgorithmOutput = TriangleFilter.GetOutputPort();
 			}
+
+			_normals.SetInputConnection(_filter.GetOutputPort());
+			_normals.ModifiedEvt += (sender, args) => UpdateRenderer();
+
+			Algorithm = _filter;
+			AlgorithmOutput = TriangleFilter.GetOutputPort();
 		}
 	}
 }

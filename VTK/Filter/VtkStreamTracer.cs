@@ -50,10 +50,11 @@ public class VtkStreamTracer : VtkAlgorithm
 		if (_filter == null)
 		{
 			_filter = vtkStreamTracer.New();
-			Algorithm = _filter;
 			_filter.ModifiedEvt += (sender, args) => UpdateRenderer();
-			AlgorithmOutput = _filter.GetOutputPort();
 		}
+
+		Algorithm = _filter;
+		AlgorithmOutput = _filter.GetOutputPort();
 
 		if (Source != null)
 		{

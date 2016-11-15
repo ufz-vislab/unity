@@ -32,6 +32,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -46,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4a643d1260d1bc44b895a44708f0bf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NodeToMove: Player
+  NodeToMove: {fileID: 0}
   DirectionReferenceNode: HandNode
   TurnAroundNode: HeadNode
   NavigationSpeed: 0.5
@@ -64,7 +65,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfa8353c7233aaa42a05497008744084, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NodeToMove: Player
+  NodeToMove: {fileID: 0}
   DirectionReferenceNode: HandNode
   TurnAroundNode: HeadNode
   NavigationSpeed: 0.75
@@ -82,7 +83,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68a4f1a21482b8e4780f5ac0ffb7bde4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NodeToMove: Player
+  NodeToMove: {fileID: 0}
   DirectionReferenceNode: HeadNode
   TurnAroundNode: HeadNode
   NavigationSpeed: 3
@@ -121,6 +122,7 @@ MonoBehaviour:
   - CanvasPositionEditor
   - CanvasPositionVislab
   - CanvasPositionRift
+  - CanvasPositionVive
   - disabledScripts
   - disabledGameObjects
   - CanvasPosition
@@ -129,6 +131,7 @@ MonoBehaviour:
   - '{"x":0.5,"y":0.0,"z":1.0}'
   - '{"x":0.75,"y":2.0,"z":1.0}'
   - '{"x":0.0,"y":0.0,"z":0.2}'
+  - '{"x":0.0,"y":1.5,"z":1.25}'
   - '[]'
   - '[]'
   - '{"x":0.5,"y":0.0,"z":1.0}'
@@ -137,6 +140,7 @@ MonoBehaviour:
   CanvasPositionEditor: {x: 0.5, y: 0, z: 1}
   CanvasPositionVislab: {x: 0.75, y: 2, z: 1}
   CanvasPositionRift: {x: 0, y: 0, z: 0.2}
+  CanvasPositionVive: {x: 0, y: 1.5, z: 1.25}
   disabledScripts: []
   disabledGameObjects: []
   CanvasPosition: {x: 0.5, y: 0, z: 1}

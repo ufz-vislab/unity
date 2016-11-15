@@ -55,16 +55,16 @@ namespace UFZ.VTK
 			{
 				_source = vtkPointSource.New();
 
-				// Set base class algorithm pointer
-				Algorithm = _source;
-
 				// Update renderer on modified event
 				_source.ModifiedEvt +=
 					(sender, args) => UpdateRenderer();
-
-				// Specify output port, insert e.g. triangle filter here
-				AlgorithmOutput = _source.GetOutputPort();
 			}
+
+			// Set base class algorithm pointer
+			Algorithm = _source;
+
+			// Specify output port, insert e.g. triangle filter here
+			AlgorithmOutput = _source.GetOutputPort();
 
 			// Set algorithm default values
 			_source.SetNumberOfPoints(_numPoints);
