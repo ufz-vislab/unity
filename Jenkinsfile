@@ -1,6 +1,7 @@
 #!/usr/bin/env groovy
 
 node('docker') {
+    checkout scm
     def image = docker.image('ogs6/gcc-latex:latest')
     image.pull()
     image.inside() {
