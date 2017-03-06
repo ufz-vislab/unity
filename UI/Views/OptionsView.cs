@@ -14,8 +14,8 @@ public class OptionsView : UIView
 
 	public void SuperelevatedButtonClick()
 	{
-		var simAnim = FindObjectOfType<BathySimAnimation>();
-		simAnim.Toggle();
+		// var simAnim = FindObjectOfType<BathySimAnimation>();
+		// simAnim.Toggle();
 	}
 
 	public void TemperatureButtonClick()
