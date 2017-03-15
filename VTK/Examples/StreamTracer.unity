@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44711798, g: 0.4973933, b: 0.5761538, a: 1}
+  m_IndirectSpecularColor: {r: 0.44692522, g: 0.496787, b: 0.5750854, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -258,6 +258,8 @@ GameObject:
   - 114: {fileID: 1426786067}
   - 114: {fileID: 1426786069}
   - 114: {fileID: 1426786068}
+  - 114: {fileID: 1426786071}
+  - 114: {fileID: 1426786070}
   m_Layer: 0
   m_Name: VTK
   m_TagString: Untagged
@@ -414,6 +416,64 @@ MonoBehaviour:
   - '{}'
   - false
   ren: {fileID: 1426786068}
+--- !u!114 &1426786070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1426786063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35963b5bd5235d14281e46dcd897faa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _objectReferences: []
+  _serializedStateKeys:
+  - bufferPoints
+  - bufferVerts
+  - bufferLines
+  - bufferTriangles
+  - bufferNormals
+  - bufferColors
+  - _range
+  _serializedStateValues:
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - '{"x":0.0,"y":0.0}'
+  PointsMaterial: {fileID: 0}
+  LinesMaterial: {fileID: 0}
+  TrianglesMaterial: {fileID: 0}
+  BuffersUpToDate: 0
+  Algorithm: {fileID: 0}
+  _scalarVisibility: 0
+  _range: {x: 0, y: 0}
+--- !u!114 &1426786071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1426786063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42ddea7b24c64de41bf64668ab226e87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _objectReferences:
+  - {fileID: 1426786067}
+  - {fileID: 1426786065}
+  _serializedStateKeys:
+  - InputAlgorithm
+  - AlgorithmOutput
+  - Source
+  _serializedStateValues:
+  - 0
+  - '{}'
+  - 1
+  ren: {fileID: 1426786070}
 --- !u!21 &1452814857
 Material:
   serializedVersion: 6
@@ -465,6 +525,8 @@ MonoBehaviour:
   - {fileID: 1426786067}
   - {fileID: 1426786069}
   - {fileID: 1426786068}
+  - {fileID: 1426786071}
+  - {fileID: 1426786070}
   _values:
   - _keys: []
     _values: []
@@ -481,6 +543,12 @@ MonoBehaviour:
   - _keys: []
     _values: []
     _target: {fileID: 1426786068}
+  - _keys: []
+    _values: []
+    _target: {fileID: 1426786071}
+  - _keys: []
+    _values: []
+    _target: {fileID: 1426786070}
 --- !u!114 &1613996878
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -498,6 +566,8 @@ MonoBehaviour:
   - {fileID: 1426786067}
   - {fileID: 1426786069}
   - {fileID: 1426786068}
+  - {fileID: 1426786071}
+  - {fileID: 1426786070}
   _values:
   - _keys: []
     _values: []
@@ -514,6 +584,15 @@ MonoBehaviour:
   - _keys: []
     _values: []
     _target: {fileID: 1426786068}
+  - _keys:
+    - DefaultBehaviorEditor.HasOutput.EditProperty
+    _values:
+    - _showDropdown: 0
+      _serializedIsActive: 1
+    _target: {fileID: 1426786071}
+  - _keys: []
+    _values: []
+    _target: {fileID: 1426786070}
 --- !u!4 &1613996879
 Transform:
   m_ObjectHideFlags: 1
@@ -598,6 +677,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _crossSceneReferences: []
   _realSceneRootsForPostBuild: []
+  _mergedScenes: []
 --- !u!114 &1902365872
 MonoBehaviour:
   m_ObjectHideFlags: 0
