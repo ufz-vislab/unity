@@ -48,7 +48,8 @@ namespace UFZ.Rendering
 
 			/// <summary>Only the back side is rendered</summary>
 			Back,
-			TwoSided
+			TwoSided,
+		    Wireframe
 		}
 
 		[SerializeField]
@@ -85,6 +86,10 @@ namespace UFZ.Rendering
 					return;
 
 				_colorBy = value;
+			    if (_colorBy == ColorMode.VertexColor)
+			        PropertyBlock.SetFloat(Shader.PropertyToID("_V_WIRE_WireVertexColor"), 1f);
+			    else
+			        PropertyBlock.SetFloat(Shader.PropertyToID("_V_WIRE_WireVertexColor"), 0f);
 				UpdateShader();
 			}
 		}
@@ -99,6 +104,7 @@ namespace UFZ.Rendering
 				_solidColor = value;
 
 				PropertyBlock.SetColor(Shader.PropertyToID("_Color"), new Color(value.r, value.g, value.b, _opacity));
+			    PropertyBlock.SetColor(Shader.PropertyToID("_V_WIRE_Color"), new Color(value.r, value.g, value.b, _opacity));
 				UpdateRenderers();
 			}
 		}
@@ -195,7 +201,7 @@ namespace UFZ.Rendering
 					else
 						localRenderer.enabled = true;
 
-					if (materials.Length == 0)
+					if (materials.Length == 0 || _side == SideMode.Wireframe)
 						materials = new Material[1];
 					if (materials.Length != 2 && _side == SideMode.TwoSided)
 						materials = new Material[2];
@@ -203,12 +209,24 @@ namespace UFZ.Rendering
 					switch (materials.Length)
 					{
 					case 1:
-						var matName = transparent + colorBy + lit + side;
-						var mat = Resources.Load("Materials/" + matName, typeof(Material)) as Material;
-						if (mat == null)
-							Debug.LogWarning(gameObject.name + ": Material " + matName + " not found.");
-						materials[0] = mat;
-						break;
+					    if (_side == SideMode.Wireframe)
+					    {
+					        var matName = "Materials/Wireframe";
+					        if (_opacity < 1f)
+					            matName = "Materials/WireframeAdditive";
+
+					        var mat = Resources.Load(matName, typeof(Material)) as Material;
+					        materials[0] = mat;
+					    }
+					    else
+					    {
+					        var matName = transparent + colorBy + lit + side;
+					        var mat = Resources.Load("Materials/" + matName, typeof(Material)) as Material;
+					        if (mat == null)
+					            Debug.LogWarning(gameObject.name + ": Material " + matName + " not found.");
+					        materials[0] = mat;
+					    }
+					    break;
 					case 2:
 						var matNameFront = transparent + colorBy + lit + SideMode.Front.ToString("f");
 						var matNameBack = transparent + colorBy + lit + SideMode.Back.ToString("f");

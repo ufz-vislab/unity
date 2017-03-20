@@ -63,6 +63,7 @@ namespace UFZ.Rendering
 				var color = PropertyBlock.GetVector(colorId);
 				color.w = _opacity;
 				PropertyBlock.SetVector(colorId, color);
+			    PropertyBlock.SetColor(Shader.PropertyToID("_V_WIRE_Color"), new Color(color.x, color.y, color.z, _opacity));
 				UpdateShader();
 				UpdateRenderers();
 			}
