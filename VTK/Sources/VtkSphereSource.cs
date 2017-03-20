@@ -1,3 +1,4 @@
+#if UNITY_STANDALONE_WIN
 ﻿using UnityEngine;
 using Kitware.VTK;
 using FullInspector;
@@ -76,7 +77,7 @@ namespace UFZ.VTK
 		{
 			// These are read only Gizmos, for interactive Gizmos (Handles)
 			// see Editor/VtkSphereSourceEditor
-			
+
 			//Gizmos.color = Color.white;
 			//Gizmos.DrawWireSphere(transform.position, _radius);
 		}
@@ -94,3 +95,4 @@ namespace UFZ.VTK
 		}
 	}
 }
+#endif

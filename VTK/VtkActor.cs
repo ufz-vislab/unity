@@ -1,3 +1,4 @@
+#if UNITY_STANDALONE_WIN
 ﻿using System;
 using UnityEngine;
 using System.Collections;
@@ -18,3 +19,4 @@ namespace UFZ.VTK
 
 	}
 }
+#endif

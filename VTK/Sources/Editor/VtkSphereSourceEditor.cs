@@ -1,4 +1,5 @@
-﻿using FullInspector;
+#if UNITY_EDITOR_WIN
+using FullInspector;
 using UnityEngine;
 using UnityEditor;
 using System.Collections;
@@ -22,3 +23,4 @@ namespace UFZ.VTK
 		}
 	}
 }
+#endif

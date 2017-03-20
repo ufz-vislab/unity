@@ -1,4 +1,5 @@
-﻿using FullInspector;
+#if UNITY_STANDALONE_WIN
+using FullInspector;
 using UnityEngine;
 using Kitware.VTK;
 using UnityEngine.UI;
@@ -266,3 +267,4 @@ namespace UFZ.VTK
 		}
 	}
 }
+#endif

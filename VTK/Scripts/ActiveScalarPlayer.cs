@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+#if UNITY_STANDALONE_WIN
+using UnityEngine;
 using System.Collections;
 using UFZ.Interaction;
 using UFZ.VTK;
@@ -77,3 +78,4 @@ public class ActiveScalarPlayer : IPlayable
 			Renderer.ActiveColorArrayIndex += 1;
 	}
 }
+#endif

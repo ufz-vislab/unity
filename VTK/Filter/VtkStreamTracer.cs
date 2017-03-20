@@ -1,3 +1,4 @@
+#if UNITY_STANDALONE_WIN
 ﻿using UnityEngine;
 using System.Collections;
 using FullInspector;
@@ -74,3 +75,4 @@ public class VtkStreamTracer : VtkAlgorithm
 		//_filter.SetIntegrationDirectionToBoth();
 	}
 }
+#endif

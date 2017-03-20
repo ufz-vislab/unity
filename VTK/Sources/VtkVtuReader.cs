@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+#if UNITY_STANDALONE_WIN
+using UnityEngine;
 using System.Collections;
 using System.IO;
 using Kitware.VTK;
@@ -64,4 +65,4 @@ namespace UFZ.VTK
 		}
 	}
 }
-
+#endif

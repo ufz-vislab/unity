@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+#if UNITY_STANDALONE_WIN
+using UnityEngine;
 using System.Collections;
 using Kitware.VTK;
 using UFZ.VTK;
@@ -94,3 +95,4 @@ public class VtkExternalRenderer : MonoBehaviour
 		//window.Render();
 	}
 }
+#endif

@@ -1,4 +1,5 @@
-﻿using System;
+#if UNITY_STANDALONE_WIN
+using System;
 using UnityEngine;
 using Kitware.VTK;
 
@@ -48,3 +49,4 @@ namespace UFZ.VTK
 		}
 	}
 }
+#endif

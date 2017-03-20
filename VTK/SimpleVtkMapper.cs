@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+#if UNITY_STANDALONE_WIN
+using UnityEngine;
 using System.Collections.Generic;
 using Kitware.VTK;
 
@@ -81,7 +82,7 @@ namespace UFZ.VTK
 		}
 
 		public override void RenderPiece(vtkRenderer ren, vtkActor act)
-		{	
+		{
 			var input = GetInput();
 			if (input == null)
 			{
@@ -204,7 +205,7 @@ namespace UFZ.VTK
 		{
 			//int cellScalars;
 			//ScalarVisibilityOn();
-			
+
 			//UseLookupTableScalarRangeOn();
 			var Colors = MapScalars(opacity);
 
@@ -319,3 +320,4 @@ namespace UFZ.VTK
 		}
 	}
 }
+#endif

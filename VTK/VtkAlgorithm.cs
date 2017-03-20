@@ -1,4 +1,5 @@
-﻿using System;
+#if UNITY_STANDALONE_WIN
+using System;
 using UnityEngine;
 using System.IO;
 using FullInspector;
@@ -129,7 +130,7 @@ namespace UFZ.VTK
 			if (!FullInspector.Internal.fiUtility.IsMainThread)
 				return;
 
-			var pluginPath = "UFZ" + Path.DirectorySeparatorChar + "VTK" + Path.DirectorySeparatorChar + "Plugins";
+			pluginPath = "UFZ" + Path.DirectorySeparatorChar + "VTK" + Path.DirectorySeparatorChar + "Plugins";
 #endif
 			var currentPath = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Process);
 #if UNITY_EDITOR_32
@@ -153,3 +154,4 @@ namespace UFZ.VTK
 		}
 	}
 }
+#endif
