@@ -2,7 +2,7 @@
 
 - Create a new Unity project
 - Under *Menu / Edit / Project Settings / Player Settings* in the *Other Settings*-tab under *Scripting Define Symbols* enter `MVR` and hit ENTER
-- Under *Menu / Assets / Import Package / Custom Package* import the package *assets.unitypackage*
+- Under *Menu / Assets / Import Package / Custom Package* import the package [assets.unitypackage](http://ogsstorage.blob.core.windows.net/vislab/unity/packages/assets.unitypackage)
 
 ## Setting up a new application
 
