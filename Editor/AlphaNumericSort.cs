@@ -7,6 +7,7 @@ public class AlphaNumericSort : BaseHierarchySort
 	{
 		if (lhs == rhs) return 0;
 		if (lhs == null) return -1;
+		// ReSharper disable once ConvertIfStatementToReturnStatement
 		if (rhs == null) return 1;
 
 		return EditorUtility.NaturalCompare(lhs.name, rhs.name);

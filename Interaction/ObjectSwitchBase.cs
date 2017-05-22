@@ -16,16 +16,13 @@ public abstract class ObjectSwitchBase : IPlayable
 	}
 
 	public int ActiveChild;
-	protected float ElapsedTime = 0f;
+	protected float ElapsedTime;
 	protected GameObject ActiveChildGo;
 
 	public delegate void Callback(int index);
 	public Callback ActiveChildCallback;
 
 	public Ordering Order = Ordering.Alphanumeric;
-
-#if MVR
-	private vrCommand _activeChildCommand;
 
 	public bool Active
 	{
@@ -39,6 +36,8 @@ public abstract class ObjectSwitchBase : IPlayable
 	}
 	private bool _active = true;
 
+#if MVR
+	private vrCommand _activeChildCommand;
 	protected void Start()
 	{
 		_activeChildCommand = new vrCommand("", ActiveChildCommandHandler);
@@ -48,14 +47,14 @@ public abstract class ObjectSwitchBase : IPlayable
 	{
 		MiddleVR.DisposeObject(ref _activeChildCommand);
 	}
-
+	
 	private vrValue ActiveChildCommandHandler(vrValue index)
 	{
 		SetActiveChildInternal(index.GetInt());
 		return true;
 	}
 #endif
-
+	
 	protected virtual void OnValidate()
 	{
 		SetActiveChildInternal(ActiveChild);
@@ -98,11 +97,9 @@ public abstract class ObjectSwitchBase : IPlayable
 		ElapsedTime = 0f;
 
 		var i = 0;
-		Transform[] transforms;
-		if(Order == Ordering.Alphanumeric)
-			transforms = transform.Cast<Transform>().ToArray().OrderBy(t => t.name, new AlphanumComparatorFast()).ToArray();
-		else
-			transforms = transform.Cast<Transform>().ToArray();
+		var transforms = Order == Ordering.Alphanumeric
+			? transform.Cast<Transform>().ToArray().OrderBy(t => t.name, new AlphanumComparatorFast()).ToArray()
+			: transform.Cast<Transform>().ToArray();
 
 		ActiveChildGo = transforms[index].gameObject;
 		if (!_active)
@@ -110,9 +107,7 @@ public abstract class ObjectSwitchBase : IPlayable
 
 		foreach (var child in transforms)
 		{
-			bool enable = false;
-			if (i == index || index < 0)
-				enable = true;
+			var enable = i == index || index < 0;
 			SetVisible(child, enable);
 			++i;
 		}
