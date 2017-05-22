@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
@@ -32,6 +33,17 @@ namespace UFZ.Rendering
 			Invalid
 		}
 
+		protected static Dictionary<ColorMode, string> ColorModeDict
+		{
+			get { return new Dictionary<ColorMode, string>()
+			{
+				{ ColorMode.SolidColor, "SolidColor" },
+				{ ColorMode.VertexColor, "VertexColor" },
+				{ ColorMode.Texture, "Texture" },
+				{ ColorMode.Invalid, "Invaild" }
+			}; }
+		}
+
 		public enum LightingMode
 		{
 			/// <summary>Lighting enabled</summary>
@@ -39,6 +51,15 @@ namespace UFZ.Rendering
 
 			/// <summary>Lighting disabled, useful for point and line rendering</summary>
 			Unlit
+		}
+
+		protected static Dictionary<LightingMode, string> LightingModeDict
+		{
+			get { return new Dictionary<LightingMode, string>()
+			{
+				{ LightingMode.Lit, "Lit" },
+				{ LightingMode.Unlit, "Unlit" }
+			}; }
 		}
 
 		public enum SideMode
@@ -52,23 +73,31 @@ namespace UFZ.Rendering
 		    Wireframe
 		}
 
+		protected static Dictionary<SideMode, string> SideModeDict
+		{
+			get { return new Dictionary<SideMode, string>()
+			{
+				{ SideMode.Front, "Front" },
+				{ SideMode.Back, "Back" },
+				{ SideMode.TwoSided, "TwoSided" },
+				{ SideMode.Wireframe, "Wireframe" }
+			}; }
+		}
+
 		[SerializeField]
 		[HideInInspector]
-		protected Material[] _materials;
+		protected Material[] Materials;
 
 
 		#if UNITY_EDITOR
-		private void Reset()
-		{
-			RestoreState();
-			UpdateShader();
-		}
-
 		protected override void OnValidate()
 		{
 			base.OnValidate();
 
 			// Workaround, otherwise color and texture is lost when exiting playmode
+			if (PropertyBlock == null)
+				return;
+
 			PropertyBlock.SetColor(Shader.PropertyToID("_Color"),
 				new Color(_solidColor.r, _solidColor.g, _solidColor.b, _opacity));
 			if (_texture != null)
@@ -76,6 +105,12 @@ namespace UFZ.Rendering
 			UpdateRenderers();
 		}
 		#endif
+
+		private void Start()
+		{
+			RestoreState();
+			UpdateShaderInternal();
+		}
 
 		[SerializeField, InspectorHeader("Coloring"), InspectorDivider]
 		public ColorMode ColorBy {
@@ -86,10 +121,12 @@ namespace UFZ.Rendering
 					return;
 
 				_colorBy = value;
-			    if (_colorBy == ColorMode.VertexColor)
-			        PropertyBlock.SetFloat(Shader.PropertyToID("_V_WIRE_WireVertexColor"), 1f);
-			    else
-			        PropertyBlock.SetFloat(Shader.PropertyToID("_V_WIRE_WireVertexColor"), 0f);
+
+				if (PropertyBlock == null || !FullInspector.Internal.fiUtility.IsMainThread)
+					return;
+
+				PropertyBlock.SetFloat(WireframeColorPropId,
+					_colorBy == ColorMode.VertexColor ? 1f : 0f);
 				UpdateShader();
 			}
 		}
@@ -103,8 +140,10 @@ namespace UFZ.Rendering
 			{
 				_solidColor = value;
 
-				PropertyBlock.SetColor(Shader.PropertyToID("_Color"), new Color(value.r, value.g, value.b, _opacity));
-			    PropertyBlock.SetColor(Shader.PropertyToID("_V_WIRE_Color"), new Color(value.r, value.g, value.b, _opacity));
+				if (PropertyBlock == null || !FullInspector.Internal.fiUtility.IsMainThread)
+					return;
+				PropertyBlock.SetColor(ColorPropId, new Color(value.r, value.g, value.b, _opacity));
+			    PropertyBlock.SetColor(WireframeColorPropId, new Color(value.r, value.g, value.b, _opacity));
 				UpdateRenderers();
 			}
 		}
@@ -145,9 +184,9 @@ namespace UFZ.Rendering
 			set {
 				_texture = value;
 
-				if (value == null)
+				if (value == null || !FullInspector.Internal.fiUtility.IsMainThread || PropertyBlock == null)
 					return;
-				PropertyBlock.SetTexture(Shader.PropertyToID("_MainTex"), _texture);
+				PropertyBlock.SetTexture(TexturePropId, _texture);
 				UpdateRenderers();
 			}
 		}
@@ -165,10 +204,8 @@ namespace UFZ.Rendering
 		public override void UpdateShader()
 		{
 			var stackTrace = new StackTrace();
-			if (stackTrace.GetFrames().Any(stackFrame => stackFrame.GetMethod().Name.Contains("RestoreState")))
-				return;
-
-			if (gameObject == null)
+			var frames = stackTrace.GetFrames();
+			if (frames != null && frames.Any(stackFrame => stackFrame.GetMethod().Name.Contains("RestoreState")))
 				return;
 
 			UpdateShaderInternal();
@@ -182,10 +219,10 @@ namespace UFZ.Rendering
 				if (!Enabled)
 					continue;
 
-				var transparent = Visibility.ToString("f");
-				var colorBy = _colorBy.ToString("f");
-				var lit = _lit.ToString("f");
-				var side = _side.ToString("f");
+				var transparent = VisibilityModeDict[Visibility];
+				var colorBy = ColorModeDict[_colorBy];
+				var lit = LightingModeDict[_lit];
+				var side = SideModeDict[_side];
 
 				var materials = localRenderer.sharedMaterials;
 
@@ -228,8 +265,8 @@ namespace UFZ.Rendering
 					    }
 					    break;
 					case 2:
-						var matNameFront = transparent + colorBy + lit + SideMode.Front.ToString("f");
-						var matNameBack = transparent + colorBy + lit + SideMode.Back.ToString("f");
+						var matNameFront = transparent + colorBy + lit + SideModeDict[SideMode.Front];
+						var matNameBack = transparent + colorBy + lit + SideModeDict[SideMode.Back];
 						var matFront = Resources.Load("Materials/" + matNameFront, typeof(Material)) as Material;
 						var matBack = Resources.Load("Materials/" + matNameBack, typeof(Material)) as Material;
 						materials[0] = matFront;
@@ -251,7 +288,7 @@ namespace UFZ.Rendering
 					localRenderer.materials = materials;
 				else
 					localRenderer.sharedMaterials = materials;
-				_materials = materials;
+				Materials = materials;
 			}
 		}
 
@@ -272,7 +309,7 @@ namespace UFZ.Rendering
 					return;
 				}
 
-				go.AddComponent<MaterialProperties>(matProps[0]);
+				go.AddComponent(matProps[0]);
 
 				foreach (var matProp in matProps)
 					DestroyImmediate(matProp);

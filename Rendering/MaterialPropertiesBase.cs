@@ -1,8 +1,10 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
+
 using FullInspector;
 
 namespace UFZ.Rendering
@@ -20,6 +22,16 @@ namespace UFZ.Rendering
 			/// <summary>Renderer is disabled</summary>
 			Disabled
 		}
+		
+		protected static Dictionary<VisibilityMode, string> VisibilityModeDict
+		{
+			get { return new Dictionary<VisibilityMode, string>()
+			{
+				{ VisibilityMode.Opaque, "Opaque" },
+				{ VisibilityMode.Transparent, "Transparent" },
+				{ VisibilityMode.Disabled, "Disabled" }
+			}; }
+		}
 
 		[SerializeField, InspectorHeader("Visibility"), InspectorDivider]
 		public bool Enabled {
@@ -31,7 +43,7 @@ namespace UFZ.Rendering
 				UpdateShader();
 			}
 		}
-		protected bool _enabled = true;
+		private bool _enabled = true;
 
 		/// <summary>
 		/// Returns if an object is fully opaque, transparent or completely disabled
@@ -43,7 +55,7 @@ namespace UFZ.Rendering
 			{
 				if (_opacity > 0.99f)
 					return VisibilityMode.Opaque;
-				return _opacity < disableThreshold ? VisibilityMode.Disabled : VisibilityMode.Transparent;
+				return _opacity < DisableThreshold ? VisibilityMode.Disabled : VisibilityMode.Transparent;
 			}
 		}
 
@@ -58,30 +70,29 @@ namespace UFZ.Rendering
 					return;
 
 				_opacity = value;
-
-				var colorId = Shader.PropertyToID("_Color");
-				var color = PropertyBlock.GetVector(colorId);
+				
+				if (PropertyBlock == null)
+					return;
+				
+				var color = PropertyBlock.GetVector(ColorPropId);
 				color.w = _opacity;
-				PropertyBlock.SetVector(colorId, color);
-			    PropertyBlock.SetColor(Shader.PropertyToID("_V_WIRE_Color"), new Color(color.x, color.y, color.z, _opacity));
+				PropertyBlock.SetVector(ColorPropId, color);
+				PropertyBlock.SetColor(WireframeColorPropId, new Color(color.x, color.y, color.z, _opacity));
 				UpdateShader();
 				UpdateRenderers();
 			}
 		}
+		// ReSharper disable once InconsistentNaming
 		protected float _opacity = 1f;
 
-		[SerializeField, HideInInspector]
-		protected MaterialPropertyBlock PropertyBlock {
-			get { return _propertyBlock ?? (_propertyBlock = new MaterialPropertyBlock()); }
-		}
+		[HideInInspector]
+		protected MaterialPropertyBlock PropertyBlock { get; private set; }
 
-		protected MaterialPropertyBlock _propertyBlock;
+		public abstract void UpdateShader();
 
-		abstract public void UpdateShader();
+		public abstract void UpdateRenderers();
 
-		abstract public void UpdateRenderers();
-
-		protected const float disableThreshold = 0.01f;
+		protected const float DisableThreshold = 0.01f;
 
 		public void SetEnabled(bool enable)
 		{
@@ -131,5 +142,38 @@ namespace UFZ.Rendering
 			return true;
 		}
 #endif
+
+		protected int ColorPropId;
+		protected int WireframeColorPropId;
+		protected int TexturePropId;
+		protected override void Awake()
+		{
+			base.Awake();
+			InitUnityApi();
+		}
+
+#if UNITY_EDITOR
+		protected override void OnValidate()
+		{
+			base.OnValidate();
+
+			if (Application.isPlaying || EditorApplication.isPlayingOrWillChangePlaymode)
+				return;
+			InitUnityApi();
+		}
+#endif
+		
+		// Init stuff with can only be called from the main thread
+		private void InitUnityApi()
+		{
+			if (!FullInspector.Internal.fiUtility.IsMainThread || PropertyBlock != null)
+				return;
+			
+			ColorPropId = Shader.PropertyToID("_Color");
+			WireframeColorPropId = Shader.PropertyToID("_V_WIRE_Color");
+			TexturePropId =  Shader.PropertyToID("_MainTex");
+			
+			PropertyBlock = new MaterialPropertyBlock();
+		}
 	}
 }
