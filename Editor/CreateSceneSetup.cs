@@ -77,7 +77,7 @@ namespace UFZ.Initialization
 		private static GameObject GetChildGameObject(GameObject parentGo, string childName)
 		{
 			GameObject childGo;
-			var childTr = parentGo.transform.FindChild(childName);
+			var childTr = parentGo.transform.Find(childName);
 			if (childTr == null)
 			{
 				childGo = new GameObject(childName);

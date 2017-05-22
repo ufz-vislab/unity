@@ -22,7 +22,6 @@ namespace UFZ.Interaction
 			get
 			{
 #if UNITY_EDITOR
-				if (!SystemInfo.supportsRenderTextures) return false;
 				// if (SystemInfo.graphicsShaderLevel >= 50 && PlayerSettings.useDirect3D11) return false;
 				return Application.HasProLicense();
 #endif
@@ -96,7 +95,7 @@ namespace UFZ.Interaction
 
 			//Preview Direction Arrow
 			var handleSize = HandleUtility.GetHandleSize(_previewCamPos);
-			Handles.ArrowCap(0, _previewCamPos, _previewCamRot, handleSize);
+			Handles.ArrowHandleCap(0, _previewCamPos, _previewCamRot, handleSize, EventType.Repaint);
 			Handles.Label(_previewCamPos, "Viewpoint\nPosition");
 
 			if (GUI.changed)

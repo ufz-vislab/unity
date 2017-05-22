@@ -47,7 +47,7 @@ namespace UFZ.Initialization
 			CanvasPosition = CanvasPositionEditor;
 			// Setup player
 			var playerGo = GameObject.Find("Player (Player)");
-			if (playerGo.transform.FindChild("HeadNode") == null)
+			if (playerGo.transform.Find("HeadNode") == null)
 			{
 				var headGo = new GameObject("HeadNode");
 				headGo.transform.SetParent(playerGo.transform, false);
@@ -128,7 +128,7 @@ namespace UFZ.Initialization
 				{
 					var view = canvas.GetComponent<UIView>();
 					view.Position.Value = CanvasPosition;
-					_mainMenuView = canvas.transform.FindChild("MainMenu").GetComponent<View>();
+					_mainMenuView = canvas.transform.Find("MainMenu").GetComponent<View>();
 					if (IsGuiDisabledOnStart)
 						_mainMenuView.Deactivate();
 					continue;

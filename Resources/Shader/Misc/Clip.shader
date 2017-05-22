@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 Shader "UFZ/Clip"
 {
 	Properties
@@ -62,7 +64,7 @@ v2f vertex_shader( a2v IN )
 	float4 c 	 = float4(IN.vertex.xyz,1);
 
 	OUT.mask 	 = mul(r, c);
-	OUT.position = mul(UNITY_MATRIX_MVP, IN.vertex);
+	OUT.position = UnityObjectToClipPos(IN.vertex);
 	OUT.texcoord = IN.texcoord;
 
 	r *= float4x4(	 1,-1,-1, 0,
@@ -147,7 +149,7 @@ v2f vertex_shader( a2v IN )
 	float4 c     = float4(IN.vertex.xyz,1);
 
 	OUT.mask     = mul(r, c);
-	OUT.position = mul(UNITY_MATRIX_MVP, IN.vertex);
+	OUT.position = UnityObjectToClipPos(IN.vertex);
 	OUT.texcoord = IN.texcoord;
 	OUT.normal   = IN.normal;
 	OUT.vertex   = IN.vertex;
