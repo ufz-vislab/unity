@@ -18,6 +18,8 @@ namespace UFZ.Initialization
 			GetChildGameObject(sceneSetupGo, "Viewpoints");
 			var visibilitiesGo = GetChildGameObject(sceneSetupGo, "Visibilities");
 			AddComponent<GameObjectList>(visibilitiesGo);
+			var animationsGo = GetChildGameObject(sceneSetupGo, "Animations");
+			AddComponent<GameObjectList>(animationsGo);
 
 			Selection.activeGameObject = sceneSetupGo;
 		}

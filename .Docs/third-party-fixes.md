@@ -9,3 +9,11 @@
 
 - https://gist.github.com/bilke/05ed33e43cb2cdf5ecbb --> X
 - https://gist.github.com/bilke/82b0b5eb86f4ac320e9056589fd93bfb -> not necessary anymore
+
+## TerraLand
+
+In `TerraLandSettings.cs:312`:
+
+```
+wsdlPath = "/Applications/Unity/Unity.app/Contents/Mono/etc/mono/2.0/";
+```

@@ -1,4 +1,3 @@
-using UFZ.Interaction;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,7 +72,13 @@ namespace UFZ.Interaction
 
 			TimeSteps = TimeSteps.Distinct().ToList();
 			TimeSteps.Sort();
-			Time = 0.0f;
+
+			if (Percentage > 1.0f)
+				Percentage = 1.0f;
+			if (Percentage < 0.0f)
+				Percentage = 0.0f;
+
+			SetPercentage(Percentage);
 		}
 
 		public void Start()

@@ -95,10 +95,10 @@ namespace UFZ.Rendering
 			base.OnValidate();
 
 			// Workaround, otherwise color and texture is lost when exiting playmode
-			if (PropertyBlock == null)
+			if (PropertyBlock == null || !FullInspector.Internal.fiUtility.IsMainThread)
 				return;
 
-			PropertyBlock.SetColor(Shader.PropertyToID("_Color"),
+				PropertyBlock.SetColor(Shader.PropertyToID("_Color"),
 				new Color(_solidColor.r, _solidColor.g, _solidColor.b, _opacity));
 			if (_texture != null)
 				PropertyBlock.SetTexture(Shader.PropertyToID("_MainTex"), _texture);
