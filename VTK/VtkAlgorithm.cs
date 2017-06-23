@@ -125,12 +125,11 @@ namespace UFZ.VTK
 		// See http://stackoverflow.com/a/33124250/80480
 		static VtkAlgorithm()
 		{
-			const string pluginPath = "/UFZ/VTK/Plugins";
 #if UNITY_EDITOR
 			if (!FullInspector.Internal.fiUtility.IsMainThread)
 				return;
 
-			pluginPath = "UFZ" + Path.DirectorySeparatorChar + "VTK" + Path.DirectorySeparatorChar + "Plugins";
+			var pluginPath = "UFZ" + Path.DirectorySeparatorChar + "VTK" + Path.DirectorySeparatorChar + "Plugins";
 #endif
 			var currentPath = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Process);
 #if UNITY_EDITOR_32

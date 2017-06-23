@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using DG.Tweening;
 using FullInspector;
 using MarkLight;
@@ -75,6 +75,7 @@ namespace UFZ.Initialization
 			{
 				CanvasPosition = CanvasPositionVislab;
 				GuiInputType = InputType.Wand;
+				IOC.Core.Instance.Log.Info("GlobalInits: Cluster detected, using Wand input.");
 			}
 			else
 			{
@@ -85,11 +86,15 @@ namespace UFZ.Initialization
 					var navigations = FindObjectsOfType<NavigationBase>();
 					foreach (var navigation in navigations)
 						navigation.DirectionReferenceNode = "HeadNode";
+					IOC.Core.Instance.Log.Info("GlobalInits: Rift Mode");
 				}
 				else
 				{
 					if (IOC.Core.Instance.Environment.HasDevice("Flystick"))
+					{
 						GuiInputType = InputType.Wand;
+						IOC.Core.Instance.Log.Info("GlobalInits: Wand input");
+					}
 					var camGo = GameObject.FindWithTag("MainCamera");
 					camGo.GetComponent<SuperSampling_SSAA>().enabled = true;
 				}

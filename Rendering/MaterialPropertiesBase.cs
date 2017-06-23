@@ -114,13 +114,15 @@ namespace UFZ.Rendering
 #endif
 		}
 
-#if MVR
-		protected void Start()
+		protected virtual void Start()
 		{
+#if MVR
 			_enabledCommand = new vrCommand("", EnabledCommandHandler);
 			_opacityChangedCommand = new vrCommand("", OpacityChangedCommandHandler);
+#endif
 		}
 
+#if MVR
 		private void OnDestroy()
 		{
 			MiddleVR.DisposeObject(ref _enabledCommand);
@@ -166,9 +168,14 @@ namespace UFZ.Rendering
 		// Init stuff with can only be called from the main thread
 		private void InitUnityApi()
 		{
-			if (!FullInspector.Internal.fiUtility.IsMainThread || PropertyBlock != null)
+			if (PropertyBlock != null)
 				return;
-			
+
+#if UNITY_EDITOR
+			if (!FullInspector.Internal.fiUtility.IsMainThread)
+				return;
+#endif
+
 			ColorPropId = Shader.PropertyToID("_Color");
 			WireframeColorPropId = Shader.PropertyToID("_V_WIRE_Color");
 			TexturePropId =  Shader.PropertyToID("_MainTex");

@@ -1,4 +1,4 @@
-#if UNITY_STANDALONE_WIN
+﻿#if UNITY_STANDALONE_WIN
 using FullInspector;
 using UnityEngine;
 using Kitware.VTK;
@@ -119,8 +119,9 @@ namespace UFZ.VTK
 
 		private bool _initialized;
 
-		private void Awake()
+		protected override void Awake()
 		{
+			base.Awake();
 			if (Application.isPlaying)
 				Initialize();
 		}

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
@@ -106,8 +106,9 @@ namespace UFZ.Rendering
 		}
 		#endif
 
-		private void Start()
+		protected override void Start()
 		{
+			base.Start();
 			RestoreState();
 			UpdateShaderInternal();
 		}
@@ -122,8 +123,12 @@ namespace UFZ.Rendering
 
 				_colorBy = value;
 
-				if (PropertyBlock == null || !FullInspector.Internal.fiUtility.IsMainThread)
+				if (PropertyBlock == null)
 					return;
+#if UNITY_EDITOR
+				if (!FullInspector.Internal.fiUtility.IsMainThread)
+					return;
+#endif
 
 				PropertyBlock.SetFloat(WireframeColorPropId,
 					_colorBy == ColorMode.VertexColor ? 1f : 0f);
@@ -140,10 +145,14 @@ namespace UFZ.Rendering
 			{
 				_solidColor = value;
 
-				if (PropertyBlock == null || !FullInspector.Internal.fiUtility.IsMainThread)
+				if (PropertyBlock == null)
 					return;
+#if UNITY_EDITOR
+				if (!FullInspector.Internal.fiUtility.IsMainThread)
+					return;
+#endif
 				PropertyBlock.SetColor(ColorPropId, new Color(value.r, value.g, value.b, _opacity));
-			    PropertyBlock.SetColor(WireframeColorPropId, new Color(value.r, value.g, value.b, _opacity));
+				PropertyBlock.SetColor(WireframeColorPropId, new Color(value.r, value.g, value.b, _opacity));
 				UpdateRenderers();
 			}
 		}
@@ -184,8 +193,12 @@ namespace UFZ.Rendering
 			set {
 				_texture = value;
 
-				if (value == null || !FullInspector.Internal.fiUtility.IsMainThread || PropertyBlock == null)
+				if (value == null || PropertyBlock == null)
 					return;
+#if UNITY_EDITOR
+				if (!FullInspector.Internal.fiUtility.IsMainThread)
+					return;
+#endif
 				PropertyBlock.SetTexture(TexturePropId, _texture);
 				UpdateRenderers();
 			}

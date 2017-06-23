@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO;
 using PygmyMonkey.AdvancedBuilder;
 
 public class CustomBuild : IAdvancedCustomBuild
@@ -18,7 +17,7 @@ public class CustomBuild : IAdvancedCustomBuild
 	public void OnEveryBuildDone()
 	{
 		var hostname = Environment.MachineName;
-		if (!hostname.Equals("vismaster"))
+		if (!hostname.Equals("VISMASTER"))
 			return;
 
 		var process = new Process

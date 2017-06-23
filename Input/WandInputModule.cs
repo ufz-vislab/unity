@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -149,7 +149,7 @@ public class WandInputModule : BaseInputModule
 	{
 		if (cursor == null)
 			return;
-
+		UFZ.IOC.Core.Instance.Log.Info("WandInputModule: UpdateCursor(): Pos " + lookDataLocal.pointerCurrentRaycast.worldPosition);
 		if (useCursor)
 		{
 			if (lookDataLocal.pointerEnter != null)
@@ -175,6 +175,8 @@ public class WandInputModule : BaseInputModule
 					cursorScaleVector.y = cursorScale;
 					cursorScaleVector.z = cursorScale;
 					cursor.localScale = cursorScaleVector;
+
+					UFZ.IOC.Core.Instance.Log.Info("WandInputModule: Cursor, Pos: " + globalLookPos + ", Scale: " + cursorScale);
 				}
 				else
 				{

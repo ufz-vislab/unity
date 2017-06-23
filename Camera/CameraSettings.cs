@@ -1,19 +1,17 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using FullInspector;
-using MiddleVR_Unity3D;
 
 namespace UFZ.Rendering
 {
 	public class CameraSettings : BaseBehavior
 	{
+		[HideInInspector]
 		public List<vrCamera> _cameras;
 
-		protected override void Awake()
-		{
-			base.Awake();
 
+		private void Start()
+		{
 			var clusterNode = MiddleVR.VRClusterMgr.GetMyClusterNode();
 			if (clusterNode == null)
 			{
@@ -23,10 +21,6 @@ namespace UFZ.Rendering
 					if (cam != null)
 						_cameras.Add(cam);
 				}
-				//var camName = MiddleVR.VRDisplayMgr.GetCameraByIndex().GetName();
-				//var cam = MiddleVR.VRDisplayMgr.GetCameraStereo(camName) as vrCamera;
-				//if (cam != null)
-				//	_cameras.Add(cam);
 			}
 			else
 			{
@@ -39,6 +33,9 @@ namespace UFZ.Rendering
 						_cameras.Add(cam);
 				}
 			}
+			// Has to be called twice! Don't ask why ...
+			Set();
+			Set();
 		}
 
 		[InspectorHeader("Clipping planes")]
@@ -49,8 +46,8 @@ namespace UFZ.Rendering
 			set
 			{
 				_near = value;
-				foreach (var cam in _cameras)
-					cam.SetFrustumNear(value);
+				Set();
+				Set();
 			}
 		}
 		private float _near = 0.01f;
@@ -62,13 +59,22 @@ namespace UFZ.Rendering
 			set
 			{
 				_far = value;
-				foreach (var cam in _cameras)
-				{
-					cam.SetFrustumFar(value);
-					cam.SetDirty();
-				}
+				Set();
+				Set();
 			}
 		}
 		private float _far = 1000f;
+
+		private void Set()
+		{
+			if (_cameras == null)
+				return;
+			foreach (var cam in _cameras)
+			{
+				cam.SetFrustumNear(_near);
+				cam.SetFrustumFar(_far);
+				cam.SetDirty();
+			}
+		}
 	}
 }
