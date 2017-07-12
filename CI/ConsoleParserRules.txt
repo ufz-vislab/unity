@@ -1,0 +1,17 @@
+start /^Initialize mono/
+start /^- starting compile/
+start /^Mono dependencies included in the build/
+start /^Textures/
+info /^Complete size/
+warning /warning CS/
+error /error CS/
+start /^-----CompilerOutput:-stdout/
+info /^Compilation succeeded/
+error /^Compilation failed/
+start /^Used Assets, sorted by uncompressed size/
+info /^\*\*/
+info /^Exiting batchmode successfully now/
+start /^=== BUILD NATIVE TARGET/
+start /^Packaging IPA/
+start /^Archiving artifacts/
+start /Uploading to testflight/
