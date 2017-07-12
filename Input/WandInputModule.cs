@@ -148,7 +148,6 @@ public class WandInputModule : BaseInputModule
 		if (cursor == null)
 			return;
 		cursor.gameObject.SetActive(false);
-		UFZ.IOC.Core.Instance.Log.Info("WandInputModule: UpdateCursor(): Pos " + lookDataLocal.pointerCurrentRaycast.worldPosition);
 
 		if (!useCursor) return;
 		if (lookDataLocal.pointerEnter == null) return;
@@ -175,7 +174,7 @@ public class WandInputModule : BaseInputModule
 			cursorScaleVector.z = cursorScale;
 			cursor.localScale = cursorScaleVector;
 
-			UFZ.IOC.Core.Instance.Log.Info("WandInputModule: Cursor updated, Pos: " + globalLookPos + ", Scale: " + cursorScale);
+			// UFZ.IOC.Core.Instance.Log.Info("WandInputModule: Cursor updated, Pos: " + globalLookPos + ", Scale: " + cursorScale);
 		}
 	}
 
