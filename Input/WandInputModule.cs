@@ -143,54 +143,39 @@ public class WandInputModule : BaseInputModule
 		return lookData;
 	}
 
-	// update the cursor location and whether it is enabled
-	// this code is based on Unity's DragMe.cs code provided in the UI drag and drop example
 	private void UpdateCursor(PointerEventData lookDataLocal)
 	{
 		if (cursor == null)
 			return;
+		cursor.gameObject.SetActive(false);
 		UFZ.IOC.Core.Instance.Log.Info("WandInputModule: UpdateCursor(): Pos " + lookDataLocal.pointerCurrentRaycast.worldPosition);
-		if (useCursor)
-		{
-			if (lookDataLocal.pointerEnter != null)
-			{
-				var draggingPlane = lookDataLocal.pointerEnter.GetComponent<RectTransform>();
-				Vector3 globalLookPos;
-				if (RectTransformUtility.ScreenPointToWorldPointInRectangle(draggingPlane, lookDataLocal.position, lookDataLocal.enterEventCamera, out globalLookPos))
-				{
-					cursor.gameObject.SetActive(true);
-					cursor.position = globalLookPos;
-					cursor.rotation = draggingPlane.rotation;
-					if (!scaleCursorWithDistance)
-						return;
-					// scale cursor with distance
-					var lookPointDistance = (globalLookPos - lookDataLocal.enterEventCamera.transform.position).magnitude;
-					var cursorScale = lookPointDistance * normalCursorScale;
-					if (cursorScale < normalCursorScale)
-					{
-						cursorScale = normalCursorScale;
-					}
-					Vector3 cursorScaleVector;
-					cursorScaleVector.x = cursorScale;
-					cursorScaleVector.y = cursorScale;
-					cursorScaleVector.z = cursorScale;
-					cursor.localScale = cursorScaleVector;
 
-					UFZ.IOC.Core.Instance.Log.Info("WandInputModule: Cursor, Pos: " + globalLookPos + ", Scale: " + cursorScale);
-				}
-				else
-				{
-					cursor.gameObject.SetActive(false);
-				}
-			}
-			else
-			{
-				cursor.gameObject.SetActive(false);
-			}
-		}
-		else
+		if (!useCursor) return;
+		if (lookDataLocal.pointerEnter == null) return;
+
+		var draggingPlane = lookDataLocal.pointerEnter.GetComponent<RectTransform>();
+		Vector3 globalLookPos;
+		if (RectTransformUtility.ScreenPointToWorldPointInRectangle(draggingPlane, lookDataLocal.position, lookDataLocal.enterEventCamera, out globalLookPos))
 		{
-			cursor.gameObject.SetActive(false);
+			cursor.gameObject.SetActive(true);
+			cursor.position = globalLookPos;
+			cursor.rotation = draggingPlane.rotation;
+			if (!scaleCursorWithDistance)
+				return;
+			// scale cursor with distance
+			var lookPointDistance = (globalLookPos - lookDataLocal.enterEventCamera.transform.position).magnitude;
+			var cursorScale = lookPointDistance * normalCursorScale;
+			if (cursorScale < normalCursorScale)
+			{
+				cursorScale = normalCursorScale;
+			}
+			Vector3 cursorScaleVector;
+			cursorScaleVector.x = cursorScale;
+			cursorScaleVector.y = cursorScale;
+			cursorScaleVector.z = cursorScale;
+			cursor.localScale = cursorScaleVector;
+
+			UFZ.IOC.Core.Instance.Log.Info("WandInputModule: Cursor updated, Pos: " + globalLookPos + ", Scale: " + cursorScale);
 		}
 	}
 
@@ -482,5 +467,23 @@ public class WandInputModule : BaseInputModule
 			if (!ExecuteEvents.Execute(eventSystem.currentSelectedGameObject, axisData, ExecuteEvents.moveHandler))
 				_controlAxisUsed = false;
 		}
+	}
+
+	public override bool ShouldActivateModule()
+	{
+		// TODO return false if Wand is not tracked
+		return true;
+	}
+
+	public override bool IsModuleSupported()
+	{
+		return true;
+	}
+
+	private void Update()
+	{
+		// HACK: Process shoule not be necessary but is not called on all
+		// nodes in the vislab cluster environment
+		Process();
 	}
 }
