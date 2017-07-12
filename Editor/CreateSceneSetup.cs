@@ -1,4 +1,4 @@
-using UFZ.Interaction;
+﻿using UFZ.Interaction;
 using UFZ.Misc;
 using UnityEngine;
 using UnityEditor;
@@ -10,9 +10,8 @@ namespace UFZ.Initialization
 		[MenuItem("UFZ/Create scene setup")]
 		static void CreateSetup()
 		{
-			var sceneSetupGo = GameObject.Find("Scene Setup");
-			if (sceneSetupGo == null)
-				sceneSetupGo = new GameObject("Scene Setup");
+			var sceneSetupGo = GameObject.Find("Scene Setup") ?? new GameObject("Scene Setup");
+			AddComponent<UFZ.Setup.SceneSetup>(sceneSetupGo);
 
 			GetChildGameObject(sceneSetupGo, "CameraPaths");
 			GetChildGameObject(sceneSetupGo, "Viewpoints");

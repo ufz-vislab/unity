@@ -33,17 +33,17 @@ namespace UFZ.IOC
 	{
 		public void Info(string message)
 		{
-			MiddleVRTools.Log("[ ] " + message);
+			MiddleVRTools.Log(2, "[ ] " + message);
 		}
 
 		public void Warning(string message)
 		{
-			MiddleVRTools.Log("[-] " + message);
+			MiddleVRTools.Log(1, "[-] " + message);
 		}
 
 		public void Error(string message)
 		{
-			MiddleVRTools.Log("[X] " + message);
+			MiddleVRTools.Log(0, "[X] " + message);
 		}
 	}
 }

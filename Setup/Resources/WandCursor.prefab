@@ -5,15 +5,15 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 224: {fileID: 22492976}
-  - 223: {fileID: 22392976}
-  - 114: {fileID: 11492970}
-  - 114: {fileID: 11492972}
-  - 222: {fileID: 22292976}
-  - 114: {fileID: 11492974}
-  - 114: {fileID: 11492976}
+  - component: {fileID: 22492976}
+  - component: {fileID: 22392976}
+  - component: {fileID: 11492970}
+  - component: {fileID: 11492972}
+  - component: {fileID: 22292976}
+  - component: {fileID: 11492974}
+  - component: {fileID: 11492976}
   m_Layer: 5
   m_Name: WandCursor
   m_TagString: Untagged
@@ -109,7 +109,7 @@ Canvas:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 192976}
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_RenderMode: 2
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
@@ -117,6 +117,8 @@ Canvas:
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 1000
   m_TargetDisplay: 0
@@ -132,6 +134,7 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 1, y: 1}

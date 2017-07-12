@@ -21,13 +21,8 @@ namespace UFZ.Initialization
 			Head
 		}
 
-		[InspectorHeader("GUI")]
 		[HideInInspector]
 		public InputType GuiInputType = InputType.Mouse;
-		public bool IsGuiDisabledOnStart = true;
-		public Vector3 CanvasPositionEditor = new Vector3(0.5f, 0f, 1f);
-		public Vector3 CanvasPositionVislab = new Vector3(0.75f, 2f, 1f);
-		public Vector3 CanvasPositionRift = new Vector3(0f, 0f, 0.2f);
 
 		[InspectorDivider]
 		public MonoBehaviour[] disabledScripts;
@@ -44,7 +39,10 @@ namespace UFZ.Initialization
 		{
 			base.Awake();
 
-			CanvasPosition = CanvasPositionEditor;
+			var sceneSetup = FindObjectOfType<UFZ.Setup.SceneSetup>();
+			if (sceneSetup != null)
+				CanvasPosition = sceneSetup.CanvasPositionEditor;
+
 			// Setup player
 			var playerGo = GameObject.Find("Player (Player)");
 			if (playerGo.transform.Find("HeadNode") == null)
@@ -73,7 +71,8 @@ namespace UFZ.Initialization
 #endif
 			if (IOC.Core.Instance.Environment.IsCluster())
 			{
-				CanvasPosition = CanvasPositionVislab;
+				if (sceneSetup != null)
+					CanvasPosition = sceneSetup.CanvasPositionVislab;
 				GuiInputType = InputType.Wand;
 				IOC.Core.Instance.Log.Info("GlobalInits: Cluster detected, using Wand input.");
 			}
@@ -82,7 +81,8 @@ namespace UFZ.Initialization
 				if (IOC.Core.Instance.Environment.HasDevice("Rift"))
 				{
 					GuiInputType = InputType.Head;
-					CanvasPosition = CanvasPositionRift;
+					if (sceneSetup != null)
+						CanvasPosition = sceneSetup.CanvasPositionRift;
 					var navigations = FindObjectsOfType<NavigationBase>();
 					foreach (var navigation in navigations)
 						navigation.DirectionReferenceNode = "HeadNode";
@@ -134,7 +134,7 @@ namespace UFZ.Initialization
 					var view = canvas.GetComponent<UIView>();
 					view.Position.Value = CanvasPosition;
 					_mainMenuView = canvas.transform.Find("MainMenu").GetComponent<View>();
-					if (IsGuiDisabledOnStart)
+					if (sceneSetup != null && sceneSetup.IsGuiDisabledOnStart)
 						_mainMenuView.Deactivate();
 					continue;
 				}

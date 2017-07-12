@@ -1,4 +1,4 @@
-using MarkLight;
+﻿using MarkLight;
 using MarkLight.Views.UI;
 using UFZ.Interaction;
 using UFZ.Misc;
@@ -21,7 +21,7 @@ public class PlayablesView : UIView
 		Playables = new ObservableList<IPlayable>();
 
 		var vis = GameObject.Find("Animations");
-		if (vis != null)
+		if (vis != null && vis.GetComponentInChildren<GameObjectList>().Objects != null)
 		{
 			foreach (var go in vis.GetComponentInChildren<GameObjectList>().Objects)
 			{

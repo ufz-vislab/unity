@@ -1,4 +1,3 @@
-using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 
@@ -12,7 +11,6 @@ namespace UFZ.Interaction
 	{
 		// TODO: Better set globally or based on scene size
 		public float Speed = 1.5f;
-
 		public float MaxTransitionTime = 5f;
 		public string NodeToMove = "Player (Player)";
 		public bool StartHere = false;
@@ -37,16 +35,15 @@ namespace UFZ.Interaction
 #endif
 
 			if (StartHere)
-				StartCoroutine(JumpDelayed(1f));
+				Jump();
 
 			// Workaround to null exceptions when there is no subscriber to the event
 			OnFinish += delegate { return; };
-			OnStart += delegate(float duration) { return; };
+			OnStart += delegate (float duration) { return; };
 			OnFinish += delegate { return; };
 		}
 
 #if MVR
-
 		private void OnDestroy()
 		{
 			MiddleVR.DisposeObject(ref _moveCommand);
@@ -67,7 +64,6 @@ namespace UFZ.Interaction
 			JumpInternal();
 			return true;
 		}
-
 #endif
 
 		/// <summary>
@@ -82,14 +78,13 @@ namespace UFZ.Interaction
 			MoveInternal();
 #endif
 		}
-
 		private void MoveInternal()
 		{
 			//const float speed = 1.5f; // units per seconds
 			var vec = transform.position - _nodeToMove.transform.position;
 			var length = vec.magnitude;
-			var duration = length / Speed;
-			if (duration > MaxTransitionTime)
+			var duration = length/Speed;
+			if(duration > MaxTransitionTime)
 				duration = MaxTransitionTime;
 
 			var vps = FindObjectsOfType<Viewpoint>();
@@ -97,8 +92,7 @@ namespace UFZ.Interaction
 				vp.Stop();
 
 			_moveTweener = _nodeToMove.transform.DOMove(transform.position, duration)
-				.OnStart(() => OnStart(duration))
-				.OnComplete(() => OnFinish());
+				.OnStart(() => OnStart(duration)).OnComplete(() => OnFinish());
 			_rotateTweener = _nodeToMove.transform.DORotate(transform.rotation.eulerAngles, duration);
 		}
 
@@ -114,7 +108,6 @@ namespace UFZ.Interaction
 			JumpInternal();
 #endif
 		}
-
 		private void JumpInternal()
 		{
 			_nodeToMove.transform.position = transform.position;
@@ -130,13 +123,7 @@ namespace UFZ.Interaction
 				_rotateTweener.Kill();
 		}
 
-		private IEnumerator JumpDelayed(float delay)
-		{
-			yield return new WaitForSeconds(delay);
-			Jump();
-		}
-
-	public delegate void OnSetEvent();
+		public delegate void OnSetEvent();
 		public event OnSetEvent OnSet;
 
 		public delegate void OnFinishEvent();

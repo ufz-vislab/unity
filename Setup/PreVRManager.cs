@@ -6,11 +6,10 @@ namespace UFZ.Initialization
 	{
 		private void Awake()
 		{
-			// TODO: Obsolete with MarkLight
-			//var playerGo = GameObject.Find("Player");
-			//var vrManager = GameObject.Find("VRManager").GetComponent<VRManagerScript>();
-			//if(vrManager.VRSystemCenterNode == null)
-			//	vrManager.VRSystemCenterNode = playerGo;
+			var vrManager = GameObject.Find("VRManager").GetComponent<VRManagerScript>();
+			var sceneSetup = FindObjectOfType<UFZ.Setup.SceneSetup>();
+			if (sceneSetup != null)
+				vrManager.ConfigFile = sceneSetup.GetVrConfig();
 		}
 	}
 }
