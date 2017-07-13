@@ -255,7 +255,13 @@ public class WandInputModule : BaseInputModule
 	}
 
 	// Process is called by UI system to process events
+	// Empty function to let me call my own process every frame.
 	public override void Process()
+	{
+
+	}
+
+	public void MyProcess()
 	{
 		_singleton = this;
 
@@ -481,8 +487,6 @@ public class WandInputModule : BaseInputModule
 
 	private void Update()
 	{
-		// HACK: Process shoule not be necessary but is not called on all
-		// nodes in the vislab cluster environment
-		Process();
+		MyProcess();
 	}
 }
