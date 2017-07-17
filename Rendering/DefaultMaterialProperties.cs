@@ -6,7 +6,6 @@ using UnityEditor;
 using System.Collections;
 using System.Diagnostics;
 using System.Linq;
-using FullInspector;
 using Debug = UnityEngine.Debug;
 
 namespace UFZ.Rendering
@@ -17,10 +16,10 @@ namespace UFZ.Rendering
 		public void Reset()
 		{
 			#if UNITY_EDITOR
-			if (!FullInspector.Internal.fiUtility.IsMainThread)
-				return;
+			//if (!FullInspector.Internal.fiUtility.IsMainThread)
+			//	return;
 
-			PropertyBlock.SetColor(Shader.PropertyToID("_Color"), new Color(1f, 1f, 1f, _opacity));
+			PropertyBlock.SetColor(Shader.PropertyToID("_Color"), new Color(1f, 1f, 1f, Opacity));
 			UpdateRenderers();
 			#else
 			Loom.QueueOnMainThread(() =>

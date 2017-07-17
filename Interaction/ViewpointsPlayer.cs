@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using FullInspector;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace UFZ.Interaction
 {
-	public class ViewpointsPlayer : BaseBehavior
+	public class ViewpointsPlayer : MonoBehaviour
 	{
-		//[SerializeField]
 		public struct ViewpointData
 		{
 			public Viewpoint Viewpoint;
@@ -58,7 +56,7 @@ namespace UFZ.Interaction
 			viewpoint.Move();
 		}
 
-		[InspectorButton]
+		[Button]
 		public void Play()
 		{
 			ViewpointsData[_currentViewpoint].Viewpoint.Move();

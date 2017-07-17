@@ -1,8 +1,8 @@
-using UFZ.Annotations;
+﻿using UFZ.Annotations;
+using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-using FullInspector;
 
 namespace UFZ.Annotations
 {
@@ -16,7 +16,7 @@ namespace UFZ.Annotations
 //   {
 //     Debug.Log (info.Properties[0].Bools["UseVertexColors"].ToString ());
 //   }
-	public class MeshInfoLoaderBase : BaseBehavior
+	public class MeshInfoLoaderBase : MonoBehaviour
 	{
 		public MeshInfo ScriptableObject;
 

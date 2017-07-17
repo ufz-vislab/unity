@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using FullInspector;
+using Sirenix.OdinInspector;
 
 namespace UFZ.Interaction
 {
-	public class GroupObjectVisibility : BaseBehavior
+	public class GroupObjectVisibility : SerializedMonoBehaviour
 	{
 		public Dictionary<string, ObjectVisibility[] > ObjectVisibilities;
 

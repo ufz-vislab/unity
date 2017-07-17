@@ -14,8 +14,9 @@ namespace UFZ.Interaction
 		public float Speed = 1.5f;
 
 		public float MaxTransitionTime = 5f;
+		[HideInInspector]
 		public string NodeToMove = "Player (Player)";
-		public bool StartHere = false;
+		[HideInInspector]
 		public string Name = "Viewpoint";
 
 		private GameObject _nodeToMove;
@@ -35,9 +36,6 @@ namespace UFZ.Interaction
 			_moveCommand = new vrCommand("", MoveHandler);
 			_jumpCommand = new vrCommand("", JumpHandler);
 #endif
-
-			if (StartHere)
-				StartCoroutine(JumpDelayed(1f));
 
 			// Workaround to null exceptions when there is no subscriber to the event
 			OnFinish += delegate { return; };

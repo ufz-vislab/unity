@@ -1,5 +1,7 @@
-using DG.Tweening;
-using FullInspector;
+﻿using DG.Tweening;
+using NUnit.Framework;
+using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using UnityEngine;
 using UFZ.Rendering;
 
@@ -9,7 +11,7 @@ namespace UFZ.Interaction
 	/// Can be attached to a Viewpoint and controls fade in/out of objects
 	/// upon view point arrival.
 	/// </summary>
-	public class ObjectVisibility : BaseBehavior
+	public class ObjectVisibility : SerializedMonoBehaviour
 	{
 		/// <summary>
 		/// Struct for storing transition data for one GameObject.
@@ -23,23 +25,33 @@ namespace UFZ.Interaction
 			/// <summary>
 			/// The target opacity.
 			/// </summary>
+			[HorizontalGroup("Group 1")]
 			public float Opacity;
 			/// <summary>
 			/// The transition duration
 			/// </summary>
+			[HorizontalGroup("Group 1")]
 			public float Duration;
+		}
+
+		[Button, GUIColor(0.4f, 1f, 0.4f), PropertyOrder(-1)]
+		public void SetVisibilitiesInScene()
+		{
+			Do(true);
 		}
 
 		/// <summary>
 		/// An array of object transition data.
 		/// </summary>
-		public ObjectVisibilityInfo[] Entries;
+		[OdinSerialize]
+		public ObjectVisibilityInfo[] Entries = new ObjectVisibilityInfo[0];
 
-		[InspectorHeader("Global settings")]
+		[BoxGroup("Global settings"), HorizontalGroup("Global settings/Group 1")]
 		public float Opacity = 0f;
+		[BoxGroup("Global settings"), HorizontalGroup("Global settings/Group 1")]
 		public float Duration = 5f;
 
-		[InspectorButton]
+		[Button, BoxGroup("Global settings"), GUIColor(1, 0.6f, 0.4f)]
 		public void OverwriteWithGlobalSettings()
 		{
 			for (var index = 0; index < Entries.Length; index++)
@@ -47,13 +59,6 @@ namespace UFZ.Interaction
 				Entries[index].Opacity = Opacity;
 				Entries[index].Duration = Duration;
 			}
-		}
-
-		[InspectorOrder(0.0)]
-		[InspectorButton]
-		private void SetVisibilitiesInScene()
-		{
-			Do(true);
 		}
 
 		public void Do(bool immediate = false)

@@ -1,13 +1,13 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
-using FullInspector;
 
 namespace UFZ.Annotations
 {
 	/// <summary>
 	/// Generic annotation class storing property dictionaries.
 	/// </summary>
-	public class MeshInfo : BaseScriptableObject
+	public class MeshInfo : SerializedScriptableObject
 	{
 		/// <summary>
 		/// Data storage for the property dictionaries.

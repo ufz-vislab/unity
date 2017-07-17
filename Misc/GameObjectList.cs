@@ -1,10 +1,11 @@
+﻿using Sirenix.OdinInspector;
 using UnityEngine;
-using FullInspector;
 
 namespace UFZ.Misc
 {
-	public class GameObjectList : BaseBehavior
+	public class GameObjectList : SerializedMonoBehaviour
 	{
+		[HideReferenceObjectPicker]
 		public GameObject[] Objects;
 	}
 }

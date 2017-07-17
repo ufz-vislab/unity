@@ -1,18 +1,14 @@
-﻿using System.Runtime.Remoting;
-using FullInspector;
-using MiddleVR_Unity3D;
+﻿using MiddleVR_Unity3D;
 using UFZ.Rendering;
 using UnityEngine;
 
 namespace UFZ.Interaction
 {
 	[RequireComponent(typeof(VRActor))]
-	public abstract class ClickableObject : BaseBehavior
+	public abstract class ClickableObject : MonoBehaviour
 	{
-		protected override void OnValidate()
+		protected void OnValidate()
 		{
-			base.OnValidate();
-
 			var vrActor = GetComponent<VRActor>();
 			vrActor.Grabable = false;
 			vrActor.SyncDirection = MVRNodesMapper.ENodesSyncDirection.NoSynchronization;

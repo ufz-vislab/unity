@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
 using MarkLight;
@@ -24,7 +24,7 @@ public class VisibilityView : UIView
 		var objectVisibilities = FindObjectsOfType<ObjectVisibility>();
 		foreach (var objectVisibility in objectVisibilities)
 		{
-			objectVisibility.RestoreState();
+			//objectVisibility.RestoreState();
 			if (objectVisibility.Entries == null || objectVisibility.Entries.Length == 0)
 				continue;
 
@@ -71,7 +71,7 @@ public class VisibilityView : UIView
 
 				foreach (var materialPropertiese in materialProperties)
 				{
-					materialPropertiese.RestoreState();
+					; //materialPropertiese.RestoreState();
 				}
 				Objects.Add(new VisibilityStruct
 				{

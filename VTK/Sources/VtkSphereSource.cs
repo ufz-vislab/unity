@@ -1,14 +1,11 @@
-#if UNITY_STANDALONE_WIN
+﻿#if UNITY_STANDALONE_WIN
 ﻿using UnityEngine;
 using Kitware.VTK;
-using FullInspector;
-using tk = FullInspector.tk<UFZ.VTK.VtkSphereSource>;
 
 namespace UFZ.VTK
 {
 	// Derive from VtkAlgorithm
-	// Optional: tkCustomEditor if you have custom handles
-	public class VtkSphereSource : VtkAlgorithm, tkCustomEditor
+	public class VtkSphereSource : VtkAlgorithm
 	{
 		// A pointer to the actual algorithm type for convenience
 		private vtkPointSource _source;
@@ -83,6 +80,7 @@ namespace UFZ.VTK
 		}
 
 		// Optional for custom handles, see Editor/VtkSphereSourceEditor
+		/*
 		public tkControlEditor GetEditor()
 		{
 			//var parentEditor = base.GetEditor();
@@ -93,6 +91,7 @@ namespace UFZ.VTK
 					new tk.Button("Add Renderer", (source, context) => AddRenderer())
 				});
 		}
+		*/
 	}
 }
 #endif

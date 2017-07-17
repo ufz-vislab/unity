@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Sirenix.OdinInspector;
+using Sirenix.OdinInspector.Demos;
+using Sirenix.Serialization;
 using UnityEngine;
 
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-using FullInspector;
 using Debug = UnityEngine.Debug;
 using UFZ.Tools.Extensions;
 
@@ -19,19 +21,7 @@ namespace UFZ.Rendering
 	/// </remarks>
 	public class MaterialProperties : MaterialPropertiesBase
 	{
-		public enum ColorMode
-		{
-			/// <summary>A single color</summary>
-			SolidColor,
-
-			/// <summary>Colored by vertex colors (e.g. from VTK scalars)</summary>
-			VertexColor,
-
-			/// <summary>Texture mapping</summary>
-			Texture,
-
-			Invalid
-		}
+		public enum ColorMode { SolidColor, VertexColor, Texture }
 
 		protected static Dictionary<ColorMode, string> ColorModeDict
 		{
@@ -39,19 +29,11 @@ namespace UFZ.Rendering
 			{
 				{ ColorMode.SolidColor, "SolidColor" },
 				{ ColorMode.VertexColor, "VertexColor" },
-				{ ColorMode.Texture, "Texture" },
-				{ ColorMode.Invalid, "Invaild" }
+				{ ColorMode.Texture, "Texture" }
 			}; }
 		}
 
-		public enum LightingMode
-		{
-			/// <summary>Lighting enabled</summary>
-			Lit,
-
-			/// <summary>Lighting disabled, useful for point and line rendering</summary>
-			Unlit
-		}
+		public enum LightingMode { Lit, Unlit }
 
 		protected static Dictionary<LightingMode, string> LightingModeDict
 		{
@@ -62,16 +44,7 @@ namespace UFZ.Rendering
 			}; }
 		}
 
-		public enum SideMode
-		{
-			/// <summary>Only the front side is rendered</summary>
-			Front,
-
-			/// <summary>Only the back side is rendered</summary>
-			Back,
-			TwoSided,
-		    Wireframe
-		}
+		public enum SideMode { Front, Back, TwoSided, Wireframe }
 
 		protected static Dictionary<SideMode, string> SideModeDict
 		{
@@ -84,128 +57,31 @@ namespace UFZ.Rendering
 			}; }
 		}
 
-		[SerializeField]
-		[HideInInspector]
+		[OdinSerialize, HideInInspector]
 		protected Material[] Materials;
-
-
-		#if UNITY_EDITOR
-		protected override void OnValidate()
-		{
-			base.OnValidate();
-
-			// Workaround, otherwise color and texture is lost when exiting playmode
-			if (PropertyBlock == null || !FullInspector.Internal.fiUtility.IsMainThread)
-				return;
-
-				PropertyBlock.SetColor(Shader.PropertyToID("_Color"),
-				new Color(_solidColor.r, _solidColor.g, _solidColor.b, _opacity));
-			if (_texture != null)
-				PropertyBlock.SetTexture(Shader.PropertyToID("_MainTex"), _texture);
-			UpdateRenderers();
-		}
-		#endif
 
 		protected override void Start()
 		{
 			base.Start();
-			RestoreState();
 			UpdateShaderInternal();
 		}
 
-		[SerializeField, InspectorHeader("Coloring"), InspectorDivider]
-		public ColorMode ColorBy {
-			get { return _colorBy; }
-			set
-			{
-				if (_colorBy == value)
-					return;
+		[OdinSerialize, BoxGroup("Coloring")]
+		public ColorMode ColorBy = ColorMode.VertexColor;
 
-				_colorBy = value;
+		[OdinSerialize, BoxGroup("Coloring"), ShowIf("IsSolidColorMode")]
+		public Color SolidColor = Color.gray;
+		private bool IsSolidColorMode() { return ColorBy == ColorMode.SolidColor; }
 
-				if (PropertyBlock == null)
-					return;
-#if UNITY_EDITOR
-				if (!FullInspector.Internal.fiUtility.IsMainThread)
-					return;
-#endif
+		[BoxGroup("Rendering")]
+		public LightingMode Lighting = LightingMode.Lit;
 
-				PropertyBlock.SetFloat(WireframeColorPropId,
-					_colorBy == ColorMode.VertexColor ? 1f : 0f);
-				UpdateShader();
-			}
-		}
+		[BoxGroup("Rendering")]
+		public SideMode Side = SideMode.Front;
 
-		private ColorMode _colorBy = ColorMode.VertexColor;
-
-		[SerializeField]
-		public Color SolidColor {
-			get { return _solidColor; }
-			set
-			{
-				_solidColor = value;
-
-				if (PropertyBlock == null)
-					return;
-#if UNITY_EDITOR
-				if (!FullInspector.Internal.fiUtility.IsMainThread)
-					return;
-#endif
-				PropertyBlock.SetColor(ColorPropId, new Color(value.r, value.g, value.b, _opacity));
-				PropertyBlock.SetColor(WireframeColorPropId, new Color(value.r, value.g, value.b, _opacity));
-				UpdateRenderers();
-			}
-		}
-
-		private Color _solidColor = Color.gray;
-
-		[SerializeField]
-		public LightingMode Lighting {
-			get { return _lit; }
-			set {
-				if (_lit == value)
-					return;
-
-				_lit = value;
-				UpdateShader();
-			}
-		}
-
-		private LightingMode _lit = LightingMode.Lit;
-
-		[SerializeField]
-		public SideMode Side {
-			get { return _side; }
-			set {
-				if (_side == value)
-					return;
-
-				_side = value;
-				UpdateShader();
-			}
-		}
-
-		private SideMode _side = SideMode.Front;
-
-		[SerializeField]
-		public Texture Texture {
-			get { return _texture; }
-			set {
-				_texture = value;
-
-				if (value == null || PropertyBlock == null)
-					return;
-#if UNITY_EDITOR
-				if (!FullInspector.Internal.fiUtility.IsMainThread)
-					return;
-#endif
-				PropertyBlock.SetTexture(TexturePropId, _texture);
-				UpdateRenderers();
-			}
-		}
-
-		private Texture _texture;
-
+		[BoxGroup("Coloring"), ShowIf("IsTextureColorMode")]
+		public Texture Texture;
+		private bool IsTextureColorMode() { return ColorBy == ColorMode.Texture; }
 
 		public override void UpdateRenderers()
 		{
@@ -233,9 +109,9 @@ namespace UFZ.Rendering
 					continue;
 
 				var transparent = VisibilityModeDict[Visibility];
-				var colorBy = ColorModeDict[_colorBy];
-				var lit = LightingModeDict[_lit];
-				var side = SideModeDict[_side];
+				var colorBy = ColorModeDict[ColorBy];
+				var lit = LightingModeDict[Lighting];
+				var side = SideModeDict[Side];
 
 				var materials = localRenderer.sharedMaterials;
 
@@ -251,33 +127,33 @@ namespace UFZ.Rendering
 					else
 						localRenderer.enabled = true;
 
-					if (materials.Length == 0 || _side == SideMode.Wireframe)
+					if (materials.Length == 0 || Side == SideMode.Wireframe)
 						materials = new Material[1];
-					if (materials.Length != 2 && _side == SideMode.TwoSided)
+					if (materials.Length != 2 && Side == SideMode.TwoSided)
 						materials = new Material[2];
 
-					switch (materials.Length)
+					if (materials.Length == 1)
 					{
-					case 1:
-					    if (_side == SideMode.Wireframe)
-					    {
-					        var matName = "Materials/Wireframe";
-					        if (_opacity < 1f)
-					            matName = "Materials/WireframeAdditive";
+						if (Side == SideMode.Wireframe)
+						{
+							var matName = "Materials/Wireframe";
+							if (Opacity < 1f)
+								matName = "Materials/WireframeAdditive";
 
-					        var mat = Resources.Load(matName, typeof(Material)) as Material;
-					        materials[0] = mat;
-					    }
-					    else
-					    {
-					        var matName = transparent + colorBy + lit + side;
-					        var mat = Resources.Load("Materials/" + matName, typeof(Material)) as Material;
-					        if (mat == null)
-					            Debug.LogWarning(gameObject.name + ": Material " + matName + " not found.");
-					        materials[0] = mat;
-					    }
-					    break;
-					case 2:
+							var mat = Resources.Load(matName, typeof(Material)) as Material;
+							materials[0] = mat;
+						}
+						else
+						{
+							var matName = transparent + colorBy + lit + side;
+							var mat = Resources.Load("Materials/" + matName, typeof(Material)) as Material;
+							if (mat == null)
+								Debug.LogWarning(gameObject.name + ": Material " + matName + " not found.");
+							materials[0] = mat;
+						}
+					}
+					else if (materials.Length == 2)
+					{
 						var matNameFront = transparent + colorBy + lit + SideModeDict[SideMode.Front];
 						var matNameBack = transparent + colorBy + lit + SideModeDict[SideMode.Back];
 						var matFront = Resources.Load("Materials/" + matNameFront, typeof(Material)) as Material;
@@ -294,7 +170,6 @@ namespace UFZ.Rendering
 
 							materials = newMaterials;
 						}
-						break;
 					}
 				}
 				if (Application.isPlaying)
@@ -305,7 +180,31 @@ namespace UFZ.Rendering
 			}
 		}
 
-		#if UNITY_EDITOR
+		protected override void UpdateProperties()
+		{
+			base.UpdateProperties();
+
+			if (PropertyBlock == null) // || !FullInspector.Internal.fiUtility.IsMainThread)
+				return;
+
+			PropertyBlock.SetColor(Shader.PropertyToID("_Color"),
+				new Color(SolidColor.r, SolidColor.g, SolidColor.b, Opacity));
+			PropertyBlock.SetFloat(WireframeColorPropId, ColorBy == ColorMode.VertexColor ? 1f : 0f);
+			if (Texture != null)
+				PropertyBlock.SetTexture(TexturePropId, Texture);
+
+			UpdateShader();
+			UpdateRenderers();
+		}
+
+#if UNITY_EDITOR
+		protected override void OnValidate()
+		{
+			base.OnValidate();
+
+			UpdateProperties();
+		}
+
 		[MenuItem("UFZ/Consolidate MaterialProperties")]
 		private static void Consolidate()
 		{
@@ -328,6 +227,6 @@ namespace UFZ.Rendering
 					DestroyImmediate(matProp);
 			}
 		}
-		#endif
+#endif
 	}
 }

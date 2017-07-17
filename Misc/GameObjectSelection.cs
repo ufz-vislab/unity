@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using FullInspector;
+using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using UFZ.Helper;
 
 namespace UFZ.Misc
@@ -13,30 +14,29 @@ namespace UFZ.Misc
 	/// Can be used on the Viewpoints object to select objects which can be
 	/// switched on / off via the VisibilityView (menu).
 	/// </summary>
-	public class GameObjectSelection : BaseBehavior
+	public class GameObjectSelection : SerializedMonoBehaviour
 	{
 		public struct SelectionInfo
 		{
 			public GameObject Base;
 			public bool SearchChildren;
-			[InspectorShowIf("SearchChildren")]
+			[ShowIf("SearchChildren")]
 			public string SearchString;
-			[InspectorShowIf("SearchChildren")]
+			[ShowIf("SearchChildren")]
 			public bool IncludeBase;
 
 			[HideInInspector]
 			public List<GameObject> Selected;
 
-			[InspectorDisabled, InspectorShowIf("SearchChildren")]
+			[ShowIf("SearchChildren"), ReadOnly]
 			public int SelectedObjects;
 		}
 
-		public SelectionInfo[] Selections;
+		[OdinSerialize]
+		public SelectionInfo[] Selections = new SelectionInfo[0];
 
-		protected override void OnValidate()
+		protected void OnValidate()
 		{
-			base.OnValidate();
-
 			for (var i = 0; i < Selections.Length; ++i)
 			{
 				var info = Selections[i];

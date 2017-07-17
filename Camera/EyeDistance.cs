@@ -1,11 +1,11 @@
-using FullInspector;
+﻿using UnityEngine;
 
 namespace UFZ.Rendering
 {
 	/// <summary>
 	/// Helper class to set the eye distance on the stereo cameras.
 	/// </summary>
-	public class EyeDistance : BaseBehavior
+	public class EyeDistance : MonoBehaviour
 	{
 		/// <summary>
 		/// Gets or sets the distance in m. Defaults to 0.063 m.

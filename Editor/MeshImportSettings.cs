@@ -1,4 +1,4 @@
-using UFZ.Annotations;
+﻿using UFZ.Annotations;
 using UFZ.Rendering;
 using UnityEngine;
 using UnityEditor;
@@ -115,7 +115,7 @@ namespace UFZ.Initialization
 					matProps.Lighting = MaterialProperties.LightingMode.Unlit;
 				matProps.UpdateRenderers();
 				matProps.UpdateShader();
-				matProps.SaveState();
+				//matProps.SaveState();
 
 				// Convert to points or lines
 				if (pointRendering)
@@ -174,7 +174,7 @@ namespace UFZ.Initialization
 			}
 
 			AssetDatabase.CreateAsset(meshInfo, assetPath + ".asset");
-			meshInfo.SaveState();
+			//meshInfo.SaveState();
 
 			AssetDatabase.Refresh();
 		}

@@ -1,7 +1,7 @@
 ﻿#if UNITY_STANDALONE_WIN
-using FullInspector;
 using UnityEngine;
 using Kitware.VTK;
+using Sirenix.OdinInspector;
 using UnityEngine.UI;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -10,7 +10,7 @@ using UnityEditor;
 namespace UFZ.VTK
 {
 	[ExecuteInEditMode]
-	public class VtkRenderer : BaseBehavior
+	public class VtkRenderer : SerializedMonoBehaviour
 	{
 		[HideInInspector]
 		public Material PointsMaterial;
@@ -119,9 +119,8 @@ namespace UFZ.VTK
 
 		private bool _initialized;
 
-		protected override void Awake()
+		protected void Awake()
 		{
-			base.Awake();
 			if (Application.isPlaying)
 				Initialize();
 		}
@@ -225,8 +224,8 @@ namespace UFZ.VTK
 		protected void ReleaseBuffers()
 		{
 #if UNITY_EDITOR
-			if (!FullInspector.Internal.fiUtility.IsMainThread)
-				return;
+			//if (!FullInspector.Internal.fiUtility.IsMainThread)
+			//	return;
 			ReleaseBuffersImpl();
 #else
 			Loom.QueueOnMainThread(() => { ReleaseBuffersImpl(); });

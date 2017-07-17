@@ -1,11 +1,11 @@
-#if UNITY_EDITOR_WIN
-using FullInspector;
+﻿#if UNITY_EDITOR_WIN
 using UnityEngine;
 using UnityEditor;
 using System.Collections;
 
 namespace UFZ.VTK
 {
+	/*
 	[CustomBehaviorEditor(typeof(VtkSphereSource))]
 	class VtkSphereSourceEditor : tkCustomBehaviorEditor<VtkSphereSource>
 	{
@@ -22,5 +22,6 @@ namespace UFZ.VTK
 			return behavior.GetEditor();
 		}
 	}
+	*/
 }
 #endif

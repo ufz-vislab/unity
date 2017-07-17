@@ -1,7 +1,5 @@
-using DG.Tweening;
-using FullInspector;
-using UnityEngine;
-using UFZ.Rendering;
+﻿using System;
+using Sirenix.OdinInspector;
 
 namespace UFZ.Interaction
 {
@@ -26,9 +24,7 @@ namespace UFZ.Interaction
 			StepOnComplete
 		}
 
-		[InspectorHeader("Advanced settings")]
 		public VisibilityTransition Transition = VisibilityTransition.Smooth;
-
 
 		private void Start()
 		{
@@ -55,9 +51,10 @@ namespace UFZ.Interaction
 				case VisibilityTransition.Smooth:
 					Do();
 					break;
-
-				default:
+				case VisibilityTransition.StepOnComplete:
 					break;
+				default:
+					throw new ArgumentOutOfRangeException();
 			}
 		}
 

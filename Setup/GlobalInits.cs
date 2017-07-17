@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using DG.Tweening;
-using FullInspector;
 using MarkLight;
 using MarkLight.Views.UI;
 using UFZ.Interaction;
@@ -12,7 +11,7 @@ namespace UFZ.Initialization
 	/// Do global initialization stuff here.
 	/// </summary>
 	/// Is part of the VRBase scene.
-	public class GlobalInits : BaseBehavior
+	public class GlobalInits : MonoBehaviour
 	{
 		public enum InputType
 		{
@@ -24,7 +23,7 @@ namespace UFZ.Initialization
 		[HideInInspector]
 		public InputType GuiInputType = InputType.Mouse;
 
-		[InspectorDivider]
+		//[InspectorDivider]
 		public MonoBehaviour[] disabledScripts;
 		public GameObject[] disabledGameObjects;
 
@@ -35,9 +34,8 @@ namespace UFZ.Initialization
 
 		private View _mainMenuView;
 
-		protected override void Awake()
+		protected void Awake()
 		{
-			base.Awake();
 
 			var sceneSetup = FindObjectOfType<UFZ.Setup.SceneSetup>();
 			if (sceneSetup != null)

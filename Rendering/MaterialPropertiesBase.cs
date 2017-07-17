@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-
+using Sirenix.OdinInspector;
+using Sirenix.OdinInspector.Editor;
+using Sirenix.Serialization;
+using UnityEngine.UI;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
-using FullInspector;
-
 namespace UFZ.Rendering
 {
-	public abstract class MaterialPropertiesBase : BaseBehavior
+	public abstract class MaterialPropertiesBase : SerializedMonoBehaviour
 	{
 		public enum VisibilityMode
 		{
@@ -32,58 +33,27 @@ namespace UFZ.Rendering
 				{ VisibilityMode.Disabled, "Disabled" }
 			}; }
 		}
-
-		[SerializeField, InspectorHeader("Visibility"), InspectorDivider]
-		public bool Enabled {
-
-			get { return _enabled; }
-			set
-			{
-				_enabled = value;
-				UpdateShader();
-			}
-		}
-		private bool _enabled = true;
+		
+		[BoxGroup("Visibility")]
+		public bool Enabled = true;
 
 		/// <summary>
 		/// Returns if an object is fully opaque, transparent or completely disabled
 		/// based on the <see cref="Opacity" />-value.
 		/// </summary>
-		[SerializeField, InspectorShowIf("Enabled")]
-		public VisibilityMode Visibility {
-			get
-			{
-				if (_opacity > 0.99f)
-					return VisibilityMode.Opaque;
-				return _opacity < DisableThreshold ? VisibilityMode.Disabled : VisibilityMode.Transparent;
-			}
-		}
+		[BoxGroup("Visibility"), ReadOnly, ShowIf("Enabled")]
+		public VisibilityMode Visibility = VisibilityMode.Opaque;
 
 		/// <summary>The opacity of the object.</summary>
 		/// <value>Can be between 0 (fully transparent) and 1 (opaque)</value>
-		[SerializeField, InspectorShowIf("Enabled"), InspectorRange(0f, 1f, Step = 0.01f)]
-		public float Opacity {
+		[ShowInInspector, BoxGroup("Visibility"), ShowIf("Enabled")] // Range(0f, 1f)
+		public float Opacity
+		{
 			get { return _opacity; }
-			set
-			{
-				if (Mathf.Approximately(_opacity, value))
-					return;
-
-				_opacity = value;
-				
-				if (PropertyBlock == null)
-					return;
-				
-				var color = PropertyBlock.GetVector(ColorPropId);
-				color.w = _opacity;
-				PropertyBlock.SetVector(ColorPropId, color);
-				PropertyBlock.SetColor(WireframeColorPropId, new Color(color.x, color.y, color.z, _opacity));
-				UpdateShader();
-				UpdateRenderers();
-			}
+			set { _opacity = value; UpdateProperties(); }
 		}
-		// ReSharper disable once InconsistentNaming
-		protected float _opacity = 1f;
+
+		[SerializeField, HideInInspector] private float _opacity = 1f;
 
 		[HideInInspector]
 		protected MaterialPropertyBlock PropertyBlock { get; private set; }
@@ -148,20 +118,19 @@ namespace UFZ.Rendering
 		protected int ColorPropId;
 		protected int WireframeColorPropId;
 		protected int TexturePropId;
-		protected override void Awake()
+		protected void Awake()
 		{
-			base.Awake();
 			InitUnityApi();
 		}
 
 #if UNITY_EDITOR
-		protected override void OnValidate()
+		protected virtual void OnValidate()
 		{
-			base.OnValidate();
-
 			if (Application.isPlaying || EditorApplication.isPlayingOrWillChangePlaymode)
 				return;
 			InitUnityApi();
+
+			UpdateProperties();
 		}
 #endif
 		
@@ -172,8 +141,8 @@ namespace UFZ.Rendering
 				return;
 
 #if UNITY_EDITOR
-			if (!FullInspector.Internal.fiUtility.IsMainThread)
-				return;
+			//if (!FullInspector.Internal.fiUtility.IsMainThread)
+			//	return;
 #endif
 
 			ColorPropId = Shader.PropertyToID("_Color");
@@ -181,6 +150,29 @@ namespace UFZ.Rendering
 			TexturePropId =  Shader.PropertyToID("_MainTex");
 			
 			PropertyBlock = new MaterialPropertyBlock();
+		}
+
+		[Button]
+		protected virtual void UpdateProperties()
+		{
+			if (PropertyBlock == null)
+				return;
+
+			var color = PropertyBlock.GetVector(ColorPropId);
+			color.w = Opacity;
+			PropertyBlock.SetVector(ColorPropId, color);
+			PropertyBlock.SetColor(WireframeColorPropId, new Color(color.x, color.y, color.z, Opacity));
+
+			if (Opacity > 0.99f)
+				Visibility = VisibilityMode.Opaque;
+			else
+				Visibility = Opacity < DisableThreshold ?
+					VisibilityMode.Disabled : VisibilityMode.Transparent;
+		}
+
+		protected virtual void Update()
+		{
+			//UpdateProperties();
 		}
 	}
 }

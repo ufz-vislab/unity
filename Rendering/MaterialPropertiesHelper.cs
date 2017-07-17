@@ -1,17 +1,16 @@
-﻿using UnityEngine;
-using FullInspector;
+﻿using Sirenix.OdinInspector;
+using UnityEngine;
 
 namespace UFZ.Rendering
 {
-	[fiInspectorOnly]
 	public class MaterialPropertiesHelper : MonoBehaviour
 	{
-		[InspectorComment("This will apply the selected properties to all child GameObjects!")]
+		//[InspectorComment("This will apply the selected properties to all child GameObjects!")]
 		public MaterialProperties.SideMode SideMode = MaterialProperties.SideMode.Front;
 		public MaterialProperties.LightingMode LightingMode = MaterialProperties.LightingMode.Lit;
 		public MaterialProperties.ColorMode ColorMode = MaterialProperties.ColorMode.SolidColor;
 
-		[InspectorButton]
+		[Button]
 		public void Apply()
 		{
 			var matProps = gameObject.GetComponentsInChildren<MaterialProperties>();

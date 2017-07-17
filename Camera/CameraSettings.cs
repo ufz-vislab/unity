@@ -1,17 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using FullInspector;
+using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 
 namespace UFZ.Rendering
 {
-	public class CameraSettings : BaseBehavior
+	public class CameraSettings : SerializedMonoBehaviour
 	{
-		[HideInInspector]
-		public List<vrCamera> _cameras;
+		[HideInInspector, OdinSerialize]
+		private List<vrCamera> _cameras;
 
 
 		private void Start()
 		{
+			_cameras = new List<vrCamera>();
 			var clusterNode = MiddleVR.VRClusterMgr.GetMyClusterNode();
 			if (clusterNode == null)
 			{
@@ -38,8 +40,7 @@ namespace UFZ.Rendering
 			Set();
 		}
 
-		[InspectorHeader("Clipping planes")]
-		[SerializeField]
+		[ShowInInspector]
 		public float Near
 		{
 			get { return _near; }
@@ -50,9 +51,10 @@ namespace UFZ.Rendering
 				Set();
 			}
 		}
+		[SerializeField, HideInInspector]
 		private float _near = 0.01f;
 
-		[SerializeField]
+		[ShowInInspector]
 		public float Far
 		{
 			get { return _far; }
@@ -63,6 +65,7 @@ namespace UFZ.Rendering
 				Set();
 			}
 		}
+		[SerializeField, HideInInspector]
 		private float _far = 1000f;
 
 		private void Set()

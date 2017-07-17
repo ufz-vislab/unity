@@ -1,9 +1,10 @@
-#if UNITY_STANDALONE_WIN
+﻿#if UNITY_STANDALONE_WIN
 using System;
 using UnityEngine;
 using System.IO;
-using FullInspector;
 using Kitware.VTK;
+using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -13,13 +14,12 @@ namespace UFZ.VTK
 #if UNITY_EDITOR // Calls the static constructor on load
 	[InitializeOnLoad]
 #endif
-	public abstract class VtkAlgorithm : BaseBehavior
+	public abstract class VtkAlgorithm : SerializedMonoBehaviour
 	{
 		public bool HasInput { get { return _hasInput; } }
 		protected bool _hasInput;
 
-		[ShowInInspector, InspectorHidePrimary, InspectorHideIf("HasOutput"),
-		 InspectorComment(CommentType.Error, "No valid output!")]
+		[ShowInInspector, HideIf("HasOutput")] //  InspectorComment(CommentType.Error, "No valid output!")
 		public bool HasOutput
 		{
 			get
@@ -47,7 +47,7 @@ namespace UFZ.VTK
 			}
 		}
 
-		[SerializeField, InspectorShowIf("HasInput")]
+		[OdinSerialize, ShowIf("HasInput")]
 		public VtkAlgorithm InputAlgorithm
 		{
 			get { return _inputAlgorithm; }
@@ -83,15 +83,13 @@ namespace UFZ.VTK
 			Initialize();
 		}
 
-		protected override void Awake()
+		protected void Awake()
 		{
-			base.Awake();
 			Initialize();
 		}
 
-		protected override void OnValidate()
+		protected void OnValidate()
 		{
-			base.OnValidate();
 			Initialize();
 		}
 
@@ -100,7 +98,7 @@ namespace UFZ.VTK
 			return AlgorithmOutput;
 		}
 
-		[InspectorButton, InspectorShowIf("HasOutput")]
+		[Button, ShowIf("HasOutput")]
 		public void AddRenderer()
 		{
 			ren = gameObject.AddComponent<VtkRenderer>();
@@ -126,8 +124,8 @@ namespace UFZ.VTK
 		static VtkAlgorithm()
 		{
 #if UNITY_EDITOR
-			if (!FullInspector.Internal.fiUtility.IsMainThread)
-				return;
+			//if (!FullInspector.Internal.fiUtility.IsMainThread)
+			//	return;
 
 			var pluginPath = "UFZ" + Path.DirectorySeparatorChar + "VTK" + Path.DirectorySeparatorChar + "Plugins";
 #endif

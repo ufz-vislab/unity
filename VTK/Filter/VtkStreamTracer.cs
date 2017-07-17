@@ -1,9 +1,10 @@
-#if UNITY_STANDALONE_WIN
+﻿#if UNITY_STANDALONE_WIN
 ﻿using UnityEngine;
 using System.Collections;
-using FullInspector;
 using Kitware.VTK;
-using UFZ.VTK;
+ using Sirenix.OdinInspector;
+ using Sirenix.Serialization;
+ using UFZ.VTK;
 
 public class VtkStreamTracer : VtkAlgorithm
 {
@@ -26,7 +27,7 @@ public class VtkStreamTracer : VtkAlgorithm
 	private Vector3 _point = Vector3.zero;
 	*/
 
-	[SerializeField,ShowInInspector]
+	[OdinSerialize, ShowInInspector]
 	public VtkAlgorithm Source
 	{
 		get { return _source; }
