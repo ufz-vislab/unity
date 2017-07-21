@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using Sirenix.OdinInspector;
-using Sirenix.OdinInspector.Demos;
 using Sirenix.Serialization;
 using UnityEngine;
 
@@ -184,7 +184,7 @@ namespace UFZ.Rendering
 		{
 			base.UpdateProperties();
 
-			if (PropertyBlock == null) // || !FullInspector.Internal.fiUtility.IsMainThread)
+			if (PropertyBlock == null || Thread.CurrentThread.ManagedThreadId != 1)
 				return;
 
 			PropertyBlock.SetColor(Shader.PropertyToID("_Color"),

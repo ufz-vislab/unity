@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using Sirenix.OdinInspector;
-using Sirenix.OdinInspector.Editor;
-using Sirenix.Serialization;
-using UnityEngine.UI;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -33,9 +31,14 @@ namespace UFZ.Rendering
 				{ VisibilityMode.Disabled, "Disabled" }
 			}; }
 		}
-		
-		[BoxGroup("Visibility")]
-		public bool Enabled = true;
+
+		[ShowInInspector, BoxGroup("Visibility")]
+		public bool Enabled
+		{
+			get { return _enabled; }
+			set { _enabled = value; UpdateProperties(); }
+		}
+		[SerializeField, HideInInspector] private bool _enabled = true;
 
 		/// <summary>
 		/// Returns if an object is fully opaque, transparent or completely disabled
@@ -141,8 +144,8 @@ namespace UFZ.Rendering
 				return;
 
 #if UNITY_EDITOR
-			//if (!FullInspector.Internal.fiUtility.IsMainThread)
-			//	return;
+			if (Thread.CurrentThread.ManagedThreadId != 1)
+				return;
 #endif
 
 			ColorPropId = Shader.PropertyToID("_Color");
