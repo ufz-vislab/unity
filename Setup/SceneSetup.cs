@@ -1,4 +1,5 @@
-﻿using Sirenix.OdinInspector;
+﻿using System.Collections;
+using Sirenix.OdinInspector;
 using UFZ.Interaction;
 using UnityEngine;
 
@@ -50,8 +51,6 @@ namespace UFZ.Setup
 				Instance = this;
 			else if (Instance != this)
 				Destroy(gameObject);
-
-			// DontDestroyOnLoad(gameObject);
 		}
 
 		private void Start()

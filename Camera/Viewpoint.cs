@@ -1,6 +1,10 @@
 ﻿using System.Collections;
 using DG.Tweening;
+using UFZ.IOC;
 using UnityEngine;
+#if MVR
+using MiddleVR_Unity3D;
+#endif
 
 namespace UFZ.Interaction
 {
@@ -34,7 +38,6 @@ namespace UFZ.Interaction
 
 #if MVR
 			_moveCommand = new vrCommand("", MoveHandler);
-			_jumpCommand = new vrCommand("", JumpHandler);
 #endif
 
 			// Workaround to null exceptions when there is no subscriber to the event
@@ -48,24 +51,15 @@ namespace UFZ.Interaction
 		private void OnDestroy()
 		{
 			MiddleVR.DisposeObject(ref _moveCommand);
-			MiddleVR.DisposeObject(ref _jumpCommand);
 		}
 
 		private vrCommand _moveCommand;
-		private vrCommand _jumpCommand;
 
 		private vrValue MoveHandler(vrValue value)
 		{
 			MoveInternal();
 			return true;
 		}
-
-		private vrValue JumpHandler(vrValue value)
-		{
-			JumpInternal();
-			return true;
-		}
-
 #endif
 
 		/// <summary>
@@ -105,16 +99,6 @@ namespace UFZ.Interaction
 		/// </summary>
 		public void Jump()
 		{
-#if MVR
-			if (_jumpCommand != null)
-				_jumpCommand.Do(true);
-#else
-			JumpInternal();
-#endif
-		}
-
-		private void JumpInternal()
-		{
 			_nodeToMove.transform.position = transform.position;
 			_nodeToMove.transform.rotation = transform.rotation;
 			if (OnSet != null) OnSet();
@@ -128,7 +112,7 @@ namespace UFZ.Interaction
 				_rotateTweener.Kill();
 		}
 
-		private IEnumerator JumpDelayed(float delay)
+		public IEnumerator JumpDelayed(float delay)
 		{
 			yield return new WaitForSeconds(delay);
 			Jump();
