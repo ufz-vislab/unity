@@ -1,66 +1,62 @@
 using UnityEngine;
-using System.Collections;
-using UnityEngine.UI;
 
-public class AttachImageToScreen : MonoBehaviour
+namespace UFZ.UI
 {
-	public enum ScreenPosition
+	public class AttachImageToScreen : MonoBehaviour
 	{
-		TopRight,
-		BottomRight
-	}
-
-	public Texture2D Image;
-	public string ScreenName = "CenterScreen";
-	public ScreenPosition Position = ScreenPosition.TopRight;
-
-	private bool _attached;
-	private bool _searched;
-
-	void Start()
-	{
-
-	}
-
-	void Update()
-	{
-		if (_attached) return;
-
-		if (ScreenName.Length == 0)
+		public enum ScreenPosition
 		{
-			UFZ.IOC.Core.Instance.Log.Error("AttachImageToScreen: Please specify a valid ScreenName.");
-			enabled = false;
-			return;
+			TopRight,
+			BottomRight
 		}
 
-		var screen = MiddleVR.VRDisplayMgr.GetScreen(ScreenName);
-		if (screen == null)
-		{
-			UFZ.IOC.Core.Instance.Log.Error("AttachImageToScreen: Screen could not be found.");
-			enabled = false;
-			return;
-		}
+		public Texture2D Image;
+		public string ScreenName = "CenterScreen";
+		public ScreenPosition Position = ScreenPosition.TopRight;
 
-		var node = GameObject.Find(ScreenName);
-		if (node != null)
-		{
-			var imageGo = new GameObject("Screen Attached Image");
+		private bool _attached;
+		private bool _searched;
 
-			// Setting new parent
-			imageGo.transform.SetParent(node.transform, false);
+		void Update()
+		{
+			if (_attached) return;
+
+			if (ScreenName.Length == 0)
+			{
+				IOC.Core.Instance.Log.Error("AttachImageToScreen: Please specify a valid ScreenName.");
+				enabled = false;
+				return;
+			}
+
+			var screen = MiddleVR.VRDisplayMgr.GetScreen(ScreenName);
+			if (screen == null)
+			{
+				IOC.Core.Instance.Log.Error("AttachImageToScreen: Screen could not be found.");
+				enabled = false;
+				return;
+			}
+
+			var node = GameObject.Find(ScreenName);
+			if (node != null)
+			{
+				var imageGo = new GameObject("Screen Attached Image");
+
+				// Setting new parent
+				imageGo.transform.SetParent(node.transform, false);
 				
-			UFZ.IOC.Core.Instance.Log.Info("AttachToNode: " + name + " attached to : " + node.name);
-			_attached = true;
+				IOC.Core.Instance.Log.Info("AttachToNode: " + name + " attached to : " + node.name);
+				_attached = true;
 
-			enabled = false;
-		}
-		else
-		{
-			if (_searched) return;
-			UFZ.IOC.Core.Instance.Log.Error("[X] AttachToNode: Failed to find Game object '" + ScreenName + "'");
-			_searched = true;
+				enabled = false;
+			}
+			else
+			{
+				if (_searched) return;
+				IOC.Core.Instance.Log.Error("[X] AttachToNode: Failed to find Game object '" + ScreenName + "'");
+				_searched = true;
 
-			enabled = false;
+				enabled = false;
+			}
 		}
 	}
 }

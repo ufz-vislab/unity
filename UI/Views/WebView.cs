@@ -1,7 +1,8 @@
-﻿using MarkLight.Views.UI;
+﻿using MarkLight;
+using MarkLight.Views.UI;
 using UnityEngine;
 
-namespace MarkLight.Views
+namespace UFZ.UI.Views
 {
 	[HideInPresenter]
 	public class WebView : UIView
@@ -9,6 +10,7 @@ namespace MarkLight.Views
 		#region Fields
 
 		[ChangeHandler("UpdateURL")]
+		// ReSharper disable once InconsistentNaming
 		public string URL;
 		private bool _initialized;
 		private VRWebView _vrWebView;
@@ -65,6 +67,7 @@ namespace MarkLight.Views
 				UpdateURL();
 		}
 
+		// ReSharper disable once InconsistentNaming
 		public virtual void UpdateURL()
 		{
 			if (_vrWebView == null || _vrWebView.webView == null)

@@ -1,50 +1,57 @@
-using UnityEngine;
 using MiddleVR_Unity3D;
+using UnityEngine;
 
-[AddComponentMenu("MiddleVR/Interactions/Attach UI to Node")]
-public class VRAttachUIToNode : MonoBehaviour
+namespace UFZ.UI
 {
-	public string VRParentNode = "HeadNode";
-
-	private bool m_Attached;
-	private bool m_Searched;
-
-	protected void Update()
+	[AddComponentMenu("MiddleVR/Interactions/Attach UI to Node")]
+	// ReSharper disable once InconsistentNaming
+	public class VRAttachUIToNode : MonoBehaviour
 	{
-		if (m_Attached) return;
-		var node = GameObject.Find(VRParentNode);
+		// ReSharper disable once InconsistentNaming
+		public string VRParentNode = "HeadNode";
 
-		if (VRParentNode.Length == 0)
+		// ReSharper disable once InconsistentNaming
+		private bool m_Attached;
+		// ReSharper disable once InconsistentNaming
+		private bool m_Searched;
+
+		protected void Update()
 		{
-			MVRTools.Log(0, "[X] AttachToNode: Please specify a valid VRParentNode name.");
-		}
+			if (m_Attached) return;
+			var node = GameObject.Find(VRParentNode);
 
-		if (node != null)
-		{
-			var oldPos = transform.localPosition;
-			var oldRot = transform.localRotation;
-			var oldScale = transform.localScale;
+			if (VRParentNode.Length == 0)
+			{
+				MVRTools.Log(0, "[X] AttachToNode: Please specify a valid VRParentNode name.");
+			}
 
-			// Setting new parent
-			transform.SetParent(node.transform, false);
-			transform.localPosition = oldPos;
-			transform.localRotation = oldRot;
-			transform.localScale = oldScale;
+			if (node != null)
+			{
+				var oldPos = transform.localPosition;
+				var oldRot = transform.localRotation;
+				var oldScale = transform.localScale;
 
-			MVRTools.Log(2, "[+] AttachToNode: " + name + " attached to : " + node.name);
-			m_Attached = true;
+				// Setting new parent
+				transform.SetParent(node.transform, false);
+				transform.localPosition = oldPos;
+				transform.localRotation = oldRot;
+				transform.localScale = oldScale;
 
-			// Stop this component now.
-			enabled = false;
-		}
-		else
-		{
-			if (m_Searched) return;
-			MVRTools.Log(0, "[X] AttachToNode: Failed to find Game object '" + VRParentNode + "'");
-			m_Searched = true;
+				MVRTools.Log(2, "[+] AttachToNode: " + name + " attached to : " + node.name);
+				m_Attached = true;
 
-			// Stop this component now.
-			enabled = false;
+				// Stop this component now.
+				enabled = false;
+			}
+			else
+			{
+				if (m_Searched) return;
+				MVRTools.Log(0, "[X] AttachToNode: Failed to find Game object '" + VRParentNode + "'");
+				m_Searched = true;
+
+				// Stop this component now.
+				enabled = false;
+			}
 		}
 	}
 }

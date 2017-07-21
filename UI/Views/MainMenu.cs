@@ -1,25 +1,29 @@
 using MarkLight.Views.UI;
 
-public class MainMenu : UIView
+namespace UFZ.UI.Views
 {
-	public ViewSwitcher ContentViewSwitcher;
-	public DragableUIView DragableUIView;
-
-	public override void Initialize()
+	public class MainMenu : UIView
 	{
-		base.Initialize();
+		public ViewSwitcher ContentViewSwitcher;
+		// ReSharper disable once InconsistentNaming
+		public DragableUIView DragableUIView;
 
-		DragableUIView.SetValue("Caption", "Main Menu");
+		public override void Initialize()
+		{
+			base.Initialize();
+
+			DragableUIView.SetValue("Caption", "Main Menu");
+		}
+
+		public void SectionSelected(ItemSelectionActionData eventData)
+		{
+			ContentViewSwitcher.SwitchTo(eventData.ItemView.Text + "View");
+		}
+
+		public void Close()
+		{
+			Deactivate();
+		}
+
 	}
-
-	public void SectionSelected(ItemSelectionActionData eventData)
-	{
-		ContentViewSwitcher.SwitchTo(eventData.ItemView.Text + "View");
-	}
-
-	public void Close()
-	{
-		Deactivate();
-	}
-
 }
