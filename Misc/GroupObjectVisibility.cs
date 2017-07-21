@@ -6,7 +6,7 @@ namespace UFZ.Interaction
 {
 	public class GroupObjectVisibility : SerializedMonoBehaviour
 	{
-		public Dictionary<string, ObjectVisibility[] > ObjectVisibilities;
+		public Dictionary<string, ObjectVisibility[] > ObjectVisibilities = new Dictionary<string, ObjectVisibility[]>();
 
 		public void Execute(string groupName)
 		{

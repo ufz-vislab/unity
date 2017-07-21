@@ -5,7 +5,7 @@ namespace UFZ.Misc
 {
 	public class GameObjectList : SerializedMonoBehaviour
 	{
-		[HideReferenceObjectPicker]
+		[SceneObjectsOnly]
 		public GameObject[] Objects;
 	}
 }

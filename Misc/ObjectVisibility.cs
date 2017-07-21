@@ -1,5 +1,4 @@
 ﻿using DG.Tweening;
-using NUnit.Framework;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UnityEngine;
@@ -7,11 +6,7 @@ using UFZ.Rendering;
 
 namespace UFZ.Interaction
 {
-	/// <summary>
-	/// Can be attached to a Viewpoint and controls fade in/out of objects
-	/// upon view point arrival.
-	/// </summary>
-	public class ObjectVisibility : SerializedMonoBehaviour
+	public abstract class ObjectVisibility : SerializedMonoBehaviour
 	{
 		/// <summary>
 		/// Struct for storing transition data for one GameObject.
@@ -21,6 +16,7 @@ namespace UFZ.Interaction
 			/// <summary>
 			/// The game object which will be fade in / out.
 			/// </summary>
+			[SceneObjectsOnly]
 			public GameObject GameObject;
 			/// <summary>
 			/// The target opacity.
