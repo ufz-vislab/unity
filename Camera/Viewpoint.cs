@@ -36,46 +36,16 @@ namespace UFZ.Interaction
 		{
 			_nodeToMove = GameObject.Find("Player (Player)");
 
-#if MVR
-			_moveCommand = new vrCommand("", MoveHandler);
-#endif
-
 			// Workaround to null exceptions when there is no subscriber to the event
 			OnFinish += delegate { return; };
 			OnStart += delegate (float duration) { return; };
 			OnFinish += delegate { return; };
 		}
 
-#if MVR
-
-		private void OnDestroy()
-		{
-			MiddleVR.DisposeObject(ref _moveCommand);
-		}
-
-		private vrCommand _moveCommand;
-
-		private vrValue MoveHandler(vrValue value)
-		{
-			MoveInternal();
-			return true;
-		}
-#endif
-
 		/// <summary>
 		/// Moves a GameObject smoothly to this viewpoint.
 		/// </summary>
 		public void Move()
-		{
-#if MVR
-			if (_moveCommand != null)
-				_moveCommand.Do(true);
-#else
-			MoveInternal();
-#endif
-		}
-
-		private void MoveInternal()
 		{
 			//const float speed = 1.5f; // units per seconds
 			var vec = transform.position - _nodeToMove.transform.position;
@@ -110,12 +80,6 @@ namespace UFZ.Interaction
 				_moveTweener.Kill();
 			if (_rotateTweener != null)
 				_rotateTweener.Kill();
-		}
-
-		public IEnumerator JumpDelayed(float delay)
-		{
-			yield return new WaitForSeconds(delay);
-			Jump();
 		}
 
 		public delegate void OnSetEvent();
