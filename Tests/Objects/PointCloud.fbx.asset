@@ -11,8 +11,175 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cca94a1232ed7459f84ad8fb7ad429ee, type: 3}
   m_Name: PointCloud.fbx
   m_EditorClassIdentifier: 
-  _objectReferences: []
-  _serializedStateKeys:
-  - Properties
-  _serializedStateValues:
-  - '[{"SubMeshIndex":0,"Bools":{"PointRendering":true,"UseVertexColors":true},"Floats":{"ScalarRangeMin":0.0,"ScalarRangeMax":1.0},"Colors":{"ScalarRangeMinColor":{"r":0.2313726,"g":0.2980392,"b":0.7529412,"a":1.0},"ScalarRangeMaxColor":{"r":0.7058824,"g":0.01568628,"b":0.1490196,"a":1.0}}}]'
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: Properties
+      Entry: 7
+      Data: 0|System.Collections.Generic.List`1[[UFZ.Annotations.MeshInfo+PropertyDictionaries,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: UFZ.Annotations.MeshInfo+PropertyDictionaries, Assembly-CSharp
+    - Name: SubMeshIndex
+      Entry: 3
+      Data: 0
+    - Name: Bools
+      Entry: 7
+      Data: 1|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[System.Boolean,
+        mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: 
+      Entry: 1
+      Data: PointRendering
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: 
+      Entry: 1
+      Data: UseVertexColors
+    - Name: 
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Floats
+      Entry: 7
+      Data: 2|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[System.Single,
+        mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: 
+      Entry: 1
+      Data: ScalarRangeMin
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: 
+      Entry: 1
+      Data: ScalarRangeMax
+    - Name: 
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Colors
+      Entry: 7
+      Data: 3|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[UnityEngine.Color,
+        UnityEngine]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: 
+      Entry: 1
+      Data: ScalarRangeMinColor
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Color, UnityEngine
+    - Name: 
+      Entry: 4
+      Data: 0.23137255
+    - Name: 
+      Entry: 4
+      Data: 0.298039228
+    - Name: 
+      Entry: 4
+      Data: 0.7529412
+    - Name: 
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: 
+      Entry: 1
+      Data: ScalarRangeMaxColor
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Color, UnityEngine
+    - Name: 
+      Entry: 4
+      Data: 0.7058824
+    - Name: 
+      Entry: 4
+      Data: 0.0156862754
+    - Name: 
+      Entry: 4
+      Data: 0.149019614
+    - Name: 
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
