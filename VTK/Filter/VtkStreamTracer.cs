@@ -27,7 +27,7 @@ public class VtkStreamTracer : VtkAlgorithm
 	private Vector3 _point = Vector3.zero;
 	*/
 
-	[OdinSerialize, ShowInInspector]
+	[ShowInInspector]
 	public VtkAlgorithm Source
 	{
 		get { return _source; }
@@ -40,6 +40,7 @@ public class VtkStreamTracer : VtkAlgorithm
 			}
 		}
 	}
+	[SerializeField, HideInInspector]
 	private VtkAlgorithm _source;
 
 	private vtkRungeKutta4 _integrator;

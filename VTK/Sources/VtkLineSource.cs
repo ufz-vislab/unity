@@ -1,6 +1,7 @@
 #if UNITY_STANDALONE_WIN
 using UnityEngine;
 using Kitware.VTK;
+using Sirenix.OdinInspector;
 
 namespace UFZ.VTK
 {
@@ -8,7 +9,7 @@ namespace UFZ.VTK
 	{
 		private vtkLineSource _source;
 
-		[SerializeField]
+		[ShowInInspector]
 		public Vector3 Point1
 		{
 			get { return _point1; }
@@ -19,9 +20,10 @@ namespace UFZ.VTK
 					_source.SetPoint1(value.x, value.y,value.z);
 			}
 		}
+		[SerializeField, HideInInspector]
 		private Vector3 _point1 = Vector3.zero;
 
-		[SerializeField]
+		[ShowInInspector]
 		public Vector3 Point2
 		{
 			get { return _point2; }
@@ -32,9 +34,10 @@ namespace UFZ.VTK
 					_source.SetPoint2(value.x, value.y, value.z);
 			}
 		}
+		[SerializeField, HideInInspector]
 		private Vector3 _point2 = Vector3.up;
 
-		[SerializeField]
+		[ShowInInspector]
 		public int Resolution
 		{
 			get { return _resolution; }
@@ -47,6 +50,7 @@ namespace UFZ.VTK
 					_source.SetResolution(value);
 			}
 		}
+		[SerializeField, HideInInspector]
 		private int _resolution = 1;
 
 		protected override void Initialize()

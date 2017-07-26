@@ -1,25 +1,21 @@
 ﻿#if UNITY_STANDALONE_WIN
-using System;
 using UnityEngine;
-using System.IO;
 using Kitware.VTK;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 #if UNITY_EDITOR
 using UnityEditor;
+using System.Threading;
 #endif
 
 namespace UFZ.VTK
 {
-#if UNITY_EDITOR // Calls the static constructor on load
-	[InitializeOnLoad]
-#endif
 	public abstract class VtkAlgorithm : SerializedMonoBehaviour
 	{
 		public bool HasInput { get { return _hasInput; } }
 		protected bool _hasInput;
 
-		[ShowInInspector, HideIf("HasOutput")] //  InspectorComment(CommentType.Error, "No valid output!")
+		[ShowInInspector, HideIf("HasOutput")]
 		public bool HasOutput
 		{
 			get
@@ -47,7 +43,7 @@ namespace UFZ.VTK
 			}
 		}
 
-		[OdinSerialize, ShowIf("HasInput")]
+		[ShowInInspector, ShowIf("HasInput")]
 		public VtkAlgorithm InputAlgorithm
 		{
 			get { return _inputAlgorithm; }
@@ -64,7 +60,7 @@ namespace UFZ.VTK
 				UpdateRenderer();
 			}
 		}
-
+		[SerializeField, HideInInspector]
 		private VtkAlgorithm _inputAlgorithm;
 
 		[HideInInspector]
@@ -73,7 +69,7 @@ namespace UFZ.VTK
 		[SerializeField]
 		protected VtkRenderer ren;
 
-		[SerializeField]
+		[OdinSerialize, HideInInspector]
 		protected vtkAlgorithmOutput AlgorithmOutput;
 
 		protected vtkTriangleFilter TriangleFilter;
@@ -98,12 +94,17 @@ namespace UFZ.VTK
 			return AlgorithmOutput;
 		}
 
-		[Button, ShowIf("HasOutput")]
+		[Button, ShowIf("ShowAddRenderer")]
 		public void AddRenderer()
 		{
 			ren = gameObject.AddComponent<VtkRenderer>();
 			ren.Algorithm = this;
 			Initialize();
+		}
+
+		protected bool ShowAddRenderer()
+		{
+			return HasOutput && ren == null;
 		}
 
 		protected virtual void Initialize()
@@ -117,37 +118,7 @@ namespace UFZ.VTK
 		protected void UpdateRenderer()
 		{
 			if (ren)
-				ren.BuffersUpToDate = false;
-		}
-
-		// See http://stackoverflow.com/a/33124250/80480
-		static VtkAlgorithm()
-		{
-#if UNITY_EDITOR
-			//if (!FullInspector.Internal.fiUtility.IsMainThread)
-			//	return;
-
-			var pluginPath = "UFZ" + Path.DirectorySeparatorChar + "VTK" + Path.DirectorySeparatorChar + "Plugins";
-#endif
-			var currentPath = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Process);
-#if UNITY_EDITOR_32
-			var dllPath = Application.dataPath + Path.DirectorySeparatorChar
-				+ pluginPath
-				+ Path.DirectorySeparatorChar + "x32";
-#elif UNITY_EDITOR_64
-			var dllPath = Application.dataPath + Path.DirectorySeparatorChar
-						  + pluginPath
-						  + Path.DirectorySeparatorChar + "x64";
-#else
-			var dllPath = Application.dataPath
-				+ Path.DirectorySeparatorChar + "Plugins";
-
-#endif
-			if (currentPath != null
-				&& currentPath.Contains(dllPath) == false)
-				Environment.SetEnvironmentVariable("PATH", currentPath + Path.PathSeparator + dllPath,
-					EnvironmentVariableTarget.Process);
-			// Debug.Log("Set VTK Dll path to " + dllPath);
+				ren.UpdateBuffers();
 		}
 	}
 }

@@ -1,6 +1,7 @@
 #if UNITY_STANDALONE_WIN
 using UnityEngine;
 using Kitware.VTK;
+using Sirenix.OdinInspector;
 
 namespace UFZ.VTK
 {
@@ -8,7 +9,7 @@ namespace UFZ.VTK
 	{
 		private vtkCylinderSource _source;
 
-		[SerializeField]
+		[ShowInInspector]
 		public float Radius
 		{
 			get { return _radius; }
@@ -21,11 +22,13 @@ namespace UFZ.VTK
 					_source.SetRadius(value);
 			}
 		}
+		[SerializeField, HideInInspector]
 		private float _radius = 1f;
 
+		[SerializeField, HideInInspector]
 		private float _height = 3f;
 
-		[SerializeField]
+		[ShowInInspector]
 		public int Resolution
 		{
 			get { return _resolution; }
@@ -38,6 +41,7 @@ namespace UFZ.VTK
 					_source.SetResolution(value);
 			}
 		}
+		[SerializeField, HideInInspector]
 		private int _resolution = 6;
 
 		protected override void Initialize()

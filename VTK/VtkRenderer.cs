@@ -1,4 +1,6 @@
 ﻿#if UNITY_STANDALONE_WIN
+using System;
+using System.Threading;
 using UnityEngine;
 using Kitware.VTK;
 using Sirenix.OdinInspector;
@@ -25,19 +27,20 @@ namespace UFZ.VTK
 		[HideInInspector]
 		public bool BuffersUpToDate;
 
-		[HideInInspector]
+		[HideInInspector, NonSerialized]
 		public ComputeBuffer bufferPoints;
-		[HideInInspector]
+		[HideInInspector, NonSerialized]
 		public ComputeBuffer bufferVerts;
-		[HideInInspector]
+		[HideInInspector, NonSerialized]
 		public ComputeBuffer bufferLines;
-		[HideInInspector]
+		[HideInInspector, NonSerialized]
 		public ComputeBuffer bufferTriangles;
-		[HideInInspector]
+		[HideInInspector, NonSerialized]
 		public ComputeBuffer bufferNormals;
-		[HideInInspector]
+		[HideInInspector, NonSerialized]
 		public ComputeBuffer bufferColors;
 
+		[SerializeField]
 		public VtkAlgorithm Algorithm;
 
 		[ShowInInspector]
@@ -207,6 +210,7 @@ namespace UFZ.VTK
 			//Debug.Log(name + ": [" + center[0] + ", " + center[1] + ", " + center[2] + "]");
 		}
 
+		[Button]
 		public void UpdateBuffers()
 		{
 			if (mapper == null)
@@ -219,13 +223,16 @@ namespace UFZ.VTK
 			mapper.Update();
 			mapper.RenderPiece(null, actor);
 			BuffersUpToDate = true;
+#if UNITY_EDITOR
+			SceneView.RepaintAll();
+#endif
 		}
 
 		protected void ReleaseBuffers()
 		{
 #if UNITY_EDITOR
-			//if (!FullInspector.Internal.fiUtility.IsMainThread)
-			//	return;
+			if (Thread.CurrentThread.ManagedThreadId != 1)
+				return;
 			ReleaseBuffersImpl();
 #else
 			Loom.QueueOnMainThread(() => { ReleaseBuffersImpl(); });

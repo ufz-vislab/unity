@@ -1,7 +1,5 @@
 #if UNITY_STANDALONE_WIN
-﻿using System;
-using UnityEngine;
-using System.Collections;
+using System;
 using Kitware.VTK;
 
 namespace UFZ.VTK

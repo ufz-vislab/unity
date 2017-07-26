@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections;
 using System.IO;
 using Kitware.VTK;
+using Sirenix.OdinInspector;
 
 namespace UFZ.VTK
 {
@@ -10,7 +11,7 @@ namespace UFZ.VTK
 	{
 		private vtkXMLUnstructuredGridReader _source;
 
-		[SerializeField]
+		[ShowInInspector]
 		public string Filepath
 		{
 			get { return _filepath; }
@@ -24,8 +25,8 @@ namespace UFZ.VTK
 				}
 			}
 		}
-
-		private string _filepath = "X:\\minimal_mesh.vtu";
+		[SerializeField, HideInInspector]
+		private string _filepath = "UFZ/VTK/Data/density.vtu";
 
 		private vtkCellDataToPointData _cellToPointData;
 
@@ -62,6 +63,18 @@ namespace UFZ.VTK
 		protected string AbsoluteFilePath()
 		{
 			return Path.GetFullPath(Application.dataPath + Path.DirectorySeparatorChar + _filepath);
+		}
+		
+		[Button, ShowIf("ShowAddSurfaceFilter")]
+		public void AddSurfaceFilter()
+		{
+			var filter = gameObject.AddComponent<VtkDataSetSurfaceFilter>();
+			filter.InputAlgorithm = this;
+		}
+
+		protected bool ShowAddSurfaceFilter()
+		{
+			return true;
 		}
 	}
 }
