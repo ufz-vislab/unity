@@ -77,16 +77,19 @@ namespace UFZ.VTK
 		private void Reset()
 		{
 			Initialize();
+			PostInitialize();
 		}
 
 		protected void Awake()
 		{
 			Initialize();
+			PostInitialize();
 		}
 
 		protected void OnValidate()
 		{
 			Initialize();
+			PostInitialize();
 		}
 
 		public vtkAlgorithmOutput OutputPort()
@@ -112,13 +115,20 @@ namespace UFZ.VTK
 			if (_inputAlgorithm != null)
 				_inputAlgorithm.Initialize();
 			if (TriangleFilter == null)
-				TriangleFilter = vtkTriangleFilter.New();
+				TriangleFilter = vtkTriangleFilter.New();	
+		}
+
+		protected virtual void PostInitialize()
+		{
+			if (Algorithm == null || InputAlgorithm == null)
+				return;
+			Algorithm.SetInputConnection(InputAlgorithm.AlgorithmOutput);
 		}
 
 		protected void UpdateRenderer()
 		{
 			if (ren)
-				ren.UpdateBuffers();
+				ren.BuffersUpToDate = false;
 		}
 	}
 }

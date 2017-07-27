@@ -1,10 +1,9 @@
 ﻿#if UNITY_STANDALONE_WIN
 using System;
-using System.Threading;
+using System.Collections;
 using UnityEngine;
 using Kitware.VTK;
 using Sirenix.OdinInspector;
-using UnityEngine.UI;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -21,24 +20,24 @@ namespace UFZ.VTK
 		[HideInInspector]
 		public Material TrianglesMaterial;
 
-		protected SimpleVtkMapper mapper;
-		protected vtkActor actor;
+		private SimpleVtkMapper _mapper;
+		private vtkActor _actor;
 
 		[HideInInspector]
 		public bool BuffersUpToDate;
 
 		[HideInInspector, NonSerialized]
-		public ComputeBuffer bufferPoints;
+		public ComputeBuffer BufferPoints;
 		[HideInInspector, NonSerialized]
-		public ComputeBuffer bufferVerts;
+		public ComputeBuffer BufferVerts;
 		[HideInInspector, NonSerialized]
-		public ComputeBuffer bufferLines;
+		public ComputeBuffer BufferLines;
 		[HideInInspector, NonSerialized]
-		public ComputeBuffer bufferTriangles;
+		public ComputeBuffer BufferTriangles;
 		[HideInInspector, NonSerialized]
-		public ComputeBuffer bufferNormals;
+		public ComputeBuffer BufferNormals;
 		[HideInInspector, NonSerialized]
-		public ComputeBuffer bufferColors;
+		public ComputeBuffer BufferColors;
 
 		[SerializeField]
 		public VtkAlgorithm Algorithm;
@@ -50,7 +49,7 @@ namespace UFZ.VTK
 			set
 			{
 				_scalarVisibility = value;
-				mapper.ScalarVisibility = value;
+				_mapper.ScalarVisibility = value;
 			}
 		}
 		[SerializeField, HideInInspector]
@@ -61,11 +60,11 @@ namespace UFZ.VTK
 		{
 			get
 			{
-				if (mapper == null)
+				if (_mapper == null)
 					return 9999;
-				return mapper.ActiveColorArrayIndex;
+				return _mapper.ActiveColorArrayIndex;
 			}
-			set { mapper.ActiveColorArrayIndex = value; }
+			set { _mapper.ActiveColorArrayIndex = value; }
 		}
 
 		[ShowInInspector]
@@ -75,89 +74,61 @@ namespace UFZ.VTK
 			set
 			{
 				_range = value;
-				mapper.SetScalarRange(value.x, value.y);
+				_mapper.SetScalarRange(value.x, value.y);
 			}
 		}
 		[SerializeField, HideInInspector]
 		private Vector2 _range;
-
-#if UNITY_EDITOR
-		private void Reset()
-		{
-			Initialize();
-		}
-#endif
 
 		private void Initialize()
 		{
 			if(Algorithm == null)
 				return;
 
-			mapper = SimpleVtkMapper.New();
-			mapper.Renderer = this;
-			mapper.SetInputConnection(Algorithm.OutputPort());
-			mapper.ScalarVisibility = _scalarVisibility;
-			mapper.ActiveColorArrayIndex = ActiveColorArrayIndex;
-			//if(actor == null)
-			actor = vtkActor.New();
-			actor.SetMapper(mapper);
+			_mapper = SimpleVtkMapper.New();
+			_mapper.Renderer = this;
+			_mapper.SetInputConnection(Algorithm.OutputPort());
+			_mapper.ScalarVisibility = _scalarVisibility;
+			_mapper.ActiveColorArrayIndex = ActiveColorArrayIndex;
+
+			_actor = vtkActor.New();
+			_actor.SetMapper(_mapper);
 
 			var property = vtkProperty.New();
 			property.SetColor(1.0, 0.0, 0.0);
-			actor.SetProperty(property);
+			_actor.SetProperty(property);
 			if(PointsMaterial == null)
 				PointsMaterial = new Material(Shader.Find("DX11/VtkPoints"));
 			if (LinesMaterial == null)
 				LinesMaterial = new Material(Shader.Find("DX11/VtkPoints"));
 			if (TrianglesMaterial == null)
 				TrianglesMaterial = new Material(Shader.Find("DX11/VtkTriangles"));
-			// UpdateBuffers();
-			mapper.ModifiedEvt += delegate { UpdateBuffers(); };
+
+			_mapper.ModifiedEvt += delegate { BuffersUpToDate = false; };
 
 			ScalarVisibility = _scalarVisibility;
 			Range = _range;
-
-			_initialized = true;
 		}
 
-		private bool _initialized;
-
-		protected void Awake()
+		// Hack for regenerating buffers after startup; see OnDestroy()
+		private void Start()
 		{
-			if (Application.isPlaying)
-				Initialize();
+			StartCoroutine(TriggerBufferUpdate());
 		}
 
-		private void OnEnable()
+		private IEnumerator TriggerBufferUpdate()
 		{
-#if UNITY_EDITOR
-			EditorApplication.playmodeStateChanged += delegate
-			{
-				if (!EditorApplication.isPlaying)
-					Initialize();
-			};
-#endif
+			yield return new WaitForSeconds(0.01f);
+			BuffersUpToDate = false;
 		}
 
-		private void OnDisable()
-		{
-#if UNITY_EDITOR
-			EditorApplication.playmodeStateChanged = null;
-#endif
-		}
-
+		// Is called somehow when pressing start button. Stack trace is not shown
+		// Buffers are destroyed and not regenerated. Introduced coroutine-hack in
+		// Start()/.
 		private void OnDestroy()
 		{
-#if UNITY_EDITOR
-			DestroyImmediate(PointsMaterial);
-			DestroyImmediate(LinesMaterial);
-			DestroyImmediate(TrianglesMaterial);
-#else
-			Destroy(PointsMaterial);
-			Destroy(LinesMaterial);
-			Destroy(TrianglesMaterial);
-#endif
-			ReleaseBuffers();
+			//ReleaseBuffersImpl();
+			//Debug.Log(StackTraceUtility.ExtractStackTrace());
 		}
 
 		private void Update()
@@ -169,9 +140,6 @@ namespace UFZ.VTK
 				return;
 			}
 #endif
-			if (!_initialized)
-				Initialize();
-
 			if (!BuffersUpToDate)
 				UpdateBuffers();
 
@@ -183,94 +151,78 @@ namespace UFZ.VTK
 
 		private void OnRenderObject()
 		{
-			if (mapper == null)
+			if (_mapper == null)
 				return;
 
-			if (bufferPoints == null || bufferPoints.count == 0)
+			if (BufferPoints == null || BufferPoints.count == 0)
 				return;
 
-			if (bufferVerts != null && bufferVerts.count > 0)
+			if (BufferVerts != null && BufferVerts.count > 0)
 			{
 				PointsMaterial.SetPass(0);
-				Graphics.DrawProcedural(MeshTopology.Points, bufferVerts.count);
+				Graphics.DrawProcedural(MeshTopology.Points, BufferVerts.count);
 			}
-			if (bufferLines != null && bufferLines.count > 0)
+			if (BufferLines != null && BufferLines.count > 0)
 			{
 				LinesMaterial.SetPass(0);
-				Graphics.DrawProcedural(MeshTopology.Lines, bufferLines.count);
+				Graphics.DrawProcedural(MeshTopology.Lines, BufferLines.count);
 			}
-			if (bufferPoints.count > 2 &&
-				bufferTriangles != null && bufferTriangles.count > 2)
+			if (BufferPoints.count > 2 &&
+				BufferTriangles != null && BufferTriangles.count > 2)
 			{
 				TrianglesMaterial.SetPass(0);
-				Graphics.DrawProcedural(MeshTopology.Triangles, bufferTriangles.count);
+				Graphics.DrawProcedural(MeshTopology.Triangles, BufferTriangles.count);
 			}
-
-			//var center = actor.GetCenter();
-			//Debug.Log(name + ": [" + center[0] + ", " + center[1] + ", " + center[2] + "]");
 		}
 
 		[Button]
 		public void UpdateBuffers()
 		{
-			if (mapper == null)
-			{
+			if (_mapper == null)
 				Initialize();
-				return;
-			}
 
-			ReleaseBuffers();
-			mapper.Update();
-			mapper.RenderPiece(null, actor);
+			ReleaseBuffersImpl();
+			_mapper.Update();
+			_mapper.RenderPiece(null, _actor);
 			BuffersUpToDate = true;
 #if UNITY_EDITOR
 			SceneView.RepaintAll();
 #endif
 		}
 
-		protected void ReleaseBuffers()
-		{
-#if UNITY_EDITOR
-			if (Thread.CurrentThread.ManagedThreadId != 1)
-				return;
-			ReleaseBuffersImpl();
-#else
-			Loom.QueueOnMainThread(() => { ReleaseBuffersImpl(); });
-#endif
-		}
-
 		private void ReleaseBuffersImpl()
 		{
-			if (bufferPoints != null)
+			if (BufferPoints != null)
 			{
-				bufferPoints.Release();
-				bufferPoints = null;
+				BufferPoints.Release();
+				BufferPoints = null;
 			}
-			if (bufferVerts != null)
+			if (BufferVerts != null)
 			{
-				bufferVerts.Release();
-				bufferVerts = null;
+				BufferVerts.Release();
+				BufferVerts = null;
 			}
-			if (bufferLines != null)
+			if (BufferLines != null)
 			{
-				bufferLines.Release();
-				bufferLines = null;
+				BufferLines.Release();
+				BufferLines = null;
 			}
-			if (bufferTriangles != null)
+			if (BufferTriangles != null)
 			{
-				bufferTriangles.Release();
-				bufferTriangles = null;
+				BufferTriangles.Release();
+				BufferTriangles = null;
 			}
-			if (bufferNormals != null)
+			if (BufferNormals != null)
 			{
-				bufferNormals.Release();
-				bufferNormals = null;
+				BufferNormals.Release();
+				BufferNormals = null;
 			}
-			if (bufferColors != null)
+			if (BufferColors != null)
 			{
-				bufferColors.Release();
-				bufferColors = null;
+				BufferColors.Release();
+				BufferColors = null;
 			}
+			BuffersUpToDate = false;
 		}
 	}
 }
