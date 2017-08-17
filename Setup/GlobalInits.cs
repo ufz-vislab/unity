@@ -1,8 +1,17 @@
-﻿using System.Linq;
+﻿using System;
+using System.IO;
+using System.Linq;
+using System.Threading;
 using DG.Tweening;
 using MarkLight;
 using MarkLight.Views.UI;
 using UFZ.Interaction;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+#if UNITY_STANDALONE
+using PygmyMonkey.AdvancedBuilder;
+#endif
 using UnityEngine;
 
 namespace UFZ.Initialization
@@ -11,6 +20,9 @@ namespace UFZ.Initialization
 	/// Do global initialization stuff here.
 	/// </summary>
 	/// Is part of the VRBase scene.
+#if UNITY_EDITOR
+	[InitializeOnLoad]
+#endif
 	public class GlobalInits : MonoBehaviour
 	{
 		public enum InputType

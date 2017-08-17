@@ -9,6 +9,7 @@ namespace UFZ.VTK
 	{
 		public new static VtkActor New()
 		{
+			// var ret = vtkObjectFactory.CreateInstance("VtkActor", false);
 			var ret = vtkObjectFactory.CreateInstance("VtkActor");
 			if (ret != null)
 				return (VtkActor)ret;

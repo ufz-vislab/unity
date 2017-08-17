@@ -1,15 +1,21 @@
 ﻿#if UNITY_STANDALONE_WIN
+using System;
+using System.IO;
+using System.Threading;
 using UnityEngine;
 using Kitware.VTK;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+
 #if UNITY_EDITOR
 using UnityEditor;
-using System.Threading;
 #endif
 
 namespace UFZ.VTK
 {
+#if UNITY_EDITOR
+	[InitializeOnLoad]
+#endif
 	public abstract class VtkAlgorithm : SerializedMonoBehaviour
 	{
 		public bool HasInput { get { return _hasInput; } }
@@ -64,7 +70,7 @@ namespace UFZ.VTK
 		private VtkAlgorithm _inputAlgorithm;
 
 		[HideInInspector]
-		protected vtkAlgorithm Algorithm;
+		public vtkAlgorithm Algorithm;
 
 		[SerializeField]
 		protected VtkRenderer ren;
@@ -80,11 +86,14 @@ namespace UFZ.VTK
 			PostInitialize();
 		}
 
+#if !UNITY_EDITOR
 		protected void Awake()
 		{
+			SetDllPath();
 			Initialize();
 			PostInitialize();
 		}
+#endif
 
 		protected void OnValidate()
 		{
@@ -120,15 +129,49 @@ namespace UFZ.VTK
 
 		protected virtual void PostInitialize()
 		{
-			if (Algorithm == null || InputAlgorithm == null)
-				return;
-			Algorithm.SetInputConnection(InputAlgorithm.AlgorithmOutput);
+			if (Algorithm != null && InputAlgorithm != null && Algorithm.GetInputConnection(0, 0) == null)
+				Algorithm.SetInputConnection(InputAlgorithm.AlgorithmOutput);
+			// This allows for editing values in inspector but breaks UpdateBuffers on recompile!	
+			else
+				UpdateRenderer();
 		}
 
 		protected void UpdateRenderer()
 		{
-			if (ren)
-				ren.BuffersUpToDate = false;
+			if (ren == null)
+				return;
+			ren.RequestRenderUpdate();
+		}
+		
+#if UNITY_EDITOR
+		static VtkAlgorithm()
+#else
+		private void SetDllPath()
+#endif
+		{
+			var currentPath = Environment.GetEnvironmentVariable("PATH",
+				EnvironmentVariableTarget.Process);
+			if (currentPath != null &&  currentPath.Contains("VTK-Init"))
+				return;
+			
+			if (Thread.CurrentThread.ManagedThreadId != 1)
+				return;
+#if UNITY_EDITOR
+			var pluginPath = Path.Combine(Application.dataPath, "UFZ/VTK/Plugins");
+#endif
+#if UNITY_EDITOR_32
+			var dllPath = Path.Combine(pluginPath, "x86");
+#elif UNITY_EDITOR_64
+			var dllPath = Path.Combine(pluginPath, "x86_64");
+#elif UNITY_STANDALONE
+			var dllPath = Path.Combine(Application.dataPath, "Plugins");
+			//var dllPath = "./" + AppParameters.Get.productName + "_Data/Plugins";
+#endif
+			Environment.SetEnvironmentVariable("PATH", currentPath +
+			                                           Path.PathSeparator + dllPath +
+			                                           Path.PathSeparator + "VTK-Init",
+				EnvironmentVariableTarget.Process);
+			Debug.LogWarning("Set VTK Dll path to " + dllPath);
 		}
 	}
 }

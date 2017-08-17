@@ -1,9 +1,11 @@
 ﻿#if UNITY_STANDALONE_WIN
-using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Kitware.VTK;
 using Sirenix.OdinInspector;
+using UFZ.Rendering;
+using UnityEngine.Rendering;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -11,38 +13,33 @@ using UnityEditor;
 namespace UFZ.VTK
 {
 	[ExecuteInEditMode]
-	public class VtkRenderer : SerializedMonoBehaviour
+	public class VtkRenderer : SerializedMonoBehaviour, IHideable
 	{
-		[HideInInspector]
-		public Material PointsMaterial;
-		[HideInInspector]
-		public Material LinesMaterial;
-		[HideInInspector]
-		public Material TrianglesMaterial;
+		[ShowInInspector]
+		public bool Enabled {
+			get { return _enabled; }
+			set
+			{
+				_enabled = value;
+				_buffersUpToDate = false;
+			}
+		}
+
+		[SerializeField, HideInInspector]
+		private bool _enabled = true;
 
 		private SimpleVtkMapper _mapper;
 		private vtkActor _actor;
+		
+		private Dictionary<Camera,CommandBuffer> _cameras = new Dictionary<Camera,CommandBuffer>();
 
 		[HideInInspector]
-		public bool BuffersUpToDate;
-
-		[HideInInspector, NonSerialized]
-		public ComputeBuffer BufferPoints;
-		[HideInInspector, NonSerialized]
-		public ComputeBuffer BufferVerts;
-		[HideInInspector, NonSerialized]
-		public ComputeBuffer BufferLines;
-		[HideInInspector, NonSerialized]
-		public ComputeBuffer BufferTriangles;
-		[HideInInspector, NonSerialized]
-		public ComputeBuffer BufferNormals;
-		[HideInInspector, NonSerialized]
-		public ComputeBuffer BufferColors;
+		private bool _buffersUpToDate;
 
 		[SerializeField]
 		public VtkAlgorithm Algorithm;
 
-		[ShowInInspector]
+		[ShowInInspector, ShowIf("Enabled")]
 		public bool ScalarVisibility
 		{
 			get { return _scalarVisibility; }
@@ -55,7 +52,7 @@ namespace UFZ.VTK
 		[SerializeField, HideInInspector]
 		private bool _scalarVisibility;
 
-		[ShowInInspector]
+		[ShowInInspector, ShowIf("Enabled")]
 		public uint ActiveColorArrayIndex
 		{
 			get
@@ -67,7 +64,7 @@ namespace UFZ.VTK
 			set { _mapper.ActiveColorArrayIndex = value; }
 		}
 
-		[ShowInInspector]
+		[ShowInInspector, ShowIf("Enabled")]
 		public Vector2 Range
 		{
 			get { return _range; }
@@ -79,6 +76,11 @@ namespace UFZ.VTK
 		}
 		[SerializeField, HideInInspector]
 		private Vector2 _range;
+
+		public int NumPointDataArrays
+		{
+			get { return _mapper.PointDataArrayNames.Count; }
+		}
 
 		private void Initialize()
 		{
@@ -97,20 +99,15 @@ namespace UFZ.VTK
 			var property = vtkProperty.New();
 			property.SetColor(1.0, 0.0, 0.0);
 			_actor.SetProperty(property);
-			if(PointsMaterial == null)
-				PointsMaterial = new Material(Shader.Find("DX11/VtkPoints"));
-			if (LinesMaterial == null)
-				LinesMaterial = new Material(Shader.Find("DX11/VtkPoints"));
-			if (TrianglesMaterial == null)
-				TrianglesMaterial = new Material(Shader.Find("DX11/VtkTriangles"));
-
-			_mapper.ModifiedEvt += delegate { BuffersUpToDate = false; };
 
 			ScalarVisibility = _scalarVisibility;
 			Range = _range;
+			
+			_mapper.ModifiedEvt += delegate { RequestRenderUpdate(); };
+			Algorithm.Algorithm.ModifiedEvt += delegate { RequestRenderUpdate(); };
 		}
 
-		// Hack for regenerating buffers after startup; see OnDestroy()
+		// Hack for regenerating buffers after startup
 		private void Start()
 		{
 			StartCoroutine(TriggerBufferUpdate());
@@ -119,110 +116,97 @@ namespace UFZ.VTK
 		private IEnumerator TriggerBufferUpdate()
 		{
 			yield return new WaitForSeconds(0.01f);
-			BuffersUpToDate = false;
+			_buffersUpToDate = false;
 		}
 
-		// Is called somehow when pressing start button. Stack trace is not shown
-		// Buffers are destroyed and not regenerated. Introduced coroutine-hack in
-		// Start()/.
-		private void OnDestroy()
-		{
-			//ReleaseBuffersImpl();
-			//Debug.Log(StackTraceUtility.ExtractStackTrace());
-		}
-
+		[Button]
 		private void Update()
 		{
+			if (_mapper == null)
+				Initialize();
 #if UNITY_EDITOR
 			if (EditorApplication.isCompiling)
 			{
-				BuffersUpToDate = false;
+				_buffersUpToDate = false;
 				return;
 			}
 #endif
-			if (!BuffersUpToDate)
-				UpdateBuffers();
-
 			// Apply transformation
-			PointsMaterial.SetMatrix("_MATRIX_M", transform.localToWorldMatrix);
-			LinesMaterial.SetMatrix("_MATRIX_M", transform.localToWorldMatrix);
-			TrianglesMaterial.SetMatrix("_MATRIX_M", transform.localToWorldMatrix);
+			_mapper.SetTransformMatrix(transform.localToWorldMatrix);
+
+			if (!_buffersUpToDate)
+			{
+				Cleanup();
+				_mapper.RenderPiece(null, _actor);
+				_buffersUpToDate = true;
+			
+				OnRenderObject();
+			}
 		}
 
 		private void OnRenderObject()
 		{
-			if (_mapper == null)
+			if (_cameras == null)
+				return;
+			var act = gameObject.activeInHierarchy && enabled && Enabled;
+			if (!act)
+			{
+				Cleanup();
+				return;
+			}
+			
+			// _mapper.SetTransformMatrix(transform.localToWorldMatrix);
+
+			var cam = Camera.current;
+			if (!cam)
 				return;
 
-			if (BufferPoints == null || BufferPoints.count == 0)
+			// Did we already add the command buffer on this camera? Nothing to do then.
+			if (_cameras.ContainsKey(cam))
+			{
+#if UNITY_EDITOR
+				SceneView.RepaintAll();
+#endif
 				return;
-
-			if (BufferVerts != null && BufferVerts.count > 0)
-			{
-				PointsMaterial.SetPass(0);
-				Graphics.DrawProcedural(MeshTopology.Points, BufferVerts.count);
 			}
-			if (BufferLines != null && BufferLines.count > 0)
-			{
-				LinesMaterial.SetPass(0);
-				Graphics.DrawProcedural(MeshTopology.Lines, BufferLines.count);
-			}
-			if (BufferPoints.count > 2 &&
-				BufferTriangles != null && BufferTriangles.count > 2)
-			{
-				TrianglesMaterial.SetPass(0);
-				Graphics.DrawProcedural(MeshTopology.Triangles, BufferTriangles.count);
-			}
-		}
 
-		[Button]
-		public void UpdateBuffers()
-		{
-			if (_mapper == null)
-				Initialize();
-
-			ReleaseBuffersImpl();
-			_mapper.Update();
-			_mapper.RenderPiece(null, _actor);
-			BuffersUpToDate = true;
+			_cameras[cam] = _mapper.Buffer;
+			cam.AddCommandBuffer(CameraEvent.AfterForwardOpaque, _mapper.Buffer);
 #if UNITY_EDITOR
 			SceneView.RepaintAll();
 #endif
 		}
-
-		private void ReleaseBuffersImpl()
+		
+		private void Cleanup()
 		{
-			if (BufferPoints != null)
+			foreach (var cam in _cameras)
 			{
-				BufferPoints.Release();
-				BufferPoints = null;
+				if (cam.Key)
+					cam.Key.RemoveCommandBuffer (CameraEvent.AfterForwardOpaque, cam.Value);
 			}
-			if (BufferVerts != null)
-			{
-				BufferVerts.Release();
-				BufferVerts = null;
-			}
-			if (BufferLines != null)
-			{
-				BufferLines.Release();
-				BufferLines = null;
-			}
-			if (BufferTriangles != null)
-			{
-				BufferTriangles.Release();
-				BufferTriangles = null;
-			}
-			if (BufferNormals != null)
-			{
-				BufferNormals.Release();
-				BufferNormals = null;
-			}
-			if (BufferColors != null)
-			{
-				BufferColors.Release();
-				BufferColors = null;
-			}
-			BuffersUpToDate = false;
+			_cameras.Clear();
+			_buffersUpToDate = false;
+		}
+		
+		public void OnEnable()
+		{
+			Cleanup();
+#if UNITY_EDITOR
+			EditorApplication.update += Update;
+#endif
+		}
+
+		public void OnDisable()
+		{
+			Cleanup();
+#if UNITY_EDITOR
+			EditorApplication.update = null;
+#endif
+		}
+
+		public void RequestRenderUpdate()
+		{
+			_buffersUpToDate = false;
 		}
 	}
 }

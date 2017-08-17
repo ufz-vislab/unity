@@ -184,7 +184,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsPlaying: 0
   Name: Left
-  Percentage: 0
   TimeInfo: 00
   ActiveChild: 0
   Order: 0
@@ -495,7 +494,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: d85186b59a2b541f2b84a5c886c9b259, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.49373204
+      value: 2.48
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: d85186b59a2b541f2b84a5c886c9b259, type: 3}
       propertyPath: m_LocalRotation.x
@@ -1251,6 +1250,97 @@ MonoBehaviour:
   Lighting: 0
   Side: 0
   Texture: {fileID: 0}
+--- !u!1 &737448308
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 737448311}
+  - component: {fileID: 737448310}
+  - component: {fileID: 737448309}
+  m_Layer: 0
+  m_Name: VTKCylinder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &737448309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 737448308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35963b5bd5235d14281e46dcd897faa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  _enabled: 1
+  Algorithm: {fileID: 737448310}
+  _scalarVisibility: 1
+  _range: {x: 0, y: 1}
+--- !u!114 &737448310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 737448308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cd9852f7bafb0649b6f6487101af44a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: Algorithm
+      Entry: 7
+      Data: 0|Kitware.VTK.vtkCylinderSource, Kitware.VTK
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: AlgorithmOutput
+      Entry: 7
+      Data: 1|Kitware.VTK.vtkAlgorithmOutput, Kitware.VTK
+    - Name: 
+      Entry: 8
+      Data: 
+  _inputAlgorithm: {fileID: 0}
+  ren: {fileID: 737448309}
+  _radius: 0.93
+  _height: 3
+  _resolution: 10
+--- !u!4 &737448311
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 737448308}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.111, z: -1.704}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &852128309
 Prefab:
   m_ObjectHideFlags: 0
@@ -2136,7 +2226,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsPlaying: 0
   Name: Right
-  Percentage: 0
   TimeInfo: 00
   ActiveChild: 0
   Order: 0
@@ -3662,3 +3751,93 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2104951572}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &2140779273
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 2140779276}
+  - component: {fileID: 2140779275}
+  - component: {fileID: 2140779274}
+  m_Layer: 0
+  m_Name: VTKPoints
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2140779274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2140779273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35963b5bd5235d14281e46dcd897faa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  _enabled: 1
+  Algorithm: {fileID: 2140779275}
+  _scalarVisibility: 0
+  _range: {x: 0, y: 0}
+--- !u!114 &2140779275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2140779273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07df9a52120bf274c871f0e02b5eabef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: Algorithm
+      Entry: 7
+      Data: 0|Kitware.VTK.vtkPointSource, Kitware.VTK
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: AlgorithmOutput
+      Entry: 7
+      Data: 1|Kitware.VTK.vtkAlgorithmOutput, Kitware.VTK
+    - Name: 
+      Entry: 8
+      Data: 
+  _inputAlgorithm: {fileID: 0}
+  ren: {fileID: 2140779274}
+  _numPoints: 9805
+  _radius: 1
+--- !u!4 &2140779276
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2140779273}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.057, y: 0, z: -0.437}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

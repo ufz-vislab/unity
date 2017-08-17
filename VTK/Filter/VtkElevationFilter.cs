@@ -1,5 +1,5 @@
 #if UNITY_STANDALONE_WIN
-﻿using UnityEngine;
+ using UnityEngine;
 using Kitware.VTK;
 
 namespace UFZ.VTK
@@ -40,14 +40,12 @@ namespace UFZ.VTK
 			_hasInput = true;
 
 			if (_filter == null)
-			{
 				_filter = vtkElevationFilter.New();
-				_filter.ModifiedEvt += (sender, args) => UpdateRenderer();
-			}
 
 			Algorithm = _filter;
 			AlgorithmOutput = _filter.GetOutputPort();
 
+			// Make sure vtk filter options are setup (after serialization)
 			_filter.SetLowPoint(_point1.x, _point1.y, _point1.z);
 			_filter.SetHighPoint(_point2.x, _point2.y, _point2.z);
 		}

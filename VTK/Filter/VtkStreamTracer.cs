@@ -51,10 +51,7 @@ public class VtkStreamTracer : VtkAlgorithm
 		_hasInput = true;
 
 		if (_filter == null)
-		{
 			_filter = vtkStreamTracer.New();
-			_filter.ModifiedEvt += (sender, args) => UpdateRenderer();
-		}
 
 		Algorithm = _filter;
 		AlgorithmOutput = _filter.GetOutputPort();
@@ -67,14 +64,15 @@ public class VtkStreamTracer : VtkAlgorithm
 		if (_integrator == null)
 			_integrator = vtkRungeKutta4.New();
 
+		// Make sure vtk filter options are setup (after serialization)
 		_filter.SetIntegrator(_integrator);
 		_filter.SetMaximumPropagation(0.1);
 		//_filter.SetMaximumPropagationUnitToTimeUnit();
 		_filter.SetInitialIntegrationStep(0.1);
 		_filter.SetIntegrationStepUnit(2);
 		//_filter.SetInitialIntegrationStepUnitToCellLengthUnit();
-		_filter.SetIntegrationDirectionToBackward();
-		//_filter.SetIntegrationDirectionToBoth();
+		//_filter.SetIntegrationDirectionToBackward();
+		_filter.SetIntegrationDirectionToBoth();
 	}
 }
 #endif

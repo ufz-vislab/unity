@@ -58,14 +58,12 @@ namespace UFZ.VTK
 			base.Initialize();
 
 			if (_source == null)
-			{
 				_source = vtkLineSource.New();
-				_source.ModifiedEvt += (sender, args) => UpdateRenderer();
-			}
 
 			Algorithm = _source;
 			AlgorithmOutput = _source.GetOutputPort();
 
+			// Make sure vtk filter options are setup (after serialization)
 			_source.SetPoint1(_point1.x, _point1.y, _point1.z);
 			_source.SetPoint2(_point2.x, _point2.y, _point2.z);
 			_source.SetResolution(_resolution);

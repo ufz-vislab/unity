@@ -53,13 +53,7 @@ namespace UFZ.VTK.Sources
 
 			// Create actual algorithm
 			if (_source == null)
-			{
 				_source = vtkPointSource.New();
-
-				// Update renderer on modified event
-				_source.ModifiedEvt +=
-					(sender, args) => UpdateRenderer();
-			}
 
 			// Set base class algorithm pointer
 			Algorithm = _source;
@@ -67,7 +61,7 @@ namespace UFZ.VTK.Sources
 			// Specify output port, insert e.g. triangle filter here
 			AlgorithmOutput = _source.GetOutputPort();
 
-			// Set algorithm default values
+			// Make sure vtk filter options are setup (after serialization)
 			_source.SetNumberOfPoints(_numPoints);
 			_source.SetRadius(_radius);
 		}

@@ -1,13 +1,15 @@
 #if UNITY_STANDALONE_WIN
+using System;
 using UnityEngine;
 using System.Collections.Generic;
 using Kitware.VTK;
+using UnityEngine.Rendering;
 
 namespace UFZ.VTK
 {
-	//[Serializable]
 	public class SimpleVtkMapper : vtkPolyDataMapper
 	{
+		/*
 		private enum ScalarMode
 		{
 			VTK_SCALAR_MODE_DEFAULT = 0,
@@ -17,6 +19,7 @@ namespace UFZ.VTK
 			VTK_SCALAR_MODE_USE_CELL_FIELD_DATA = 4,
 			VTK_SCALAR_MODE_USE_FIELD_DATA = 5
 		}
+		*/
 
 		//public vtkLookupTable LookupTable
 
@@ -26,6 +29,24 @@ namespace UFZ.VTK
 
 		//private string _activePointDataColorArray;
 
+		[HideInInspector, NonSerialized]
+		public ComputeBuffer BufferPoints;
+		[HideInInspector, NonSerialized]
+		public ComputeBuffer BufferVerts;
+		[HideInInspector, NonSerialized]
+		public ComputeBuffer BufferLines;
+		[HideInInspector, NonSerialized]
+		public ComputeBuffer BufferTriangles;
+		[HideInInspector, NonSerialized]
+		public ComputeBuffer BufferNormals;
+		[HideInInspector, NonSerialized]
+		public ComputeBuffer BufferColors;
+		
+		private Material PointsMaterial;
+		private Material LinesMaterial;
+		private Material TrianglesMaterial;
+
+		public CommandBuffer Buffer;
 
 		public uint ActiveColorArrayIndex
 		{
@@ -39,7 +60,6 @@ namespace UFZ.VTK
 				if (value >= pd.GetNumberOfArrays())
 					return;
 				_activeColorArrayIndex = value;
-				pd.SetActiveAttribute((int) _activeColorArrayIndex, 0);
 
 				Modified();
 			}
@@ -54,6 +74,8 @@ namespace UFZ.VTK
 			{
 				if (value /* && GetInput().GetPointData().GetNumberOfArrays() > 0 */)
 				{
+					SetScalarModeToUsePointData();
+					SetColorModeToMapScalars();
 					ScalarVisibilityOn();
 					_scalarVisibility = true;
 				}
@@ -71,6 +93,20 @@ namespace UFZ.VTK
 		{
 			PointDataArrayNames = new List<string>();
 			_activeColorArrayIndex = 0;
+			
+			PointsMaterial = new Material(Shader.Find("DX11/VtkPoints"));
+			PointsMaterial.hideFlags = HideFlags.HideAndDontSave;
+			LinesMaterial = new Material(Shader.Find("DX11/VtkPoints"));
+			LinesMaterial.hideFlags = HideFlags.HideAndDontSave;
+			TrianglesMaterial = new Material(Shader.Find("DX11/VtkTriangles"));
+			TrianglesMaterial.hideFlags = HideFlags.HideAndDontSave;
+		}
+
+		~SimpleVtkMapper()
+		{
+			//UnityEngine.Object.DestroyImmediate(PointsMaterial);
+			//UnityEngine.Object.DestroyImmediate(LinesMaterial);
+			//UnityEngine.Object.DestroyImmediate(TrianglesMaterial);
 		}
 
 		public new static SimpleVtkMapper New()
@@ -83,6 +119,9 @@ namespace UFZ.VTK
 
 		public override void RenderPiece(vtkRenderer ren, vtkActor act)
 		{
+			ReleaseBuffersImpl();
+			Update();
+			
 			var input = GetInput();
 			if (input == null)
 			{
@@ -117,14 +156,10 @@ namespace UFZ.VTK
 			// TODO: possible optimizations:
 			// - Use data directly, e.g. input.GetPoints().GetData().GetVoidPointer();
 			// - do not convert doubles to floats and longs to ints
-			var noAbort = 1;
+			const int noAbort = 1;
 			var input = GetInput();
 			var prop = act.GetProperty();
 			var opacity = prop.GetOpacity();
-
-			//vtkUnsignedCharArray c = null;
-			vtkDataArray n = null;
-			vtkDataArray t = null;
 
 			//var cellScalars = 0;
 			var cellNum = 0;
@@ -151,8 +186,11 @@ namespace UFZ.VTK
 				var pt = p.GetPoint(i);
 				points[i] = new Vector3((float) pt[0], (float) pt[1], (float) pt[2]);
 			}
-			Renderer.BufferPoints = new ComputeBuffer(numPoints, 12);
-			Renderer.BufferPoints.SetData(points);
+			BufferPoints = new ComputeBuffer(numPoints, 12);
+			BufferPoints.SetData(points);
+			PointsMaterial.SetBuffer("buf_Points", BufferPoints);
+			LinesMaterial.SetBuffer("buf_Points", BufferPoints);
+			TrianglesMaterial.SetBuffer("buf_Points", BufferPoints);
 
 			// Colors
 			if (ScalarVisibility && GetInput().GetPointData().GetNumberOfArrays() > 0)
@@ -162,8 +200,7 @@ namespace UFZ.VTK
 				//Debug.Log("Range for array " + _activeColorArrayIndex + " - " + array.GetName() + ": " + range[0] + " - " + range[1]);
 				//SetScalarRange(range[0], range[1]);
 				//GetLookupTable().SetRange(range[0], range[1]);
-				SetScalarModeToUsePointData();
-				SetColorModeToMapScalars();
+				
 				//var range2 = GetScalarRange();
 				//Debug.Log("Mapper range: " + range2[0] + " - " + range2[1]);
 				UpdateColorBuffer((float) act.GetProperty().GetOpacity());
@@ -171,7 +208,7 @@ namespace UFZ.VTK
 
 
 			// Normals
-			n = input.GetPointData().GetNormals();
+			var n = input.GetPointData().GetNormals();
 			//if (interpolation == VTK_FLAT)
 			//	n = null;
 
@@ -192,31 +229,34 @@ namespace UFZ.VTK
 					var normal = n.GetTuple3(i);
 					normals[i] = new Vector3((float)normal[0], (float)normal[1], (float)normal[2]);
 				}
-				Renderer.BufferNormals = new ComputeBuffer((int)numNormals, 12);
-				Renderer.BufferNormals.SetData(normals);
+				BufferNormals = new ComputeBuffer((int)numNormals, 12);
+				BufferNormals.SetData(normals);
+				TrianglesMaterial.SetBuffer("buf_Normals", BufferNormals);
 			}
 
-			DrawPoints(p, n, t, cellNum, noAbort, input.GetVerts(), ren);
-			DrawLines(p, n, t, cellNum, noAbort, input.GetLines(), ren);
-			DrawPolys(p, n, t, cellNum, noAbort, input.GetPolys(), ren);
+			Buffer = new CommandBuffer {name = "VTK rendering"};
+			DrawPoints(input.GetVerts());
+			DrawLines(input.GetLines());
+			DrawPolys(input.GetPolys());
+			
 			return noAbort;
 		}
 
 		private void UpdateColorBuffer(float opacity)
 		{
 			//int cellScalars;
-			//ScalarVisibilityOn();
 
-			//UseLookupTableScalarRangeOn();
-			var Colors = MapScalars(opacity);
-
-			if (Colors == null)
-			{
-				//ScalarVisibilityOff();
+			Update();
+			if (GetInput() == null)
 				return;
-			}
+			GetInput().GetPointData().SetActiveAttribute((int) _activeColorArrayIndex, 0);
+			
+			var vtkColors = MapScalars(opacity);
 
-			if (Colors.GetNumberOfTuples() <= 0)
+			if (vtkColors == null)
+				return;
+
+			if (vtkColors.GetNumberOfTuples() <= 0)
 				return;
 
 			//if ((GetScalarMode() == (int) ScalarMode.VTK_SCALAR_MODE_USE_CELL_DATA ||
@@ -226,26 +266,26 @@ namespace UFZ.VTK
 			//    && GetScalarMode() != (int) ScalarMode.VTK_SCALAR_MODE_USE_POINT_FIELD_DATA)
 			//	cellScalars = 1;
 
-			var numColors = Colors.GetNumberOfTuples();
+			var numColors = vtkColors.GetNumberOfTuples();
 			//Debug.Log("Num colors: " + numColors);
 			var colors = new Vector3[numColors];
 			for (var i = 0; i < numColors; i++)
 			{
-				var color = Colors.GetTuple4(i);
+				var color = vtkColors.GetTuple4(i);
 				colors[i] = new Vector3((float) color[0]/255, (float) color[1]/255,
 					(float) color[2]/255);
 			}
-			var buffer = Renderer.BufferColors;
+			var buffer = BufferColors;
 			if (buffer == null || buffer.count != numColors)
 			{
 				buffer = new ComputeBuffer((int) numColors, 12);
-				Renderer.BufferColors = buffer;
+				BufferColors = buffer;
+				TrianglesMaterial.SetBuffer("buf_Colors", BufferColors);
 			}
 			buffer.SetData(colors);
 		}
 
-		private void DrawPoints(vtkPoints p, vtkDataArray n, vtkDataArray t, int cellNum,
-			int noAbort, vtkCellArray ca, vtkRenderer ren)
+		private void DrawPoints(vtkCellArray ca)
 		{
 			var numVerts = ca.GetNumberOfCells();
 			if (numVerts == 0)
@@ -262,14 +302,14 @@ namespace UFZ.VTK
 				verts.AddRange(cellVerts);
 			}
 
-			Renderer.BufferVerts = new ComputeBuffer(verts.Count, sizeof(int));
-			Renderer.BufferVerts.SetData(verts.ToArray());
-			Renderer.PointsMaterial.SetBuffer("buf_Indices", Renderer.BufferVerts);
-			Renderer.PointsMaterial.SetBuffer("buf_Points", Renderer.BufferPoints);
+			BufferVerts = new ComputeBuffer(verts.Count, sizeof(int));
+			BufferVerts.SetData(verts.ToArray());
+			PointsMaterial.SetBuffer("buf_Indices", BufferVerts);
+			Buffer.DrawProcedural(Matrix4x4.identity, PointsMaterial, -1,
+				MeshTopology.Points, BufferPoints.count);
 		}
 
-		private void DrawLines(vtkPoints p, vtkDataArray n, vtkDataArray t, int cellNum,
-			int noAbort, vtkCellArray ca, vtkRenderer ren)
+		private void DrawLines(vtkCellArray ca)
 		{
 			// TODO: VtkLineSource with uneven resolution sometimes draw a striped pattern
 			if(ca.GetNumberOfCells() == 0)
@@ -287,14 +327,14 @@ namespace UFZ.VTK
 				}
 			}
 
-			Renderer.BufferLines = new ComputeBuffer(verts.Count, sizeof(int));
-			Renderer.BufferLines.SetData(verts.ToArray());
-			Renderer.LinesMaterial.SetBuffer("buf_Indices", Renderer.BufferLines);
-			Renderer.LinesMaterial.SetBuffer("buf_Points", Renderer.BufferPoints);
+			BufferLines = new ComputeBuffer(verts.Count, sizeof(int));
+			BufferLines.SetData(verts.ToArray());
+			PointsMaterial.SetBuffer("buf_Indices", BufferLines);
+			Buffer.DrawProcedural(Matrix4x4.identity, LinesMaterial, -1,
+				MeshTopology.Lines, BufferLines.count);
 		}
 
-		private void DrawPolys(vtkPoints p, vtkDataArray n, vtkDataArray t, int cellNum,
-			int noAbort, vtkCellArray ca, vtkRenderer ren)
+		private void DrawPolys(vtkCellArray ca)
 		{
 			var numTriangles = ca.GetNumberOfCells();
 			if (numTriangles == 0)
@@ -311,13 +351,60 @@ namespace UFZ.VTK
 				++prim;
 			}
 
-			var buffer = new ComputeBuffer(verts.Length, sizeof (int));
-			Renderer.BufferTriangles = buffer;
-			buffer.SetData(verts);
-			Renderer.TrianglesMaterial.SetBuffer("buf_Indices", buffer);
-			Renderer.TrianglesMaterial.SetBuffer("buf_Points", Renderer.BufferPoints);
-			Renderer.TrianglesMaterial.SetBuffer("buf_Normals", Renderer.BufferNormals);
-			Renderer.TrianglesMaterial.SetBuffer("buf_Colors", Renderer.BufferColors);
+			BufferTriangles = new ComputeBuffer(verts.Length, sizeof (int));
+			BufferTriangles.SetData(verts);
+			TrianglesMaterial.SetBuffer("buf_Indices", BufferTriangles);
+			Buffer.DrawProcedural(Matrix4x4.identity, TrianglesMaterial, -1,
+				MeshTopology.Triangles, BufferTriangles.count);
+		}
+		
+		private void ReleaseBuffersImpl()
+		{
+			if (BufferPoints != null)
+			{
+				BufferPoints.Release();
+				BufferPoints = null;
+			}
+			if (BufferVerts != null)
+			{
+				BufferVerts.Release();
+				BufferVerts = null;
+			}
+			if (BufferLines != null)
+			{
+				BufferLines.Release();
+				BufferLines = null;
+			}
+			if (BufferTriangles != null)
+			{
+				BufferTriangles.Release();
+				BufferTriangles = null;
+			}
+			if (BufferNormals != null)
+			{
+				BufferNormals.Release();
+				BufferNormals = null;
+			}
+			if (BufferColors != null)
+			{
+				BufferColors.Release();
+				BufferColors = null;
+			}
+			if (Buffer != null)
+			{
+				Buffer.Release();
+				Buffer = null;
+			}
+		}
+
+		public void SetTransformMatrix(Matrix4x4 matrix)
+		{
+			if (PointsMaterial)
+				PointsMaterial.SetMatrix("_MATRIX_M", matrix);
+			if (LinesMaterial)
+				LinesMaterial.SetMatrix("_MATRIX_M", matrix);
+			if (TrianglesMaterial)
+				TrianglesMaterial.SetMatrix("_MATRIX_M", matrix);
 		}
 	}
 }
