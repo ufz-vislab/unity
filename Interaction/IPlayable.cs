@@ -7,9 +7,9 @@ namespace UFZ.Interaction
 	/// </summary>
 	public abstract class IPlayable : MonoBehaviour
 	{
-		public bool IsPlaying = false;
+		public bool IsPlaying;
 		public string Name = "";
-		public float Percentage;
+		public virtual float Percentage { get; set; }
 		[HideInInspector]
 		public string TimeInfo;
 

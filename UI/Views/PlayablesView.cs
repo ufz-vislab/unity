@@ -110,6 +110,11 @@ namespace UFZ.UI.Views
 				tmp.SetPercentage(slider.Value);
 				SetValue(() => TimeInfo, Playables.SelectedItem.TimeInfo);
 			}
+			else
+			{
+				Playables.SelectedItem.Percentage = slider.Value;
+				SetValue(() => TimeInfo, Playables.SelectedItem.TimeInfo);
+			}
 		}
 
 		protected void UpdateTime()
