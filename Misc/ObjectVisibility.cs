@@ -43,7 +43,7 @@ namespace UFZ.Interaction
 		public ObjectVisibilityInfo[] Entries = new ObjectVisibilityInfo[0];
 
 		[BoxGroup("Global settings"), HorizontalGroup("Global settings/Group 1")]
-		public float Opacity = 0f;
+		public float Opacity;
 		[BoxGroup("Global settings"), HorizontalGroup("Global settings/Group 1")]
 		public float Duration = 5f;
 
@@ -75,6 +75,13 @@ namespace UFZ.Interaction
 						DOTween.To(() => thisProp.Opacity, x => thisProp.Opacity = x, entry.Opacity, entry.Duration);
 					else
 						thisProp.Opacity = entry.Opacity;
+				}
+
+				var hideables = entry.GameObject.GetComponentsInChildren<IHideable>();
+				foreach (var hideable in hideables)
+				{
+					var thisHideable = hideable;
+					thisHideable.Enabled = !(entry.Opacity < 1.0);
 				}
 			}
 		}
