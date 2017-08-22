@@ -2,31 +2,54 @@
 using Kitware.VTK;
 using Sirenix.OdinInspector;
 using UnityEngine;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 namespace UFZ.VTK
 {
 	public class VtkLookupTable : MonoBehaviour
 	{
-		public Gradient Gradient;
-
 		[HideInInspector]
 		public vtkLookupTable Lut;
 		
-		[ShowInInspector]
-		public Vector2 Range
+		[ShowInInspector, MinMaxSlider(0f, 1f, true)]
+		public Vector2 HueRange
 		{
-			get { return _range; }
+			get { return _hueRange; }
 			set
 			{
-				_range = value;
-				Lut.SetRange(value.x, value.y);
+				_hueRange = value;
+				Lut.SetHueRange(value.x, value.y);
 			}
 		}
 		[SerializeField, HideInInspector]
-		private Vector2 _range;
+		private Vector2 _hueRange;
+		
+		[ShowInInspector, MinMaxSlider(0f, 1f, true)]
+		public Vector2 SaturationRange
+		{
+			get { return _saturationRange; }
+			set
+			{
+				_saturationRange = value;
+				Lut.SetSaturationRange(value.x, value.y);
+			}
+		}
+		[SerializeField, HideInInspector]
+		private Vector2 _saturationRange;
+		
+		/*
+		[ShowInInspector, MinMaxSlider(0f, 1f, true)]
+		public Vector2 ValueRange
+		{
+			get { return _valueRange; }
+			set
+			{
+				_valueRange = value;
+				Lut.SetValueRange(value.x, value.y);
+			}
+		}
+		[SerializeField, HideInInspector]
+		private Vector2 _valueRange;
+		*/
 
 		private void Reset()
 		{
@@ -37,14 +60,7 @@ namespace UFZ.VTK
 		{
 			Initialize();
 			
-			Lut.SetNumberOfTableValues(Gradient.colorKeys.Length);
-			Lut.Build();
-			var index = 0;
-			foreach (var colorKey in Gradient.colorKeys)
-			{
-				Lut.SetTableValue(index, colorKey.color.r, colorKey.color.g, colorKey.color.b, 1.0);
-				index++;
-			}
+			Lut.SetNumberOfColors(256);
 			Lut.Build();
 			if(OnChange != null)
 				OnChange();
