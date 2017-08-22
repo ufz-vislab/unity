@@ -3,6 +3,7 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 using Kitware.VTK;
+using UnityEditor;
 using UnityEngine.Rendering;
 
 namespace UFZ.VTK
@@ -111,6 +112,7 @@ namespace UFZ.VTK
 
 		public new static SimpleVtkMapper New()
 		{
+			SetDllPath.Init();
 			var ret = vtkObjectFactory.CreateInstance("SimpleVtkMapper");
 			if (ret != null)
 				return (SimpleVtkMapper) ret;
@@ -195,14 +197,6 @@ namespace UFZ.VTK
 			// Colors
 			if (ScalarVisibility && GetInput().GetPointData().GetNumberOfArrays() > 0)
 			{
-				//var array = GetInput().GetPointData().GetArray((int) _activeColorArrayIndex);
-				//var range = array.GetRange();
-				//Debug.Log("Range for array " + _activeColorArrayIndex + " - " + array.GetName() + ": " + range[0] + " - " + range[1]);
-				//SetScalarRange(range[0], range[1]);
-				//GetLookupTable().SetRange(range[0], range[1]);
-				
-				//var range2 = GetScalarRange();
-				//Debug.Log("Mapper range: " + range2[0] + " - " + range2[1]);
 				UpdateColorBuffer((float) act.GetProperty().GetOpacity());
 			}
 
@@ -250,6 +244,12 @@ namespace UFZ.VTK
 			if (GetInput() == null)
 				return;
 			GetInput().GetPointData().SetActiveAttribute((int) _activeColorArrayIndex, 0);
+
+			if (Renderer.LookupTable != null && Renderer.LookupTable.Lut != null)
+			{
+				SetLookupTable(Renderer.LookupTable.Lut);
+				UseLookupTableScalarRangeOff();
+			}
 			
 			var vtkColors = MapScalars(opacity);
 

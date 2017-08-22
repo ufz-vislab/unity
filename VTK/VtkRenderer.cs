@@ -39,6 +39,25 @@ namespace UFZ.VTK
 		[SerializeField]
 		public VtkAlgorithm Algorithm;
 
+		[ShowInInspector, ShowIf("ScalarVisibility"),
+		 InlineEditor(InlineEditorModes.GUIAndPreview, Expanded = true)]
+		public VtkLookupTable LookupTable
+		{
+			get { return _lookupTable; }
+			set
+			{
+				_lookupTable = value;
+				if (value == null)
+					return;
+				value.OnChange -= RequestRenderUpdate;
+				value.OnChange += RequestRenderUpdate;
+				RequestRenderUpdate();
+			}
+		}
+
+		[SerializeField, HideInInspector]
+		private VtkLookupTable _lookupTable;
+
 		[ShowInInspector, ShowIf("Enabled")]
 		public bool ScalarVisibility
 		{
@@ -103,6 +122,9 @@ namespace UFZ.VTK
 			ScalarVisibility = _scalarVisibility;
 			Range = _range;
 			
+			if (_lookupTable != null)
+				_lookupTable.OnChange += RequestRenderUpdate;
+			
 			_mapper.ModifiedEvt += delegate { RequestRenderUpdate(); };
 			Algorithm.Algorithm.ModifiedEvt += delegate { RequestRenderUpdate(); };
 		}
@@ -146,7 +168,7 @@ namespace UFZ.VTK
 
 		private void OnRenderObject()
 		{
-			if (_cameras == null)
+			if (_cameras == null || _mapper == null)
 				return;
 			var act = gameObject.activeInHierarchy && enabled && Enabled;
 			if (!act)
