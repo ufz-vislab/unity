@@ -8,6 +8,8 @@ namespace UFZ.Interaction
 	{
 		public string URL = "http://www.ufz.de";
 		public Vector3 Position;
+		public string Caption = "";
+		public bool ShowControls = true;
 
 		private WebBrowserView _webView;
 
@@ -16,8 +18,14 @@ namespace UFZ.Interaction
 			_webView = FindObjectOfType<UserInterface>().CreateView<WebBrowserView>();
 			_webView.InitializeViews();
 			_webView.WebViewWidget.SetValue("URL", URL);
-			var uri = new Uri(URL);
-			_webView.DragableUIView.SetValue("Caption", uri.Host);
+			if (Caption != "")
+				_webView.DragableUIView.SetValue("Caption", Caption);
+			else
+			{
+				var uri = new Uri(URL);
+				_webView.DragableUIView.SetValue("Caption", uri.Host);
+			}
+			_webView.Controls.SetValue("IsVisible", ShowControls);
 			_webView.Deactivate();
 		}
 

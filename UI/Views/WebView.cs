@@ -59,6 +59,7 @@ namespace UFZ.UI.Views
 			_vrWebView = plane.AddComponent<VRWebView>();
 			_vrWebView.m_Width = (int)(width * 1.5);
 			_vrWebView.m_Height = (int)(height * 1.5);
+			_vrWebView.MouseInteractionsIn3D = true;
 		}
 
 		public void Update()

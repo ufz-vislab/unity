@@ -6,6 +6,7 @@ public class WebBrowserView : UIView
 {
 	public WebView WebViewWidget;
 	public DragableUIView DragableUIView;
+	public Group Controls;
 
 	public void BackButtonClick()
 	{
