@@ -3,7 +3,6 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 using Kitware.VTK;
-using UnityEditor;
 using UnityEngine.Rendering;
 
 namespace UFZ.VTK
