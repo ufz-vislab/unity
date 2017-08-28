@@ -39,4 +39,12 @@ public class DragableUIView : UIView
 		if (UFZ.IOC.Core.Instance.Environment.HasDevice("Flystick"))
 			lastPointerPos -= deltaPointerPos;
 	}
+
+	public void Close()
+	{
+		if (Parent)
+			Parent.Deactivate();
+		else
+			Deactivate();
+	}
 }
