@@ -27,7 +27,7 @@ namespace UFZ.UI.Views
 			{
 				foreach (var go in vis.GetComponentInChildren<GameObjectList>().Objects)
 				{
-					if (go.GetComponent<IPlayable>())
+					if (go != null && go.GetComponent<IPlayable>())
 						Playables.Add(go.GetComponent<IPlayable>());
 				}
 			}
