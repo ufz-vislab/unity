@@ -120,7 +120,6 @@ namespace UFZ.VTK
 
 		public override void RenderPiece(vtkRenderer ren, vtkActor act)
 		{
-			ReleaseBuffersImpl();
 			Update();
 			
 			var input = GetInput();
@@ -187,6 +186,8 @@ namespace UFZ.VTK
 				var pt = p.GetPoint(i);
 				points[i] = new Vector3((float) pt[0], (float) pt[1], (float) pt[2]);
 			}
+			if (BufferPoints != null)
+				BufferPoints.Release();
 			BufferPoints = new ComputeBuffer(numPoints, 12);
 			BufferPoints.SetData(points);
 			PointsMaterial.SetBuffer("buf_Points", BufferPoints);
@@ -222,11 +223,14 @@ namespace UFZ.VTK
 					var normal = n.GetTuple3(i);
 					normals[i] = new Vector3((float)normal[0], (float)normal[1], (float)normal[2]);
 				}
+				if (BufferNormals != null)
+					BufferNormals.Release();
 				BufferNormals = new ComputeBuffer((int)numNormals, 12);
 				BufferNormals.SetData(normals);
 				TrianglesMaterial.SetBuffer("buf_Normals", BufferNormals);
 			}
 
+			// No release here: Buffer is released from each camera (see VtkRenderer).
 			Buffer = new CommandBuffer {name = "VTK rendering"};
 			DrawPoints(input.GetVerts());
 			DrawLines(input.GetLines());
@@ -277,6 +281,8 @@ namespace UFZ.VTK
 			var buffer = BufferColors;
 			if (buffer == null || buffer.count != numColors)
 			{
+				if (buffer != null)
+					buffer.Release();
 				buffer = new ComputeBuffer((int) numColors, 12);
 				BufferColors = buffer;
 				TrianglesMaterial.SetBuffer("buf_Colors", BufferColors);
@@ -301,6 +307,8 @@ namespace UFZ.VTK
 				verts.AddRange(cellVerts);
 			}
 
+			if (BufferVerts != null)
+				BufferVerts.Release();
 			BufferVerts = new ComputeBuffer(verts.Count, sizeof(int));
 			BufferVerts.SetData(verts.ToArray());
 			PointsMaterial.SetBuffer("buf_Indices", BufferVerts);
@@ -326,6 +334,8 @@ namespace UFZ.VTK
 				}
 			}
 
+			if (BufferLines != null)
+				BufferLines.Release();
 			BufferLines = new ComputeBuffer(verts.Count, sizeof(int));
 			BufferLines.SetData(verts.ToArray());
 			PointsMaterial.SetBuffer("buf_Indices", BufferLines);
@@ -350,6 +360,8 @@ namespace UFZ.VTK
 				++prim;
 			}
 
+			if (BufferTriangles != null)
+				BufferTriangles.Release();
 			BufferTriangles = new ComputeBuffer(verts.Length, sizeof (int));
 			BufferTriangles.SetData(verts);
 			TrianglesMaterial.SetBuffer("buf_Indices", BufferTriangles);
@@ -357,7 +369,8 @@ namespace UFZ.VTK
 				MeshTopology.Triangles, BufferTriangles.count);
 		}
 		
-		private void ReleaseBuffersImpl()
+		// Is called from VtkRenderer
+		public void Cleanup()
 		{
 			if (BufferPoints != null)
 			{
@@ -394,6 +407,10 @@ namespace UFZ.VTK
 				Buffer.Release();
 				Buffer = null;
 			}
+
+			UnityEngine.Object.Destroy(PointsMaterial);
+			UnityEngine.Object.Destroy(LinesMaterial);
+			UnityEngine.Object.Destroy(TrianglesMaterial);
 		}
 
 		public void SetTransformMatrix(Matrix4x4 matrix)

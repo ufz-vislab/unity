@@ -1,6 +1,7 @@
 ﻿#if UNITY_STANDALONE_WIN
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Kitware.VTK;
 using Sirenix.OdinInspector;
@@ -30,8 +31,9 @@ namespace UFZ.VTK
 
 		private SimpleVtkMapper _mapper;
 		private vtkActor _actor;
-		
+
 		private Dictionary<Camera,CommandBuffer> _cameras = new Dictionary<Camera,CommandBuffer>();
+		private Dictionary<Camera,bool> _camerasUpToDate = new Dictionary<Camera,bool>();
 
 		[HideInInspector]
 		private bool _buffersUpToDate;
@@ -158,13 +160,14 @@ namespace UFZ.VTK
 
 			if (!_buffersUpToDate)
 			{
-				Cleanup();
 				_mapper.RenderPiece(null, _actor);
 				_buffersUpToDate = true;
-			
-				OnRenderObject();
+
+				foreach (var cam in _camerasUpToDate.Keys.ToList())
+					_camerasUpToDate[cam] = false;
 			}
 		}
+
 
 		private void OnRenderObject()
 		{
@@ -176,15 +179,13 @@ namespace UFZ.VTK
 				Cleanup();
 				return;
 			}
-			
-			// _mapper.SetTransformMatrix(transform.localToWorldMatrix);
 
 			var cam = Camera.current;
 			if (!cam)
 				return;
 
 			// Did we already add the command buffer on this camera? Nothing to do then.
-			if (_cameras.ContainsKey(cam))
+			if (_camerasUpToDate.ContainsKey(cam) && _camerasUpToDate[cam])
 			{
 #if UNITY_EDITOR
 				SceneView.RepaintAll();
@@ -192,6 +193,13 @@ namespace UFZ.VTK
 				return;
 			}
 
+			if (_camerasUpToDate.ContainsKey(cam) && !_camerasUpToDate[cam])
+			{
+				cam.RemoveCommandBuffer(CameraEvent.AfterForwardOpaque, _cameras[cam]);
+				_cameras[cam].Release();
+			}
+
+			_camerasUpToDate[cam] = true;
 			_cameras[cam] = _mapper.Buffer;
 			cam.AddCommandBuffer(CameraEvent.AfterForwardOpaque, _mapper.Buffer);
 #if UNITY_EDITOR
@@ -199,6 +207,7 @@ namespace UFZ.VTK
 #endif
 		}
 		
+
 		private void Cleanup()
 		{
 			foreach (var cam in _cameras)
@@ -224,6 +233,12 @@ namespace UFZ.VTK
 #if UNITY_EDITOR
 			EditorApplication.update = null;
 #endif
+		}
+
+		private void OnDestroy()
+		{
+			if (_mapper != null)
+				_mapper.Cleanup();
 		}
 
 		public void RequestRenderUpdate()
