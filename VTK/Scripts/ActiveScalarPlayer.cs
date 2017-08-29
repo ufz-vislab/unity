@@ -35,17 +35,49 @@ namespace UFZ.VTK
 			{
 				if (Renderer == null)
 					return;
-				if (value > Renderer.NumPointDataArrays && Loop)
-					Renderer.ActiveColorArrayIndex = 0;
+#if MVR
+				if (_activeArrayCommand != null)
+					_activeArrayCommand.Do(value);
 				else
-					Renderer.ActiveColorArrayIndex = value;
-				_currentIndex = Renderer.ActiveColorArrayIndex;
-				_percentage = (float) _currentIndex /(Renderer.NumPointDataArrays-1);
-				TimeInfo = CurrentIndex + 1 + " / " + Renderer.NumPointDataArrays;
+					SetActiveArrayInternal(value);
+#else
+			SetActiveArrayInternal(value);
+#endif
 			}
 		}
 
 		[SerializeField, HideInInspector] private uint _currentIndex;
+
+#if MVR
+		private vrCommand _activeArrayCommand;
+
+		protected void Start()
+		{
+			_activeArrayCommand = new vrCommand("", ActiveArrayCommandHandler);
+		}
+
+		private void OnDestroy()
+		{
+			MiddleVR.DisposeObject(ref _activeArrayCommand);
+		}
+
+		private vrValue ActiveArrayCommandHandler(vrValue index)
+		{
+			SetActiveArrayInternal(index.GetUInt());
+			return true;
+		}
+#endif
+		
+		private void SetActiveArrayInternal(uint index)
+		{
+			if (index > Renderer.NumPointDataArrays && Loop)
+				Renderer.ActiveColorArrayIndex = 0;
+			else
+				Renderer.ActiveColorArrayIndex = index;
+			_currentIndex = Renderer.ActiveColorArrayIndex;
+			_percentage = (float) _currentIndex /(Renderer.NumPointDataArrays-1);
+			TimeInfo = CurrentIndex + 1 + " / " + Renderer.NumPointDataArrays;
+		}
 
 		public override void Begin()
 		{
@@ -114,12 +146,6 @@ namespace UFZ.VTK
 				CurrentIndex += 1;
 		}
 		
-#if UNITY_EDITOR
-		private void OnValidate()
-		{
-			//Renderer.Color
-		}
-#endif
 	}
 }
 #endif

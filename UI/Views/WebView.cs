@@ -54,6 +54,7 @@ namespace UFZ.UI.Views
 			var planeRigidbody = plane.AddComponent<Rigidbody>();
 			planeRigidbody.useGravity = false;
 			planeRigidbody.isKinematic = true;
+			// VRActor needed for mouse / flystick interactions
 			plane.AddComponent<VRActor>().Grabable = false;
 
 			_vrWebView = plane.AddComponent<VRWebView>();

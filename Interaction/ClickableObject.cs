@@ -37,26 +37,26 @@ namespace UFZ.Interaction
 
 		protected void OnMouseDown()
 		{
-			Debug.Log("OnMouseDown");
+			// Debug.Log("OnMouseDown");
 			Activate();
 		}
 
 		protected void OnTriggerEnter(Collider other)
 		{
 			// TODO Visualize this
-			Debug.Log("OnTriggerEnter");
+			// Debug.Log("OnTriggerEnter");
 		}
 
 		protected void OnTriggerExit(Collider other)
 		{
-			Debug.Log("OnOnTriggerExit");
+			// Debug.Log("OnOnTriggerExit");
 		}
 
 		protected void OnTriggerStay(Collider other)
 		{
 			if (IOC.Core.Instance.Input.WasOkButtonPressed())
 			{
-				Debug.Log("OkButtonWasPressed");
+				// Debug.Log("OkButtonWasPressed");
 				Activate();
 			}
 		}

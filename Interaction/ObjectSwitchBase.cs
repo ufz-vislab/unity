@@ -79,7 +79,7 @@ public abstract class ObjectSwitchBase : IPlayable
 		else
 			SetActiveChildInternal(index);
 #else
-			SetActiveChildInternal(index);
+		SetActiveChildInternal(index);
 #endif
 	}
 
