@@ -21,6 +21,7 @@
       </Group>
       <Group Orientation="Horizontal" Spacing="10px">
         <Button Text="{ToggleButtonText}" Click="TogglePlay" />
+        <Button Text="Stop" Click="Stop" />
       </Group>
       <Group Orientation="Horizontal" Spacing="10px">
         <Button Text="Back" Click="Back" />

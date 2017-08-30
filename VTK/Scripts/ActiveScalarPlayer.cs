@@ -70,6 +70,7 @@ namespace UFZ.VTK
 		
 		private void SetActiveArrayInternal(uint index)
 		{
+			Renderer.Enabled = true; // Show object
 			if (index > Renderer.NumPointDataArrays && Loop)
 				Renderer.ActiveColorArrayIndex = 0;
 			else
@@ -121,7 +122,8 @@ namespace UFZ.VTK
 
 		public override void Stop()
 		{
-			IsPlaying = false;
+			Begin();
+			Renderer.Enabled = false; // Hide object
 		}
 
 		public override void TogglePlay()

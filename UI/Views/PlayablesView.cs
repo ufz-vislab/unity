@@ -69,6 +69,12 @@ namespace UFZ.UI.Views
 			Playables.SelectedItem.TogglePlay();
 		}
 
+		public void Stop()
+		{
+			Playables.SelectedItem.Stop();
+			UpdateTime();
+		}
+
 		public void ToStart()
 		{
 			Playables.SelectedItem.Begin();

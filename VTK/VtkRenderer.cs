@@ -21,8 +21,13 @@ namespace UFZ.VTK
 			get { return _enabled; }
 			set
 			{
+				if (value == _enabled)
+					return;
+				if (value == false)
+					Cleanup();
+				else
+					_buffersUpToDate = false;
 				_enabled = value;
-				_buffersUpToDate = false;
 			}
 		}
 
@@ -216,6 +221,7 @@ namespace UFZ.VTK
 					cam.Key.RemoveCommandBuffer (CameraEvent.AfterForwardOpaque, cam.Value);
 			}
 			_cameras.Clear();
+			_camerasUpToDate.Clear();
 			_buffersUpToDate = false;
 		}
 		

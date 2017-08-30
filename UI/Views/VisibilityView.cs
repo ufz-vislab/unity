@@ -30,6 +30,8 @@ namespace UFZ.UI.Views
 
 				foreach (var objectVisibilityInfo in objectVisibility.Entries)
 				{
+					if (objectVisibilityInfo.GameObject == null)
+						continue;
 					var materialProperties = objectVisibilityInfo.GameObject.GetComponentsInChildren<MaterialProperties>();
 					if (materialProperties == null || materialProperties.Length == 0)
 						continue;
