@@ -5,7 +5,8 @@ Shader "DX11/VtkTriangles" {
 		    #pragma target 5.0
 		    #pragma only_renderers d3d11
 		    // Quickfix by using no lighting for wrong normals
-		    #pragma surface surf NoLighting vertex:vert nolightmap
+		    // #pragma surface surf NoLighting vertex:vert nolightmap
+		    #pragma surface surf Lambert vertex:vert nolightmap
 		    
 		
 		    #ifdef SHADER_API_D3D11

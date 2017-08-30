@@ -30,7 +30,10 @@ namespace UFZ.VTK
 			set
 			{
 				_saturationRange = value;
-				Lut.SetSaturationRange(value.x, value.y);
+				if (_flipHueRange)
+					Lut.SetSaturationRange(value.y, value.x);
+				else
+					Lut.SetSaturationRange(value.x, value.y);
 			}
 		}
 		[SerializeField, HideInInspector]
@@ -51,7 +54,26 @@ namespace UFZ.VTK
 		private Vector2 _valueRange;
 		*/
 
+		[ShowInInspector]
+		public bool FlipHueRange
+		{
+			get { return _flipHueRange; }
+			set
+			{
+				_flipHueRange = value;
+				SaturationRange = _saturationRange;
+			}
+		}
+
+		[SerializeField, HideInInspector]
+		private bool _flipHueRange;
+
 		private void Reset()
+		{
+			Initialize();
+		}
+
+		protected void Start()
 		{
 			Initialize();
 		}
@@ -72,6 +94,13 @@ namespace UFZ.VTK
 			SetDllPath.Init();
 			if (Lut == null)
 				Lut = vtkLookupTable.New();
+			Lut.SetRampToLinear();
+			Lut.SetValueRange(1f,1f);
+			
+			// Local inits
+			HueRange = _hueRange;
+			FlipHueRange = _flipHueRange;
+			SaturationRange = _saturationRange;
 		}
 		
 		public delegate void ChangeAction();
