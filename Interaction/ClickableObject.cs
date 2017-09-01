@@ -60,6 +60,19 @@ namespace UFZ.Interaction
 				Activate();
 			}
 		}
+		
+		private void OnDrawGizmos()
+		{
+			var collider = GetComponent<Collider>();
+			if (collider == null)
+				return;
+
+			var bounds = collider.bounds;
+			var iconPos = transform.position + new Vector3(0f, 1.5f * transform.lossyScale.x);
+			Gizmos.DrawLine(transform.position, iconPos);
+			Gizmos.DrawWireCube(transform.position, transform.lossyScale);
+			Gizmos.DrawIcon(iconPos, "TMP - Input Field Icon.psd", false);
+		}
 
 		protected abstract void Activate();
 	}
