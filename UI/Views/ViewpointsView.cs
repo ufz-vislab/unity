@@ -27,6 +27,8 @@ namespace UFZ.UI.Views
 				for (var i = 0; i < viewpointGroup.transform.childCount; ++i)
 				{
 					var child = viewpointGroup.transform.GetChild(i);
+					if (!child.gameObject.activeSelf)
+						continue;
 					var viewpoint = child.gameObject.GetComponent<Viewpoint>();
 					if (viewpoint == null) continue;
 					Viewpoints.Add(viewpoint);
