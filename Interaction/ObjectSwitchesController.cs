@@ -4,7 +4,7 @@ using UFZ.Interaction;
 
 public class ObjectSwitchesController : IPlayable
 {
-	public ObjectSwitchBase[] Switches;
+	public ObjectSwitch[] Switches;
 
 	public override void Begin()
 	{

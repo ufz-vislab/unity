@@ -145,7 +145,7 @@ namespace UFZ.UI.Views
 			if (visibilityStruct.GameObjects != null)
 				foreach (var go in visibilityStruct.GameObjects)
 				{
-					var objectSwitches = go.GetComponentsInChildren<ObjectSwitchBase>();
+					var objectSwitches = go.GetComponentsInChildren<ObjectSwitch>();
 					if (objectSwitches != null && objectSwitches.Length > 0)
 					{
 						foreach (var switchBase in objectSwitches)

@@ -17,74 +17,16 @@ namespace UFZ.Interaction
 
 		[SerializeField, HideInInspector]
 		private Texture[] _textures;
-		public int NumTextures;
 
-		public float Fps = 1f;
-
-		private int _activeTexture;
-		private float _elapsedTime;
-
-		public override void Begin()
+		public override void SetStep(int step)
 		{
-			SetActiveTexture(0);
-		}
-
-		public override void End()
-		{
-			SetActiveTexture(NumTextures - 1);
-		}
-
-		public override void Forward()
-		{
-			SetActiveTexture(_activeTexture + 1);
-		}
-
-		public override void Back()
-		{
-			SetActiveTexture(_activeTexture - 1);
-		}
-
-		public override void Play()
-		{
-			IsPlaying = true;
-		}
-
-		public override void Stop()
-		{
-			IsPlaying = false;
-			_elapsedTime = 0;
-		}
-
-		public override void TogglePlay()
-		{
-			IsPlaying = !IsPlaying;
-		}
-
-		protected void SetActiveTexture(int i)
-		{
-			if (i < 0)
-				_activeTexture = NumTextures - 1;
-			else if (i >= NumTextures)
-				_activeTexture = 0;
-			else
-				_activeTexture = i;
-			Percentage = (float)i / (NumTextures-1);
-			TimeInfo = string.Format("{0:00}", _activeTexture);
+			base.SetStep(step);
+			
 			var matProp = gameObject.GetComponent<MaterialProperties>();
 			if (matProp == null)
 				return;
 			matProp.ColorBy = MaterialProperties.ColorMode.Texture;
-			matProp.Texture = _textures[_activeTexture];
-		}
-		
-		private void Update()
-		{
-			if (!IsPlaying) return;
-			_elapsedTime += IOC.Core.Instance.Time.DeltaTime();
-			if (!(_elapsedTime > (1f / Fps)))
-				return;
-			_elapsedTime = 0;
-			Forward();
+			matProp.Texture = _textures[GetStep()];
 		}
 
 #if UNITY_EDITOR
@@ -108,7 +50,7 @@ namespace UFZ.Interaction
 				if (asset)
 					textureList.Add(asset);
 			}
-			NumTextures = textureList.Count;
+			NumSteps = textureList.Count;
 			_textures = textureList.OrderBy(texture => texture.name).ToArray();
 		}
 #endif

@@ -7,9 +7,9 @@ namespace UFZ.Interaction
 	/// <summary>
 	/// Similar to an ObjectSwitch but with additional info on time step sizes.
 	/// </summary>
-	public class TimeObjectSwitch : ObjectSwitchBase
+	public class TimeObjectSwitch : ObjectSwitch
 	{
-		public float StartTime = 0f;
+		public float StartTime;
 		public float StepSize = 1f;
 		public bool ShowOutOfRange = true;
 
@@ -49,31 +49,6 @@ namespace UFZ.Interaction
 
 			SetActiveChild((int) Math.Floor((time - StartTime)/StepSize));
 			TimeInfo = string.Format("{0}", time);
-		}
-
-		public override void Forward()
-		{
-			throw new NotImplementedException();
-		}
-
-		public override void Back()
-		{
-			throw new NotImplementedException();
-		}
-
-		public override void Play()
-		{
-			throw new NotImplementedException();
-		}
-
-		public override void Stop()
-		{
-			throw new NotImplementedException();
-		}
-
-		public override void TogglePlay()
-		{
-			throw new NotImplementedException();
 		}
 	}
 }

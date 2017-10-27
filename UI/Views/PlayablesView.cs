@@ -104,7 +104,7 @@ namespace UFZ.UI.Views
 			if (Playables.SelectedItem == null || Playables.SelectedItem.IsPlaying)
 				return;
 
-			var objSwitch = Playables.SelectedItem as ObjectSwitchBase;
+			var objSwitch = Playables.SelectedItem as ObjectSwitch;
 			if (objSwitch)
 			{
 				objSwitch.SetActiveChild(slider.Value);
