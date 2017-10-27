@@ -80,7 +80,16 @@ namespace UFZ.Rendering
 		public SideMode Side = SideMode.Front;
 
 		[BoxGroup("Coloring"), ShowIf("IsTextureColorMode")]
-		public Texture Texture;
+		public Texture Texture
+		{
+			get { return _texture; }
+			set
+			{
+				_texture = value;
+				UpdateProperties();
+			}
+		}
+		[SerializeField, HideInInspector] private Texture _texture;
 		private bool IsTextureColorMode() { return ColorBy == ColorMode.Texture; }
 
 		public override void UpdateRenderers()

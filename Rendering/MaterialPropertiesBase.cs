@@ -93,6 +93,7 @@ namespace UFZ.Rendering
 			_enabledCommand = new vrCommand("", EnabledCommandHandler);
 			_opacityChangedCommand = new vrCommand("", OpacityChangedCommandHandler);
 #endif
+			UpdateProperties();
 		}
 
 #if MVR
