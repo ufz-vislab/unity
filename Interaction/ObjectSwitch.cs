@@ -36,6 +36,7 @@ namespace UFZ.Interaction
 		public override void Stop()
 		{
 			Begin();
+			NoActiveChild();
 		}
 
 		public override void TogglePlay()
