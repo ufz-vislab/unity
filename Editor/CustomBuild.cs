@@ -1,21 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
-using PygmyMonkey.AdvancedBuilder;
 
-public class CustomBuild : IAdvancedCustomBuild
+public class CustomBuild // : IAdvancedCustomBuild
 {
-	public void OnPreBuild(Configuration configuration, DateTime buildDate)
-	{
-		// Do nothing
-	}
-
-	public void OnPostBuild(Configuration configuration, DateTime buildDate)
-	{
-		// Do nothing
-	}
-
 	public void OnEveryBuildDone()
 	{
+#if CUSTOM_POST_BUILD
 		var hostname = Environment.MachineName;
 		if (!hostname.Equals("VISMASTER"))
 			return;
@@ -39,5 +29,6 @@ public class CustomBuild : IAdvancedCustomBuild
 			}
 		};
 		process64.Start();
+#endif
 	}
 }

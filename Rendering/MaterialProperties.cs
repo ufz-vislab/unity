@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using UFZ.Interaction;
 using UnityEngine;
 
 #if UNITY_EDITOR
@@ -130,9 +131,9 @@ namespace UFZ.Rendering
 				} else
 				{
 					// Object switches have precedence in enabling / disabling the renderer
-					var switchBase = GetComponentInParent<ObjectSwitchBase>();
+					var switchBase = GetComponentInParent<ObjectSwitch>();
 					if (switchBase)
-						switchBase.SetActiveChild(switchBase.ActiveChild);
+						switchBase.SetActiveChild(switchBase.GetStep());
 					else
 						localRenderer.enabled = true;
 

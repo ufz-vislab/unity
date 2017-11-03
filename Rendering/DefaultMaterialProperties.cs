@@ -7,6 +7,7 @@ using System.Collections;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
+using UFZ.Interaction;
 using Debug = UnityEngine.Debug;
 
 namespace UFZ.Rendering
@@ -59,9 +60,9 @@ namespace UFZ.Rendering
 				} else
 				{
 					// Object switches have precedence in enabling / disabling the renderer
-					var switchBase = GetComponentInParent<ObjectSwitchBase>();
+					var switchBase = GetComponentInParent<ObjectSwitch>();
 					if (switchBase)
-						switchBase.SetActiveChild(switchBase.ActiveChild);
+						switchBase.SetActiveChild(switchBase.GetStep());
 					else
 						meshRenderer.enabled = true;
 

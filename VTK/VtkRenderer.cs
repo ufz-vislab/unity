@@ -21,12 +21,11 @@ namespace UFZ.VTK
 			get { return _enabled; }
 			set
 			{
-				if (value == _enabled)
-					return;
-				if (value == false)
-					Cleanup();
-				else
-					_buffersUpToDate = false;
+				//if (value == _enabled)
+				//	return;
+				//if (value == false)
+				//	Cleanup();
+				_buffersUpToDate = false;
 				_enabled = value;
 			}
 		}
@@ -105,7 +104,7 @@ namespace UFZ.VTK
 
 		public int NumPointDataArrays
 		{
-			get { return _mapper.PointDataArrayNames.Count; }
+			get { return _mapper == null ? 0 : _mapper.PointDataArrayNames.Count; }
 		}
 
 		private void Initialize()
@@ -163,7 +162,7 @@ namespace UFZ.VTK
 			// Apply transformation
 			_mapper.SetTransformMatrix(transform.localToWorldMatrix);
 
-			if (!_buffersUpToDate)
+			if (!_buffersUpToDate) // TODO && Enabled
 			{
 				_mapper.RenderPiece(null, _actor);
 				_buffersUpToDate = true;

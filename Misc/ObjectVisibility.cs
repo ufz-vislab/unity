@@ -71,8 +71,9 @@ namespace UFZ.Interaction
 					// where the target of a foreach is not considered unique as it should
 					// From http://dotween.demigiant.com/support.php
 					var thisProp = matProp;
-					if (entry.Duration > 0f && !immediate)
+					if (entry.Duration > 0f && !immediate && !Mathf.Approximately(thisProp.Opacity, entry.Opacity))
 						DOTween.To(() => thisProp.Opacity, x => thisProp.Opacity = x, entry.Opacity, entry.Duration);
+						//LeanTween.value(thisProp.gameObject, thisProp.SetOpacity, thisProp.Opacity, entry.Opacity, entry.Duration);
 					else
 						thisProp.Opacity = entry.Opacity;
 				}

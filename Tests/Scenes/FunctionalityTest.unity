@@ -1260,6 +1260,8 @@ GameObject:
   - component: {fileID: 737448311}
   - component: {fileID: 737448310}
   - component: {fileID: 737448309}
+  - component: {fileID: 737448312}
+  - component: {fileID: 737448313}
   m_Layer: 0
   m_Name: VTKCylinder
   m_TagString: Untagged
@@ -1289,6 +1291,7 @@ MonoBehaviour:
     SerializationNodes: []
   _enabled: 1
   Algorithm: {fileID: 737448310}
+  _lookupTable: {fileID: 737448312}
   _scalarVisibility: 1
   _range: {x: 0, y: 1}
 --- !u!114 &737448310
@@ -1325,7 +1328,7 @@ MonoBehaviour:
       Data: 
   _inputAlgorithm: {fileID: 0}
   ren: {fileID: 737448309}
-  _radius: 0.93
+  _radius: 1
   _height: 3
   _resolution: 10
 --- !u!4 &737448311
@@ -1341,6 +1344,38 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &737448312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 737448308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9d2110634e18fa449e8079b5bb8a6f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hueRange: {x: 0, y: 0.66}
+  _saturationRange: {x: 1, y: 1}
+  _flipHueRange: 1
+--- !u!114 &737448313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 737448308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b58f4c4ea8c05b4b886f7ec5426adcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsPlaying: 0
+  Name: VTK
+  TimeInfo: 1 / 2
+  Renderer: {fileID: 737448309}
+  Fps: 2
+  Loop: 1
+  _currentIndex: 0
 --- !u!1001 &852128309
 Prefab:
   m_ObjectHideFlags: 0
@@ -1846,13 +1881,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1128376537}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -4}
+  m_LocalRotation: {x: 0.5307755, y: -0, z: -0, w: 0.8475125}
+  m_LocalPosition: {x: 1.66, y: 12.88, z: -3.67}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1203539794}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 64.116005, y: 0, z: 0}
 --- !u!114 &1128376539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2180,6 +2215,7 @@ MonoBehaviour:
   Objects:
   - {fileID: 102701727}
   - {fileID: 1246275208}
+  - {fileID: 737448308}
 --- !u!1 &1246275208
 GameObject:
   m_ObjectHideFlags: 0
@@ -3346,6 +3382,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   URL: http://www.heise.de
   Position: {x: 0, y: 0, z: 0}
+  Caption: 
+  ShowControls: 1
 --- !u!114 &1984747595
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3790,6 +3828,7 @@ MonoBehaviour:
     SerializationNodes: []
   _enabled: 1
   Algorithm: {fileID: 2140779275}
+  _lookupTable: {fileID: 0}
   _scalarVisibility: 0
   _range: {x: 0, y: 0}
 --- !u!114 &2140779275

@@ -11,7 +11,7 @@ namespace UFZ.Interaction
 		{
 			var vrActor = GetComponent<VRActor>();
 			vrActor.Grabable = false;
-			vrActor.SyncDirection = MVRNodesMapper.ENodesSyncDirection.NoSynchronization;
+			//vrActor.SyncDirection = MVRNodesMapper.ENodesSyncDirection.NoSynchronization;
 
 			if (GetComponent<Collider>())
 				return;
@@ -60,7 +60,7 @@ namespace UFZ.Interaction
 				Activate();
 			}
 		}
-		
+
 		private void OnDrawGizmos()
 		{
 			var collider = GetComponent<Collider>();

@@ -8,7 +8,8 @@ namespace UFZ.Views
 	[HideInPresenter]
 	public class Player : View
 	{
-		public VRShareTransform VrShareTransformComponent;
+		//public VRShareTransform VrShareTransformComponent;
+		//public VRClusterObject VRClusterObjectComponent; // no difference
 		public Rigidbody RigidbodyComponent;
 		public CapsuleCollider CapsuleColliderComponent;
 
@@ -34,7 +35,7 @@ namespace UFZ.Views
 
 		public vrValue ResetRotation(vrValue iValue)
 		{
-			var node = MiddleVR.VRDisplayMgr.GetNode("VRSystemCenterNode");
+			var node = MiddleVR.VRDisplayMgr.GetNodeByTag("VRSystemCenter");
 			node.SetOrientationLocal(new vrQuat(node.GetYawLocal(), 0, 0));
 			return 0;
 		}

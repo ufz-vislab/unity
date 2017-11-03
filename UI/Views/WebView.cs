@@ -58,8 +58,8 @@ namespace UFZ.UI.Views
 			plane.AddComponent<VRActor>().Grabable = false;
 
 			_vrWebView = plane.AddComponent<VRWebView>();
-			_vrWebView.m_Width = (int)(width * 1.5);
-			_vrWebView.m_Height = (int)(height * 1.5);
+			_vrWebView.Width = (int)(width * 1.5);
+			_vrWebView.Height = (int)(height * 1.5);
 			_vrWebView.MouseInteractionsIn3D = true;
 		}
 

@@ -9,9 +9,6 @@ using UFZ.Interaction;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-#if UNITY_STANDALONE
-using PygmyMonkey.AdvancedBuilder;
-#endif
 using UnityEngine;
 
 namespace UFZ.Initialization
@@ -115,6 +112,8 @@ namespace UFZ.Initialization
 				GuiCamera = wandGo.AddComponent<Camera>();
 				GuiCamera.enabled = false;
 				GuiCamera.cullingMask = LayerMask.GetMask("UI");
+				var handNode = GameObject.Find("HandNode");
+				//handNode.AddComponent<VRShareTransform>();
 			}
 			else
 			{

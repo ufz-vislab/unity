@@ -63,6 +63,13 @@ namespace UFZ.VTK
 
 		protected string AbsoluteFilePath()
 		{
+#if UNITY_EDITOR
+			if (_filepath.StartsWith("./VTK"))
+			{
+				var sceneDirectory = Build.Builder.GetSceneDirectory(Build.Builder.GetCurrentScene());
+				return Path.GetFullPath(sceneDirectory + Path.DirectorySeparatorChar + _filepath);
+			}
+#endif
 			return Path.GetFullPath(Application.dataPath + Path.DirectorySeparatorChar + _filepath);
 		}
 		

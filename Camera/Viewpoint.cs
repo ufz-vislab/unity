@@ -58,6 +58,10 @@ namespace UFZ.Interaction
 			foreach (var vp in vps)
 				vp.Stop();
 
+			//LeanTween.move(_nodeToMove, transform.position, duration);
+			//LeanTween.rotate(_nodeToMove, transform.rotation.eulerAngles, duration)
+			//	.setOnStart(() => OnStart(duration))
+			//	.setOnComplete(() => OnFinish());
 			_moveTweener = _nodeToMove.transform.DOMove(transform.position, duration)
 				.OnStart(() => OnStart(duration))
 				.OnComplete(() => OnFinish());

@@ -3,6 +3,7 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using MiddleVR_Unity3D;
 
 // From https://forums.oculus.com/viewtopic.php?t=16710
 public class WandInputModule : BaseInputModule
@@ -121,6 +122,7 @@ public class WandInputModule : BaseInputModule
 	private GameObject currentPressedGo;
 	private GameObject currentDragging;
 	private float nextAxisActionTime;
+	private VRSharedValue<SerializableVector3> globalLookPos;
 
 	// use screen midpoint as locked pointer location, enabling look location to be the "mouse"
 	private PointerEventData GetLookPointerEventData()
@@ -153,16 +155,17 @@ public class WandInputModule : BaseInputModule
 		if (lookDataLocal.pointerEnter == null) return;
 
 		var draggingPlane = lookDataLocal.pointerEnter.GetComponent<RectTransform>();
-		Vector3 globalLookPos;
-		if (RectTransformUtility.ScreenPointToWorldPointInRectangle(draggingPlane, lookDataLocal.position, lookDataLocal.enterEventCamera, out globalLookPos))
+		Vector3 globalLookPosUnity;
+		if (RectTransformUtility.ScreenPointToWorldPointInRectangle(draggingPlane, lookDataLocal.position, lookDataLocal.enterEventCamera, out globalLookPosUnity))
 		{
+			globalLookPos.value = globalLookPosUnity;
 			cursor.gameObject.SetActive(true);
-			cursor.position = globalLookPos;
+			cursor.position = globalLookPos.value;
 			cursor.rotation = draggingPlane.rotation;
 			if (!scaleCursorWithDistance)
 				return;
 			// scale cursor with distance
-			var lookPointDistance = (globalLookPos - lookDataLocal.enterEventCamera.transform.position).magnitude;
+			var lookPointDistance = (globalLookPos.value - lookDataLocal.enterEventCamera.transform.position).magnitude;
 			var cursorScale = lookPointDistance * normalCursorScale;
 			if (cursorScale < normalCursorScale)
 			{
@@ -488,5 +491,10 @@ public class WandInputModule : BaseInputModule
 	private void Update()
 	{
 		MyProcess();
+	}
+
+	private void Awake()
+	{
+		globalLookPos = new VRSharedValue<SerializableVector3>("WandInputModule_GlobalLookPos", Vector3.zero);
 	}
 }
