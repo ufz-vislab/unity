@@ -97,7 +97,8 @@ namespace UFZ.Initialization
 				}
 				else
 				{
-					if (IOC.Core.Instance.Environment.HasDevice("Flystick"))
+					if (IOC.Core.Instance.Environment.HasDevice("Flystick") ||
+					    IOC.Core.Instance.Environment.HasDevice("OpenVR.Controller"))
 					{
 						GuiInputType = InputType.Wand;
 						IOC.Core.Instance.Log.Info("GlobalInits: Wand input");
@@ -112,7 +113,7 @@ namespace UFZ.Initialization
 				GuiCamera = wandGo.AddComponent<Camera>();
 				GuiCamera.enabled = false;
 				GuiCamera.cullingMask = LayerMask.GetMask("UI");
-				var handNode = GameObject.Find("HandNode");
+				//var handNode = GameObject.Find("HandNode");
 				//handNode.AddComponent<VRShareTransform>();
 			}
 			else
