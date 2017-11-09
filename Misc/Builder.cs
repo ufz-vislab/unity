@@ -1,4 +1,7 @@
-﻿#if UNITY_EDITOR
+﻿
+using System;
+using System.Diagnostics;
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine.SceneManagement;
 #endif
@@ -8,6 +11,7 @@ namespace UFZ.Build
 {
 	public class Builder
 	{
+		private const string SyncPath = "Y:\\vislab\\unity\\Player-x64\\";
 #if UNITY_EDITOR
 		static void BuildDemo(string name, bool absolute = false)
 		{
@@ -30,13 +34,19 @@ namespace UFZ.Build
 			buildPlayerOptions.target = BuildTarget.StandaloneWindows64;
 			buildPlayerOptions.options = BuildOptions.None;
 			BuildPipeline.BuildPlayer(buildPlayerOptions);
-			
+
 			// Check VTK
 			var path = Path.Combine(GetSceneDirectory(name), "VTK");
 			if (Directory.Exists(path))
 			{
 				FileUtil.ReplaceDirectory(path, dest + "_Data/VTK");
 			}
+
+			var shortName = sceneShortName.Substring(0, sceneShortName.Length - ".unity".Length);
+			UnityEngine.Debug.Log("Syncing to " + SyncPath + shortName + "_Data");
+
+			Sync(dest + "_Data", SyncPath + sceneShortName.Substring(0, sceneShortName.Length - ".unity".Length) + "_Data");
+			File.Copy(buildPlayerOptions.locationPathName, SyncPath + shortName + ".exe", true);
 		}
 
 		[MenuItem("UFZ/Build current scene")]
@@ -56,7 +66,7 @@ namespace UFZ.Build
 		{
 			BuildDemo("GrossSchoenebeck");
 		}
-		
+
 		public static string GetCurrentScene()
 		{
 			return SceneManager.GetSceneAt(0).path;
@@ -78,6 +88,23 @@ namespace UFZ.Build
 		public static string GetSceneShortName(string name)
 		{
 			return Path.GetFileName(name);
+		}
+
+		private static void Sync(string source, string dest)
+		{
+			var hostname = Environment.MachineName;
+			if (!hostname.Equals("VISMASTER"))
+				return;
+
+			var process = new Process
+			{
+				StartInfo =
+				{
+					FileName = "\"C:\\Program Files\\FreeFileSync\\FreeFileSync.exe\"",
+					Arguments = "FileSync\\win-x32.ffs_batch -leftDir " + source + " -rightDir " + dest
+				}
+			};
+			process.Start();
 		}
 	}
 }
