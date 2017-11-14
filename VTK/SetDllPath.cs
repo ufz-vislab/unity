@@ -11,11 +11,11 @@ public class SetDllPath {
 			EnvironmentVariableTarget.Process);
 		if (currentPath != null &&  currentPath.Contains("VTK-Init"))
 			return;
-			
+
 		if (Thread.CurrentThread.ManagedThreadId != 1)
 			return;
 #if UNITY_EDITOR
-		var pluginPath = Path.Combine(Application.dataPath, "UFZ/VTK/Plugins");
+		var pluginPath = Path.Combine(Application.dataPath, "Plugins");
 #endif
 #if UNITY_EDITOR_32
 			var dllPath = Path.Combine(pluginPath, "x86");
