@@ -14,31 +14,33 @@ namespace UFZ.Rendering
 	/// </summary>
 	public class Debug_Stereo : MonoBehaviour
 	{
-		public bool CullingMask = false; // If true overdraws everything
+		public bool CullingMask; // If true overdraws everything
 		private bool _init;
 
 		private void Update()
 		{
 			if (_init)
 				return;
-			
-			foreach (var cam in FindObjectsOfType(typeof (Camera)) as Camera[])
-			{
-				if (cam.name.Contains(".Left"))
+
+			var enumerable = FindObjectsOfType(typeof(Camera)) as Camera[];
+			if (enumerable != null)
+				foreach (var cam in enumerable)
 				{
-					// Left is red
-					cam.backgroundColor = new Color(1, 0, 0);
-					if (CullingMask)
-						cam.cullingMask = 1 << 8;
+					if (cam.name.Contains(".Left"))
+					{
+						// Left is red
+						cam.backgroundColor = Color.red;
+						if (CullingMask)
+							cam.cullingMask = 1 << 8;
+					}
+					if (cam.name.Contains(".Right"))
+					{
+						// Right is blue
+						cam.backgroundColor = Color.blue;
+						if (CullingMask)
+							cam.cullingMask = 1 << 9;
+					}
 				}
-				if (cam.name.Contains(".Right"))
-				{
-					// Right is blue
-					cam.backgroundColor = new Color(0, 0, 1);
-					if (CullingMask)
-						cam.cullingMask = 1 << 9;
-				}
-			}
 
 			_init = true;
 		}

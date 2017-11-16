@@ -19,36 +19,18 @@ namespace UFZ.Rendering
 				SetEyeDistance(value);
 			}
 		}
-		private float _distance = 0.063f; 
+		private float _distance = 0.063f;
 
-		void Start()
+		private void Start()
 		{
 			SetEyeDistance(_distance);
 		}
 
 		private static void SetEyeDistance(float distance)
 		{
-			var clusterNode = MiddleVR.VRClusterMgr.GetMyClusterNode();
-			if (clusterNode == null)
-			{
-				var camName = MiddleVR.VRDisplayMgr.GetCameraByIndex().GetName();
-				var stereoCam = MiddleVR.VRDisplayMgr.GetCameraStereo(camName);
-
-				if (stereoCam != null)
-					stereoCam.SetInterEyeDistance(distance);
-			}
-			else
-			{
-				for (uint i = 0; i < clusterNode.GetViewportsNb(); i++)
-				{
-					var vp = clusterNode.GetViewport(i);
-					var camName = vp.GetCamera().GetName();
-					var stereoCam = MiddleVR.VRDisplayMgr.GetCameraStereo(camName);
-
-					if (stereoCam != null)
-						stereoCam.SetInterEyeDistance(distance);
-				}
-			}
+			var numCams = MiddleVR.VRDisplayMgr.GetCamerasNb();
+			for (uint i = 0; i < numCams; i++)
+				MiddleVR.VRDisplayMgr.GetCameraStereo(i).SetInterEyeDistance(distance);
 		}
 	}
 }
