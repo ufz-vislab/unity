@@ -5,4 +5,5 @@ using UFZ.Initialization;
 public class InitializationManager : View
 {
 	public GlobalInits GlobalInits;
+	public UFZ.Interaction.ViewpointsKeyboard ViewpointsKeyboard;
 }
