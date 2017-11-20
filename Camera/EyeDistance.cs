@@ -37,12 +37,12 @@ namespace UFZ.Rendering
 			if (keyb.IsKeyPressed(MiddleVR.VRK_LSHIFT) || keyb.IsKeyPressed(MiddleVR.VRK_RSHIFT))
 			{
 
-				if (keyb.IsKeyToggled(MiddleVR.VRK_S))
+				if (keyb.IsKeyToggled(MiddleVR.VRK_X))
 					ToggleDistance();
 			}
 		}
 
-		private static void SetEyeDistance(float distance)
+		private void SetEyeDistance(float distance)
 		{
 			var numCams = MiddleVR.VRDisplayMgr.GetCamerasNb();
 			for (uint i = 0; i < numCams; i++)
@@ -51,6 +51,7 @@ namespace UFZ.Rendering
 				if (cam != null)
 					cam.SetInterEyeDistance(distance);
 			}
+			_distance = distance;
 		}
 
 		private void ToggleDistance()
