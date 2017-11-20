@@ -10,7 +10,7 @@ namespace UFZ.UI.Views
 		public void StereoEnabledClick(CheckBox source)
 		{
 			var eye = FindObjectOfType<EyeDistance>();
-			eye.Distance = source.IsChecked ? 0.063f : 0f;
+			eye.Distance = source.IsChecked ? eye.DefaultDistance : 0f;
 		}
 
 		public void OrientationButtonClick()

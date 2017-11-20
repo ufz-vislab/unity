@@ -139,7 +139,7 @@ namespace UFZ.Rendering
 
 					if (materials.Length == 0 || Side == SideMode.Wireframe)
 						materials = new Material[1];
-					if (materials.Length != 2 && Side == SideMode.TwoSided)
+					if (materials.Length < 2 && Side == SideMode.TwoSided)
 						materials = new Material[2];
 
 					if (materials.Length == 1)
@@ -168,6 +168,10 @@ namespace UFZ.Rendering
 						var matNameBack = transparent + colorBy + lit + SideModeDict[SideMode.Back];
 						var matFront = Resources.Load("Materials/" + matNameFront, typeof(Material)) as Material;
 						var matBack = Resources.Load("Materials/" + matNameBack, typeof(Material)) as Material;
+						if (matFront == null)
+							Debug.LogError("Material " + matNameFront + " not found!");
+						if (matBack == null)
+							Debug.LogError("Material " + matNameBack + " not found!");
 						materials[0] = matFront;
 						materials[1] = matBack;
 						if (Side != SideMode.TwoSided)
