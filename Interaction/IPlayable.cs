@@ -6,7 +6,7 @@ namespace UFZ.Interaction
 	/// <summary>
 	/// An interface for something which has playing controls with discrete timesteps.
 	/// </summary>
-	public abstract class IPlayable : MonoBehaviour
+	public abstract class IPlayable : SerializedMonoBehaviour
 	{
 		public bool IsPlaying;
 		public string Name = "";
@@ -89,7 +89,24 @@ namespace UFZ.Interaction
 			SetStep(_step + 1);
 		}
 
-		private int _step;
+		[ShowInInspector]
+		public int Step
+		{
+			get { return _step; }
+			set
+			{
+				if (value < 0)
+					_step = NumSteps - 1;
+				else if (value >= NumSteps)
+					_step = 0;
+				else
+					_step = value;
+				Percentage = (float) _step / (NumSteps - 1);
+				TimeInfo = string.Format("{0:00}", _step);
+			}
+		}
+		[SerializeField, HideInInspector] private int _step;
+
 		private float _elapsedTime;
 	}
 }
