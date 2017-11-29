@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: OpaqueVertexColorLitFront
-  m_Shader: {fileID: 4800000, guid: c95ae05d4bd454b23b8fc3e2a376a581, type: 3}
+  m_Shader: {fileID: 4800000, guid: a4b98f185113243a9a5586f0afc46fea, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
   m_EnableInstancingVariants: 0

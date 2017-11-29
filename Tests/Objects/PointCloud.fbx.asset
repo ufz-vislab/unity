@@ -110,7 +110,7 @@ MonoBehaviour:
     - Name: Colors
       Entry: 7
       Data: 3|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[UnityEngine.Color,
-        UnityEngine]], mscorlib
+        UnityEngine.CoreModule]], mscorlib
     - Name: 
       Entry: 12
       Data: 2
@@ -122,7 +122,7 @@ MonoBehaviour:
       Data: ScalarRangeMinColor
     - Name: 
       Entry: 7
-      Data: UnityEngine.Color, UnityEngine
+      Data: UnityEngine.Color, UnityEngine.CoreModule
     - Name: 
       Entry: 4
       Data: 0.23137255
@@ -149,7 +149,7 @@ MonoBehaviour:
       Data: ScalarRangeMaxColor
     - Name: 
       Entry: 7
-      Data: UnityEngine.Color, UnityEngine
+      Data: UnityEngine.Color, UnityEngine.CoreModule
     - Name: 
       Entry: 4
       Data: 0.7058824

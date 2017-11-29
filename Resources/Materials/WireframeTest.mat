@@ -6,10 +6,10 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: WireframeAdditive
-  m_Shader: {fileID: 4800000, guid: a1de542702736c74d8b9d1a594e93535, type: 3}
-  m_ShaderKeywords: V_WIRE_DYNAMIC_MASK_OFF V_WIRE_FRESNEL_OFF V_WIRE_LIGHT_ON V_WIRE_TRANSPARENCY_OFF
-    _EMISSION
+  m_Name: WireframeTest
+  m_Shader: {fileID: 4800000, guid: e19785703f80a4d498764e47c9e89905, type: 3}
+  m_ShaderKeywords: V_WIRE_DYNAMIC_MASK_OFF V_WIRE_FRESNEL_OFF V_WIRE_LIGHT_OFF V_WIRE_TRANSPARENCY_OFF
+    V_WIRE_TRY_QUAD_ON _EMISSION
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -92,8 +92,8 @@ Material:
     - _V_WIRE_AoStrength: 1
     - _V_WIRE_BumpEnumID: 0
     - _V_WIRE_DistanceFade: 0
-    - _V_WIRE_DistanceFadeEnd: 10
-    - _V_WIRE_DistanceFadeStart: 5
+    - _V_WIRE_DistanceFadeEnd: 6
+    - _V_WIRE_DistanceFadeStart: -0.01
     - _V_WIRE_DynamicGI: 0
     - _V_WIRE_DynamicGIEnumID: 0
     - _V_WIRE_DynamicGIStrength: 0
@@ -110,7 +110,7 @@ Material:
     - _V_WIRE_FresnelInvert: 0
     - _V_WIRE_FresnelPow: 1
     - _V_WIRE_ImprovedBlendEnumID: 0
-    - _V_WIRE_IncludeLightEnumID: 1
+    - _V_WIRE_IncludeLightEnumID: 0
     - _V_WIRE_NormalScale: 1
     - _V_WIRE_RenderingOptions_PBREnumID: 0
     - _V_WIRE_Size: 1
@@ -125,7 +125,7 @@ Material:
     - _V_WIRE_Transparency_M_Options: 0
     - _V_WIRE_TransparentTex_Alpha_Offset: 0
     - _V_WIRE_TransparentTex_Invert: 0
-    - _V_WIRE_TryQuad: 0
+    - _V_WIRE_TryQuad: 1
     - _V_WIRE_VertexColor: 0
     - _V_WIRE_WireTex_UVSet: 0
     - _V_WIRE_WireVertexColor: 1

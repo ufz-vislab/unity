@@ -108,6 +108,53 @@ NavMeshSettings:
     tileSize: 256
     accuratePlacement: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &75627140
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4624270029276256, guid: 8f933f871f090d64bb2e18bd8d9c2171, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4624270029276256, guid: 8f933f871f090d64bb2e18bd8d9c2171, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4624270029276256, guid: 8f933f871f090d64bb2e18bd8d9c2171, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 14.56
+      objectReference: {fileID: 0}
+    - target: {fileID: 4624270029276256, guid: 8f933f871f090d64bb2e18bd8d9c2171, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0.000000030908623
+      objectReference: {fileID: 0}
+    - target: {fileID: 4624270029276256, guid: 8f933f871f090d64bb2e18bd8d9c2171, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4624270029276256, guid: 8f933f871f090d64bb2e18bd8d9c2171, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4624270029276256, guid: 8f933f871f090d64bb2e18bd8d9c2171, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: -0.000000030908623
+      objectReference: {fileID: 0}
+    - target: {fileID: 4624270029276256, guid: 8f933f871f090d64bb2e18bd8d9c2171, type: 2}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114459861650469948, guid: 8f933f871f090d64bb2e18bd8d9c2171,
+        type: 2}
+      propertyPath: m_URL
+      value: https://player.vimeo.com/video/241847060
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 8f933f871f090d64bb2e18bd8d9c2171, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &80712214
 GameObject:
   m_ObjectHideFlags: 0
@@ -185,9 +232,9 @@ MonoBehaviour:
   IsPlaying: 0
   Name: Left
   TimeInfo: 00
-  ActiveChild: 0
-  Order: 0
   Fps: 5
+  NumSteps: 4
+  Order: 0
 --- !u!1 &203349679
 GameObject:
   m_ObjectHideFlags: 0
@@ -394,7 +441,7 @@ MonoBehaviour:
   SolidColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   Lighting: 1
   Side: 0
-  Texture: {fileID: 0}
+  _texture: {fileID: 0}
 --- !u!1 &233010052
 GameObject:
   m_ObjectHideFlags: 0
@@ -603,7 +650,7 @@ MonoBehaviour:
   SolidColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   Lighting: 0
   Side: 0
-  Texture: {fileID: 0}
+  _texture: {fileID: 0}
 --- !u!4 &245198009 stripped
 Transform:
   m_PrefabParentObject: {fileID: 400000, guid: d85186b59a2b541f2b84a5c886c9b259, type: 3}
@@ -1018,7 +1065,7 @@ MonoBehaviour:
   SolidColor: {r: 1, g: 0, b: 0, a: 1}
   Lighting: 0
   Side: 0
-  Texture: {fileID: 0}
+  _texture: {fileID: 0}
 --- !u!1 &534010888
 GameObject:
   m_ObjectHideFlags: 0
@@ -1030,6 +1077,9 @@ GameObject:
   - component: {fileID: 534010892}
   - component: {fileID: 534010891}
   - component: {fileID: 534010890}
+  - component: {fileID: 534010895}
+  - component: {fileID: 534010894}
+  - component: {fileID: 534010893}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -1101,6 +1151,47 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 534010888}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &534010893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 534010888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b36f0809f2cffb344b788a31812c8fc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  URL: https://player.vimeo.com/video/241847060?autoplay=1&loop=1&autopause=0
+  Position: {x: 0, y: 0, z: 0}
+  Caption: 
+  ShowControls: 1
+--- !u!114 &534010894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 534010888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d426610bb674d74794fb66ffa2095be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Grabable: 0
+  AddCollider: 1
+  TouchEvents: 2
+--- !u!114 &534010895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 534010888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92e9120f372a47c42b8e96b65decaa29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NodeName: Cube_4a28fde6-1d33-4333-a128-5b2cfc2ca346
 --- !u!1 &683304580
 GameObject:
   m_ObjectHideFlags: 0
@@ -1249,7 +1340,7 @@ MonoBehaviour:
   SolidColor: {r: 0.2827587, g: 0, b: 1, a: 1}
   Lighting: 0
   Side: 0
-  Texture: {fileID: 0}
+  _texture: {fileID: 0}
 --- !u!1 &737448308
 GameObject:
   m_ObjectHideFlags: 0
@@ -1372,10 +1463,9 @@ MonoBehaviour:
   IsPlaying: 0
   Name: VTK
   TimeInfo: 1 / 2
-  Renderer: {fileID: 737448309}
   Fps: 2
-  Loop: 1
-  _currentIndex: 0
+  NumSteps: 0
+  Renderer: {fileID: 737448309}
 --- !u!1001 &852128309
 Prefab:
   m_ObjectHideFlags: 0
@@ -1559,7 +1649,7 @@ MonoBehaviour:
   SolidColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   Lighting: 0
   Side: 2
-  Texture: {fileID: 0}
+  _texture: {fileID: 0}
 --- !u!4 &852128312 stripped
 Transform:
   m_PrefabParentObject: {fileID: 400000, guid: d85186b59a2b541f2b84a5c886c9b259, type: 3}
@@ -1711,7 +1801,7 @@ MonoBehaviour:
   SolidColor: {r: 0, g: 1, b: 0.25517225, a: 1}
   Lighting: 0
   Side: 3
-  Texture: {fileID: 0}
+  _texture: {fileID: 0}
 --- !u!1 &950599297 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 074e861608f1e4737b85f3a42fd528d9, type: 3}
@@ -2263,9 +2353,9 @@ MonoBehaviour:
   IsPlaying: 0
   Name: Right
   TimeInfo: 00
-  ActiveChild: 0
-  Order: 0
   Fps: 5
+  NumSteps: 4
+  Order: 0
 --- !u!1 &1351098636
 GameObject:
   m_ObjectHideFlags: 0
@@ -2413,7 +2503,7 @@ MonoBehaviour:
   SolidColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   Lighting: 0
   Side: 1
-  Texture: {fileID: 0}
+  _texture: {fileID: 0}
 --- !u!1 &1361970009
 GameObject:
   m_ObjectHideFlags: 0
@@ -2539,9 +2629,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d426610bb674d74794fb66ffa2095be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SyncDirection: 2
-  MiddleVRNodeName: 
   Grabable: 1
+  AddCollider: 1
   TouchEvents: 2
 --- !u!114 &1402499772
 MonoBehaviour:
@@ -2607,7 +2696,7 @@ MonoBehaviour:
   SolidColor: {r: 1, g: 0.8482758, b: 0, a: 1}
   Lighting: 0
   Side: 0
-  Texture: {fileID: 0}
+  _texture: {fileID: 0}
 --- !u!23 &1402499773
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3290,7 +3379,7 @@ MonoBehaviour:
   SolidColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   Lighting: 0
   Side: 0
-  Texture: {fileID: 0}
+  _texture: {fileID: 0}
 --- !u!4 &1738400122 stripped
 Transform:
   m_PrefabParentObject: {fileID: 400000, guid: d85186b59a2b541f2b84a5c886c9b259, type: 3}
@@ -3395,9 +3484,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d426610bb674d74794fb66ffa2095be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SyncDirection: 3
-  MiddleVRNodeName: 
   Grabable: 0
+  AddCollider: 1
   TouchEvents: 2
 --- !u!23 &1984747596
 MeshRenderer:
@@ -3617,7 +3705,7 @@ MonoBehaviour:
   SolidColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   Lighting: 1
   Side: 0
-  Texture: {fileID: 0}
+  _texture: {fileID: 0}
 --- !u!4 &2031360320 stripped
 Transform:
   m_PrefabParentObject: {fileID: 400000, guid: 76a1f11c68f5741f18978e9ce7be9a73, type: 3}
@@ -3734,9 +3822,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d426610bb674d74794fb66ffa2095be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SyncDirection: 3
-  MiddleVRNodeName: 
   Grabable: 0
+  AddCollider: 1
   TouchEvents: 2
 --- !u!23 &2104951576
 MeshRenderer:
