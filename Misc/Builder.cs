@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Diagnostics;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -7,7 +6,7 @@ using UnityEngine.SceneManagement;
 #endif
 using System.IO;
 
-namespace UFZ.Build
+namespace UFZ.Misc
 {
 	public class Builder
 	{

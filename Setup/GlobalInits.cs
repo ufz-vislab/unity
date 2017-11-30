@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Threading;
+﻿using System.Linq;
 using DG.Tweening;
 using MarkLight;
 using MarkLight.Views.UI;
@@ -11,7 +8,7 @@ using UnityEditor;
 #endif
 using UnityEngine;
 
-namespace UFZ.Initialization
+namespace UFZ.Setup
 {
 	/// <summary>
 	/// Do global initialization stuff here.

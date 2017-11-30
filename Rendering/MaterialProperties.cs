@@ -4,14 +4,12 @@ using System.Linq;
 using System.Threading;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
-using UFZ.Interaction;
 using UnityEngine;
 
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 using Debug = UnityEngine.Debug;
-using UFZ.Tools.Extensions;
 
 namespace UFZ.Rendering
 {
@@ -131,10 +129,11 @@ namespace UFZ.Rendering
 				} else
 				{
 					// Object switches have precedence in enabling / disabling the renderer
-					var switchBase = GetComponentInParent<ObjectSwitch>();
-					if (switchBase)
-						switchBase.SetActiveChild(switchBase.GetStep());
-					else
+					// TODO: cyclic dependency
+					//var switchBase = GetComponentInParent<ObjectSwitch>();
+					//if (switchBase)
+					//	switchBase.SetActiveChild(switchBase.GetStep());
+					//else
 						localRenderer.enabled = true;
 
 					if (materials.Length == 0 || Side == SideMode.Wireframe)
@@ -235,7 +234,7 @@ namespace UFZ.Rendering
 					return;
 				}
 
-				go.AddComponent(matProps[0]);
+				// TODO: go.AddComponent(matProps[0]);
 
 				foreach (var matProp in matProps)
 					DestroyImmediate(matProp);

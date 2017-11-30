@@ -1,0 +1,9 @@
+{
+    "name": "UFZ_IOC",
+    "references": [
+        "Zenject",
+        "Marklight"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": []
+}

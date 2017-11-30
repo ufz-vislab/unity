@@ -1,5 +1,4 @@
 using MarkLight.Views.UI;
-using UFZ.UI.Views;
 using UnityEngine;
 
 namespace UFZ.Interaction

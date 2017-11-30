@@ -1,0 +1,17 @@
+{
+    "name": "UFZ_Views",
+    "references": [
+        "Marklight",
+        "UFZ_Setup",
+        "MiddleVR",
+        "UFZ_Rendering",
+        "UFZ_Views-Base",
+        "CameraPath3",
+        "UFZ_Input",
+        "UFZ_IOC",
+        "UFZ_Misc",
+        "TypeSafe_"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": []
+}

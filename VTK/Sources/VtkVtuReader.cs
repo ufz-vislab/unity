@@ -24,7 +24,7 @@ namespace UFZ.VTK
 					if (_source.GetFileName() == absPath ||
 					    _source.CanReadFile(absPath) != 1)
 						return;
-					
+
 					Debug.LogWarning("VtuReader: Try to read file " + absPath);
 					_source.SetFileName(absPath);
 				}
@@ -66,13 +66,13 @@ namespace UFZ.VTK
 #if UNITY_EDITOR
 			if (_filepath.StartsWith("./VTK"))
 			{
-				var sceneDirectory = Build.Builder.GetSceneDirectory(Build.Builder.GetCurrentScene());
+				var sceneDirectory = Misc.Builder.GetSceneDirectory(Misc.Builder.GetCurrentScene());
 				return Path.GetFullPath(sceneDirectory + Path.DirectorySeparatorChar + _filepath);
 			}
 #endif
 			return Path.GetFullPath(Application.dataPath + Path.DirectorySeparatorChar + _filepath);
 		}
-		
+
 		[Button, ShowIf("ShowAddSurfaceFilter")]
 		public void AddSurfaceFilter()
 		{

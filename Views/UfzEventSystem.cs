@@ -1,5 +1,6 @@
 ﻿using MarkLight;
-using UFZ.Initialization;
+using UFZ.Input;
+using UFZ.Setup;
 using UnityEngine;
 
 [ExcludeComponent("UnityEventSystem")]

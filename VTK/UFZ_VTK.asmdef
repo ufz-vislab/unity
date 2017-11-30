@@ -1,0 +1,10 @@
+{
+    "name": "UFZ_VTK",
+    "references": [
+        "UFZ_Rendering",
+        "UFZ_Interaction",
+        "UFZ_Misc"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": []
+}

@@ -1,9 +1,8 @@
 #if UNITY_STANDALONE_WIN
-using UFZ.Interaction;
 
 namespace UFZ.VTK
 {
-	public class ActiveScalarPlayer : IPlayable
+	public class ActiveScalarPlayer : Interaction.IPlayable
 	{
 		public VtkRenderer Renderer;
 

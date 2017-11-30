@@ -1,0 +1,13 @@
+{
+    "name": "UFZ_Setup",
+    "references": [
+        "Marklight",
+        "UFZ_IOC",
+        "UFZ_Interaction",
+        "MiddleVR",
+        "SuperSampling_SSAA",
+        "UFZ_Misc"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": []
+}

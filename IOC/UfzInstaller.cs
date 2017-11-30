@@ -1,7 +1,7 @@
 using Zenject;
 using UFZ.IOC;
 
-namespace UFZ.Initialization
+namespace UFZ.IOC
 {
 	/// <summary>
 	/// IOC-bindings for MiddleVR.

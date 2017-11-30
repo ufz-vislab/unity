@@ -1,0 +1,15 @@
+{
+    "name": "UFZ_Interaction",
+    "references": [
+        "Marklight",
+        "MiddleVR",
+        "UFZ_Views-Base",
+        "Slate",
+        "UFZ_Misc",
+        "UFZ_Tools",
+        "UFZ_IOC",
+        "UFZ_Rendering"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": []
+}

@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using UFZ.Interaction;
-using UFZ.Rendering;
+using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-using UnityEngine;
 
 namespace UFZ.Interaction
 {
@@ -21,11 +19,11 @@ namespace UFZ.Interaction
 		public override void SetStep(int step)
 		{
 			base.SetStep(step);
-			
-			var matProp = gameObject.GetComponent<MaterialProperties>();
+
+			var matProp = gameObject.GetComponent<UFZ.Rendering.MaterialProperties>();
 			if (matProp == null)
 				return;
-			matProp.ColorBy = MaterialProperties.ColorMode.Texture;
+			matProp.ColorBy = UFZ.Rendering.MaterialProperties.ColorMode.Texture;
 			matProp.Texture = _textures[GetStep()];
 		}
 
@@ -38,7 +36,7 @@ namespace UFZ.Interaction
 			var matches = rgx.Matches(baseName);
 			if (matches.Count <= 0)
 				return;
-			
+
 			var match = matches[0].Value;
 			var numDigits = match.Length;
 			var textureName = baseName.Remove(baseName.Length - numDigits);

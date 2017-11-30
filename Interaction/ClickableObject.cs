@@ -1,5 +1,4 @@
 ﻿using MiddleVR_Unity3D;
-using UFZ.Rendering;
 using UnityEngine;
 
 namespace UFZ.Interaction
@@ -15,8 +14,8 @@ namespace UFZ.Interaction
 
 			if (GetComponent<Collider>())
 				return;
-			var matProps = GetComponentInChildren<MaterialProperties>();
-			if (!matProps) return;
+			//var matProps = GetComponentInChildren<MaterialProperties>();
+			//if (!matProps) return;
 			var meshFilter = GetComponentsInChildren<MeshFilter>();
 			if (meshFilter == null || meshFilter.Length <= 0) return;
 

@@ -1,0 +1,11 @@
+{
+    "name": "UFZ_Views-Base",
+    "references": [
+        "Marklight",
+        "UFZ_Input",
+        "MiddleVR",
+        "UFZ_IOC"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": []
+}

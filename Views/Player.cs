@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
 using MarkLight;
-using UFZ.Interaction;
 
 namespace UFZ.Views
 {

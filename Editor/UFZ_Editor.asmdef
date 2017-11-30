@@ -1,0 +1,15 @@
+{
+    "name": "UFZ_Editor",
+    "references": [
+        "UFZ_Misc",
+        "UFZ_Rendering",
+        "UFZ_Interaction",
+        "UFZ_Annotations",
+        "CameraPath3",
+        "UFZ_Setup"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": []
+}
