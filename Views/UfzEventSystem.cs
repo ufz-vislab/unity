@@ -10,7 +10,7 @@ public class UfzEventSystem : MarkLight.Views.EventSystem
 	public void Awake()
 	{
 		UFZ.Core.Info("UfzEventSystem: Creating cursor");
-		var cursorPrefab = Resources.Load<GameObject>("UFZ/Setup/Resources/WandCursor");
+		var cursorPrefab = Resources.Load("WandCursor");
 		var cursor = (GameObject)Instantiate(cursorPrefab);//SRResources.WandCursor.Instantiate();
 		cursor.transform.SetParent(transform, false);
 		WandInputModule.cursor = cursor.GetComponent<RectTransform>();

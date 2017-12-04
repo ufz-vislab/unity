@@ -10,6 +10,5 @@
   <!-- ConfigFile="C:/Program Files (x86)/MiddleVR/data/Config/Misc/Default.vrx" -->
   <VRManager CenterNode="{=Player.gameObject}" />
   <NavigationManager CenterNode="{=Player.gameObject}" />
-  <InjectionManager />
   <InitializationManager />
 </ApplicationView>
