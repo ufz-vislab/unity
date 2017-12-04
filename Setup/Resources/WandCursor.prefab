@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 22292976}
   - component: {fileID: 11492974}
   - component: {fileID: 11492976}
+  - component: {fileID: 114826625788248888}
+  - component: {fileID: 114153428584903874}
   m_Layer: 5
   m_Name: WandCursor
   m_TagString: Untagged
@@ -151,3 +153,32 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 192976}
   m_IsPrefabParent: 1
+--- !u!114 &114153428584903874
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 192976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _guid: 5a55d2f4-b8f5-4c0e-9cd9-c016d655bd34
+--- !u!114 &114826625788248888
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 192976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -605777808, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isConnected: 1
+  _guid: 
+  _referenceCollection:
+    _collection:
+    - {fileID: 192976}
+  _assetGuid: ef94f6c0162704afcbe4b4d5e5e6a9cf
