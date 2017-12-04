@@ -89,7 +89,7 @@ namespace UFZ.Interaction
 		private void Update()
 		{
 			if (IsPlaying)
-				Time += UFZ.IOC.Core.Instance.Time.DeltaTime() * UnitsPerSecond;
+				Time += Core.DeltaTime() * UnitsPerSecond;
 		}
 
 		public override void Forward()

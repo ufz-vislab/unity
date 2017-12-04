@@ -90,7 +90,6 @@ namespace UFZ.Interaction
 #endif
 #endif
 
-			var logger = IOC.Core.Instance.Log;
 			if (_directionRefNode == null)
 				_directionRefNode = GameObject.Find(DirectionReferenceNode);
 			if (_turnNode == null)
@@ -98,13 +97,13 @@ namespace UFZ.Interaction
 
 			if (_searchedRefNode == false && _directionRefNode == null)
 			{
-				logger.Error("BaseNavigation: Couldn't find '" + DirectionReferenceNode + "'");
+				Core.Error("BaseNavigation: Couldn't find '" + DirectionReferenceNode + "'");
 				_searchedRefNode = true;
 			}
 
 			if (_searchedRotationNode == false && TurnAroundNode.Length > 0 && _turnNode == null)
 			{
-				logger.Error("BaseNavigation: Couldn't find '" + TurnAroundNode + "'");
+				Core.Error("BaseNavigation: Couldn't find '" + TurnAroundNode + "'");
 				_searchedRotationNode = true;
 			}
 
@@ -124,15 +123,13 @@ namespace UFZ.Interaction
 			if (Mathf.Abs(Running) < DeadZone)
 				Running = 0.0f;
 
-			var time = IOC.Core.Instance.Time;
-
 			if (!(Mathf.Approximately(Forward, 0f)
 				  && Mathf.Approximately(Upward, 0f)
 				  && Mathf.Approximately(Sideward, 0f)))
 			{
 				var translationVector = new Vector3(1, 1, 1);
 				var tVec = translationVector * (NavigationSpeed + Running * (RunningSpeed - NavigationSpeed)) *
-						   time.DeltaTime();
+						   Core.DeltaTime();
 				var nVec = new Vector3(tVec.x * Sideward, tVec.y * Upward, tVec.z * Forward);
 				if (!Mathf.Approximately(nVec.magnitude, 0f))
 				{
@@ -143,7 +140,7 @@ namespace UFZ.Interaction
 
 			if (Mathf.Abs(HorizontalRotation) > DeadZone)
 			{
-				var horizontalRotation = HorizontalRotation * RotationSpeed * time.DeltaTime();
+				var horizontalRotation = HorizontalRotation * RotationSpeed * Core.DeltaTime();
 				if (_turnNode != null)
 					NodeToMove.transform.RotateAround(_turnNode.transform.position, new Vector3(0, 1, 0), horizontalRotation);
 				else

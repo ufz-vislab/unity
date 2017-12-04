@@ -81,7 +81,7 @@ namespace UFZ.Interaction
 		protected virtual void Update()
 		{
 			if (!IsPlaying) return;
-			_elapsedTime += IOC.Core.Instance.Time.DeltaTime();
+			_elapsedTime += Core.DeltaTime();
 			if (!(_elapsedTime > (1f / Fps)))
 				return;
 

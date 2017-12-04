@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using MarkLight.Views.UI;
 
 public class DragableUIView : UIView
@@ -11,10 +10,10 @@ public class DragableUIView : UIView
 	public void DragStart()
 	{
 		dragging = true;
-		if (UFZ.IOC.Core.Instance.Environment.HasDevice("Flystick"))
+		if (UFZ.Core.HasDevice("Flystick"))
 			lastPointerPos = transform.InverseTransformPoint(FindObjectOfType<WandInputModule>().cursor.position);
 		else
-			lastPointerPos = UFZ.IOC.Core.Instance.Mouse.Position();
+			lastPointerPos = UFZ.Core.Position();
 	}
 
 	public void DragEnd()
@@ -28,15 +27,15 @@ public class DragableUIView : UIView
 			return;
 
 		Vector3 currentPointerPos;
-		if (UFZ.IOC.Core.Instance.Environment.HasDevice("Flystick"))
+		if (UFZ.Core.HasDevice("Flystick"))
 			currentPointerPos = transform.InverseTransformPoint(FindObjectOfType<WandInputModule>().cursor.position);
 		else
-			currentPointerPos = UFZ.IOC.Core.Instance.Mouse.Position();
+			currentPointerPos = UFZ.Core.Position();
 		var deltaPointerPos = currentPointerPos - lastPointerPos;
 		transform.localPosition += deltaPointerPos;
 		lastPointerPos = currentPointerPos;
 		// Take movement of UI into account for last pointer position
-		if (UFZ.IOC.Core.Instance.Environment.HasDevice("Flystick"))
+		if (UFZ.Core.HasDevice("Flystick"))
 			lastPointerPos -= deltaPointerPos;
 	}
 

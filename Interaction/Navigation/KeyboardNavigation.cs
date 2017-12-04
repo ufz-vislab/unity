@@ -6,29 +6,28 @@ namespace UFZ.Interaction
 	{
 		protected override void GetInputs()
 		{
-			var keyboard = IOC.Core.Instance.Keyboard;
-			if (keyboard.IsKeyPressed(KeyCode.W))
+			if (Core.IsKeyPressed(KeyCode.W))
 				Forward = 1f;
-			if (keyboard.IsKeyPressed(KeyCode.S))
+			if (Core.IsKeyPressed(KeyCode.S))
 				Forward = -1f;
-			if (keyboard.IsKeyPressed(KeyCode.A))
+			if (Core.IsKeyPressed(KeyCode.A))
 				Sideward = -1f;
-			if (keyboard.IsKeyPressed(KeyCode.D))
+			if (Core.IsKeyPressed(KeyCode.D))
 				Sideward = 1f;
-			if (keyboard.IsKeyPressed(KeyCode.PageUp))
+			if (Core.IsKeyPressed(KeyCode.PageUp))
 				Upward = 1f;
-			if (keyboard.IsKeyPressed(KeyCode.PageDown))
+			if (Core.IsKeyPressed(KeyCode.PageDown))
 				Upward = -1f;
-			if (keyboard.IsKeyPressed(KeyCode.Q))
+			if (Core.IsKeyPressed(KeyCode.Q))
 				HorizontalRotation = -1f;
-			if (keyboard.IsKeyPressed(KeyCode.E))
+			if (Core.IsKeyPressed(KeyCode.E))
 				HorizontalRotation = 1f;
-			if (keyboard.IsKeyPressed(KeyCode.F))
+			if (Core.IsKeyPressed(KeyCode.F))
 				VerticalRotation = -1f;
-			if (keyboard.IsKeyPressed(KeyCode.R))
+			if (Core.IsKeyPressed(KeyCode.R))
 				VerticalRotation = 1f;
 
-			if (keyboard.IsKeyPressed(KeyCode.LeftShift))
+			if (Core.IsKeyPressed(KeyCode.LeftShift))
 				Running = 1f;
 		}
 	}

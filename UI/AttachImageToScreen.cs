@@ -23,7 +23,7 @@ namespace UFZ.UI
 
 			if (ScreenName.Length == 0)
 			{
-				IOC.Core.Instance.Log.Error("AttachImageToScreen: Please specify a valid ScreenName.");
+				Core.Error("AttachImageToScreen: Please specify a valid ScreenName.");
 				enabled = false;
 				return;
 			}
@@ -31,7 +31,7 @@ namespace UFZ.UI
 			var screen = MiddleVR.VRDisplayMgr.GetScreen(ScreenName);
 			if (screen == null)
 			{
-				IOC.Core.Instance.Log.Error("AttachImageToScreen: Screen could not be found.");
+				Core.Error("AttachImageToScreen: Screen could not be found.");
 				enabled = false;
 				return;
 			}
@@ -44,7 +44,7 @@ namespace UFZ.UI
 				// Setting new parent
 				imageGo.transform.SetParent(node.transform, false);
 				
-				IOC.Core.Instance.Log.Info("AttachToNode: " + name + " attached to : " + node.name);
+				Core.Info("AttachToNode: " + name + " attached to : " + node.name);
 				_attached = true;
 
 				enabled = false;
@@ -52,7 +52,7 @@ namespace UFZ.UI
 			else
 			{
 				if (_searched) return;
-				IOC.Core.Instance.Log.Error("[X] AttachToNode: Failed to find Game object '" + ScreenName + "'");
+				Core.Error("[X] AttachToNode: Failed to find Game object '" + ScreenName + "'");
 				_searched = true;
 
 				enabled = false;

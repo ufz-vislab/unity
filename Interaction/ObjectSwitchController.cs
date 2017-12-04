@@ -12,7 +12,7 @@ namespace UFZ.Interaction
 			if(!ObjectSwitch)
 				return;
 
-			var leftOrRight = (int)IOC.Core.Instance.Input.GetHorizontalAxis();
+			var leftOrRight = (int) Core.GetHorizontalAxis();
 			switch (leftOrRight)
 			{
 				case -1:

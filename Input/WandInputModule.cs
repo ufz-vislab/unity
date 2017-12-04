@@ -287,7 +287,7 @@ public class WandInputModule : BaseInputModule
 		{
 			_buttonUsed = false;
 			// button up
-			if (UFZ.IOC.Core.Instance.Input.WasOkButtonPressed())
+			if (UFZ.Core.WasOkButtonPressed())
 			{
 				ClearSelection();
 				eventData.pressPosition = eventData.position;
@@ -309,7 +309,7 @@ public class WandInputModule : BaseInputModule
 				}
 			}
 			// button down handling
-			else if (UFZ.IOC.Core.Instance.Input.IsOkButtonPressed())
+			else if (UFZ.Core.IsOkButtonPressed())
 			{
 				ClearSelection();
 				eventData.pressPosition = eventData.position;
@@ -402,7 +402,7 @@ public class WandInputModule : BaseInputModule
 		}
 
 		// have to handle button up even if looking away
-		if (UFZ.IOC.Core.Instance.Input.WasOkButtonPressed())
+		if (UFZ.Core.WasOkButtonPressed())
 		{
 			if (currentDragging)
 			{
@@ -437,7 +437,7 @@ public class WandInputModule : BaseInputModule
 		if (!eventSystem.currentSelectedGameObject)
 			return;
 
-		var newVal = UFZ.IOC.Core.Instance.Input.GetHorizontalAxis();
+		var newVal = UFZ.Core.GetHorizontalAxis();
 		if (!(newVal > 0.01f) && !(newVal < -0.01f))
 			return;
 
@@ -463,7 +463,7 @@ public class WandInputModule : BaseInputModule
 		else
 		{
 			_controlAxisUsed = true;
-			var time = UFZ.IOC.Core.Instance.Time.Time(); // Time.unscaledTime
+			var time = UFZ.Core.Time(); // Time.unscaledTime
 			if (!(time > nextAxisActionTime))
 				return;
 

@@ -2,7 +2,6 @@ using UnityEngine;
 using System.Collections.Generic;
 using MarkLight;
 using MarkLight.Views.UI;
-using ModestTree;
 
 [HideInPresenter]
 public class CameraPathsView : UIView
@@ -17,7 +16,7 @@ public class CameraPathsView : UIView
 		base.Initialize();
 		
 		//SetChanged(() => CameraPaths);
-		if (CameraPaths == null || CameraPaths.IsEmpty())
+		if (CameraPaths == null || CameraPaths.Count == 0)
 		{
 			MenuHeader = "No paths";
 			return;

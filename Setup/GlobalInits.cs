@@ -76,16 +76,16 @@ namespace UFZ.Initialization
 			foreach(var actor in FindObjectsOfType<VRActor>())
 				actor.enabled = false;
 #endif
-			if (IOC.Core.Instance.Environment.IsCluster())
+			if (Core.IsCluster())
 			{
 				if (sceneSetup != null)
 					CanvasPosition = sceneSetup.CanvasPositionVislab;
 				GuiInputType = InputType.Wand;
-				IOC.Core.Instance.Log.Info("GlobalInits: Cluster detected, using Wand input.");
+				Core.Info("GlobalInits: Cluster detected, using Wand input.");
 			}
 			else
 			{
-				if (IOC.Core.Instance.Environment.HasDevice("Rift"))
+				if (Core.HasDevice("Rift"))
 				{
 					GuiInputType = InputType.Head;
 					if (sceneSetup != null)
@@ -93,15 +93,14 @@ namespace UFZ.Initialization
 					var navigations = FindObjectsOfType<NavigationBase>();
 					foreach (var navigation in navigations)
 						navigation.DirectionReferenceNode = "HeadNode";
-					IOC.Core.Instance.Log.Info("GlobalInits: Rift Mode");
+					Core.Info("GlobalInits: Rift Mode");
 				}
 				else
 				{
-					if (IOC.Core.Instance.Environment.HasDevice("Flystick") ||
-					    IOC.Core.Instance.Environment.HasDevice("OpenVR.Controller"))
+					if (Core.HasDevice("Flystick") || Core.HasDevice("OpenVR.Controller"))
 					{
 						GuiInputType = InputType.Wand;
-						IOC.Core.Instance.Log.Info("GlobalInits: Wand input");
+						Core.Info("GlobalInits: Wand input");
 					}
 					var camGo = GameObject.FindWithTag("MainCamera");
 					camGo.GetComponent<SuperSampling_SSAA>().enabled = true;
@@ -167,8 +166,7 @@ namespace UFZ.Initialization
 
 		public void Update()
 		{
-			var input = IOC.Core.Instance.Input;
-			if (!input.WasCancelButtonPressed()) return;
+			if (!Core.WasCancelButtonPressed()) return;
 
 			if (_mainMenuView == null)
 				return;

@@ -31,7 +31,7 @@ namespace UFZ.Interaction
 			var viewpoint = GetComponent<Viewpoint>();
 			if (viewpoint == null)
 			{
-				IOC.Core.Instance.Log.Warning("ViewpointObjectVisibility needs a Viewpoint script on the same GameObject!");
+				Core.Warning("ViewpointObjectVisibility needs a Viewpoint script on the same GameObject!");
 				return;
 			}
 

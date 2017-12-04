@@ -54,7 +54,7 @@ namespace UFZ.Interaction
 
 		protected void OnTriggerStay(Collider other)
 		{
-			if (IOC.Core.Instance.Input.WasOkButtonPressed())
+			if (Core.WasOkButtonPressed())
 			{
 				// Debug.Log("OkButtonWasPressed");
 				Activate();

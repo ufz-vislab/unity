@@ -1,10 +1,5 @@
-﻿using System.Collections;
-using DG.Tweening;
-using UFZ.IOC;
+﻿using DG.Tweening;
 using UnityEngine;
-#if MVR
-using MiddleVR_Unity3D;
-#endif
 
 namespace UFZ.Interaction
 {
