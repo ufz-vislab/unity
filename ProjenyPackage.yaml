@@ -1,0 +1,16 @@
+Dependencies:
+  - Sirenix   # Odin
+  - CodingJar # Advanced Multi-Scene
+  - Slash.Unity.DataBind
+  - Demigiant # DOTween
+  - "Super Sampling (SSAA)"
+  - VacuumShaders # Wireframe
+  - MiddleVR
+  - "MarkLight Unity Presentation Framework" # REMOVE!
+  # - Zenject # REMOVE?
+  - ParaDoxNotion # Slate; REMOVE?
+  - CameraPath3 # REMOVE?
+  - "Nested Prefabs"
+
+Platforms:
+  - Windows

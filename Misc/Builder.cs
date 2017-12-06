@@ -18,11 +18,12 @@ namespace UFZ.Build
 			var buildPlayerOptions = new BuildPlayerOptions();
 			var sceneDirectory = GetSceneShortDirectory(name);
 			var sceneShortName = GetSceneShortName(name);
-			if (!absolute)
-			{
-				sceneDirectory = "Assets/_project/Scenes/" + sceneShortName;
-				name = sceneDirectory + ".scene";
-			}
+			
+			//if (!absolute)
+			//{
+			//	sceneDirectory = "Assets/_project/Scenes/" + sceneShortName;
+			//	name = sceneDirectory + ".scene";
+			//}
 
 			buildPlayerOptions.scenes = new[]
 			{
@@ -53,18 +54,6 @@ namespace UFZ.Build
 		static void BuildCurrent()
 		{
 			BuildDemo(GetCurrentScene(), true);
-		}
-
-		//[MenuItem("UFZ/Build/Chaohu2")]
-		static void BuildChaohu2()
-		{
-			BuildDemo("Chaohu2");
-		}
-
-		//[MenuItem("UFZ/Build/Gross Schoenebeck")]
-		static void BuildGrossSchoenebeck()
-		{
-			BuildDemo("GrossSchoenebeck");
 		}
 
 		public static string GetCurrentScene()
@@ -101,7 +90,7 @@ namespace UFZ.Build
 				StartInfo =
 				{
 					FileName = "\"C:\\Program Files\\FreeFileSync\\FreeFileSync.exe\"",
-					Arguments = "FileSync\\win-x32.ffs_batch -leftDir " + source + " -rightDir " + dest
+					Arguments = "..\\..\\..\\sync.ffs_batch -leftDir " + source + " -rightDir " + dest
 				}
 			};
 			process.Start();

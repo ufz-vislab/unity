@@ -85,26 +85,13 @@ namespace UFZ.Initialization
 			}
 			else
 			{
-				if (Core.HasDevice("Rift"))
+				if (Core.HasDevice("Flystick") || Core.HasDevice("OpenVR.Controller") || Core.HasDevice("Oculus"))
 				{
-					GuiInputType = InputType.Head;
-					if (sceneSetup != null)
-						CanvasPosition = sceneSetup.CanvasPositionRift;
-					var navigations = FindObjectsOfType<NavigationBase>();
-					foreach (var navigation in navigations)
-						navigation.DirectionReferenceNode = "HeadNode";
-					Core.Info("GlobalInits: Rift Mode");
+					GuiInputType = InputType.Wand;
+					Core.Info("GlobalInits: Wand input");
 				}
-				else
-				{
-					if (Core.HasDevice("Flystick") || Core.HasDevice("OpenVR.Controller"))
-					{
-						GuiInputType = InputType.Wand;
-						Core.Info("GlobalInits: Wand input");
-					}
-					var camGo = GameObject.FindWithTag("MainCamera");
-					camGo.GetComponent<SuperSampling_SSAA>().enabled = true;
-				}
+				var camGo = GameObject.FindWithTag("MainCamera");
+				camGo.GetComponent<SuperSampling_SSAA>().enabled = true;
 			}
 
 			if (GuiInputType == InputType.Wand)
