@@ -10,7 +10,8 @@ namespace UFZ.Setup
 		public enum VrConfigs
 		{
 			Default,
-			Flystick
+			Flystick,
+			RiftController
 		}
 		public static SceneSetup Instance;
 
@@ -40,6 +41,8 @@ namespace UFZ.Setup
 						return "C:/Program Files (x86)/MiddleVR/data/Config/Misc/Default.vrx";
 					case VrConfigs.Flystick:
 						return "Y:/vislab/unity/configs/Local/Flystick.vrx";
+					case VrConfigs.RiftController:
+						return "Y://vislab/unity/configs/Local/RiftController.vrx";
 				default:
 					return "C:/Program Files (x86)/MiddleVR/data/Config/Misc/Default.vrx";
 			}
