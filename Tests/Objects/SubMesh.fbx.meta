@@ -36,6 +36,7 @@ ModelImporter:
     11400010: //RootNode
     11400012: SubMesh-0
     11400014: SubMesh-1
+    11400016: Properties
   externalObjects: {}
   materials:
     importMaterials: 0

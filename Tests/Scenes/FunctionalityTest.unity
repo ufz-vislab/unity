@@ -42,7 +42,7 @@ RenderSettings:
 --- !u!157 &4
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 9
+  serializedVersion: 11
   m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
@@ -54,7 +54,7 @@ LightmapSettings:
     m_EnableBakedLightmaps: 1
     m_EnableRealtimeLightmaps: 0
   m_LightmapEditorSettings:
-    serializedVersion: 8
+    serializedVersion: 9
     m_Resolution: 1
     m_BakeResolution: 1
     m_TextureWidth: 1024
@@ -77,17 +77,19 @@ LightmapSettings:
     m_PVRDirectSampleCount: 32
     m_PVRSampleCount: 500
     m_PVRBounces: 2
-    m_PVRFiltering: 0
+    m_PVRFilterTypeDirect: 0
+    m_PVRFilterTypeIndirect: 0
+    m_PVRFilterTypeAO: 0
     m_PVRFilteringMode: 1
     m_PVRCulling: 1
     m_PVRFilteringGaussRadiusDirect: 1
     m_PVRFilteringGaussRadiusIndirect: 5
     m_PVRFilteringGaussRadiusAO: 2
-    m_PVRFilteringAtrousColorSigma: 1
-    m_PVRFilteringAtrousNormalSigma: 1
-    m_PVRFilteringAtrousPositionSigma: 1
+    m_PVRFilteringAtrousPositionSigmaDirect: 0.5
+    m_PVRFilteringAtrousPositionSigmaIndirect: 2
+    m_PVRFilteringAtrousPositionSigmaAO: 1
   m_LightingDataAsset: {fileID: 0}
-  m_ShadowMaskMode: 2
+  m_UseShadowmask: 1
 --- !u!196 &5
 NavMeshSettings:
   serializedVersion: 2
@@ -107,54 +109,9 @@ NavMeshSettings:
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
+    debug:
+      m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &75627140
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4624270029276256, guid: 8f933f871f090d64bb2e18bd8d9c2171, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4624270029276256, guid: 8f933f871f090d64bb2e18bd8d9c2171, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4624270029276256, guid: 8f933f871f090d64bb2e18bd8d9c2171, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 14.56
-      objectReference: {fileID: 0}
-    - target: {fileID: 4624270029276256, guid: 8f933f871f090d64bb2e18bd8d9c2171, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: -0.000000030908623
-      objectReference: {fileID: 0}
-    - target: {fileID: 4624270029276256, guid: 8f933f871f090d64bb2e18bd8d9c2171, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 4624270029276256, guid: 8f933f871f090d64bb2e18bd8d9c2171, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: -0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 4624270029276256, guid: 8f933f871f090d64bb2e18bd8d9c2171, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: -0.000000030908623
-      objectReference: {fileID: 0}
-    - target: {fileID: 4624270029276256, guid: 8f933f871f090d64bb2e18bd8d9c2171, type: 2}
-      propertyPath: m_RootOrder
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 114459861650469948, guid: 8f933f871f090d64bb2e18bd8d9c2171,
-        type: 2}
-      propertyPath: m_URL
-      value: https://player.vimeo.com/video/241847060
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 8f933f871f090d64bb2e18bd8d9c2171, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1 &80712214
 GameObject:
   m_ObjectHideFlags: 0
@@ -229,11 +186,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a78ac5bfbdd234ed7b43896a7381bb72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: ActiveChildCallback
+      Entry: 6
+      Data: 
   IsPlaying: 0
   Name: Left
   TimeInfo: 00
   Fps: 5
   NumSteps: 4
+  _step: 0
   Order: 0
 --- !u!1 &203349679
 GameObject:
@@ -400,7 +370,7 @@ MonoBehaviour:
     SerializationNodes:
     - Name: Materials
       Entry: 7
-      Data: 0|UnityEngine.Material[], UnityEngine
+      Data: 0|UnityEngine.Material[], UnityEngine.CoreModule
     - Name: 
       Entry: 12
       Data: 1
@@ -418,7 +388,7 @@ MonoBehaviour:
       Data: 1
     - Name: SolidColor
       Entry: 7
-      Data: UnityEngine.Color, UnityEngine
+      Data: UnityEngine.Color, UnityEngine.CoreModule
     - Name: 
       Entry: 4
       Data: 0.5
@@ -482,6 +452,7 @@ MeshRenderer:
   m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 1
@@ -497,6 +468,7 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -609,7 +581,7 @@ MonoBehaviour:
     SerializationNodes:
     - Name: Materials
       Entry: 7
-      Data: 0|UnityEngine.Material[], UnityEngine
+      Data: 0|UnityEngine.Material[], UnityEngine.CoreModule
     - Name: 
       Entry: 12
       Data: 1
@@ -627,7 +599,7 @@ MonoBehaviour:
       Data: 1
     - Name: SolidColor
       Entry: 7
-      Data: UnityEngine.Color, UnityEngine
+      Data: UnityEngine.Color, UnityEngine.CoreModule
     - Name: 
       Entry: 4
       Data: 0.5
@@ -810,6 +782,7 @@ MeshRenderer:
   m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 1
@@ -825,6 +798,7 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -946,6 +920,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 1
@@ -961,6 +936,7 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -1024,7 +1000,7 @@ MonoBehaviour:
     SerializationNodes:
     - Name: Materials
       Entry: 7
-      Data: 0|UnityEngine.Material[], UnityEngine
+      Data: 0|UnityEngine.Material[], UnityEngine.CoreModule
     - Name: 
       Entry: 12
       Data: 1
@@ -1042,7 +1018,7 @@ MonoBehaviour:
       Data: 0
     - Name: SolidColor
       Entry: 7
-      Data: UnityEngine.Color, UnityEngine
+      Data: UnityEngine.Color, UnityEngine.CoreModule
     - Name: 
       Entry: 4
       Data: 1
@@ -1109,6 +1085,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 1
@@ -1124,6 +1101,7 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -1220,6 +1198,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 1
@@ -1235,6 +1214,7 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -1299,7 +1279,7 @@ MonoBehaviour:
     SerializationNodes:
     - Name: Materials
       Entry: 7
-      Data: 0|UnityEngine.Material[], UnityEngine
+      Data: 0|UnityEngine.Material[], UnityEngine.CoreModule
     - Name: 
       Entry: 12
       Data: 1
@@ -1317,7 +1297,7 @@ MonoBehaviour:
       Data: 0
     - Name: SolidColor
       Entry: 7
-      Data: UnityEngine.Color, UnityEngine
+      Data: UnityEngine.Color, UnityEngine.CoreModule
     - Name: 
       Entry: 4
       Data: 0.2827587
@@ -1341,131 +1321,6 @@ MonoBehaviour:
   Lighting: 0
   Side: 0
   _texture: {fileID: 0}
---- !u!1 &737448308
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 737448311}
-  - component: {fileID: 737448310}
-  - component: {fileID: 737448309}
-  - component: {fileID: 737448312}
-  - component: {fileID: 737448313}
-  m_Layer: 0
-  m_Name: VTKCylinder
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &737448309
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 737448308}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35963b5bd5235d14281e46dcd897faa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  _enabled: 1
-  Algorithm: {fileID: 737448310}
-  _lookupTable: {fileID: 737448312}
-  _scalarVisibility: 1
-  _range: {x: 0, y: 1}
---- !u!114 &737448310
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 737448308}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cd9852f7bafb0649b6f6487101af44a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: Algorithm
-      Entry: 7
-      Data: 0|Kitware.VTK.vtkCylinderSource, Kitware.VTK
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: AlgorithmOutput
-      Entry: 7
-      Data: 1|Kitware.VTK.vtkAlgorithmOutput, Kitware.VTK
-    - Name: 
-      Entry: 8
-      Data: 
-  _inputAlgorithm: {fileID: 0}
-  ren: {fileID: 737448309}
-  _radius: 1
-  _height: 3
-  _resolution: 10
---- !u!4 &737448311
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 737448308}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.111, z: -1.704}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &737448312
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 737448308}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9d2110634e18fa449e8079b5bb8a6f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _hueRange: {x: 0, y: 0.66}
-  _saturationRange: {x: 1, y: 1}
-  _flipHueRange: 1
---- !u!114 &737448313
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 737448308}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b58f4c4ea8c05b4b886f7ec5426adcf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsPlaying: 0
-  Name: VTK
-  TimeInfo: 1 / 2
-  Fps: 2
-  NumSteps: 0
-  Renderer: {fileID: 737448309}
 --- !u!1001 &852128309
 Prefab:
   m_ObjectHideFlags: 0
@@ -1605,7 +1460,7 @@ MonoBehaviour:
     SerializationNodes:
     - Name: Materials
       Entry: 7
-      Data: 0|UnityEngine.Material[], UnityEngine
+      Data: 0|UnityEngine.Material[], UnityEngine.CoreModule
     - Name: 
       Entry: 12
       Data: 2
@@ -1626,7 +1481,7 @@ MonoBehaviour:
       Data: 1
     - Name: SolidColor
       Entry: 7
-      Data: UnityEngine.Color, UnityEngine
+      Data: UnityEngine.Color, UnityEngine.CoreModule
     - Name: 
       Entry: 4
       Data: 0.5
@@ -1682,6 +1537,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 1
@@ -1697,6 +1553,7 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -1760,7 +1617,7 @@ MonoBehaviour:
     SerializationNodes:
     - Name: Materials
       Entry: 7
-      Data: 0|UnityEngine.Material[], UnityEngine
+      Data: 0|UnityEngine.Material[], UnityEngine.CoreModule
     - Name: 
       Entry: 12
       Data: 1
@@ -1778,7 +1635,7 @@ MonoBehaviour:
       Data: 0
     - Name: SolidColor
       Entry: 7
-      Data: UnityEngine.Color, UnityEngine
+      Data: UnityEngine.Color, UnityEngine.CoreModule
     - Name: 
       Entry: 4
       Data: 0
@@ -1850,6 +1707,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 1
@@ -1865,6 +1723,7 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -2116,6 +1975,7 @@ MeshRenderer:
   m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 1
@@ -2131,6 +1991,7 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -2305,7 +2166,7 @@ MonoBehaviour:
   Objects:
   - {fileID: 102701727}
   - {fileID: 1246275208}
-  - {fileID: 737448308}
+  - {fileID: 0}
 --- !u!1 &1246275208
 GameObject:
   m_ObjectHideFlags: 0
@@ -2350,11 +2211,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a78ac5bfbdd234ed7b43896a7381bb72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: ActiveChildCallback
+      Entry: 6
+      Data: 
   IsPlaying: 0
   Name: Right
   TimeInfo: 00
   Fps: 5
   NumSteps: 4
+  _step: 0
   Order: 0
 --- !u!1 &1351098636
 GameObject:
@@ -2384,6 +2258,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 1
@@ -2399,6 +2274,7 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -2462,7 +2338,7 @@ MonoBehaviour:
     SerializationNodes:
     - Name: Materials
       Entry: 7
-      Data: 0|UnityEngine.Material[], UnityEngine
+      Data: 0|UnityEngine.Material[], UnityEngine.CoreModule
     - Name: 
       Entry: 12
       Data: 1
@@ -2480,7 +2356,7 @@ MonoBehaviour:
       Data: 0
     - Name: SolidColor
       Entry: 7
-      Data: UnityEngine.Color, UnityEngine
+      Data: UnityEngine.Color, UnityEngine.CoreModule
     - Name: 
       Entry: 4
       Data: 0.5
@@ -2532,6 +2408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15cc1e8a133b04c4ba5d1c4801149eaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _version: 1
   _crossSceneReferences: []
   _realSceneRootsForPostBuild: []
   _mergedScenes: []
@@ -2655,7 +2532,7 @@ MonoBehaviour:
     SerializationNodes:
     - Name: Materials
       Entry: 7
-      Data: 0|UnityEngine.Material[], UnityEngine
+      Data: 0|UnityEngine.Material[], UnityEngine.CoreModule
     - Name: 
       Entry: 12
       Data: 1
@@ -2673,7 +2550,7 @@ MonoBehaviour:
       Data: 0
     - Name: SolidColor
       Entry: 7
-      Data: UnityEngine.Color, UnityEngine
+      Data: UnityEngine.Color, UnityEngine.CoreModule
     - Name: 
       Entry: 4
       Data: 1
@@ -2706,6 +2583,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -2721,6 +2599,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -2802,6 +2681,7 @@ MeshRenderer:
   m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 1
@@ -2817,6 +2697,7 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -3107,6 +2988,7 @@ MeshRenderer:
   m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 1
@@ -3122,6 +3004,7 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -3189,6 +3072,7 @@ MeshRenderer:
   m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 1
@@ -3204,6 +3088,7 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -3338,7 +3223,7 @@ MonoBehaviour:
     SerializationNodes:
     - Name: Materials
       Entry: 7
-      Data: 0|UnityEngine.Material[], UnityEngine
+      Data: 0|UnityEngine.Material[], UnityEngine.CoreModule
     - Name: 
       Entry: 12
       Data: 1
@@ -3356,7 +3241,7 @@ MonoBehaviour:
       Data: 1
     - Name: SolidColor
       Entry: 7
-      Data: UnityEngine.Color, UnityEngine
+      Data: UnityEngine.Color, UnityEngine.CoreModule
     - Name: 
       Entry: 4
       Data: 0.5
@@ -3496,6 +3381,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -3511,6 +3397,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -3664,7 +3551,7 @@ MonoBehaviour:
     SerializationNodes:
     - Name: Materials
       Entry: 7
-      Data: 0|UnityEngine.Material[], UnityEngine
+      Data: 0|UnityEngine.Material[], UnityEngine.CoreModule
     - Name: 
       Entry: 12
       Data: 1
@@ -3682,7 +3569,7 @@ MonoBehaviour:
       Data: 1
     - Name: SolidColor
       Entry: 7
-      Data: UnityEngine.Color, UnityEngine
+      Data: UnityEngine.Color, UnityEngine.CoreModule
     - Name: 
       Entry: 4
       Data: 0.5
@@ -3809,8 +3696,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Images:
-  - {fileID: 2800000, guid: 3a4b4da08930f2842a6d43a12fa28ae1, type: 3}
-  - {fileID: 2800000, guid: 994278271db704d439c914be0864d37e, type: 3}
+  - {fileID: 2800000, guid: a6120689d3d95dc4cba3b1da552730db, type: 3}
 --- !u!114 &2104951575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3834,6 +3720,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -3849,6 +3736,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -3876,94 +3764,3 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2104951572}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &2140779273
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 2140779276}
-  - component: {fileID: 2140779275}
-  - component: {fileID: 2140779274}
-  m_Layer: 0
-  m_Name: VTKPoints
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &2140779274
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2140779273}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35963b5bd5235d14281e46dcd897faa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  _enabled: 1
-  Algorithm: {fileID: 2140779275}
-  _lookupTable: {fileID: 0}
-  _scalarVisibility: 0
-  _range: {x: 0, y: 0}
---- !u!114 &2140779275
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2140779273}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07df9a52120bf274c871f0e02b5eabef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: Algorithm
-      Entry: 7
-      Data: 0|Kitware.VTK.vtkPointSource, Kitware.VTK
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: AlgorithmOutput
-      Entry: 7
-      Data: 1|Kitware.VTK.vtkAlgorithmOutput, Kitware.VTK
-    - Name: 
-      Entry: 8
-      Data: 
-  _inputAlgorithm: {fileID: 0}
-  ren: {fileID: 2140779274}
-  _numPoints: 9805
-  _radius: 1
---- !u!4 &2140779276
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2140779273}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.057, y: 0, z: -0.437}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

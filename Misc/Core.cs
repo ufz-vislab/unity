@@ -286,6 +286,17 @@ namespace UFZ
 			}
 			return false;
 		}
+
+		public static bool IsWandTracked(uint index = 0)
+		{
+			var wand = MiddleVR.VRDeviceMgr.GetWandByIndex(index);
+			if (wand == null) return false;
+			var handNode = MiddleVR.VRDisplayMgr.GetNode("Hand");
+			if (handNode == null) return false;
+			var handTracker = handNode.GetTracker();
+			if (handTracker == null) return false;
+			return handTracker.IsTracked();
+		}
 		#else
 		// Time
 		public static float DeltaTime()
@@ -397,6 +408,11 @@ namespace UFZ
 		}
 		
 		public static bool HasDevice(string name)
+		{
+			return false;
+		}
+	
+		public static bool IsWandTracked(uint index = 0)
 		{
 			return false;
 		}

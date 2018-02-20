@@ -1,4 +1,5 @@
 ﻿using System;
+using UFZ;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -477,7 +478,8 @@ public class WandInputModule : BaseInputModule
 	public override bool ShouldActivateModule()
 	{
 		// TODO return false if Wand is not tracked
-		return true;
+		//return true;
+		return Core.IsWandTracked();
 	}
 
 	public override bool IsModuleSupported()
@@ -487,6 +489,27 @@ public class WandInputModule : BaseInputModule
 
 	private void Update()
 	{
+		if (!_initialized)
+			Init();
 		MyProcess();
+	}
+
+	private bool _initialized;
+	private void Init()
+	{
+		Core.Info("UfzEventSystem: Creating cursor");
+		var cursorPrefab = Resources.Load("WandCursor");
+		var cursorGo = (GameObject)Instantiate(cursorPrefab);//SRResources.WandCursor.Instantiate();
+		cursorGo.transform.SetParent(transform, false);
+		cursor = cursorGo.GetComponent<RectTransform>();
+
+		var globalInits = FindObjectOfType<UFZ.Initialization.GlobalInits>();
+		if (globalInits.GuiInputType == UFZ.Initialization.GlobalInits.InputType.Mouse)
+		{
+			Core.Info("UfzEventSystem: Mouse input, disabling cursor");
+			enabled = false;
+			cursor.gameObject.SetActive(false);
+		}
+		_initialized = true;
 	}
 }

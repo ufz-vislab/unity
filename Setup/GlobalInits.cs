@@ -91,7 +91,8 @@ namespace UFZ.Initialization
 					Core.Info("GlobalInits: Wand input");
 				}
 				var camGo = GameObject.FindWithTag("MainCamera");
-				camGo.GetComponent<SuperSampling_SSAA>().enabled = true;
+				var ssao = camGo.GetComponent<SuperSampling_SSAA>();
+				if (ssao) ssao.enabled = true;
 			}
 
 			if (GuiInputType == InputType.Wand)

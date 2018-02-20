@@ -57,7 +57,7 @@ public class ObjectSwitchesController : IPlayable
 		IsPlaying = Switches[0].IsPlaying;
 	}
 
-	public void Update()
+	protected override void Update()
 	{
 		if (Switches.Length == 0 || Switches[0] == null)
 			return;

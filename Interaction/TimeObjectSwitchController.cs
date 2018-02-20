@@ -86,7 +86,7 @@ namespace UFZ.Interaction
 			Time = 0.0f;
 		}
 
-		private void Update()
+		protected override void Update()
 		{
 			if (IsPlaying)
 				Time += Core.DeltaTime() * UnitsPerSecond;

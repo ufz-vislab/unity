@@ -22,6 +22,7 @@ ModelImporter:
     11400004: //RootNode
     11400006: //RootNode
     11400008: PointCloud-0
+    11400010: Properties
   externalObjects: {}
   materials:
     importMaterials: 0

@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using System.Linq;
+using UFZ.UI.Views;
 
 namespace UFZ.Interaction
 {
@@ -13,6 +14,7 @@ namespace UFZ.Interaction
 		}
 
 		protected GameObject ActiveChildGo;
+		private VisibilityView _visibilityView;
 		public delegate void Callback(int index);
 		public Callback ActiveChildCallback;
 		public Ordering Order = Ordering.Alphanumeric;
@@ -36,6 +38,7 @@ namespace UFZ.Interaction
 		protected void Start()
 		{
 			_activeChildCommand = new vrCommand("", ActiveChildCommandHandler);
+			_visibilityView = Resources.FindObjectsOfTypeAll(typeof (VisibilityView))[0] as VisibilityView;
 		}
 
 		private void OnDestroy()
@@ -98,9 +101,17 @@ namespace UFZ.Interaction
 				ActiveChildCallback(step);
 		}
 
-		protected void SetVisible(Transform currentTransform, bool enable)
+		private void SetVisible(Transform currentTransform, bool enable)
 		{
 			var objectSwitch = currentTransform.GetComponent<ObjectSwitch>();
+
+			// Don't process objects which are switched off in Visibility View
+			if (enable && _visibilityView != null && _visibilityView.Objects != null)
+			{
+				if (_visibilityView.Objects.Any(obj => obj.Name == gameObject.name &&
+					                                       obj.Enabled == false))
+					return;
+			}
 
 			if (objectSwitch != null && enable)
 			{
@@ -114,7 +125,7 @@ namespace UFZ.Interaction
 				SetVisible(currentTransform.GetChild(i), enable);
 		}
 
-		public void NoActiveChild()
+		protected void NoActiveChild()
 		{
 			foreach (var ren in transform.GetComponentsInChildren<Renderer>(true))
 				ren.enabled = false;
