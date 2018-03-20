@@ -8,6 +8,7 @@ using UnityEditor;
 
 namespace UFZ.Rendering
 {
+	[ExecuteInEditMode]
 	public abstract class MaterialPropertiesBase : SerializedMonoBehaviour
 	{
 		public enum VisibilityMode
@@ -174,9 +175,9 @@ namespace UFZ.Rendering
 					VisibilityMode.Disabled : VisibilityMode.Transparent;
 		}
 
-		protected virtual void Update()
+		private void OnDidApplyAnimationProperties()
 		{
-			//UpdateProperties();
+			UpdateProperties();
 		}
 	}
 }
