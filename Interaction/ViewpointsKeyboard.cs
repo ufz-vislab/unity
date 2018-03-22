@@ -8,6 +8,7 @@ namespace UFZ.Interaction
 	{
 		private ObservableList<Viewpoint> _viewpoints;
 
+		#if MVR
 		private void Update()
 		{
 			if (_viewpoints == null)
@@ -45,5 +46,6 @@ namespace UFZ.Interaction
 					_viewpoints[index].Move();
 			}
 		}
+		#endif
 	}
 }

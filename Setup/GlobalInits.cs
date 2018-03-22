@@ -64,6 +64,13 @@ namespace UFZ.Initialization
 			}
 
 			var wandGo = GameObject.Find("VRWand");
+			#if !MVR
+			if (wandGo)
+			{
+				wandGo.SetActive(false);
+				GameObject.Find("VRManager").SetActive(false);
+			}
+			#endif
 
 #if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
 			foreach(var script in disabledScripts)
@@ -90,9 +97,6 @@ namespace UFZ.Initialization
 					GuiInputType = InputType.Wand;
 					Core.Info("GlobalInits: Wand input");
 				}
-				var camGo = GameObject.FindWithTag("MainCamera");
-				var ssao = camGo.GetComponent<SuperSampling_SSAA>();
-				if (ssao) ssao.enabled = true;
 			}
 
 			if (GuiInputType == InputType.Wand)
@@ -106,8 +110,10 @@ namespace UFZ.Initialization
 			else
 			{
 				GuiCamera = GameObject.Find("HeadNode").GetComponentInChildren<Camera>();
-				FindObjectOfType<VRManagerScript>().ShowWand = false;
-				FindObjectOfType<VRRaySelection>().enabled = false;
+				var mgr = FindObjectOfType<VRManagerScript>();
+				if (mgr) mgr.ShowWand = false;
+				var ray = FindObjectOfType<VRRaySelection>();
+				if (ray) ray.enabled = false;
 			}
 
 			if (GuiInputType == InputType.Head)
@@ -145,11 +151,17 @@ namespace UFZ.Initialization
 			DOTween.Init();
 			Loom.Current.GetComponent<Loom>();
 
-			FindObjectOfType<VRManagerScript>().TemplateCamera.SetActive(false);
-
 			// Has to be set after everything is initialized
 			// Would have been overwritten if setting in Awake()
 			FindObjectOfType<UserInterface>().Position.Value = CanvasPosition;
+
+			#if MVR
+			var mgr = FindObjectOfType<VRManagerScript>();
+			if (mgr) mgr.TemplateCamera.SetActive(false);
+			#else
+			var eye = FindObjectOfType<Rendering.EyeDistance>();
+			if (eye) eye.enabled = false;
+			#endif
 		}
 
 		public void Update()

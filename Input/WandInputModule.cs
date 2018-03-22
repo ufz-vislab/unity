@@ -497,11 +497,13 @@ public class WandInputModule : BaseInputModule
 	private bool _initialized;
 	private void Init()
 	{
+		#if MVR
 		Core.Info("UfzEventSystem: Creating cursor");
 		var cursorPrefab = Resources.Load("WandCursor");
 		var cursorGo = (GameObject)Instantiate(cursorPrefab);//SRResources.WandCursor.Instantiate();
 		cursorGo.transform.SetParent(transform, false);
 		cursor = cursorGo.GetComponent<RectTransform>();
+		#endif
 
 		var globalInits = FindObjectOfType<UFZ.Initialization.GlobalInits>();
 		if (globalInits.GuiInputType == UFZ.Initialization.GlobalInits.InputType.Mouse)

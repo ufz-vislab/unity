@@ -22,7 +22,9 @@ public class VRManager : View
 		//	VrManagerScript.ConfigFile is configured in PreVRManager.cs
 		VrManagerScript.DisableExistingCameras = false;
 		VrManagerScript.ForceQualityIndex = 5;
+		#if MVR
 		StartCoroutine(SetFly(true)); // Delay as VRWand is not yet initialized
+		#endif
 	}
 
 	public virtual void CenterNodeChanged()

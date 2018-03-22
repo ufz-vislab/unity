@@ -1,4 +1,4 @@
-﻿using MarkLight;
+using MarkLight;
 using UFZ.Initialization;
 using UnityEngine;
 
@@ -9,6 +9,7 @@ public class UfzEventSystem : MarkLight.Views.EventSystem
 
 	public void Awake()
 	{
+		#if MVR
 		return;
 		UFZ.Core.Info("UfzEventSystem: Creating cursor");
 		var cursorPrefab = Resources.Load("WandCursor");
@@ -23,5 +24,6 @@ public class UfzEventSystem : MarkLight.Views.EventSystem
 			WandInputModule.enabled = false;
 			WandInputModule.cursor.gameObject.SetActive(false);
 		}
+		#endif
 	}
 }

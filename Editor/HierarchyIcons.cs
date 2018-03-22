@@ -18,12 +18,6 @@ namespace UFZ
 			var go = EditorUtility.InstanceIDToObject (ID) as GameObject;
 			if (go == null)
 				return;
-
-			if (go.GetComponent<CutsceneZoneTrigger> () != null) {
-				r.x = r.xMax - 16;
-				r.width = 16;
-				GUI.DrawTexture (r, IconStyles.zoneIcon);
-			}
 		}
 	}
 }

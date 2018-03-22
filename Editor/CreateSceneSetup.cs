@@ -50,31 +50,6 @@ namespace UFZ.Initialization
 			Selection.activeGameObject = viewpointGo;
 		}
 
-		[MenuItem("UFZ/Add camera path")]
-		public static void CreateNewCameraPath()
-		{
-			var pathsGo = GameObject.Find("CameraPaths");
-			if (pathsGo == null)
-			{
-				Debug.LogError("CameraPaths object not found. Run menu item " +
-					"UFZ/Create scene setup!");
-				return;
-			}
-			var newCameraPath = new GameObject("New Camera Path");
-			Undo.RegisterCreatedObjectUndo(newCameraPath, "Added new camera path");
-			newCameraPath.transform.SetParent(pathsGo.transform, false);
-			newCameraPath.AddComponent<CameraPath>();
-			var animator = newCameraPath.AddComponent<CameraPathAnimator>();
-			animator.playOnStart = false;
-			var playerGo = GameObject.Find("Player (Player)");
-			if (playerGo == null)
-				Debug.LogWarning("Could not find Player GameObject. Set Animation Object manually!");
-			else
-				animator.animationObject = playerGo.transform;
-			Selection.activeGameObject = newCameraPath;
-			SceneView.lastActiveSceneView.FrameSelected();
-		}
-
 		private static GameObject GetChildGameObject(GameObject parentGo, string childName)
 		{
 			GameObject childGo;

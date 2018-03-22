@@ -22,7 +22,7 @@ namespace UFZ.Interaction
 			//Preview Camera
 			if (_editorPreview != null)
 				DestroyImmediate(_editorPreview);
-			if (CameraPathPreviewSupport.previewSupported)
+			if (true)
 			{
 				_editorPreview = new GameObject("Animtation Preview Cam") {hideFlags = HideFlags.HideAndDontSave};
 				var cam = _editorPreview.AddComponent<Camera>();
@@ -100,7 +100,7 @@ namespace UFZ.Interaction
 			EditorGUILayout.LabelField("Preview");
 			EditorGUILayout.EndHorizontal();
 
-			if (CameraPathPreviewSupport.previewSupported && !EditorApplication.isPlaying)
+			if (!EditorApplication.isPlaying)
 			{
 				RenderTexture rt = RenderTexture.GetTemporary(PreviewResolution, Mathf.RoundToInt(PreviewResolution / Aspect), 24,
 					RenderTextureFormat.Default, RenderTextureReadWrite.Default, 1);
@@ -122,13 +122,6 @@ namespace UFZ.Interaction
 				var guiRect = GUILayoutUtility.GetLastRect();
 				GUI.DrawTexture(guiRect, rt, ScaleMode.ScaleToFit, false);
 				RenderTexture.ReleaseTemporary(rt);
-			}
-			else
-			{
-				string errorMsg = (!CameraPathPreviewSupport.previewSupported)
-					? CameraPathPreviewSupport.previewSupportedText
-					: "No Preview When Playing.";
-				EditorGUILayout.LabelField(errorMsg, GUILayout.Height(225));
 			}
 		}
 
