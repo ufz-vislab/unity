@@ -25429,7 +25429,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _isMainScene: 0
   _sceneSetup: []
-  _thisScenePath: Assets/UFZ/Scenes/VRBase.unity
+  _thisScenePath: Assets/Plugins/UFZ/Scenes/VRBase.unity
 --- !u!4 &556570639
 Transform:
   m_ObjectHideFlags: 0

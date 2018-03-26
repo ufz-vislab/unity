@@ -18,7 +18,7 @@ namespace UFZ.Build
 			var buildPlayerOptions = new BuildPlayerOptions();
 			var sceneDirectory = GetSceneShortDirectory(name);
 			var sceneShortName = GetSceneShortName(name);
-			
+
 			//if (!absolute)
 			//{
 			//	sceneDirectory = "Assets/_project/Scenes/" + sceneShortName;
@@ -28,7 +28,7 @@ namespace UFZ.Build
 			buildPlayerOptions.scenes = new[]
 			{
 				name,
-				"Assets/UFZ/Scenes/VRBase.unity"
+				"Assets/Plugins/UFZ/Scenes/VRBase.unity"
 			};
 			var dest = "Builds/Windows/x64/" + sceneDirectory;
 			buildPlayerOptions.locationPathName = dest + ".exe";
