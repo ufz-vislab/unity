@@ -161,6 +161,8 @@ namespace UFZ.Initialization
 			#else
 			var eye = FindObjectOfType<Rendering.EyeDistance>();
 			if (eye) eye.enabled = false;
+			var postFrame = FindObjectOfType<VRManagerPostFrame>();
+			if (postFrame) postFrame.enabled = false;
 			#endif
 		}
 
