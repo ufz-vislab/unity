@@ -497,7 +497,7 @@ public class WandInputModule : BaseInputModule
 	private bool _initialized;
 	private void Init()
 	{
-		#if MVR
+		#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
 		Core.Info("UfzEventSystem: Creating cursor");
 		var cursorPrefab = Resources.Load("WandCursor");
 		var cursorGo = (GameObject)Instantiate(cursorPrefab);//SRResources.WandCursor.Instantiate();

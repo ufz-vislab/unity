@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-#if MVR
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
 using MiddleVR_Unity3D;
 #endif
 #if UNITY_EDITOR
@@ -11,7 +11,7 @@ namespace UFZ
 {
 	public static class Core
 	{
-		#if MVR
+		#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
 		// Time
 		public static float DeltaTime()
 		{

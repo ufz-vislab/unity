@@ -22,7 +22,7 @@ namespace UFZ.Views
 			CapsuleColliderComponent.isTrigger = true;
 		}
 
-#if MVR
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
 		/// <summary>
 		/// vrCommands which resets the players orientation.
 		/// </summary>

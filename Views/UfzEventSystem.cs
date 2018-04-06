@@ -9,7 +9,7 @@ public class UfzEventSystem : MarkLight.Views.EventSystem
 
 	public void Awake()
 	{
-		#if MVR
+		#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
 		return;
 		UFZ.Core.Info("UfzEventSystem: Creating cursor");
 		var cursorPrefab = Resources.Load("WandCursor");

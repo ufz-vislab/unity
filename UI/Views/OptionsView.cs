@@ -16,7 +16,7 @@ namespace UFZ.UI.Views
 		public void OrientationButtonClick()
 		{
 			var player = GameObject.Find("Player (Player)").GetComponent<Player>();
-#if MVR
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
 			player.ResetRotationCommand.Do(0);
 #endif
 		}

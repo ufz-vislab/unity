@@ -64,7 +64,7 @@ namespace UFZ.Initialization
 			}
 
 			var wandGo = GameObject.Find("VRWand");
-			#if !MVR
+			#if !(UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN)
 			if (wandGo)
 			{
 				wandGo.SetActive(false);
@@ -155,7 +155,7 @@ namespace UFZ.Initialization
 			// Would have been overwritten if setting in Awake()
 			FindObjectOfType<UserInterface>().Position.Value = CanvasPosition;
 
-			#if MVR
+			#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
 			var mgr = FindObjectOfType<VRManagerScript>();
 			if (mgr) mgr.TemplateCamera.SetActive(false);
 			#else

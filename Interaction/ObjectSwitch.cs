@@ -32,7 +32,7 @@ namespace UFZ.Interaction
 
 		private bool _active = true;
 
-#if MVR
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
 		private vrCommand _activeChildCommand;
 
 		protected void Start()
@@ -66,7 +66,7 @@ namespace UFZ.Interaction
 
 		public void SetActiveChild(int index)
 		{
-#if MVR
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
 			if (_activeChildCommand != null)
 				_activeChildCommand.Do(index);
 			else

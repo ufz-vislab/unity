@@ -8,7 +8,7 @@ namespace UFZ.Interaction
 	{
 		private ObservableList<Viewpoint> _viewpoints;
 
-		#if MVR
+		#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
 		private void Update()
 		{
 			if (_viewpoints == null)

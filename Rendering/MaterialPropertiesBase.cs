@@ -70,7 +70,7 @@ namespace UFZ.Rendering
 
 		public void SetEnabled(bool enable)
 		{
-#if MVR
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
 			if (_enabledCommand != null)
 				_enabledCommand.Do(enable);
 #else
@@ -80,7 +80,7 @@ namespace UFZ.Rendering
 
 		public void SetOpacity(float opacity)
 		{
-#if MVR
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
 			if (_opacityChangedCommand != null)
 				_opacityChangedCommand.Do(opacity);
 #else
@@ -90,14 +90,14 @@ namespace UFZ.Rendering
 
 		protected virtual void Start()
 		{
-#if MVR
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
 			_enabledCommand = new vrCommand("", EnabledCommandHandler);
 			_opacityChangedCommand = new vrCommand("", OpacityChangedCommandHandler);
 #endif
 			UpdateProperties();
 		}
 
-#if MVR
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
 		private void OnDestroy()
 		{
 			MiddleVR.DisposeObject(ref _enabledCommand);
