@@ -5,6 +5,7 @@ using System.Diagnostics;
 using UnityEditor;
 using UnityEngine.SceneManagement;
 #endif
+using UnityEngine;
 using System.IO;
 
 namespace UFZ.Build
@@ -13,6 +14,12 @@ namespace UFZ.Build
 	{
 		private const string SyncPath = "Y:\\vislab\\unity\\Player-x64\\";
 #if UNITY_EDITOR
+
+		static void BuildFromCLI()
+		{
+			var scene = GetArg ("-scene");
+			BuildDemo(scene);
+		}
 		static void BuildDemo(string name, bool absolute = false)
 		{
 			var buildPlayerOptions = new BuildPlayerOptions();
@@ -28,9 +35,10 @@ namespace UFZ.Build
 			buildPlayerOptions.scenes = new[]
 			{
 				name,
-				"Assets/Plugins/UFZ/Scenes/VRBase.unity"
+				"Assets/UFZ/Scenes/VRBase.unity"
 			};
-			var dest = "Builds/Windows/x64/" + sceneDirectory;
+			var buildPath = Application.dataPath + "/../Builds/Windows/x64";
+			var dest = buildPath + "/" + sceneDirectory;
 			buildPlayerOptions.locationPathName = dest + ".exe";
 			buildPlayerOptions.target = BuildTarget.StandaloneWindows64;
 			buildPlayerOptions.options = BuildOptions.None;
@@ -47,7 +55,9 @@ namespace UFZ.Build
 			UnityEngine.Debug.Log("Syncing to " + SyncPath + shortName + "_Data");
 
 			Sync(dest + "_Data", SyncPath + sceneShortName.Substring(0, sceneShortName.Length - ".unity".Length) + "_Data");
+			Sync(buildPath + "/Mono", SyncPath + "/Mono");
 			File.Copy(buildPlayerOptions.locationPathName, SyncPath + shortName + ".exe", true);
+			File.Copy(buildPath + "/UnityPlayer.dll", SyncPath + "/UnityPlayer.dll", true);
 		}
 
 		[MenuItem("UFZ/Build current scene")]
@@ -59,6 +69,24 @@ namespace UFZ.Build
 		public static string GetCurrentScene()
 		{
 			return SceneManager.GetSceneAt(0).path;
+		}
+
+		private static void Sync(string source, string dest)
+		{
+			var hostname = Environment.MachineName;
+			if (!hostname.Equals("VISMASTER"))
+				return;
+
+			UnityEngine.Debug.Log("Sync " + source + " to " + dest);
+			var process = new Process
+			{
+				StartInfo =
+				{
+					FileName = "\"C:\\Program Files\\FreeFileSync\\FreeFileSync.exe\"",
+					Arguments = Application.dataPath + "\\..\\sync.ffs_batch -leftDir " + source + " -rightDir " + dest
+				}
+			};
+			process.Start();
 		}
 #endif
 
@@ -79,21 +107,17 @@ namespace UFZ.Build
 			return Path.GetFileName(name);
 		}
 
-		private static void Sync(string source, string dest)
+		private static string GetArg(string name)
 		{
-			var hostname = Environment.MachineName;
-			if (!hostname.Equals("VISMASTER"))
-				return;
-
-			var process = new Process
+			var args = System.Environment.GetCommandLineArgs();
+			for (int i = 0; i < args.Length; i++)
 			{
-				StartInfo =
+				if (args[i] == name && args.Length > i + 1)
 				{
-					FileName = "\"C:\\Program Files\\FreeFileSync\\FreeFileSync.exe\"",
-					Arguments = "..\\..\\..\\sync.ffs_batch -leftDir " + source + " -rightDir " + dest
+					return args[i + 1];
 				}
-			};
-			process.Start();
+			}
+			return null;
 		}
 	}
 }
