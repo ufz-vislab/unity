@@ -20,17 +20,11 @@ namespace UFZ.Build
 			var scene = GetArg ("-scene");
 			BuildDemo(scene);
 		}
-		static void BuildDemo(string name, bool absolute = false)
+		static void BuildDemo(string name, bool sync = false)
 		{
 			var buildPlayerOptions = new BuildPlayerOptions();
 			var sceneDirectory = GetSceneShortDirectory(name);
 			var sceneShortName = GetSceneShortName(name);
-
-			//if (!absolute)
-			//{
-			//	sceneDirectory = "Assets/_project/Scenes/" + sceneShortName;
-			//	name = sceneDirectory + ".scene";
-			//}
 
 			buildPlayerOptions.scenes = new[]
 			{
@@ -54,10 +48,13 @@ namespace UFZ.Build
 			var shortName = sceneShortName.Substring(0, sceneShortName.Length - ".unity".Length);
 			UnityEngine.Debug.Log("Syncing to " + SyncPath + shortName + "_Data");
 
-			Sync(dest + "_Data", SyncPath + sceneShortName.Substring(0, sceneShortName.Length - ".unity".Length) + "_Data");
-			Sync(buildPath + "/Mono", SyncPath + "/Mono");
-			File.Copy(buildPlayerOptions.locationPathName, SyncPath + shortName + ".exe", true);
-			File.Copy(buildPath + "/UnityPlayer.dll", SyncPath + "/UnityPlayer.dll", true);
+			if (sync)
+			{
+				Sync(dest + "_Data", SyncPath + sceneShortName.Substring(0, sceneShortName.Length - ".unity".Length) + "_Data");
+				Sync(buildPath + "/Mono", SyncPath + "/Mono");
+				File.Copy(buildPlayerOptions.locationPathName, SyncPath + shortName + ".exe", true);
+				File.Copy(buildPath + "/UnityPlayer.dll", SyncPath + "/UnityPlayer.dll", true);
+			}
 		}
 
 		[MenuItem("UFZ/Build current scene")]
