@@ -20,6 +20,7 @@ namespace UFZ.Initialization
 		protected bool IsCityEngine;
 
 		private static readonly string[] Paths = {
+			"Assets/_demos",
 			"Assets/_project",
 			"Assets/UFZ/Tests/Objects"
 		};
