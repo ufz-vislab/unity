@@ -22,7 +22,8 @@ namespace UFZ.Initialization
 		private static readonly string[] Paths = {
 			"Assets/_demos",
 			"Assets/_project",
-			"Assets/UFZ/Tests/Objects"
+			"Assets/Plugins/UFZ/Tests/Objects",
+			"Assets/Demo-"
 		};
 
 		private bool CheckPath()
@@ -60,6 +61,7 @@ namespace UFZ.Initialization
 			modelImporter.animationType = ModelImporterAnimationType.None;
 			modelImporter.optimizeMesh = IsCityEngine;
 			modelImporter.globalScale = 1.0f;
+			modelImporter.useFileScale = false;
 			modelImporter.importMaterials = IsCityEngine;
 		}
 
@@ -100,12 +102,13 @@ namespace UFZ.Initialization
 				matProps.SolidColor = solidColor;
 				if (useTexture)
 				{
+					Debug.Log("Assign texture to " + go.name);
 					matProps.ColorBy = MaterialProperties.ColorMode.Texture;
 
-					var modelName = Path.GetFileName(assetPath.Substring(0, assetPath.LastIndexOf(".fbx", StringComparison.Ordinal)));
-					var fbmPath = assetPath.Replace(".fbx", ".fbm");
-					var tex = (Texture2D)(AssetDatabase.LoadAssetAtPath(fbmPath + "/" + modelName + "-0_vtk_texture.png", typeof(Texture2D)));
-					matProps.Texture = tex;
+					//var modelName = Path.GetFileName(assetPath.Substring(0, assetPath.LastIndexOf(".fbx", StringComparison.Ordinal)));
+					//var fbmPath = assetPath.Replace(".fbx", ".fbm");
+					//var tex = (Texture2D)(AssetDatabase.LoadAssetAtPath(fbmPath + "/" + modelName + "-0_vtk_texture.png", typeof(Texture2D)));
+					//matProps.Texture = tex;
 				} else
 				{
 					matProps.ColorBy = useVertexColors
