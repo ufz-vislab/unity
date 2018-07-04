@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Diagnostics;
+using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine.SceneManagement;
@@ -12,7 +13,6 @@ namespace UFZ.Build
 {
 	public class Builder
 	{
-		private const string SyncPath = "Y:\\vislab\\unity\\Player-x64\\";
 #if UNITY_EDITOR
 
 		static void BuildFromCLI()
@@ -31,9 +31,8 @@ namespace UFZ.Build
 				name,
 				"Assets/UFZ/Scenes/VRBase.unity"
 			};
-			var buildPath = Application.dataPath + "/../Builds/Windows/x64";
-			var dest = buildPath + "/" + sceneDirectory;
-			buildPlayerOptions.locationPathName = dest + ".exe";
+			var dest = "Builds/Windows/x64/" + Application.unityVersion + "/" + sceneDirectory;
+			buildPlayerOptions.locationPathName = dest + "/" + sceneDirectory + ".exe";
 			buildPlayerOptions.target = BuildTarget.StandaloneWindows64;
 			buildPlayerOptions.options = BuildOptions.None;
 			BuildPipeline.BuildPlayer(buildPlayerOptions);
@@ -42,19 +41,10 @@ namespace UFZ.Build
 			var path = Path.Combine(GetSceneDirectory(name), "VTK");
 			if (Directory.Exists(path))
 			{
-				FileUtil.ReplaceDirectory(path, dest + "_Data/VTK");
+				FileUtil.ReplaceDirectory(path, dest + "/" + sceneDirectory + "_Data/VTK");
 			}
 
-			var shortName = sceneShortName.Substring(0, sceneShortName.Length - ".unity".Length);
-			UnityEngine.Debug.Log("Syncing to " + SyncPath + shortName + "_Data");
-
-			if (sync)
-			{
-				Sync(dest + "_Data", SyncPath + sceneShortName.Substring(0, sceneShortName.Length - ".unity".Length) + "_Data");
-				Sync(buildPath + "/Mono", SyncPath + "/Mono");
-				File.Copy(buildPlayerOptions.locationPathName, SyncPath + shortName + ".exe", true);
-				File.Copy(buildPath + "/UnityPlayer.dll", SyncPath + "/UnityPlayer.dll", true);
-			}
+			Sync(dest, "Y:\\vislab\\unity\\Player-x64\\" + Application.unityVersion + "\\");
 		}
 
 		[MenuItem("UFZ/Build current scene")]

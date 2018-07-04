@@ -83,7 +83,7 @@ namespace UFZ.Initialization
 			foreach(var actor in FindObjectsOfType<VRActor>())
 				actor.enabled = false;
 #endif
-			if (Core.IsCluster())
+			if (Core.IsCluster() || System.Environment.MachineName.Contains("VISCENTER"))
 			{
 				if (sceneSetup != null)
 					CanvasPosition = sceneSetup.CanvasPositionVislab;
