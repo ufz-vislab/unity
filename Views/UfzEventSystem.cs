@@ -11,19 +11,19 @@ public class UfzEventSystem : MarkLight.Views.EventSystem
 	{
 		#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
 		return;
-		UFZ.Core.Info("UfzEventSystem: Creating cursor");
-		var cursorPrefab = Resources.Load("WandCursor");
-		var cursor = (GameObject)Instantiate(cursorPrefab);//SRResources.WandCursor.Instantiate();
-		cursor.transform.SetParent(transform, false);
-		WandInputModule.cursor = cursor.GetComponent<RectTransform>();
+		//UFZ.Core.Info("UfzEventSystem: Creating cursor");
+		//var cursorPrefab = Resources.Load("WandCursor");
+		//var cursor = (GameObject)Instantiate(cursorPrefab);//SRResources.WandCursor.Instantiate();
+		//cursor.transform.SetParent(transform, false);
+		//WandInputModule.cursor = cursor.GetComponent<RectTransform>();
 
-		var globalInits = FindObjectOfType<GlobalInits>();
-		if (globalInits.GuiInputType == GlobalInits.InputType.Mouse)
-		{
-			UFZ.Core.Info("UfzEventSystem: Mouse input, disabling cursor");
-			WandInputModule.enabled = false;
-			WandInputModule.cursor.gameObject.SetActive(false);
-		}
+		//var globalInits = FindObjectOfType<GlobalInits>();
+		//if (globalInits.GuiInputType == GlobalInits.InputType.Mouse)
+		//{
+		//	UFZ.Core.Info("UfzEventSystem: Mouse input, disabling cursor");
+		//	WandInputModule.enabled = false;
+		//	WandInputModule.cursor.gameObject.SetActive(false);
+		//}
 		#endif
 	}
 }

@@ -6,7 +6,6 @@ using UnityEngine;
 using UnityEditor;
 using UnityEngine.SceneManagement;
 #endif
-using UnityEngine;
 using System.IO;
 
 namespace UFZ.Build
@@ -24,7 +23,7 @@ namespace UFZ.Build
 		{
 			var buildPlayerOptions = new BuildPlayerOptions();
 			var sceneDirectory = GetSceneShortDirectory(name);
-			var sceneShortName = GetSceneShortName(name);
+			// var sceneShortName = GetSceneShortName(name);
 
 			buildPlayerOptions.scenes = new[]
 			{
