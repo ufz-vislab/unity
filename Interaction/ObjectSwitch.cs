@@ -5,136 +5,167 @@ using UFZ.UI.Views;
 
 namespace UFZ.Interaction
 {
-	public class ObjectSwitch : IPlayable
-	{
-		public enum Ordering
-		{
-			Alphanumeric,
-			Transform
-		}
+    public class ObjectSwitch : IPlayable
+    {
+        public enum Ordering
+        {
+            Alphanumeric,
+            Transform
+        }
 
-		protected GameObject ActiveChildGo;
-		private VisibilityView _visibilityView;
-		public delegate void Callback(int index);
-		public Callback ActiveChildCallback;
-		public Ordering Order = Ordering.Alphanumeric;
+        protected GameObject ActiveChildGo;
+        private VisibilityView _visibilityView;
+        public delegate void Callback(int index);
+        public Callback ActiveChildCallback;
+        public Ordering Order = Ordering.Alphanumeric;
 
-		public bool Active
-		{
-			get { return _active; }
-			set
-			{
-				foreach (var childRenderer in ActiveChildGo.GetComponentsInChildren<Renderer>(true))
-					childRenderer.enabled = value;
-				_active = value;
-			}
-		}
+        private Transform[] _transforms;
 
-		private bool _active = true;
+        public bool Active
+        {
+            get { return _active; }
+            set
+            {
+                foreach (var childRenderer in ActiveChildGo.GetComponentsInChildren<Renderer>(true))
+                    childRenderer.enabled = value;
+                _active = value;
+            }
+        }
+
+        private bool _active = true;
 
 #if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
-		private vrCommand _activeChildCommand;
+        private vrCommand _activeChildCommand;
 
-		protected void Start()
-		{
-			_activeChildCommand = new vrCommand("", ActiveChildCommandHandler);
-			_visibilityView = Resources.FindObjectsOfTypeAll(typeof (VisibilityView))[0] as VisibilityView;
-		}
+        protected void Start()
+        {
+            _activeChildCommand = new vrCommand("", ActiveChildCommandHandler);
+            _visibilityView = Resources.FindObjectsOfTypeAll(typeof (VisibilityView))[0] as VisibilityView;
+        }
 
-		private void OnDestroy()
-		{
-			MiddleVR.DisposeObject(ref _activeChildCommand);
-		}
+        protected void OnEnable()
+        {
 
-		private vrValue ActiveChildCommandHandler(vrValue index)
-		{
-			SetStep(index.GetInt());
-			return true;
-		}
+        }
+
+        private void OnDestroy()
+        {
+            MiddleVR.DisposeObject(ref _activeChildCommand);
+        }
+
+        private vrValue ActiveChildCommandHandler(vrValue index)
+        {
+            SetStep(index.GetInt());
+            return true;
+        }
 #endif
 
-		protected virtual void OnValidate()
-		{
-			NumSteps = transform.childCount;
-			SetStep(GetStep());
-		}
+        protected virtual void OnValidate()
+        {
+            _transforms = Order == Ordering.Alphanumeric
+                ? transform.Cast<Transform>().ToArray().OrderBy(t => t.name, new AlphanumComparatorFast()).ToArray()
+                : transform.Cast<Transform>().ToArray();
 
-		public void SetActiveChild(float percentage)
-		{
-			SetActiveChild((int) (percentage * (transform.childCount - 1)));
-		}
+            NumSteps = transform.childCount;
+            SetStep(GetStep());
+        }
 
-		public void SetActiveChild(int index)
-		{
+        public void SetActiveChild(float percentage)
+        {
+            SetActiveChild((int) (percentage * (transform.childCount - 1)));
+        }
+
+        public void SetActiveChild(int index)
+        {
 #if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
-			if (_activeChildCommand != null)
-				_activeChildCommand.Do(index);
-			else
-				SetStep(index);
+            if (_activeChildCommand != null)
+                _activeChildCommand.Do(index);
+            else
+                SetStep(index);
 #else
-			SetStep(index);
+            SetStep(index);
 #endif
-		}
+        }
 
-		public override void SetStep(int step)
-		{
-			base.SetStep(step);
-			step = GetStep();
+        public override void SetStep(int step)
+        {
+            if (_transforms == null)
+                return;
+            var previousStep = base._previousStep;
+            base.SetStep(step);
+            step = GetStep();
 
-			var i = 0;
-			var transforms = Order == Ordering.Alphanumeric
-				? transform.Cast<Transform>().ToArray().OrderBy(t => t.name, new AlphanumComparatorFast()).ToArray()
-				: transform.Cast<Transform>().ToArray();
+            if (_transforms.Length < step + 1)
+                return;
 
-			ActiveChildGo = transforms[step].gameObject;
-			if (!_active)
-				return;
+            ActiveChildGo = _transforms[step].gameObject;
+            if (!_active)
+                return;
 
-			foreach (var child in transforms)
-			{
-				var enable = i == step || step < 0;
-				SetVisible(child, enable);
-				++i;
-			}
+            SetVisible(_transforms[previousStep], false);
+            SetVisible(_transforms[step], true);
 
-			if (ActiveChildCallback != null)
-				ActiveChildCallback(step);
-		}
+            if (ActiveChildCallback != null)
+                ActiveChildCallback(step);
+        }
 
-		private void SetVisible(Transform currentTransform, bool enable)
-		{
-			var objectSwitch = currentTransform.GetComponent<ObjectSwitch>();
+        protected void Reset()
+        {
+            ResetRenderers();
+        }
 
-			// Don't process objects which are switched off in Visibility View
-			if (enable && _visibilityView != null && _visibilityView.Objects != null)
-			{
-				if (_visibilityView.Objects.Any(obj => obj.Name == gameObject.name &&
-					                                       obj.Enabled == false))
-					return;
-			}
+        [Sirenix.OdinInspector.Button]
+        public void ResetRenderers()
+        {
+            var i = 0;
+            var step = base.GetStep();
+            foreach (var child in _transforms)
+            {
+                var enable = i == step || step < 0;
+                SetVisible(child, enable);
+                ++i;
+            }
+        }
 
-			if (objectSwitch != null && enable)
-			{
-				objectSwitch.SetActiveChild(objectSwitch.GetStep());
-				return;
-			}
-			foreach (var ren in currentTransform.GetComponents<Renderer>())
-				ren.enabled = enable;
+        private void SetVisible(Transform currentTransform, bool enable)
+        {
+            var objectSwitch = currentTransform.GetComponent<ObjectSwitch>();
 
-			for (var i = 0; i < currentTransform.childCount; i++)
-				SetVisible(currentTransform.GetChild(i), enable);
-		}
+            // Don't process objects which are switched off in Visibility View
+            if (enable && _visibilityView != null && _visibilityView.Objects != null)
+            {
+                if (_visibilityView.Objects.Any(obj => obj.Name == gameObject.name &&
+                                                           obj.Enabled == false))
+                    return;
+            }
 
-		protected void NoActiveChild()
-		{
-			foreach (var ren in transform.GetComponentsInChildren<Renderer>(true))
-				ren.enabled = false;
-		}
+            if (objectSwitch != null && enable)
+            {
+                objectSwitch.SetActiveChild(objectSwitch.GetStep());
+                return;
+            }
+            var matProps = GetComponent<UFZ.Rendering.MaterialProperties>();
+            foreach (var ren in currentTransform.GetComponents<Renderer>())
+            {
+                ren.enabled = enable;
+                if (matProps)
+                    ren.SetPropertyBlock(matProps.PropertyBlock);
+            }
 
-		public override void Stop()
-		{
-			base.Stop();
-			NoActiveChild();
-		}
-	}
+            for (var i = 0; i < currentTransform.childCount; i++)
+                SetVisible(currentTransform.GetChild(i), enable);
+        }
+
+        protected void NoActiveChild()
+        {
+            foreach (var ren in transform.GetComponentsInChildren<Renderer>(true))
+                ren.enabled = false;
+        }
+
+        public override void Stop()
+        {
+            base.Stop();
+            NoActiveChild();
+        }
+    }
 }

@@ -110,7 +110,11 @@ namespace UFZ.Rendering
 
         public override void UpdateRenderers()
         {
-            foreach (var localRenderer in gameObject.GetComponentsInChildren<Renderer>())
+            GameObject go = gameObject;
+            var sw = GetComponent<UFZ.Interaction.ObjectSwitch>();
+            if (sw)
+                go = gameObject.transform.GetChild(sw.Step).gameObject;
+            foreach (var localRenderer in go.GetComponentsInChildren<Renderer>())
                 localRenderer.SetPropertyBlock(PropertyBlock);
         }
 
@@ -127,7 +131,11 @@ namespace UFZ.Rendering
 
         private void UpdateShaderInternal()
         {
-            foreach (var localRenderer in gameObject.GetComponentsInChildren<Renderer>())
+            GameObject go = gameObject;
+            var sw = GetComponent<UFZ.Interaction.ObjectSwitch>();
+            if (sw)
+                go = gameObject.transform.GetChild(sw.Step).gameObject;
+            foreach (var localRenderer in go.GetComponentsInChildren<Renderer>())
             {
                 localRenderer.enabled = Enabled;
                 if (!Enabled)
