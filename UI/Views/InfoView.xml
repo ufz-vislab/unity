@@ -5,7 +5,7 @@
       <Group Orientation="Horizontal" Spacing="10px">
         <Button Text="&lt; Backward" Click="Backward" />
         <Button Text="Forward &gt;" Click="Forward" />
-        <Label Text="{PageInfo}" />
+        <Label Text="{PageInfo}" MouseDown="DragStart" MouseUp="DragEnd" />
         <Button Text="Close" Click="Close" />
       </Group>
     </Group>

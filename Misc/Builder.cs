@@ -60,7 +60,7 @@ namespace UFZ.Build
 		private static void Sync(string source, string dest)
 		{
 			var hostname = Environment.MachineName;
-			if (!hostname.Equals("VISMASTER"))
+			if (!hostname.Equals("VISMASTER") && !hostname.Equals("WINSERVER1"))
 				return;
 
 			UnityEngine.Debug.Log("Sync " + source + " to " + dest);

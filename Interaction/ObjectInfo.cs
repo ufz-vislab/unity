@@ -8,7 +8,7 @@ namespace UFZ.Interaction
 	{
 		public Texture2D[] Images;
 
-		private InfoView _menu;
+		protected InfoView _menu;
 
 		public void Start()
 		{

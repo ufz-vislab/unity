@@ -72,5 +72,15 @@ namespace UFZ.UI.Views
 		{
 			Deactivate();
 		}
+
+        public void DragStart()
+	    {
+            DragableUIView.DragStart();
+	    }
+
+	    public void DragEnd()
+	    {
+            DragableUIView.DragEnd();
+	    }
 	}
 }
