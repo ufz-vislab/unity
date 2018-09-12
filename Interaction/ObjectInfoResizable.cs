@@ -16,7 +16,6 @@ namespace UFZ.Interaction
 			base.Start();
             _menu.Width.Value = new ElementSize(Width, ElementSizeUnit.Pixels);
             _menu.Height.Value = new ElementSize(Height, ElementSizeUnit.Pixels);
-            _menu.ImageWidget.Height.Value = new ElementSize(Height - 106, ElementSizeUnit.Pixels);
 		}
 	}
 }

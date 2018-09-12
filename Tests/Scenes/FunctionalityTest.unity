@@ -141,7 +141,7 @@ Transform:
   - {fileID: 102701728}
   - {fileID: 1246275209}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &102701727
 GameObject:
@@ -205,6 +205,7 @@ MonoBehaviour:
   Fps: 5
   NumSteps: 4
   _step: 0
+  _previousStep: 0
   Order: 0
 --- !u!1 &203349679
 GameObject:
@@ -411,6 +412,8 @@ MonoBehaviour:
   SolidColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   Lighting: 1
   Side: 0
+  CastShadows: 1
+  ReceiveShadows: 1
   _texture: {fileID: 0}
 --- !u!1 &233010052
 GameObject:
@@ -623,6 +626,8 @@ MonoBehaviour:
   SolidColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   Lighting: 0
   Side: 0
+  CastShadows: 1
+  ReceiveShadows: 1
   _texture: {fileID: 0}
 --- !u!4 &245198009 stripped
 Transform:
@@ -741,7 +746,72 @@ Transform:
   m_Children:
   - {fileID: 2084453755}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &269627578
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 269627581}
+  - component: {fileID: 269627580}
+  - component: {fileID: 269627579}
+  m_Layer: 0
+  m_Name: '! AmsMultiSceneSetup'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &269627579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 269627578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15cc1e8a133b04c4ba5d1c4801149eaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _version: 1
+  _crossSceneReferences: []
+  _realSceneRootsForPostBuild: []
+  _mergedScenes: []
+--- !u!114 &269627580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 269627578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 085c2289556c08443b40563cfe8016e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isMainScene: 1
+  _sceneSetup:
+  - scene:
+      editorAssetGUID: d2b71576175e2494e9c8a693ee162050
+      name: VRBase
+      _path: Assets/UFZ/Scenes/VRBase.unity
+    loadInEditor: 1
+    loadMethod: 1
+  _thisScenePath: Assets/UFZ/Tests/Scenes/FunctionalityTest.unity
+--- !u!4 &269627581
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 269627578}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &271041634
 GameObject:
@@ -1044,6 +1114,8 @@ MonoBehaviour:
   SolidColor: {r: 1, g: 0, b: 0, a: 1}
   Lighting: 0
   Side: 0
+  CastShadows: 1
+  ReceiveShadows: 1
   _texture: {fileID: 0}
 --- !u!1 &534010888
 GameObject:
@@ -1325,6 +1397,8 @@ MonoBehaviour:
   SolidColor: {r: 0.2827587, g: 0, b: 1, a: 1}
   Lighting: 0
   Side: 0
+  CastShadows: 1
+  ReceiveShadows: 1
   _texture: {fileID: 0}
 --- !u!1001 &852128309
 Prefab:
@@ -1509,6 +1583,8 @@ MonoBehaviour:
   SolidColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   Lighting: 0
   Side: 2
+  CastShadows: 1
+  ReceiveShadows: 1
   _texture: {fileID: 0}
 --- !u!4 &852128312 stripped
 Transform:
@@ -1664,6 +1740,8 @@ MonoBehaviour:
   SolidColor: {r: 0, g: 1, b: 0.25517225, a: 1}
   Lighting: 0
   Side: 3
+  CastShadows: 1
+  ReceiveShadows: 1
   _texture: {fileID: 0}
 --- !u!1 &950599297 stripped
 GameObject:
@@ -2237,6 +2315,7 @@ MonoBehaviour:
   Fps: 5
   NumSteps: 4
   _step: 0
+  _previousStep: 0
   Order: 0
 --- !u!1 &1351098636
 GameObject:
@@ -2388,6 +2467,8 @@ MonoBehaviour:
   SolidColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   Lighting: 0
   Side: 1
+  CastShadows: 1
+  ReceiveShadows: 1
   _texture: {fileID: 0}
 --- !u!1 &1361970009
 GameObject:
@@ -2415,7 +2496,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1398111137
 GameObject:
@@ -2445,7 +2526,7 @@ Transform:
   - {fileID: 1984747593}
   - {fileID: 2104951573}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1402499770
 GameObject:
@@ -2545,6 +2626,8 @@ MonoBehaviour:
   SolidColor: {r: 1, g: 0.8482758, b: 0, a: 1}
   Lighting: 0
   Side: 0
+  CastShadows: 1
+  ReceiveShadows: 1
   _texture: {fileID: 0}
 --- !u!23 &1402499773
 MeshRenderer:
@@ -2612,7 +2695,7 @@ Transform:
   m_Children:
   - {fileID: 1151169766}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1407801194
 GameObject:
@@ -2890,7 +2973,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 44.979004, y: -38.362003, z: -10.684001}
 --- !u!1 &1617305149
 GameObject:
@@ -3240,6 +3323,8 @@ MonoBehaviour:
   SolidColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   Lighting: 0
   Side: 0
+  CastShadows: 1
+  ReceiveShadows: 1
   _texture: {fileID: 0}
 --- !u!4 &1738400122 stripped
 Transform:
@@ -3284,7 +3369,7 @@ Transform:
   - {fileID: 1617305150}
   - {fileID: 2031360320}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1984747592
 GameObject:
@@ -3305,7 +3390,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1984747593
 Transform:
   m_ObjectHideFlags: 0
@@ -3569,6 +3654,8 @@ MonoBehaviour:
   SolidColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   Lighting: 1
   Side: 0
+  CastShadows: 1
+  ReceiveShadows: 1
   _texture: {fileID: 0}
 --- !u!4 &2031360320 stripped
 Transform:
@@ -3626,7 +3713,7 @@ Transform:
   - {fileID: 203349680}
   - {fileID: 1220192006}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2104951572
 GameObject:
@@ -3674,6 +3761,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Images:
   - {fileID: 2800000, guid: a6120689d3d95dc4cba3b1da552730db, type: 3}
+  - {fileID: 2800000, guid: 3a4b4da08930f2842a6d43a12fa28ae1, type: 3}
+  - {fileID: 2800000, guid: 26a83a82d6c830a4c9f15265c7547c42, type: 3}
 --- !u!114 &2104951575
 MonoBehaviour:
   m_ObjectHideFlags: 0
