@@ -19,6 +19,7 @@ public class NavigationManager : View
 	public GamepadNavigation GamepadNavigation;
 	public KeyboardNavigation KeyboardNavigation;
 	public SpaceMouseNavigation SpaceMouseNavigation;
+	public ViewpointsKeyboard ViewpointsKeyboard;
 
 	protected virtual void CenterNodeChanged()
 	{

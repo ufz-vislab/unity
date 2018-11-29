@@ -10,10 +10,13 @@ namespace UFZ.Initialization
 		[MenuItem("UFZ/Create scene setup")]
 		static void CreateSetup()
 		{
+			var globalTransformGo = GameObject.Find("Global Transform");
 			var sceneSetupGo = GameObject.Find("Scene Setup") ?? new GameObject("Scene Setup");
 			AddComponent<UFZ.Setup.SceneSetup>(sceneSetupGo);
 
 			GetChildGameObject(sceneSetupGo, "CameraPaths");
+			if (globalTransformGo)
+				GetChildGameObject(globalTransformGo, "Viewpoints");
 			GetChildGameObject(sceneSetupGo, "Viewpoints");
 			var visibilitiesGo = GetChildGameObject(sceneSetupGo, "Visibilities");
 			AddComponent<GameObjectList>(visibilitiesGo);

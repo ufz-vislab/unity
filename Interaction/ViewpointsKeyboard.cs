@@ -16,6 +16,8 @@ namespace UFZ.Interaction
 				var viewpointsView = FindObjectOfType<ViewpointsView>();
 				if (viewpointsView != null)
 					_viewpoints = viewpointsView.Viewpoints;
+				else
+					return;
 			}
 			var keyb = MiddleVR.VRDeviceMgr.GetKeyboard();
 
@@ -41,6 +43,8 @@ namespace UFZ.Interaction
 					index = 7;
 				if (keyb.IsKeyToggled(MiddleVR.VRK_9))
 					index = 8;
+				if (keyb.IsKeyToggled(MiddleVR.VRK_0))
+					index = 9;
 
 				if (index >= 0 && index < _viewpoints.Count)
 					_viewpoints[index].Move();

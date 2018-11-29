@@ -22,7 +22,7 @@ namespace UFZ.Initialization
 		private static readonly string[] Paths = {
 			"Assets/_demos",
 			"Assets/_project",
-			"Assets/Plugins/UFZ/Tests/Objects",
+			"Assets/UFZ/Tests/Objects",
 			"Assets/Demo-"
 		};
 

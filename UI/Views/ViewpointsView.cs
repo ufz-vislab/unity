@@ -14,7 +14,6 @@ namespace UFZ.UI.Views
 		public override void Initialize()
 		{
 			base.Initialize();
-
 		
 			var viewpointGroup = GameObject.Find("Viewpoints");
 			if (viewpointGroup == null || viewpointGroup.transform.childCount == 0 ||
