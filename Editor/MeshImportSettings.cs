@@ -53,8 +53,8 @@ namespace UFZ.Initialization
 			IsCityEngine = assetPath.Contains("CityEngine");
 
 			IsParaview = CheckParaViewExport();
-			if (!IsParaview)
-				return;
+			//if (!IsParaview)
+			//	return;
 
 			Debug.Log("ParaView import: " + Path.GetFileNameWithoutExtension(assetPath));
 			var modelImporter = (ModelImporter)assetImporter;
@@ -67,22 +67,22 @@ namespace UFZ.Initialization
 
 		private void OnPostprocessModel(GameObject go)
 		{
-			if (!CheckPath() || IsCityEngine || !IsParaview)
+			if (!CheckPath() || IsCityEngine) // || !IsParaView
 				return;
 
 			//Debug.Log ("OnPostprocessModel for " + go.name);
 			var meshInfo = AssetDatabase.LoadAssetAtPath(assetPath + ".asset",
 				               typeof(MeshInfo)) as MeshInfo;
+			var subMeshIndex = 0;
 			foreach (var component in go.GetComponentsInChildren(typeof(Renderer), true))
 			{
 				var renderer = (Renderer)component;
-				var subMeshIndex = 0;
 				var gameObject = renderer.gameObject;
-				var match = Regex.Match(gameObject.name, @"(?<name>[\w]*)-(?<index>[0-9])*");
-				if (!match.Success)
-					Debug.Log("Could not match " + gameObject.name + " to [name]-[index]! Assuming single object.");
-				else
-					Int32.TryParse(match.Groups["index"].Value, out subMeshIndex);
+				//var match = Regex.Match(gameObject.name, @"(?<name>[\w]*)-(?<index>[0-9])*");
+				//if (!match.Success)
+				//	Debug.Log("Could not match " + gameObject.name + " to [name]-[index]! Assuming single object.");
+				//else
+				//	Int32.TryParse(match.Groups["index"].Value, out subMeshIndex);
 
 				if (meshInfo == null)
 					continue;
@@ -91,15 +91,10 @@ namespace UFZ.Initialization
 				var pointRendering = meshInfo.GetBool("PointRendering", subMeshIndex);
 				var lineRendering = meshInfo.GetBool("LineRendering", subMeshIndex);
 				var useTexture = meshInfo.GetBool("UseTexture", subMeshIndex);
-				var opacity = 1.0f;
-				if (meshInfo.HasFloat("Opacity", subMeshIndex))
-					opacity = meshInfo.GetFloat("Opacity", subMeshIndex);
-				var solidColor = Color.white;
-				if (meshInfo.HasColor("DiffuseColor", subMeshIndex))
-					solidColor = meshInfo.GetColor("DiffuseColor", subMeshIndex);
+
 				var matProps = renderer.gameObject.AddComponent<MaterialProperties>();
-				matProps.Opacity = opacity;
-				matProps.SolidColor = solidColor;
+				matProps.Opacity = meshInfo.GetFloat("Opacity", subMeshIndex);
+				matProps.SolidColor =  meshInfo.GetColor("DiffuseColor", subMeshIndex);
 				if (useTexture)
 				{
 					Debug.Log("Assign texture to " + go.name);
@@ -128,6 +123,8 @@ namespace UFZ.Initialization
 					ConvertMeshToLines(renderer);
 
 				renderer.gameObject.AddComponent<MeshInfoVtkProperties>().ScriptableObject = meshInfo;
+
+				subMeshIndex++;
 			}
 
 			// Remove Properties-child

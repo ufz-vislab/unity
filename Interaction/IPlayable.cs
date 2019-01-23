@@ -63,6 +63,7 @@ namespace UFZ.Interaction
 
         public virtual void SetStep(int step)
         {
+            _previousStep = _step;
             if (step < 0)
                 _step = NumSteps - 1;
             else if (step >= NumSteps)
@@ -95,15 +96,7 @@ namespace UFZ.Interaction
             get { return _step; }
             set
             {
-                _previousStep = _step;
-                if (value < 0)
-                    _step = NumSteps - 1;
-                else if (value >= NumSteps)
-                    _step = 0;
-                else
-                    _step = value;
-                Percentage = (float) _step / (NumSteps - 1);
-                TimeInfo = string.Format("{0:00}", _step);
+                SetStep(value);
             }
         }
         [SerializeField, HideInInspector] private int _step;

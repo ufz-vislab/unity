@@ -78,9 +78,13 @@ namespace UFZ.Annotations
 		/// </returns>
 		public float GetFloat(string floatName, int subMeshIndex)
 		{
+			var defaults = new Dictionary<string, float> {{"Opacity", 1f}};
 			if (HasFloat(floatName, subMeshIndex))
 				return Properties[subMeshIndex].Floats[floatName];
-			return -9999f;
+			else if (defaults.ContainsKey(floatName))
+				return defaults[floatName];
+			else
+				return -9999f;
 		}
 
 		/// <summary>
@@ -109,7 +113,7 @@ namespace UFZ.Annotations
 		public Color GetColor(string colorName, int subMeshIndex)
 		{
 			return HasColor(colorName, subMeshIndex) ?
-				Properties[subMeshIndex].Colors[colorName] : Color.magenta;
+				Properties[subMeshIndex].Colors[colorName] : Color.white;
 		}
 
 		/// <summary>
@@ -118,7 +122,7 @@ namespace UFZ.Annotations
 		/// <param name="colorName">Name of the color.</param>
 		/// <param name="subMeshIndex">Index of the sub mesh.</param>
 		/// <returns></returns>
-		public bool HasColor(string colorName, int subMeshIndex)
+		private bool HasColor(string colorName, int subMeshIndex)
 		{
 			if (Properties == null)
 				return false;
