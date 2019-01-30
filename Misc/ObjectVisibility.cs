@@ -64,14 +64,32 @@ namespace UFZ.Interaction
 				if(entry.GameObject == null)
 					continue;
 
-				var matProps = entry.GameObject.GetComponentsInChildren<MaterialProperties>();
+                if (entry.GameObject.GetComponent<IPlayable>())
+                {
+                    if (Mathf.Approximately(entry.Opacity, 0f))
+                    {
+                        entry.GameObject.GetComponent<IPlayable>().Stop();
+                    }
+                    else
+                    {
+                        var switches = entry.GameObject.GetComponentsInChildren<ObjectSwitch>();
+                        foreach (var objectSwitch in switches)
+                            objectSwitch.ResetRenderers();
+                    }
+                    continue;
+                }
+               
+
+                var matProps = entry.GameObject.GetComponentsInChildren<MaterialProperties>();
 				foreach (var matProp in matProps)
 				{
 					// This assignment is necessary due to the old version of NET that Unity uses,
 					// where the target of a foreach is not considered unique as it should
 					// From http://dotween.demigiant.com/support.php
 					var thisProp = matProp;
-					if (entry.Duration > 0f && !immediate && !Mathf.Approximately(thisProp.Opacity, entry.Opacity))
+                    if (Mathf.Approximately(thisProp.Opacity, entry.Opacity))
+                        continue;
+					if (entry.Duration > 0f && !immediate)
 						DOTween.To(() => thisProp.Opacity, x => thisProp.Opacity = x, entry.Opacity, entry.Duration);
 						//LeanTween.value(thisProp.gameObject, thisProp.SetOpacity, thisProp.Opacity, entry.Opacity, entry.Duration);
 					else

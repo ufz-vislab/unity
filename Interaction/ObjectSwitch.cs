@@ -41,6 +41,7 @@ namespace UFZ.Interaction
         {
             _activeChildCommand = new vrCommand("", ActiveChildCommandHandler);
             _visibilityView = Resources.FindObjectsOfTypeAll(typeof (VisibilityView))[0] as VisibilityView;
+            ResetRenderers();
         }
 
         protected void OnEnable()
@@ -68,6 +69,7 @@ namespace UFZ.Interaction
 
             NumSteps = transform.childCount;
             SetStep(GetStep());
+            ResetRenderers();
         }
 
         public void SetActiveChild(float percentage)
@@ -91,27 +93,18 @@ namespace UFZ.Interaction
         {
             if (_transforms == null)
                 return;
-            var previousStep = base._previousStep;
             base.SetStep(step);
             step = GetStep();
-
-            if (_transforms.Length < step + 1)
-                return;
 
             ActiveChildGo = _transforms[step].gameObject;
             if (!_active)
                 return;
 
-            SetVisible(_transforms[previousStep], false);
+            SetVisible(_transforms[base._previousStep], false);
             SetVisible(_transforms[step], true);
 
             if (ActiveChildCallback != null)
                 ActiveChildCallback(step);
-        }
-
-        protected void Reset()
-        {
-            ResetRenderers();
         }
 
         [Sirenix.OdinInspector.Button]

@@ -1,5 +1,6 @@
 ﻿using System;
 using Sirenix.OdinInspector;
+using UnityEngine;
 
 namespace UFZ.Interaction
 {
@@ -49,7 +50,7 @@ namespace UFZ.Interaction
 					break;
 
 				case VisibilityTransition.Smooth:
-					Do();
+                        Do();
 					break;
 				case VisibilityTransition.StepOnComplete:
 					break;
