@@ -892,7 +892,7 @@ MonoBehaviour:
   generateMipmap: 0
   baseColor:
     serializedVersion: 2
-    rgba: 0
+    rgba: 4294967295
   _zoom: 0
   allowContextMenuOn: 2
   newWindowAction: 2

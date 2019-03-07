@@ -8,9 +8,7 @@ namespace UFZ.Interaction
 {
 	public class ObjectInfoWeb : ClickableObject
     {
-        public Transform BrowserPrefab;
-        
-		public string URL = "http://www.ufz.de";
+  		public string URL = "http://www.ufz.de";
 		public Vector3 Position;
 		public string Caption = "";
 		public bool ShowControls = true;
@@ -21,7 +19,8 @@ namespace UFZ.Interaction
 
 		public void Start()
 		{
-            _go = Instantiate(BrowserPrefab).GetComponent<Canvas>().gameObject;
+            var prefab = Resources.Load("UI/BrowserCanvas") as GameObject;
+            _go = Instantiate(prefab).GetComponent<Canvas>().gameObject;
             _go.transform.SetParent(FindObjectOfType<UserInterface>().transform);
             _go.transform.localPosition = Position * 1000; // Factor from UserInterface scale 0.001
             var browserInterface = _go.GetComponent<BrowserInterface>();
