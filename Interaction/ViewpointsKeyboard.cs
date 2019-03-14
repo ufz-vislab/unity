@@ -1,24 +1,35 @@
-﻿using MarkLight;
-using UFZ.UI.Views;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace UFZ.Interaction
 {
 	public class ViewpointsKeyboard : MonoBehaviour
 	{
-		private ObservableList<Viewpoint> _viewpoints;
+		private List<Viewpoint> _viewpoints;
+
+        private void Start()
+        {
+            var viewpointGroup = GameObject.Find("Viewpoints");
+            //if (viewpointGroup == null || viewpointGroup.transform.childCount == 0 ||
+            //    viewpointGroup.GetComponentsInChildren<Viewpoint>() == null)
+            //    return;
+
+            _viewpoints = new List<Viewpoint>();
+            // Iterate over childs to preserve order from editor
+            for (var i = 0; i < viewpointGroup.transform.childCount; ++i)
+            {
+                var child = viewpointGroup.transform.GetChild(i);
+                if (!child.gameObject.activeSelf)
+                    continue;
+                var viewpoint = child.gameObject.GetComponent<Viewpoint>();
+                if (viewpoint == null) continue;
+                _viewpoints.Add(viewpoint);
+            }
+        }
 
 		#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
 		private void Update()
 		{
-			if (_viewpoints == null)
-			{
-				var viewpointsView = FindObjectOfType<ViewpointsView>();
-				if (viewpointsView != null)
-					_viewpoints = viewpointsView.Viewpoints;
-				else
-					return;
-			}
 			var keyb = MiddleVR.VRDeviceMgr.GetKeyboard();
 
 			if (keyb == null) return;

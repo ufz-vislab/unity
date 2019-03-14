@@ -46,8 +46,13 @@ namespace UFZ.Build
 			Sync(dest, "Y:\\vislab\\unity\\Player-x64\\" + Application.unityVersion + "\\");
 		}
 
-		[MenuItem("UFZ/Build current scene")]
-		static void BuildCurrent()
+        [MenuItem("UFZ/Build")]
+        static void BuildCurrent()
+        {
+            BuildDemo(GetCurrentScene());
+        }
+		[MenuItem("UFZ/Build and sync")]
+		static void BuildCurrentSync()
 		{
 			BuildDemo(GetCurrentScene(), true);
 		}
